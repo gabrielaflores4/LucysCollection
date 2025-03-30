@@ -28,5 +28,14 @@ namespace C_Negocios
             // Llamar a la clase de datos para verificar el login
             return usuarioDatos.VerificarLogin(usuario, passwordHash);
         }
+
+        public int CrearUsuario(string nombre, string apellido, string telefono, string correo, string username, string contraseña, string rol)
+        {
+            // Hash de la contraseña proporcionada
+            string passwordHash = hash.HashContraseña(contraseña);
+
+            // Llamar a la clase de datos para crear el usuario
+            return usuarioDatos.CrearUsuario(nombre, apellido, telefono, correo, username, passwordHash, rol);
+        }
     }
 }

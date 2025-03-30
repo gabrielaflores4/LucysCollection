@@ -45,6 +45,8 @@
             tbPassword = new TextBox();
             label7 = new Label();
             btnRegistrarUsuarios = new Button();
+            label8 = new Label();
+            cbRol = new ComboBox();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
@@ -184,7 +186,7 @@
             label6.BackColor = Color.FromArgb(221, 221, 221);
             label6.Font = new Font("Bahnschrift", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label6.ForeColor = SystemColors.ControlText;
-            label6.Location = new Point(755, 175);
+            label6.Location = new Point(760, 175);
             label6.Name = "label6";
             label6.Size = new Size(85, 25);
             label6.TabIndex = 77;
@@ -203,7 +205,7 @@
             label7.BackColor = Color.FromArgb(221, 221, 221);
             label7.Font = new Font("Bahnschrift", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label7.ForeColor = SystemColors.ControlText;
-            label7.Location = new Point(754, 265);
+            label7.Location = new Point(760, 265);
             label7.Name = "label7";
             label7.Size = new Size(120, 25);
             label7.TabIndex = 79;
@@ -221,6 +223,28 @@
             btnRegistrarUsuarios.Size = new Size(378, 56);
             btnRegistrarUsuarios.TabIndex = 81;
             btnRegistrarUsuarios.UseVisualStyleBackColor = false;
+            btnRegistrarUsuarios.Click += btnRegistrarUsuarios_Click;
+            // 
+            // label8
+            // 
+            label8.AutoSize = true;
+            label8.BackColor = Color.FromArgb(221, 221, 221);
+            label8.Font = new Font("Bahnschrift", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label8.ForeColor = SystemColors.ControlText;
+            label8.Location = new Point(753, 371);
+            label8.Name = "label8";
+            label8.Size = new Size(43, 25);
+            label8.TabIndex = 82;
+            label8.Text = "Rol";
+            // 
+            // cbRol
+            // 
+            cbRol.FormattingEnabled = true;
+            cbRol.Items.AddRange(new object[] { "admin", "empleado" });
+            cbRol.Location = new Point(760, 419);
+            cbRol.Name = "cbRol";
+            cbRol.Size = new Size(483, 27);
+            cbRol.TabIndex = 83;
             // 
             // RegistroUsuario
             // 
@@ -228,6 +252,8 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(221, 221, 221);
             ClientSize = new Size(1370, 696);
+            Controls.Add(cbRol);
+            Controls.Add(label8);
             Controls.Add(btnRegistrarUsuarios);
             Controls.Add(tbPassword);
             Controls.Add(label7);
@@ -274,5 +300,7 @@
         private TextBox tbPassword;
         private Label label7;
         private Button btnRegistrarUsuarios;
+        private Label label8;
+        private ComboBox cbRol;
     }
 }

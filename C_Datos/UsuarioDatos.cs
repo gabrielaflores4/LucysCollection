@@ -26,5 +26,57 @@ namespace C_Datos
                 }
             }
         }
+
+        // Método para crear un usuario
+        public int CrearUsuario(string nombre, string apellido, string telefono, string correo, string username, string password, string rol)
+        {
+            using (var conexion = Conexion.ObtenerConexion())
+            {
+                using (var transaccion = conexion.BeginTransaction()) // Iniciar una transacción
+                {
+                    try
+                    {
+                        //Insertar en la tabla Personas
+                        int idPersona;
+                        using (var cmdPersona = new NpgsqlCommand(
+                            @"INSERT INTO Personas (nombre, apellido, correo, telefono) VALUES (@nombre, @apellido, @correo, @telefono) RETURNING id_persona",
+                            conexion))
+                        {
+                            cmdPersona.Parameters.AddWithValue("@nombre", nombre);
+                            cmdPersona.Parameters.AddWithValue("@apellido", apellido);
+                            cmdPersona.Parameters.AddWithValue("@correo", correo);
+                            cmdPersona.Parameters.AddWithValue("@telefono", telefono);
+
+                            idPersona = Convert.ToInt32(cmdPersona.ExecuteScalar()); // Obtener el ID generado
+                        }
+
+                        //Insertar en la tabla Usuarios
+                        int idUsuario;
+                        using (var cmdUsuario = new NpgsqlCommand(
+                            @"INSERT INTO Usuarios (id_persona, username, password, rol) VALUES (@id_persona, @username, @password, @rol) RETURNING id_usuario",
+                            conexion))
+                        {
+                            cmdUsuario.Parameters.AddWithValue("@id_persona", idPersona);
+                            cmdUsuario.Parameters.AddWithValue("@username", username);
+                            cmdUsuario.Parameters.AddWithValue("@password", password);
+                            cmdUsuario.Parameters.AddWithValue("@rol", rol);
+
+                            idUsuario = Convert.ToInt32(cmdUsuario.ExecuteScalar()); // Obtener el ID del usuario
+                        }
+
+                        transaccion.Commit(); 
+                        return idUsuario;
+                    }
+                    catch
+                    {
+                        transaccion.Rollback(); 
+                        throw;
+                    }
+                }
+            }
+        }
+
+
+
     }
 }
