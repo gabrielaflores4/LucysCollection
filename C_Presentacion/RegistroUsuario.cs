@@ -16,5 +16,10 @@ namespace C_Presentacion
         {
             InitializeComponent();
         }
+
+        private void lblDashboard_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

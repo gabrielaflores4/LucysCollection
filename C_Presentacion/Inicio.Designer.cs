@@ -28,12 +28,1283 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Text = "Inicio";
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle7 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle8 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle9 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle10 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle11 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle12 = new DataGridViewCellStyle();
+            pictureBox1 = new PictureBox();
+            lblDashboard = new Label();
+            lblNombreUsuario = new Label();
+            lblRolUser = new Label();
+            btnInventario = new Button();
+            btnVentas = new Button();
+            btnEmpleados = new Button();
+            btnMateriaPrima = new Button();
+            btnProveedores = new Button();
+            btnAyuda = new Button();
+            btnLogout = new Button();
+            tabControlInicio = new TabControl();
+            tabInicio = new TabPage();
+            lblProductoMasVendido = new Label();
+            lblVentasDiarias = new Label();
+            label9 = new Label();
+            label8 = new Label();
+            label7 = new Label();
+            lblSinStock = new Label();
+            lblStockBajo = new Label();
+            lblStockDisponible = new Label();
+            lblTotalProductos = new Label();
+            label6 = new Label();
+            label5 = new Label();
+            label4 = new Label();
+            label3 = new Label();
+            pictureBox8 = new PictureBox();
+            pictureBox7 = new PictureBox();
+            pictureBox6 = new PictureBox();
+            pictureBox5 = new PictureBox();
+            pictureBox4 = new PictureBox();
+            pictureBox3 = new PictureBox();
+            pictureBox2 = new PictureBox();
+            label2 = new Label();
+            tabInventario = new TabPage();
+            dataGridInventarioProducto = new DataGridView();
+            producto = new DataGridViewTextBoxColumn();
+            talla = new DataGridViewTextBoxColumn();
+            stock = new DataGridViewTextBoxColumn();
+            categoria = new DataGridViewTextBoxColumn();
+            precio = new DataGridViewTextBoxColumn();
+            btnFechasAntInv = new Button();
+            btnFechasRecientesInv = new Button();
+            btnEliminarInventario = new Button();
+            btnAgregarInventario = new Button();
+            tbBusquedaInventario = new TextBox();
+            label22 = new Label();
+            tabEmpleados = new TabPage();
+            dataGridEmpleados = new DataGridView();
+            dataGridViewTextBoxColumn1 = new DataGridViewTextBoxColumn();
+            dataGridViewTextBoxColumn2 = new DataGridViewTextBoxColumn();
+            dataGridViewTextBoxColumn3 = new DataGridViewTextBoxColumn();
+            dataGridViewTextBoxColumn4 = new DataGridViewTextBoxColumn();
+            dataGridViewTextBoxColumn5 = new DataGridViewTextBoxColumn();
+            btnFechasAEmpleados = new Button();
+            btnFechasREmpleados = new Button();
+            btnEliminarEmpleados = new Button();
+            btnAgregarEmpleados = new Button();
+            tbBusquedaEmpleados = new TextBox();
+            label1 = new Label();
+            tabMateriaP = new TabPage();
+            dataGridMateriaP = new DataGridView();
+            dataGridViewTextBoxColumn6 = new DataGridViewTextBoxColumn();
+            dataGridViewTextBoxColumn7 = new DataGridViewTextBoxColumn();
+            dataGridViewTextBoxColumn8 = new DataGridViewTextBoxColumn();
+            dataGridViewTextBoxColumn9 = new DataGridViewTextBoxColumn();
+            dataGridViewTextBoxColumn10 = new DataGridViewTextBoxColumn();
+            btnFechasAMP = new Button();
+            btnFechasRMP = new Button();
+            btnEliminarMateriaP = new Button();
+            btnAgregarMateriaP = new Button();
+            btnBusquedaMateriaP = new TextBox();
+            label10 = new Label();
+            tabProveedores = new TabPage();
+            dataGridProv = new DataGridView();
+            dataGridViewTextBoxColumn11 = new DataGridViewTextBoxColumn();
+            dataGridViewTextBoxColumn12 = new DataGridViewTextBoxColumn();
+            dataGridViewTextBoxColumn13 = new DataGridViewTextBoxColumn();
+            dataGridViewTextBoxColumn14 = new DataGridViewTextBoxColumn();
+            dataGridViewTextBoxColumn15 = new DataGridViewTextBoxColumn();
+            btnFechasAProv = new Button();
+            btnFechasRProv = new Button();
+            btnEliminarProv = new Button();
+            btnAgregarProv = new Button();
+            tbBusquedaProv = new TextBox();
+            label11 = new Label();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            tabControlInicio.SuspendLayout();
+            tabInicio.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox8).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox7).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox6).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox5).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox4).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
+            tabInventario.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridInventarioProducto).BeginInit();
+            tabEmpleados.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridEmpleados).BeginInit();
+            tabMateriaP.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridMateriaP).BeginInit();
+            tabProveedores.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridProv).BeginInit();
+            SuspendLayout();
+            // 
+            // pictureBox1
+            // 
+            pictureBox1.Image = Properties.Resources.Sidebar;
+            pictureBox1.Location = new Point(-1, -3);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(276, 701);
+            pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
+            pictureBox1.TabIndex = 0;
+            pictureBox1.TabStop = false;
+            // 
+            // lblDashboard
+            // 
+            lblDashboard.AutoSize = true;
+            lblDashboard.BackColor = Color.Black;
+            lblDashboard.Font = new Font("Bahnschrift", 20.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblDashboard.ForeColor = SystemColors.Control;
+            lblDashboard.Location = new Point(24, 32);
+            lblDashboard.Name = "lblDashboard";
+            lblDashboard.Size = new Size(216, 33);
+            lblDashboard.TabIndex = 1;
+            lblDashboard.Text = "Lucy's Collection";
+            lblDashboard.Click += lblDashboard_Click;
+            // 
+            // lblNombreUsuario
+            // 
+            lblNombreUsuario.AutoSize = true;
+            lblNombreUsuario.BackColor = Color.Black;
+            lblNombreUsuario.Font = new Font("Bahnschrift", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblNombreUsuario.ForeColor = SystemColors.Control;
+            lblNombreUsuario.Location = new Point(24, 81);
+            lblNombreUsuario.Name = "lblNombreUsuario";
+            lblNombreUsuario.Size = new Size(85, 25);
+            lblNombreUsuario.TabIndex = 2;
+            lblNombreUsuario.Text = "Usuario";
+            // 
+            // lblRolUser
+            // 
+            lblRolUser.AutoSize = true;
+            lblRolUser.BackColor = Color.Black;
+            lblRolUser.Font = new Font("Bahnschrift", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblRolUser.ForeColor = Color.Gray;
+            lblRolUser.Location = new Point(26, 111);
+            lblRolUser.Name = "lblRolUser";
+            lblRolUser.Size = new Size(33, 19);
+            lblRolUser.TabIndex = 3;
+            lblRolUser.Text = "Rol";
+            // 
+            // btnInventario
+            // 
+            btnInventario.BackColor = Color.Black;
+            btnInventario.BackgroundImage = Properties.Resources.btn_Inventario;
+            btnInventario.BackgroundImageLayout = ImageLayout.Stretch;
+            btnInventario.FlatStyle = FlatStyle.Flat;
+            btnInventario.Location = new Point(26, 149);
+            btnInventario.Name = "btnInventario";
+            btnInventario.Size = new Size(205, 45);
+            btnInventario.TabIndex = 4;
+            btnInventario.UseVisualStyleBackColor = false;
+            btnInventario.Click += btnInventario_Click;
+            // 
+            // btnVentas
+            // 
+            btnVentas.BackColor = Color.Black;
+            btnVentas.BackgroundImage = Properties.Resources.btn_Ventas;
+            btnVentas.BackgroundImageLayout = ImageLayout.Stretch;
+            btnVentas.FlatStyle = FlatStyle.Flat;
+            btnVentas.Location = new Point(26, 220);
+            btnVentas.Name = "btnVentas";
+            btnVentas.Size = new Size(205, 45);
+            btnVentas.TabIndex = 5;
+            btnVentas.UseVisualStyleBackColor = false;
+            btnVentas.Click += btnVentas_Click;
+            // 
+            // btnEmpleados
+            // 
+            btnEmpleados.BackColor = Color.Black;
+            btnEmpleados.BackgroundImage = Properties.Resources.btn_Empleados;
+            btnEmpleados.BackgroundImageLayout = ImageLayout.Stretch;
+            btnEmpleados.FlatStyle = FlatStyle.Flat;
+            btnEmpleados.Location = new Point(26, 291);
+            btnEmpleados.Name = "btnEmpleados";
+            btnEmpleados.Size = new Size(205, 45);
+            btnEmpleados.TabIndex = 6;
+            btnEmpleados.UseVisualStyleBackColor = false;
+            btnEmpleados.Click += btnEmpleados_Click;
+            // 
+            // btnMateriaPrima
+            // 
+            btnMateriaPrima.BackColor = Color.Black;
+            btnMateriaPrima.BackgroundImage = Properties.Resources.btnMateriaPrima;
+            btnMateriaPrima.BackgroundImageLayout = ImageLayout.Stretch;
+            btnMateriaPrima.FlatStyle = FlatStyle.Flat;
+            btnMateriaPrima.Location = new Point(26, 362);
+            btnMateriaPrima.Name = "btnMateriaPrima";
+            btnMateriaPrima.Size = new Size(205, 45);
+            btnMateriaPrima.TabIndex = 7;
+            btnMateriaPrima.UseVisualStyleBackColor = false;
+            btnMateriaPrima.Click += btnMateriaPrima_Click;
+            // 
+            // btnProveedores
+            // 
+            btnProveedores.BackColor = Color.Black;
+            btnProveedores.BackgroundImage = Properties.Resources.btn_Proveedores;
+            btnProveedores.BackgroundImageLayout = ImageLayout.Stretch;
+            btnProveedores.FlatStyle = FlatStyle.Flat;
+            btnProveedores.Location = new Point(26, 433);
+            btnProveedores.Name = "btnProveedores";
+            btnProveedores.Size = new Size(205, 45);
+            btnProveedores.TabIndex = 8;
+            btnProveedores.UseVisualStyleBackColor = false;
+            btnProveedores.Click += btnProveedores_Click;
+            // 
+            // btnAyuda
+            // 
+            btnAyuda.BackColor = Color.Black;
+            btnAyuda.BackgroundImage = Properties.Resources.btn_Ayuda;
+            btnAyuda.BackgroundImageLayout = ImageLayout.Stretch;
+            btnAyuda.FlatStyle = FlatStyle.Flat;
+            btnAyuda.Location = new Point(24, 559);
+            btnAyuda.Name = "btnAyuda";
+            btnAyuda.Size = new Size(205, 45);
+            btnAyuda.TabIndex = 9;
+            btnAyuda.UseVisualStyleBackColor = false;
+            // 
+            // btnLogout
+            // 
+            btnLogout.BackColor = Color.Black;
+            btnLogout.BackgroundImage = Properties.Resources.btn_LogOut;
+            btnLogout.BackgroundImageLayout = ImageLayout.Stretch;
+            btnLogout.FlatStyle = FlatStyle.Flat;
+            btnLogout.Location = new Point(26, 625);
+            btnLogout.Name = "btnLogout";
+            btnLogout.Size = new Size(205, 45);
+            btnLogout.TabIndex = 10;
+            btnLogout.UseVisualStyleBackColor = false;
+            // 
+            // tabControlInicio
+            // 
+            tabControlInicio.Controls.Add(tabInicio);
+            tabControlInicio.Controls.Add(tabInventario);
+            tabControlInicio.Controls.Add(tabEmpleados);
+            tabControlInicio.Controls.Add(tabMateriaP);
+            tabControlInicio.Controls.Add(tabProveedores);
+            tabControlInicio.Location = new Point(269, -28);
+            tabControlInicio.Name = "tabControlInicio";
+            tabControlInicio.SelectedIndex = 0;
+            tabControlInicio.Size = new Size(1101, 734);
+            tabControlInicio.TabIndex = 11;
+            // 
+            // tabInicio
+            // 
+            tabInicio.BackColor = Color.FromArgb(212, 221, 221, 221);
+            tabInicio.Controls.Add(lblProductoMasVendido);
+            tabInicio.Controls.Add(lblVentasDiarias);
+            tabInicio.Controls.Add(label9);
+            tabInicio.Controls.Add(label8);
+            tabInicio.Controls.Add(label7);
+            tabInicio.Controls.Add(lblSinStock);
+            tabInicio.Controls.Add(lblStockBajo);
+            tabInicio.Controls.Add(lblStockDisponible);
+            tabInicio.Controls.Add(lblTotalProductos);
+            tabInicio.Controls.Add(label6);
+            tabInicio.Controls.Add(label5);
+            tabInicio.Controls.Add(label4);
+            tabInicio.Controls.Add(label3);
+            tabInicio.Controls.Add(pictureBox8);
+            tabInicio.Controls.Add(pictureBox7);
+            tabInicio.Controls.Add(pictureBox6);
+            tabInicio.Controls.Add(pictureBox5);
+            tabInicio.Controls.Add(pictureBox4);
+            tabInicio.Controls.Add(pictureBox3);
+            tabInicio.Controls.Add(pictureBox2);
+            tabInicio.Controls.Add(label2);
+            tabInicio.Location = new Point(4, 28);
+            tabInicio.Name = "tabInicio";
+            tabInicio.Padding = new Padding(3);
+            tabInicio.Size = new Size(1093, 702);
+            tabInicio.TabIndex = 0;
+            tabInicio.Text = "tabPage1";
+            // 
+            // lblProductoMasVendido
+            // 
+            lblProductoMasVendido.AutoSize = true;
+            lblProductoMasVendido.BackColor = Color.White;
+            lblProductoMasVendido.Font = new Font("Bahnschrift", 27.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblProductoMasVendido.ForeColor = Color.Black;
+            lblProductoMasVendido.Location = new Point(585, 562);
+            lblProductoMasVendido.Name = "lblProductoMasVendido";
+            lblProductoMasVendido.Size = new Size(38, 45);
+            lblProductoMasVendido.TabIndex = 52;
+            lblProductoMasVendido.Text = "-";
+            // 
+            // lblVentasDiarias
+            // 
+            lblVentasDiarias.AutoSize = true;
+            lblVentasDiarias.BackColor = Color.White;
+            lblVentasDiarias.Font = new Font("Bahnschrift", 27.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblVentasDiarias.ForeColor = Color.Black;
+            lblVentasDiarias.Location = new Point(589, 353);
+            lblVentasDiarias.Name = "lblVentasDiarias";
+            lblVentasDiarias.Size = new Size(40, 45);
+            lblVentasDiarias.TabIndex = 51;
+            lblVentasDiarias.Text = "0";
+            // 
+            // label9
+            // 
+            label9.AutoSize = true;
+            label9.BackColor = Color.White;
+            label9.Font = new Font("Bahnschrift", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label9.ForeColor = Color.Gray;
+            label9.Location = new Point(585, 523);
+            label9.Name = "label9";
+            label9.Size = new Size(217, 25);
+            label9.TabIndex = 50;
+            label9.Text = "Producto Más Vendido";
+            // 
+            // label8
+            // 
+            label8.AutoSize = true;
+            label8.BackColor = Color.White;
+            label8.Font = new Font("Bahnschrift", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label8.ForeColor = Color.Gray;
+            label8.Location = new Point(585, 317);
+            label8.Name = "label8";
+            label8.Size = new Size(233, 25);
+            label8.TabIndex = 49;
+            label8.Text = "Ventas Diarias (Totales)";
+            // 
+            // label7
+            // 
+            label7.AutoSize = true;
+            label7.BackColor = Color.White;
+            label7.Font = new Font("Bahnschrift", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label7.ForeColor = Color.Gray;
+            label7.Location = new Point(44, 355);
+            label7.Name = "label7";
+            label7.Size = new Size(182, 25);
+            label7.TabIndex = 48;
+            label7.Text = "Ventas Mensuales";
+            // 
+            // lblSinStock
+            // 
+            lblSinStock.AutoSize = true;
+            lblSinStock.BackColor = Color.White;
+            lblSinStock.Font = new Font("Bahnschrift", 27.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblSinStock.ForeColor = Color.Black;
+            lblSinStock.Location = new Point(854, 151);
+            lblSinStock.Name = "lblSinStock";
+            lblSinStock.Size = new Size(40, 45);
+            lblSinStock.TabIndex = 47;
+            lblSinStock.Text = "0";
+            // 
+            // lblStockBajo
+            // 
+            lblStockBajo.AutoSize = true;
+            lblStockBajo.BackColor = Color.White;
+            lblStockBajo.Font = new Font("Bahnschrift", 27.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblStockBajo.ForeColor = Color.Black;
+            lblStockBajo.Location = new Point(585, 151);
+            lblStockBajo.Name = "lblStockBajo";
+            lblStockBajo.Size = new Size(40, 45);
+            lblStockBajo.TabIndex = 46;
+            lblStockBajo.Text = "0";
+            // 
+            // lblStockDisponible
+            // 
+            lblStockDisponible.AutoSize = true;
+            lblStockDisponible.BackColor = Color.White;
+            lblStockDisponible.Font = new Font("Bahnschrift", 27.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblStockDisponible.ForeColor = Color.Black;
+            lblStockDisponible.Location = new Point(319, 153);
+            lblStockDisponible.Name = "lblStockDisponible";
+            lblStockDisponible.Size = new Size(40, 45);
+            lblStockDisponible.TabIndex = 45;
+            lblStockDisponible.Text = "0";
+            // 
+            // lblTotalProductos
+            // 
+            lblTotalProductos.AutoSize = true;
+            lblTotalProductos.BackColor = Color.White;
+            lblTotalProductos.Font = new Font("Bahnschrift", 27.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblTotalProductos.ForeColor = Color.Black;
+            lblTotalProductos.Location = new Point(44, 151);
+            lblTotalProductos.Name = "lblTotalProductos";
+            lblTotalProductos.Size = new Size(40, 45);
+            lblTotalProductos.TabIndex = 44;
+            lblTotalProductos.Text = "0";
+            // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.BackColor = Color.White;
+            label6.Font = new Font("Bahnschrift", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label6.ForeColor = Color.Gray;
+            label6.Location = new Point(854, 98);
+            label6.Name = "label6";
+            label6.Size = new Size(100, 25);
+            label6.TabIndex = 43;
+            label6.Text = "Sin Stock";
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.BackColor = Color.White;
+            label5.Font = new Font("Bahnschrift", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label5.ForeColor = Color.Gray;
+            label5.Location = new Point(585, 98);
+            label5.Name = "label5";
+            label5.Size = new Size(112, 25);
+            label5.TabIndex = 42;
+            label5.Text = "Stock Bajo";
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.BackColor = Color.White;
+            label4.Font = new Font("Bahnschrift", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label4.ForeColor = Color.Gray;
+            label4.Location = new Point(319, 99);
+            label4.Name = "label4";
+            label4.Size = new Size(167, 25);
+            label4.TabIndex = 41;
+            label4.Text = "Stock Disponible";
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.BackColor = Color.White;
+            label3.Font = new Font("Bahnschrift", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label3.ForeColor = Color.Gray;
+            label3.Location = new Point(44, 100);
+            label3.Name = "label3";
+            label3.Size = new Size(156, 25);
+            label3.TabIndex = 33;
+            label3.Text = "Total Productos";
+            // 
+            // pictureBox8
+            // 
+            pictureBox8.Image = Properties.Resources.rectangulo2;
+            pictureBox8.Location = new Point(560, 489);
+            pictureBox8.Name = "pictureBox8";
+            pictureBox8.Size = new Size(510, 151);
+            pictureBox8.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox8.TabIndex = 40;
+            pictureBox8.TabStop = false;
+            // 
+            // pictureBox7
+            // 
+            pictureBox7.Image = Properties.Resources.rectangulo2;
+            pictureBox7.Location = new Point(560, 285);
+            pictureBox7.Name = "pictureBox7";
+            pictureBox7.Size = new Size(510, 151);
+            pictureBox7.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox7.TabIndex = 39;
+            pictureBox7.TabStop = false;
+            // 
+            // pictureBox6
+            // 
+            pictureBox6.Image = Properties.Resources.rectangulo3;
+            pictureBox6.Location = new Point(22, 275);
+            pictureBox6.Name = "pictureBox6";
+            pictureBox6.Size = new Size(510, 402);
+            pictureBox6.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox6.TabIndex = 38;
+            pictureBox6.TabStop = false;
+            // 
+            // pictureBox5
+            // 
+            pictureBox5.Image = Properties.Resources.RectangleDashboard;
+            pictureBox5.Location = new Point(829, 74);
+            pictureBox5.Name = "pictureBox5";
+            pictureBox5.Size = new Size(241, 171);
+            pictureBox5.SizeMode = PictureBoxSizeMode.StretchImage;
+            pictureBox5.TabIndex = 37;
+            pictureBox5.TabStop = false;
+            // 
+            // pictureBox4
+            // 
+            pictureBox4.Image = Properties.Resources.RectangleDashboard;
+            pictureBox4.Location = new Point(560, 74);
+            pictureBox4.Name = "pictureBox4";
+            pictureBox4.Size = new Size(241, 171);
+            pictureBox4.SizeMode = PictureBoxSizeMode.StretchImage;
+            pictureBox4.TabIndex = 36;
+            pictureBox4.TabStop = false;
+            // 
+            // pictureBox3
+            // 
+            pictureBox3.Image = Properties.Resources.RectangleDashboard;
+            pictureBox3.Location = new Point(291, 74);
+            pictureBox3.Name = "pictureBox3";
+            pictureBox3.Size = new Size(241, 171);
+            pictureBox3.SizeMode = PictureBoxSizeMode.StretchImage;
+            pictureBox3.TabIndex = 35;
+            pictureBox3.TabStop = false;
+            // 
+            // pictureBox2
+            // 
+            pictureBox2.Image = Properties.Resources.RectangleDashboard;
+            pictureBox2.Location = new Point(22, 74);
+            pictureBox2.Name = "pictureBox2";
+            pictureBox2.Size = new Size(241, 171);
+            pictureBox2.SizeMode = PictureBoxSizeMode.StretchImage;
+            pictureBox2.TabIndex = 34;
+            pictureBox2.TabStop = false;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.BackColor = Color.FromArgb(221, 221, 221);
+            label2.Font = new Font("Bahnschrift", 20.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label2.ForeColor = SystemColors.ControlText;
+            label2.Location = new Point(22, 25);
+            label2.Name = "label2";
+            label2.Size = new Size(147, 33);
+            label2.TabIndex = 32;
+            label2.Text = "Dashboard";
+            // 
+            // tabInventario
+            // 
+            tabInventario.BackColor = Color.FromArgb(212, 221, 221, 221);
+            tabInventario.Controls.Add(dataGridInventarioProducto);
+            tabInventario.Controls.Add(btnFechasAntInv);
+            tabInventario.Controls.Add(btnFechasRecientesInv);
+            tabInventario.Controls.Add(btnEliminarInventario);
+            tabInventario.Controls.Add(btnAgregarInventario);
+            tabInventario.Controls.Add(tbBusquedaInventario);
+            tabInventario.Controls.Add(label22);
+            tabInventario.Location = new Point(4, 24);
+            tabInventario.Name = "tabInventario";
+            tabInventario.Padding = new Padding(3);
+            tabInventario.Size = new Size(1093, 706);
+            tabInventario.TabIndex = 1;
+            tabInventario.Text = "tabPage2";
+            // 
+            // dataGridInventarioProducto
+            // 
+            dataGridViewCellStyle1.BackColor = Color.Black;
+            dataGridViewCellStyle1.Font = new Font("Bahnschrift Condensed", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle1.ForeColor = Color.White;
+            dataGridInventarioProducto.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridInventarioProducto.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dataGridInventarioProducto.BackgroundColor = Color.FromArgb(221, 221, 221);
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.BackColor = Color.Black;
+            dataGridViewCellStyle2.Font = new Font("Bahnschrift", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle2.ForeColor = Color.White;
+            dataGridViewCellStyle2.Padding = new Padding(1);
+            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Desktop;
+            dataGridViewCellStyle2.SelectionForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
+            dataGridInventarioProducto.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridInventarioProducto.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridInventarioProducto.Columns.AddRange(new DataGridViewColumn[] { producto, talla, stock, categoria, precio });
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = Color.FromArgb(221, 221, 221);
+            dataGridViewCellStyle3.Font = new Font("Bahnschrift", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle3.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle3.SelectionBackColor = SystemColors.Desktop;
+            dataGridViewCellStyle3.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.False;
+            dataGridInventarioProducto.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridInventarioProducto.EnableHeadersVisualStyles = false;
+            dataGridInventarioProducto.GridColor = Color.FromArgb(221, 221, 221);
+            dataGridInventarioProducto.Location = new Point(232, 189);
+            dataGridInventarioProducto.Name = "dataGridInventarioProducto";
+            dataGridInventarioProducto.RowHeadersVisible = false;
+            dataGridInventarioProducto.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
+            dataGridInventarioProducto.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dataGridInventarioProducto.Size = new Size(847, 488);
+            dataGridInventarioProducto.TabIndex = 24;
+            // 
+            // producto
+            // 
+            producto.HeaderText = "Producto";
+            producto.Name = "producto";
+            // 
+            // talla
+            // 
+            talla.HeaderText = "Talla";
+            talla.Name = "talla";
+            // 
+            // stock
+            // 
+            stock.HeaderText = "Stock";
+            stock.Name = "stock";
+            // 
+            // categoria
+            // 
+            categoria.HeaderText = "Categoria";
+            categoria.Name = "categoria";
+            // 
+            // precio
+            // 
+            precio.HeaderText = "Precio Unit";
+            precio.Name = "precio";
+            // 
+            // btnFechasAntInv
+            // 
+            btnFechasAntInv.BackColor = Color.FromArgb(221, 221, 221);
+            btnFechasAntInv.BackgroundImage = Properties.Resources.btnFechasAntiguas;
+            btnFechasAntInv.BackgroundImageLayout = ImageLayout.Stretch;
+            btnFechasAntInv.FlatStyle = FlatStyle.Flat;
+            btnFechasAntInv.ForeColor = Color.FromArgb(221, 221, 221);
+            btnFechasAntInv.Location = new Point(769, 126);
+            btnFechasAntInv.Name = "btnFechasAntInv";
+            btnFechasAntInv.Size = new Size(235, 42);
+            btnFechasAntInv.TabIndex = 23;
+            btnFechasAntInv.UseVisualStyleBackColor = false;
+            // 
+            // btnFechasRecientesInv
+            // 
+            btnFechasRecientesInv.BackColor = Color.FromArgb(221, 221, 221);
+            btnFechasRecientesInv.BackgroundImage = Properties.Resources.btnFechasRecientes;
+            btnFechasRecientesInv.BackgroundImageLayout = ImageLayout.Stretch;
+            btnFechasRecientesInv.FlatStyle = FlatStyle.Flat;
+            btnFechasRecientesInv.ForeColor = Color.FromArgb(221, 221, 221);
+            btnFechasRecientesInv.Location = new Point(528, 126);
+            btnFechasRecientesInv.Name = "btnFechasRecientesInv";
+            btnFechasRecientesInv.Size = new Size(235, 42);
+            btnFechasRecientesInv.TabIndex = 22;
+            btnFechasRecientesInv.UseVisualStyleBackColor = false;
+            // 
+            // btnEliminarInventario
+            // 
+            btnEliminarInventario.BackColor = Color.FromArgb(221, 221, 221);
+            btnEliminarInventario.BackgroundImage = Properties.Resources.btnEliminar;
+            btnEliminarInventario.BackgroundImageLayout = ImageLayout.Stretch;
+            btnEliminarInventario.FlatStyle = FlatStyle.Flat;
+            btnEliminarInventario.ForeColor = Color.FromArgb(221, 221, 221);
+            btnEliminarInventario.Location = new Point(20, 251);
+            btnEliminarInventario.Name = "btnEliminarInventario";
+            btnEliminarInventario.Size = new Size(195, 37);
+            btnEliminarInventario.TabIndex = 21;
+            btnEliminarInventario.UseVisualStyleBackColor = false;
+            // 
+            // btnAgregarInventario
+            // 
+            btnAgregarInventario.BackColor = Color.FromArgb(221, 221, 221);
+            btnAgregarInventario.BackgroundImage = Properties.Resources.btnAgregar;
+            btnAgregarInventario.BackgroundImageLayout = ImageLayout.Stretch;
+            btnAgregarInventario.FlatStyle = FlatStyle.Flat;
+            btnAgregarInventario.ForeColor = Color.FromArgb(221, 221, 221);
+            btnAgregarInventario.Location = new Point(20, 189);
+            btnAgregarInventario.Name = "btnAgregarInventario";
+            btnAgregarInventario.Size = new Size(195, 37);
+            btnAgregarInventario.TabIndex = 18;
+            btnAgregarInventario.UseVisualStyleBackColor = false;
+            btnAgregarInventario.Click += btnAgregarInventario_Click;
+            // 
+            // tbBusquedaInventario
+            // 
+            tbBusquedaInventario.Location = new Point(20, 77);
+            tbBusquedaInventario.Name = "tbBusquedaInventario";
+            tbBusquedaInventario.Size = new Size(984, 27);
+            tbBusquedaInventario.TabIndex = 20;
+            // 
+            // label22
+            // 
+            label22.AutoSize = true;
+            label22.BackColor = Color.FromArgb(221, 221, 221);
+            label22.Font = new Font("Bahnschrift", 20.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label22.ForeColor = SystemColors.ControlText;
+            label22.Location = new Point(14, 26);
+            label22.Name = "label22";
+            label22.Size = new Size(137, 33);
+            label22.TabIndex = 19;
+            label22.Text = "Inventario";
+            // 
+            // tabEmpleados
+            // 
+            tabEmpleados.BackColor = Color.FromArgb(212, 221, 221, 221);
+            tabEmpleados.Controls.Add(dataGridEmpleados);
+            tabEmpleados.Controls.Add(btnFechasAEmpleados);
+            tabEmpleados.Controls.Add(btnFechasREmpleados);
+            tabEmpleados.Controls.Add(btnEliminarEmpleados);
+            tabEmpleados.Controls.Add(btnAgregarEmpleados);
+            tabEmpleados.Controls.Add(tbBusquedaEmpleados);
+            tabEmpleados.Controls.Add(label1);
+            tabEmpleados.Location = new Point(4, 24);
+            tabEmpleados.Name = "tabEmpleados";
+            tabEmpleados.Size = new Size(1093, 706);
+            tabEmpleados.TabIndex = 2;
+            tabEmpleados.Text = "tabPage1";
+            // 
+            // dataGridEmpleados
+            // 
+            dataGridViewCellStyle4.BackColor = Color.Black;
+            dataGridViewCellStyle4.Font = new Font("Bahnschrift Condensed", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle4.ForeColor = Color.White;
+            dataGridEmpleados.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridEmpleados.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dataGridEmpleados.BackgroundColor = Color.FromArgb(221, 221, 221);
+            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle5.BackColor = Color.Black;
+            dataGridViewCellStyle5.Font = new Font("Bahnschrift", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle5.ForeColor = Color.White;
+            dataGridViewCellStyle5.Padding = new Padding(1);
+            dataGridViewCellStyle5.SelectionBackColor = SystemColors.Desktop;
+            dataGridViewCellStyle5.SelectionForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle5.WrapMode = DataGridViewTriState.True;
+            dataGridEmpleados.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
+            dataGridEmpleados.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridEmpleados.Columns.AddRange(new DataGridViewColumn[] { dataGridViewTextBoxColumn1, dataGridViewTextBoxColumn2, dataGridViewTextBoxColumn3, dataGridViewTextBoxColumn4, dataGridViewTextBoxColumn5 });
+            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = Color.FromArgb(221, 221, 221);
+            dataGridViewCellStyle6.Font = new Font("Bahnschrift", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle6.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle6.SelectionBackColor = SystemColors.Desktop;
+            dataGridViewCellStyle6.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle6.WrapMode = DataGridViewTriState.False;
+            dataGridEmpleados.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridEmpleados.EnableHeadersVisualStyles = false;
+            dataGridEmpleados.GridColor = Color.FromArgb(221, 221, 221);
+            dataGridEmpleados.Location = new Point(232, 189);
+            dataGridEmpleados.Name = "dataGridEmpleados";
+            dataGridEmpleados.RowHeadersVisible = false;
+            dataGridEmpleados.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
+            dataGridEmpleados.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dataGridEmpleados.Size = new Size(847, 488);
+            dataGridEmpleados.TabIndex = 31;
+            // 
+            // dataGridViewTextBoxColumn1
+            // 
+            dataGridViewTextBoxColumn1.HeaderText = "Producto";
+            dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            // 
+            // dataGridViewTextBoxColumn2
+            // 
+            dataGridViewTextBoxColumn2.HeaderText = "Talla";
+            dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
+            // 
+            // dataGridViewTextBoxColumn3
+            // 
+            dataGridViewTextBoxColumn3.HeaderText = "Stock";
+            dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
+            // 
+            // dataGridViewTextBoxColumn4
+            // 
+            dataGridViewTextBoxColumn4.HeaderText = "Categoria";
+            dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
+            // 
+            // dataGridViewTextBoxColumn5
+            // 
+            dataGridViewTextBoxColumn5.HeaderText = "Precio Unit";
+            dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
+            // 
+            // btnFechasAEmpleados
+            // 
+            btnFechasAEmpleados.BackColor = Color.FromArgb(221, 221, 221);
+            btnFechasAEmpleados.BackgroundImage = Properties.Resources.btnFechasAntiguas;
+            btnFechasAEmpleados.BackgroundImageLayout = ImageLayout.Stretch;
+            btnFechasAEmpleados.FlatStyle = FlatStyle.Flat;
+            btnFechasAEmpleados.ForeColor = Color.FromArgb(221, 221, 221);
+            btnFechasAEmpleados.Location = new Point(769, 126);
+            btnFechasAEmpleados.Name = "btnFechasAEmpleados";
+            btnFechasAEmpleados.Size = new Size(235, 42);
+            btnFechasAEmpleados.TabIndex = 30;
+            btnFechasAEmpleados.UseVisualStyleBackColor = false;
+            // 
+            // btnFechasREmpleados
+            // 
+            btnFechasREmpleados.BackColor = Color.FromArgb(221, 221, 221);
+            btnFechasREmpleados.BackgroundImage = Properties.Resources.btnFechasRecientes;
+            btnFechasREmpleados.BackgroundImageLayout = ImageLayout.Stretch;
+            btnFechasREmpleados.FlatStyle = FlatStyle.Flat;
+            btnFechasREmpleados.ForeColor = Color.FromArgb(221, 221, 221);
+            btnFechasREmpleados.Location = new Point(528, 126);
+            btnFechasREmpleados.Name = "btnFechasREmpleados";
+            btnFechasREmpleados.Size = new Size(235, 42);
+            btnFechasREmpleados.TabIndex = 29;
+            btnFechasREmpleados.UseVisualStyleBackColor = false;
+            // 
+            // btnEliminarEmpleados
+            // 
+            btnEliminarEmpleados.BackColor = Color.FromArgb(221, 221, 221);
+            btnEliminarEmpleados.BackgroundImage = Properties.Resources.btnEliminar;
+            btnEliminarEmpleados.BackgroundImageLayout = ImageLayout.Stretch;
+            btnEliminarEmpleados.FlatStyle = FlatStyle.Flat;
+            btnEliminarEmpleados.ForeColor = Color.FromArgb(221, 221, 221);
+            btnEliminarEmpleados.Location = new Point(20, 251);
+            btnEliminarEmpleados.Name = "btnEliminarEmpleados";
+            btnEliminarEmpleados.Size = new Size(195, 37);
+            btnEliminarEmpleados.TabIndex = 28;
+            btnEliminarEmpleados.UseVisualStyleBackColor = false;
+            // 
+            // btnAgregarEmpleados
+            // 
+            btnAgregarEmpleados.BackColor = Color.FromArgb(221, 221, 221);
+            btnAgregarEmpleados.BackgroundImage = Properties.Resources.btnAgregar;
+            btnAgregarEmpleados.BackgroundImageLayout = ImageLayout.Stretch;
+            btnAgregarEmpleados.FlatStyle = FlatStyle.Flat;
+            btnAgregarEmpleados.ForeColor = Color.FromArgb(221, 221, 221);
+            btnAgregarEmpleados.Location = new Point(20, 189);
+            btnAgregarEmpleados.Name = "btnAgregarEmpleados";
+            btnAgregarEmpleados.Size = new Size(195, 37);
+            btnAgregarEmpleados.TabIndex = 25;
+            btnAgregarEmpleados.UseVisualStyleBackColor = false;
+            btnAgregarEmpleados.Click += btnAgregarEmpleados_Click;
+            // 
+            // tbBusquedaEmpleados
+            // 
+            tbBusquedaEmpleados.Location = new Point(20, 77);
+            tbBusquedaEmpleados.Name = "tbBusquedaEmpleados";
+            tbBusquedaEmpleados.Size = new Size(984, 27);
+            tbBusquedaEmpleados.TabIndex = 27;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.BackColor = Color.FromArgb(221, 221, 221);
+            label1.Font = new Font("Bahnschrift", 20.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label1.ForeColor = SystemColors.ControlText;
+            label1.Location = new Point(14, 26);
+            label1.Name = "label1";
+            label1.Size = new Size(149, 33);
+            label1.TabIndex = 26;
+            label1.Text = "Empleados";
+            // 
+            // tabMateriaP
+            // 
+            tabMateriaP.BackColor = Color.FromArgb(212, 221, 221, 221);
+            tabMateriaP.Controls.Add(dataGridMateriaP);
+            tabMateriaP.Controls.Add(btnFechasAMP);
+            tabMateriaP.Controls.Add(btnFechasRMP);
+            tabMateriaP.Controls.Add(btnEliminarMateriaP);
+            tabMateriaP.Controls.Add(btnAgregarMateriaP);
+            tabMateriaP.Controls.Add(btnBusquedaMateriaP);
+            tabMateriaP.Controls.Add(label10);
+            tabMateriaP.Location = new Point(4, 28);
+            tabMateriaP.Name = "tabMateriaP";
+            tabMateriaP.Size = new Size(1093, 702);
+            tabMateriaP.TabIndex = 3;
+            tabMateriaP.Text = "tabPage1";
+            // 
+            // dataGridMateriaP
+            // 
+            dataGridViewCellStyle7.BackColor = Color.Black;
+            dataGridViewCellStyle7.Font = new Font("Bahnschrift Condensed", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle7.ForeColor = Color.White;
+            dataGridMateriaP.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle7;
+            dataGridMateriaP.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dataGridMateriaP.BackgroundColor = Color.FromArgb(221, 221, 221);
+            dataGridViewCellStyle8.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle8.BackColor = Color.Black;
+            dataGridViewCellStyle8.Font = new Font("Bahnschrift", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle8.ForeColor = Color.White;
+            dataGridViewCellStyle8.Padding = new Padding(1);
+            dataGridViewCellStyle8.SelectionBackColor = SystemColors.Desktop;
+            dataGridViewCellStyle8.SelectionForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle8.WrapMode = DataGridViewTriState.True;
+            dataGridMateriaP.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle8;
+            dataGridMateriaP.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridMateriaP.Columns.AddRange(new DataGridViewColumn[] { dataGridViewTextBoxColumn6, dataGridViewTextBoxColumn7, dataGridViewTextBoxColumn8, dataGridViewTextBoxColumn9, dataGridViewTextBoxColumn10 });
+            dataGridViewCellStyle9.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle9.BackColor = Color.FromArgb(221, 221, 221);
+            dataGridViewCellStyle9.Font = new Font("Bahnschrift", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle9.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle9.SelectionBackColor = SystemColors.Desktop;
+            dataGridViewCellStyle9.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle9.WrapMode = DataGridViewTriState.False;
+            dataGridMateriaP.DefaultCellStyle = dataGridViewCellStyle9;
+            dataGridMateriaP.EnableHeadersVisualStyles = false;
+            dataGridMateriaP.GridColor = Color.FromArgb(221, 221, 221);
+            dataGridMateriaP.Location = new Point(232, 189);
+            dataGridMateriaP.Name = "dataGridMateriaP";
+            dataGridMateriaP.RowHeadersVisible = false;
+            dataGridMateriaP.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
+            dataGridMateriaP.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dataGridMateriaP.Size = new Size(847, 488);
+            dataGridMateriaP.TabIndex = 31;
+            // 
+            // dataGridViewTextBoxColumn6
+            // 
+            dataGridViewTextBoxColumn6.HeaderText = "Producto";
+            dataGridViewTextBoxColumn6.Name = "dataGridViewTextBoxColumn6";
+            // 
+            // dataGridViewTextBoxColumn7
+            // 
+            dataGridViewTextBoxColumn7.HeaderText = "Talla";
+            dataGridViewTextBoxColumn7.Name = "dataGridViewTextBoxColumn7";
+            // 
+            // dataGridViewTextBoxColumn8
+            // 
+            dataGridViewTextBoxColumn8.HeaderText = "Stock";
+            dataGridViewTextBoxColumn8.Name = "dataGridViewTextBoxColumn8";
+            // 
+            // dataGridViewTextBoxColumn9
+            // 
+            dataGridViewTextBoxColumn9.HeaderText = "Categoria";
+            dataGridViewTextBoxColumn9.Name = "dataGridViewTextBoxColumn9";
+            // 
+            // dataGridViewTextBoxColumn10
+            // 
+            dataGridViewTextBoxColumn10.HeaderText = "Precio Unit";
+            dataGridViewTextBoxColumn10.Name = "dataGridViewTextBoxColumn10";
+            // 
+            // btnFechasAMP
+            // 
+            btnFechasAMP.BackColor = Color.FromArgb(221, 221, 221);
+            btnFechasAMP.BackgroundImage = Properties.Resources.btnFechasAntiguas;
+            btnFechasAMP.BackgroundImageLayout = ImageLayout.Stretch;
+            btnFechasAMP.FlatStyle = FlatStyle.Flat;
+            btnFechasAMP.ForeColor = Color.FromArgb(221, 221, 221);
+            btnFechasAMP.Location = new Point(769, 126);
+            btnFechasAMP.Name = "btnFechasAMP";
+            btnFechasAMP.Size = new Size(235, 42);
+            btnFechasAMP.TabIndex = 30;
+            btnFechasAMP.UseVisualStyleBackColor = false;
+            // 
+            // btnFechasRMP
+            // 
+            btnFechasRMP.BackColor = Color.FromArgb(221, 221, 221);
+            btnFechasRMP.BackgroundImage = Properties.Resources.btnFechasRecientes;
+            btnFechasRMP.BackgroundImageLayout = ImageLayout.Stretch;
+            btnFechasRMP.FlatStyle = FlatStyle.Flat;
+            btnFechasRMP.ForeColor = Color.FromArgb(221, 221, 221);
+            btnFechasRMP.Location = new Point(528, 126);
+            btnFechasRMP.Name = "btnFechasRMP";
+            btnFechasRMP.Size = new Size(235, 42);
+            btnFechasRMP.TabIndex = 29;
+            btnFechasRMP.UseVisualStyleBackColor = false;
+            // 
+            // btnEliminarMateriaP
+            // 
+            btnEliminarMateriaP.BackColor = Color.FromArgb(221, 221, 221);
+            btnEliminarMateriaP.BackgroundImage = Properties.Resources.btnEliminar;
+            btnEliminarMateriaP.BackgroundImageLayout = ImageLayout.Stretch;
+            btnEliminarMateriaP.FlatStyle = FlatStyle.Flat;
+            btnEliminarMateriaP.ForeColor = Color.FromArgb(221, 221, 221);
+            btnEliminarMateriaP.Location = new Point(20, 251);
+            btnEliminarMateriaP.Name = "btnEliminarMateriaP";
+            btnEliminarMateriaP.Size = new Size(195, 37);
+            btnEliminarMateriaP.TabIndex = 28;
+            btnEliminarMateriaP.UseVisualStyleBackColor = false;
+            // 
+            // btnAgregarMateriaP
+            // 
+            btnAgregarMateriaP.BackColor = Color.FromArgb(221, 221, 221);
+            btnAgregarMateriaP.BackgroundImage = Properties.Resources.btnAgregar;
+            btnAgregarMateriaP.BackgroundImageLayout = ImageLayout.Stretch;
+            btnAgregarMateriaP.FlatStyle = FlatStyle.Flat;
+            btnAgregarMateriaP.ForeColor = Color.FromArgb(221, 221, 221);
+            btnAgregarMateriaP.Location = new Point(20, 189);
+            btnAgregarMateriaP.Name = "btnAgregarMateriaP";
+            btnAgregarMateriaP.Size = new Size(195, 37);
+            btnAgregarMateriaP.TabIndex = 25;
+            btnAgregarMateriaP.UseVisualStyleBackColor = false;
+            btnAgregarMateriaP.Click += btnAgregarMateriaP_Click;
+            // 
+            // btnBusquedaMateriaP
+            // 
+            btnBusquedaMateriaP.Location = new Point(20, 77);
+            btnBusquedaMateriaP.Name = "btnBusquedaMateriaP";
+            btnBusquedaMateriaP.Size = new Size(984, 27);
+            btnBusquedaMateriaP.TabIndex = 27;
+            // 
+            // label10
+            // 
+            label10.AutoSize = true;
+            label10.BackColor = Color.FromArgb(221, 221, 221);
+            label10.Font = new Font("Bahnschrift", 20.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label10.ForeColor = SystemColors.ControlText;
+            label10.Location = new Point(14, 26);
+            label10.Name = "label10";
+            label10.Size = new Size(185, 33);
+            label10.TabIndex = 26;
+            label10.Text = "Materia Prima";
+            // 
+            // tabProveedores
+            // 
+            tabProveedores.BackColor = Color.FromArgb(212, 221, 221, 221);
+            tabProveedores.Controls.Add(dataGridProv);
+            tabProveedores.Controls.Add(btnFechasAProv);
+            tabProveedores.Controls.Add(btnFechasRProv);
+            tabProveedores.Controls.Add(btnEliminarProv);
+            tabProveedores.Controls.Add(btnAgregarProv);
+            tabProveedores.Controls.Add(tbBusquedaProv);
+            tabProveedores.Controls.Add(label11);
+            tabProveedores.Location = new Point(4, 28);
+            tabProveedores.Name = "tabProveedores";
+            tabProveedores.Size = new Size(1093, 702);
+            tabProveedores.TabIndex = 4;
+            tabProveedores.Text = "tabPage1";
+            // 
+            // dataGridProv
+            // 
+            dataGridViewCellStyle10.BackColor = Color.Black;
+            dataGridViewCellStyle10.Font = new Font("Bahnschrift Condensed", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle10.ForeColor = Color.White;
+            dataGridProv.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle10;
+            dataGridProv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dataGridProv.BackgroundColor = Color.FromArgb(221, 221, 221);
+            dataGridViewCellStyle11.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle11.BackColor = Color.Black;
+            dataGridViewCellStyle11.Font = new Font("Bahnschrift", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle11.ForeColor = Color.White;
+            dataGridViewCellStyle11.Padding = new Padding(1);
+            dataGridViewCellStyle11.SelectionBackColor = SystemColors.Desktop;
+            dataGridViewCellStyle11.SelectionForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle11.WrapMode = DataGridViewTriState.True;
+            dataGridProv.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle11;
+            dataGridProv.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridProv.Columns.AddRange(new DataGridViewColumn[] { dataGridViewTextBoxColumn11, dataGridViewTextBoxColumn12, dataGridViewTextBoxColumn13, dataGridViewTextBoxColumn14, dataGridViewTextBoxColumn15 });
+            dataGridViewCellStyle12.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle12.BackColor = Color.FromArgb(221, 221, 221);
+            dataGridViewCellStyle12.Font = new Font("Bahnschrift", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle12.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle12.SelectionBackColor = SystemColors.Desktop;
+            dataGridViewCellStyle12.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle12.WrapMode = DataGridViewTriState.False;
+            dataGridProv.DefaultCellStyle = dataGridViewCellStyle12;
+            dataGridProv.EnableHeadersVisualStyles = false;
+            dataGridProv.GridColor = Color.FromArgb(221, 221, 221);
+            dataGridProv.Location = new Point(232, 189);
+            dataGridProv.Name = "dataGridProv";
+            dataGridProv.RowHeadersVisible = false;
+            dataGridProv.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
+            dataGridProv.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dataGridProv.Size = new Size(847, 488);
+            dataGridProv.TabIndex = 38;
+            // 
+            // dataGridViewTextBoxColumn11
+            // 
+            dataGridViewTextBoxColumn11.HeaderText = "Producto";
+            dataGridViewTextBoxColumn11.Name = "dataGridViewTextBoxColumn11";
+            // 
+            // dataGridViewTextBoxColumn12
+            // 
+            dataGridViewTextBoxColumn12.HeaderText = "Talla";
+            dataGridViewTextBoxColumn12.Name = "dataGridViewTextBoxColumn12";
+            // 
+            // dataGridViewTextBoxColumn13
+            // 
+            dataGridViewTextBoxColumn13.HeaderText = "Stock";
+            dataGridViewTextBoxColumn13.Name = "dataGridViewTextBoxColumn13";
+            // 
+            // dataGridViewTextBoxColumn14
+            // 
+            dataGridViewTextBoxColumn14.HeaderText = "Categoria";
+            dataGridViewTextBoxColumn14.Name = "dataGridViewTextBoxColumn14";
+            // 
+            // dataGridViewTextBoxColumn15
+            // 
+            dataGridViewTextBoxColumn15.HeaderText = "Precio Unit";
+            dataGridViewTextBoxColumn15.Name = "dataGridViewTextBoxColumn15";
+            // 
+            // btnFechasAProv
+            // 
+            btnFechasAProv.BackColor = Color.FromArgb(221, 221, 221);
+            btnFechasAProv.BackgroundImage = Properties.Resources.btnFechasAntiguas;
+            btnFechasAProv.BackgroundImageLayout = ImageLayout.Stretch;
+            btnFechasAProv.FlatStyle = FlatStyle.Flat;
+            btnFechasAProv.ForeColor = Color.FromArgb(221, 221, 221);
+            btnFechasAProv.Location = new Point(769, 126);
+            btnFechasAProv.Name = "btnFechasAProv";
+            btnFechasAProv.Size = new Size(235, 42);
+            btnFechasAProv.TabIndex = 37;
+            btnFechasAProv.UseVisualStyleBackColor = false;
+            // 
+            // btnFechasRProv
+            // 
+            btnFechasRProv.BackColor = Color.FromArgb(221, 221, 221);
+            btnFechasRProv.BackgroundImage = Properties.Resources.btnFechasRecientes;
+            btnFechasRProv.BackgroundImageLayout = ImageLayout.Stretch;
+            btnFechasRProv.FlatStyle = FlatStyle.Flat;
+            btnFechasRProv.ForeColor = Color.FromArgb(221, 221, 221);
+            btnFechasRProv.Location = new Point(528, 126);
+            btnFechasRProv.Name = "btnFechasRProv";
+            btnFechasRProv.Size = new Size(235, 42);
+            btnFechasRProv.TabIndex = 36;
+            btnFechasRProv.UseVisualStyleBackColor = false;
+            // 
+            // btnEliminarProv
+            // 
+            btnEliminarProv.BackColor = Color.FromArgb(221, 221, 221);
+            btnEliminarProv.BackgroundImage = Properties.Resources.btnEliminar;
+            btnEliminarProv.BackgroundImageLayout = ImageLayout.Stretch;
+            btnEliminarProv.FlatStyle = FlatStyle.Flat;
+            btnEliminarProv.ForeColor = Color.FromArgb(221, 221, 221);
+            btnEliminarProv.Location = new Point(20, 251);
+            btnEliminarProv.Name = "btnEliminarProv";
+            btnEliminarProv.Size = new Size(195, 37);
+            btnEliminarProv.TabIndex = 35;
+            btnEliminarProv.UseVisualStyleBackColor = false;
+            // 
+            // btnAgregarProv
+            // 
+            btnAgregarProv.BackColor = Color.FromArgb(221, 221, 221);
+            btnAgregarProv.BackgroundImage = Properties.Resources.btnAgregar;
+            btnAgregarProv.BackgroundImageLayout = ImageLayout.Stretch;
+            btnAgregarProv.FlatStyle = FlatStyle.Flat;
+            btnAgregarProv.ForeColor = Color.FromArgb(221, 221, 221);
+            btnAgregarProv.Location = new Point(20, 189);
+            btnAgregarProv.Name = "btnAgregarProv";
+            btnAgregarProv.Size = new Size(195, 37);
+            btnAgregarProv.TabIndex = 32;
+            btnAgregarProv.UseVisualStyleBackColor = false;
+            btnAgregarProv.Click += btnAgregarProv_Click;
+            // 
+            // tbBusquedaProv
+            // 
+            tbBusquedaProv.Location = new Point(20, 77);
+            tbBusquedaProv.Name = "tbBusquedaProv";
+            tbBusquedaProv.Size = new Size(984, 27);
+            tbBusquedaProv.TabIndex = 34;
+            // 
+            // label11
+            // 
+            label11.AutoSize = true;
+            label11.BackColor = Color.FromArgb(221, 221, 221);
+            label11.Font = new Font("Bahnschrift", 20.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label11.ForeColor = SystemColors.ControlText;
+            label11.Location = new Point(14, 26);
+            label11.Name = "label11";
+            label11.Size = new Size(169, 33);
+            label11.TabIndex = 33;
+            label11.Text = "Proveedores";
+            // 
+            // Inicio
+            // 
+            AutoScaleDimensions = new SizeF(9F, 19F);
+            AutoScaleMode = AutoScaleMode.Font;
+            BackColor = Color.FromArgb(221, 221, 221);
+            ClientSize = new Size(1370, 696);
+            Controls.Add(btnLogout);
+            Controls.Add(btnAyuda);
+            Controls.Add(btnProveedores);
+            Controls.Add(btnMateriaPrima);
+            Controls.Add(btnEmpleados);
+            Controls.Add(btnVentas);
+            Controls.Add(btnInventario);
+            Controls.Add(lblRolUser);
+            Controls.Add(lblNombreUsuario);
+            Controls.Add(lblDashboard);
+            Controls.Add(pictureBox1);
+            Controls.Add(tabControlInicio);
+            Font = new Font("Bahnschrift", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            Margin = new Padding(4);
+            Name = "Inicio";
+            StartPosition = FormStartPosition.CenterScreen;
+            Text = "Inicio";
+            WindowState = FormWindowState.Maximized;
+            Load += Inicio_Load;
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            tabControlInicio.ResumeLayout(false);
+            tabInicio.ResumeLayout(false);
+            tabInicio.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox8).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox7).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox6).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox5).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox4).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
+            tabInventario.ResumeLayout(false);
+            tabInventario.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridInventarioProducto).EndInit();
+            tabEmpleados.ResumeLayout(false);
+            tabEmpleados.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridEmpleados).EndInit();
+            tabMateriaP.ResumeLayout(false);
+            tabMateriaP.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridMateriaP).EndInit();
+            tabProveedores.ResumeLayout(false);
+            tabProveedores.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridProv).EndInit();
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
+
+        private PictureBox pictureBox1;
+        private Label lblDashboard;
+        private Label lblNombreUsuario;
+        private Label lblRolUser;
+        private Button btnInventario;
+        private Button btnVentas;
+        private Button btnLogout;
+        private Button btnMateriaPrima;
+        private Button button4;
+        private Button btnEmpleados;
+        private Button btnProveedores;
+        private Button btnAyuda;
+        private TabControl tabControlInicio;
+        private TabPage tabInicio;
+        private TabPage tabInventario;
+        private TabPage tabEmpleados;
+        private TabPage tabMateriaP;
+        private TabPage tabProveedores;
+        private Label lblProductoMasVendido;
+        private Label lblVentasDiarias;
+        private Label label9;
+        private Label label8;
+        private Label label7;
+        private Label lblSinStock;
+        private Label lblStockBajo;
+        private Label lblStockDisponible;
+        private Label lblTotalProductos;
+        private Label label6;
+        private Label label5;
+        private Label label4;
+        private Label label3;
+        private PictureBox pictureBox8;
+        private PictureBox pictureBox7;
+        private PictureBox pictureBox6;
+        private PictureBox pictureBox5;
+        private PictureBox pictureBox4;
+        private PictureBox pictureBox3;
+        private PictureBox pictureBox2;
+        private Label label2;
+        private DataGridView dataGridInventarioProducto;
+        private DataGridViewTextBoxColumn producto;
+        private DataGridViewTextBoxColumn talla;
+        private DataGridViewTextBoxColumn stock;
+        private DataGridViewTextBoxColumn categoria;
+        private DataGridViewTextBoxColumn precio;
+        private Button btnFechasAntInv;
+        private Button btnFechasRecientesInv;
+        private Button btnEliminarInventario;
+        private Button btnAgregarInventario;
+        private TextBox tbBusquedaInventario;
+        private Label label22;
+        private DataGridView dataGridEmpleados;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn5;
+        private Button btnFechasAEmpleados;
+        private Button btnFechasREmpleados;
+        private Button btnEliminarEmpleados;
+        private Button btnAgregarEmpleados;
+        private TextBox tbBusquedaEmpleados;
+        private Label label1;
+        private DataGridView dataGridMateriaP;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn6;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn7;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn8;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn9;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn10;
+        private Button btnFechasAMP;
+        private Button btnFechasRMP;
+        private Button btnEliminarMateriaP;
+        private Button btnAgregarMateriaP;
+        private TextBox btnBusquedaMateriaP;
+        private Label label10;
+        private DataGridView dataGridProv;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn11;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn12;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn13;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn14;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn15;
+        private Button btnFechasAProv;
+        private Button btnFechasRProv;
+        private Button btnEliminarProv;
+        private Button btnAgregarProv;
+        private TextBox tbBusquedaProv;
+        private Label label11;
     }
 }

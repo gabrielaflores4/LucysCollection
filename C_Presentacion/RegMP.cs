@@ -10,21 +10,11 @@ using System.Windows.Forms;
 
 namespace C_Presentacion
 {
-    public partial class Ventas : Form
+    public partial class RegMP : Form
     {
-        public Ventas()
+        public RegMP()
         {
             InitializeComponent();
-        }
-
-        private void lblDashboard_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void Ventas_Load(object sender, EventArgs e)
-        {
-
         }
     }
 }
