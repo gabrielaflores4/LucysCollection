@@ -303,6 +303,7 @@
             rbCliNuevo.TabStop = true;
             rbCliNuevo.Text = "Nuevo";
             rbCliNuevo.UseVisualStyleBackColor = true;
+            rbCliNuevo.CheckedChanged += rbCliNuevo_CheckedChanged;
             // 
             // rbCliAntiguo
             // 
@@ -315,6 +316,7 @@
             rbCliAntiguo.TabStop = true;
             rbCliAntiguo.Text = "Antiguo";
             rbCliAntiguo.UseVisualStyleBackColor = true;
+            rbCliAntiguo.CheckedChanged += rbCliAntiguo_CheckedChanged;
             // 
             // btnFacturaVenta
             // 

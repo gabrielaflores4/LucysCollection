@@ -26,5 +26,16 @@ namespace C_Presentacion
         {
 
         }
+
+        private void rbCliNuevo_CheckedChanged(object sender, EventArgs e)
+        {
+            FrmRegClientes frmRegClientes = new FrmRegClientes();
+            frmRegClientes.Show();
+        }
+
+        private void rbCliAntiguo_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

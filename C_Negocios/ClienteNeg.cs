@@ -3,10 +3,28 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using C_Datos;
 
 namespace C_Negocios
 {
-    internal class ClienteNeg
+    public class ClienteNeg
     {
+        private ClienteDatos clienteDatos;
+   
+        public ClienteNeg()
+        {
+            clienteDatos = new ClienteDatos();
+
+            if (clienteDatos == null)
+            {
+                throw new Exception("Error al inicializar ClienteDatos.");
+            }
+        }
+        public int CrearCliente(string nombre, string apellido, string correo, string telefono, DateTime fechaRegistro)
+        {
+
+            // Llamar a la clase de datos para crear el cliente
+            return clienteDatos.CrearCliente(nombre, apellido, correo, telefono, fechaRegistro);
+        }
     }
 }
