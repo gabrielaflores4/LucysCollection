@@ -61,5 +61,10 @@ namespace C_Presentacion
             formInicio.CargarProductos();
             this.Close();
         }
+
+        private void btnCancelarActProd_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 }

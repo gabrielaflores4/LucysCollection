@@ -127,6 +127,8 @@
             btnAgregarProv = new Button();
             tbBusquedaProv = new TextBox();
             label11 = new Label();
+            pictureBox9 = new PictureBox();
+            button1 = new Button();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             tabControlInicio.SuspendLayout();
             tabInicio.SuspendLayout();
@@ -145,6 +147,7 @@
             ((System.ComponentModel.ISupportInitialize)dataGridMateriaP).BeginInit();
             tabProveedores.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridProv).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox9).BeginInit();
             SuspendLayout();
             // 
             // pictureBox1
@@ -568,6 +571,8 @@
             // tabInventario
             // 
             tabInventario.BackColor = Color.FromArgb(212, 221, 221, 221);
+            tabInventario.Controls.Add(button1);
+            tabInventario.Controls.Add(pictureBox9);
             tabInventario.Controls.Add(dataGridInventarioProducto);
             tabInventario.Controls.Add(btnFechasAntInv);
             tabInventario.Controls.Add(btnFechasRecientesInv);
@@ -658,7 +663,7 @@
             btnFechasAntInv.BackgroundImageLayout = ImageLayout.Stretch;
             btnFechasAntInv.FlatStyle = FlatStyle.Flat;
             btnFechasAntInv.ForeColor = Color.FromArgb(221, 221, 221);
-            btnFechasAntInv.Location = new Point(769, 126);
+            btnFechasAntInv.Location = new Point(742, 126);
             btnFechasAntInv.Name = "btnFechasAntInv";
             btnFechasAntInv.Size = new Size(235, 42);
             btnFechasAntInv.TabIndex = 23;
@@ -671,7 +676,7 @@
             btnFechasRecientesInv.BackgroundImageLayout = ImageLayout.Stretch;
             btnFechasRecientesInv.FlatStyle = FlatStyle.Flat;
             btnFechasRecientesInv.ForeColor = Color.FromArgb(221, 221, 221);
-            btnFechasRecientesInv.Location = new Point(528, 126);
+            btnFechasRecientesInv.Location = new Point(501, 126);
             btnFechasRecientesInv.Name = "btnFechasRecientesInv";
             btnFechasRecientesInv.Size = new Size(235, 42);
             btnFechasRecientesInv.TabIndex = 22;
@@ -1174,6 +1179,28 @@
             label11.TabIndex = 33;
             label11.Text = "Proveedores";
             // 
+            // pictureBox9
+            // 
+            pictureBox9.Image = Properties.Resources.Search;
+            pictureBox9.Location = new Point(1010, 69);
+            pictureBox9.Name = "pictureBox9";
+            pictureBox9.Size = new Size(44, 42);
+            pictureBox9.TabIndex = 25;
+            pictureBox9.TabStop = false;
+            // 
+            // button1
+            // 
+            button1.BackColor = Color.FromArgb(221, 221, 221);
+            button1.BackgroundImage = Properties.Resources.btnRestablecer;
+            button1.BackgroundImageLayout = ImageLayout.Stretch;
+            button1.FlatStyle = FlatStyle.Flat;
+            button1.ForeColor = Color.FromArgb(221, 221, 221);
+            button1.Location = new Point(985, 105);
+            button1.Name = "button1";
+            button1.Size = new Size(88, 81);
+            button1.TabIndex = 26;
+            button1.UseVisualStyleBackColor = false;
+            // 
             // Inicio
             // 
             AutoScaleDimensions = new SizeF(9F, 19F);
@@ -1222,6 +1249,7 @@
             tabProveedores.ResumeLayout(false);
             tabProveedores.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridProv).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox9).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -1316,5 +1344,7 @@
         private DataGridViewTextBoxColumn stock;
         private DataGridViewTextBoxColumn categoria;
         private DataGridViewTextBoxColumn precio;
+        private Button button1;
+        private PictureBox pictureBox9;
     }
 }

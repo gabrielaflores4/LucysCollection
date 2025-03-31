@@ -58,6 +58,7 @@
             btnCancelarActProd.Size = new Size(187, 64);
             btnCancelarActProd.TabIndex = 56;
             btnCancelarActProd.UseVisualStyleBackColor = false;
+            btnCancelarActProd.Click += btnCancelarActProd_Click;
             // 
             // btnGuardarActProd
             // 
