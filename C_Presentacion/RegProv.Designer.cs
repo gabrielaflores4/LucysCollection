@@ -50,7 +50,7 @@
             btnRegistrarProv.BackgroundImageLayout = ImageLayout.Zoom;
             btnRegistrarProv.FlatStyle = FlatStyle.Flat;
             btnRegistrarProv.ForeColor = Color.FromArgb(221, 221, 221);
-            btnRegistrarProv.Location = new Point(502, 611);
+            btnRegistrarProv.Location = new Point(495, 600);
             btnRegistrarProv.Name = "btnRegistrarProv";
             btnRegistrarProv.Size = new Size(378, 56);
             btnRegistrarProv.TabIndex = 98;
@@ -171,7 +171,7 @@
             AutoScaleDimensions = new SizeF(9F, 19F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(221, 221, 221);
-            ClientSize = new Size(1370, 749);
+            ClientSize = new Size(1370, 696);
             Controls.Add(btnRegistrarProv);
             Controls.Add(tbTelefonoProv);
             Controls.Add(label5);

@@ -76,6 +76,7 @@
             label2 = new Label();
             tabInventario = new TabPage();
             dataGridInventarioProducto = new DataGridView();
+            Id_Prod = new DataGridViewTextBoxColumn();
             producto = new DataGridViewTextBoxColumn();
             talla = new DataGridViewTextBoxColumn();
             stock = new DataGridViewTextBoxColumn();
@@ -574,18 +575,18 @@
             tabInventario.Controls.Add(btnAgregarInventario);
             tabInventario.Controls.Add(tbBusquedaInventario);
             tabInventario.Controls.Add(label22);
-            tabInventario.Location = new Point(4, 24);
+            tabInventario.Location = new Point(4, 28);
             tabInventario.Name = "tabInventario";
             tabInventario.Padding = new Padding(3);
-            tabInventario.Size = new Size(1093, 706);
+            tabInventario.Size = new Size(1093, 702);
             tabInventario.TabIndex = 1;
             tabInventario.Text = "tabPage2";
             // 
             // dataGridInventarioProducto
             // 
-            dataGridViewCellStyle1.BackColor = Color.Black;
-            dataGridViewCellStyle1.Font = new Font("Bahnschrift Condensed", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle1.ForeColor = Color.White;
+            dataGridViewCellStyle1.BackColor = Color.FromArgb(221, 221, 221);
+            dataGridViewCellStyle1.Font = new Font("Bahnschrift", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle1.ForeColor = Color.Black;
             dataGridInventarioProducto.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             dataGridInventarioProducto.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridInventarioProducto.BackgroundColor = Color.FromArgb(221, 221, 221);
@@ -594,12 +595,13 @@
             dataGridViewCellStyle2.Font = new Font("Bahnschrift", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             dataGridViewCellStyle2.ForeColor = Color.White;
             dataGridViewCellStyle2.Padding = new Padding(1);
-            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Desktop;
-            dataGridViewCellStyle2.SelectionForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionForeColor = SystemColors.Control;
             dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
             dataGridInventarioProducto.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
-            dataGridInventarioProducto.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridInventarioProducto.Columns.AddRange(new DataGridViewColumn[] { producto, talla, stock, categoria, precio });
+            dataGridInventarioProducto.ColumnHeadersHeight = 40;
+            dataGridInventarioProducto.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            dataGridInventarioProducto.Columns.AddRange(new DataGridViewColumn[] { Id_Prod, producto, talla, stock, categoria, precio });
             dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle3.BackColor = Color.FromArgb(221, 221, 221);
             dataGridViewCellStyle3.Font = new Font("Bahnschrift", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
@@ -617,6 +619,12 @@
             dataGridInventarioProducto.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dataGridInventarioProducto.Size = new Size(847, 488);
             dataGridInventarioProducto.TabIndex = 24;
+            dataGridInventarioProducto.CellDoubleClick += dataGridInventarioProducto_CellDoubleClick;
+            // 
+            // Id_Prod
+            // 
+            Id_Prod.HeaderText = "Id_Prod";
+            Id_Prod.Name = "Id_Prod";
             // 
             // producto
             // 
@@ -681,6 +689,7 @@
             btnEliminarInventario.Size = new Size(195, 37);
             btnEliminarInventario.TabIndex = 21;
             btnEliminarInventario.UseVisualStyleBackColor = false;
+            btnEliminarInventario.Click += btnEliminarInventario_Click;
             // 
             // btnAgregarInventario
             // 
@@ -875,9 +884,9 @@
             tabMateriaP.Controls.Add(btnAgregarMateriaP);
             tabMateriaP.Controls.Add(btnBusquedaMateriaP);
             tabMateriaP.Controls.Add(label10);
-            tabMateriaP.Location = new Point(4, 28);
+            tabMateriaP.Location = new Point(4, 24);
             tabMateriaP.Name = "tabMateriaP";
-            tabMateriaP.Size = new Size(1093, 702);
+            tabMateriaP.Size = new Size(1093, 706);
             tabMateriaP.TabIndex = 3;
             tabMateriaP.Text = "tabPage1";
             // 
@@ -1025,9 +1034,9 @@
             tabProveedores.Controls.Add(btnAgregarProv);
             tabProveedores.Controls.Add(tbBusquedaProv);
             tabProveedores.Controls.Add(label11);
-            tabProveedores.Location = new Point(4, 28);
+            tabProveedores.Location = new Point(4, 24);
             tabProveedores.Name = "tabProveedores";
-            tabProveedores.Size = new Size(1093, 702);
+            tabProveedores.Size = new Size(1093, 706);
             tabProveedores.TabIndex = 4;
             tabProveedores.Text = "tabPage1";
             // 
@@ -1259,11 +1268,6 @@
         private PictureBox pictureBox2;
         private Label label2;
         private DataGridView dataGridInventarioProducto;
-        private DataGridViewTextBoxColumn producto;
-        private DataGridViewTextBoxColumn talla;
-        private DataGridViewTextBoxColumn stock;
-        private DataGridViewTextBoxColumn categoria;
-        private DataGridViewTextBoxColumn precio;
         private Button btnFechasAntInv;
         private Button btnFechasRecientesInv;
         private Button btnEliminarInventario;
@@ -1306,5 +1310,11 @@
         private Button btnAgregarProv;
         private TextBox tbBusquedaProv;
         private Label label11;
+        private DataGridViewTextBoxColumn Id_Prod;
+        private DataGridViewTextBoxColumn producto;
+        private DataGridViewTextBoxColumn talla;
+        private DataGridViewTextBoxColumn stock;
+        private DataGridViewTextBoxColumn categoria;
+        private DataGridViewTextBoxColumn precio;
     }
 }
