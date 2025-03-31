@@ -15,6 +15,7 @@ namespace C_Presentacion
     public partial class Inicio : Form
     {
         private ProductoNeg productoNeg = new ProductoNeg();
+        private UsuarioNeg usuarioNeg = new UsuarioNeg();
         public Inicio()
         {
             InitializeComponent();
@@ -70,6 +71,34 @@ namespace C_Presentacion
             ConfigurarDataGrid(dataGridInventarioProducto, productosConCategoria, columnas);
         }
 
+        private void CargarEmpleados()
+        {
+            var usuarios = usuarioNeg.ObtenerUsuarios();
+
+            var columnas = new Dictionary<string, string>
+            {
+                { "IdUsuario", "ID" },
+                { "Nombre", "Nombre" },
+                { "Apellido", "Apellido" },
+                { "Correo", "Correo" },
+                { "Telefono", "Teléfono" },
+                { "Rol", "Rol" }
+            };
+
+            var datosParaMostrar = usuarios.Select(u => new
+            {
+                u.IdUsuario,
+                u.Nombre,
+                u.Apellido,
+                u.Correo,
+                u.Telefono,
+                u.Rol
+            }).ToList();
+
+            ConfigurarDataGrid(dataGridEmpleados, datosParaMostrar, columnas);
+        }
+
+
         private void btnInventario_Click(object sender, EventArgs e)
         {
             tabControlInicio.SelectedTab = tabInventario;
@@ -80,6 +109,7 @@ namespace C_Presentacion
         private void btnEmpleados_Click(object sender, EventArgs e)
         {
             tabControlInicio.SelectedTab = tabEmpleados;
+            CargarEmpleados();
         }
 
         private void btnMateriaPrima_Click(object sender, EventArgs e)
@@ -151,7 +181,7 @@ namespace C_Presentacion
                     if (productoNeg.EliminarProducto(id))
                     {
                         MessageBox.Show($"Producto '{nombreProducto}' eliminado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        CargarProductos(); 
+                        CargarProductos();
                     }
                     else
                     {
@@ -208,10 +238,100 @@ namespace C_Presentacion
                     }
                     else
                     {
-                        MessageBox.Show("No se pudo actualizar el producto", "Error",MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show("No se pudo actualizar el producto", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
             }
+        }
+
+        private void btnEliminarEmpleados_Click(object sender, EventArgs e)
+        {
+            if (dataGridEmpleados.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Selecciona un empleado antes de eliminar.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            try
+            {
+                DataGridViewRow fila = dataGridEmpleados.SelectedRows[0];
+                int id = Convert.ToInt32(fila.Cells[0].Value);
+                string nombre = fila.Cells[1].Value.ToString();
+
+                DialogResult resultado = MessageBox.Show(
+                    $"¿Desea eliminar al empleado: {nombre}?", "Confirmar Eliminación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                if (resultado == DialogResult.Yes)
+                {
+                    if (usuarioNeg.EliminarUsuario(id))
+                    {
+                        MessageBox.Show($"Empleado '{nombre}' eliminado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        CargarEmpleados();
+                    }
+                    else
+                    {
+                        MessageBox.Show($"No se pudo eliminar al empleado '{nombre}'.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al eliminar: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void dataGridEmpleados_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            // Validar que la fila seleccionada es válida
+            if (e.RowIndex < 0) return;
+
+            // Obtener la fila seleccionada
+            DataGridViewRow fila = dataGridEmpleados.Rows[e.RowIndex];
+
+            // Obtener los valores actuales
+            int id = Convert.ToInt32(fila.Cells[0].Value);
+            string nombre = fila.Cells[1].Value?.ToString();
+            string apellido = fila.Cells[2].Value?.ToString();
+            string correo = fila.Cells[3].Value?.ToString();
+            string telefono = fila.Cells[4].Value?.ToString();
+            string rol = fila.Cells[5].Value?.ToString();
+
+            // Crear y mostrar formulario de edición
+            using (var formEdicion = new EditarEmpleados(this))
+            {
+                // Configurar los valores actuales en el formulario
+                formEdicion.EmpleadoId = id;
+                formEdicion.Nombre = nombre;
+                formEdicion.Apellido = apellido;
+                formEdicion.Correo = correo;
+                formEdicion.Telefono = telefono;
+                formEdicion.Rol = rol;
+
+                if (formEdicion.ShowDialog() == DialogResult.OK)
+                {
+                    // Actualizar el empleado si el usuario guardó los cambios
+                    if (usuarioNeg.ActualizarEmpleado(
+                        formEdicion.EmpleadoId,
+                        formEdicion.Nombre,
+                        formEdicion.Apellido,
+                        formEdicion.Correo,
+                        formEdicion.Telefono,
+                        formEdicion.Rol))
+                    {
+                        MessageBox.Show("Empleado actualizado correctamente", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        CargarEmpleados();
+                    }
+                    else
+                    {
+                        MessageBox.Show("No se pudo actualizar el empleado", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+        }
+
+        private void btnLogout_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

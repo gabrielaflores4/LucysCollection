@@ -76,7 +76,80 @@ namespace C_Datos
             }
         }
 
+        public List<Usuario> ObtenerUsuarios()
+        {
+            var usuarios = new List<Usuario>();
+            using (var conexion = Conexion.ObtenerConexion())
+            {
+                using (var cmd = new NpgsqlCommand(
+                    @"SELECT p.nombre, p.apellido, p.correo, p.telefono,
+                             u.id_usuario, u.rol
+                      FROM Personas p
+                      INNER JOIN Usuarios u ON p.id_persona = u.id_persona",
+                    conexion))
+                {
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            usuarios.Add(new Usuario(
+                                reader.GetInt32(reader.GetOrdinal("id_usuario")),
+                                reader.GetString(reader.GetOrdinal("nombre")),
+                                reader.GetString(reader.GetOrdinal("apellido")),
+                                reader.GetString(reader.GetOrdinal("telefono")),
+                                reader.GetString(reader.GetOrdinal("correo")),
+                                reader.GetString(reader.GetOrdinal("rol"))
+                            ));
+                        }
+                    }
+                }
+            }
+            return usuarios;
+        }
+        public bool EliminarUsuario(int idUsuario)
+        {
+            using (var conexion = Conexion.ObtenerConexion())
+            {
+                using (var transaction = conexion.BeginTransaction())
+                {
+                    try
+                    {
+                        // Obtener el ID de la persona asociada antes de eliminar el usuario
+                        int idPersona;
+                        using (var cmdPersona = new NpgsqlCommand(
+                            "SELECT id_persona FROM Usuarios WHERE id_usuario = @idUsuario", conexion))
+                        {
+                            cmdPersona.Parameters.AddWithValue("@idUsuario", idUsuario);
+                            idPersona = Convert.ToInt32(cmdPersona.ExecuteScalar());
+                        }
 
+                        // Eliminar el usuario
+                        using (var cmdEliminarUsuario = new NpgsqlCommand(
+                            "DELETE FROM Usuarios WHERE id_usuario = @idUsuario", conexion))
+                        {
+                            cmdEliminarUsuario.Parameters.AddWithValue("@idUsuario", idUsuario);
+                            cmdEliminarUsuario.ExecuteNonQuery();
+                        }
 
+                        // Eliminar la persona asociada
+                        using (var cmdEliminarPersona = new NpgsqlCommand(
+                            "DELETE FROM Personas WHERE id_persona = @idPersona", conexion))
+                        {
+                            cmdEliminarPersona.Parameters.AddWithValue("@idPersona", idPersona);
+                            cmdEliminarPersona.ExecuteNonQuery();
+                        }
+
+                        // Confirmar la transacción
+                        transaction.Commit();
+                        return true;
+                    }
+                    catch (Exception)
+                    {
+                        transaction.Rollback();
+                        return false;
+                    }
+                }
+            }
+        }
     }
 }

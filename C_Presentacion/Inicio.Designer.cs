@@ -75,6 +75,8 @@
             pictureBox2 = new PictureBox();
             label2 = new Label();
             tabInventario = new TabPage();
+            button1 = new Button();
+            pictureBox9 = new PictureBox();
             dataGridInventarioProducto = new DataGridView();
             Id_Prod = new DataGridViewTextBoxColumn();
             producto = new DataGridViewTextBoxColumn();
@@ -89,12 +91,15 @@
             tbBusquedaInventario = new TextBox();
             label22 = new Label();
             tabEmpleados = new TabPage();
+            button3 = new Button();
+            pictureBox11 = new PictureBox();
             dataGridEmpleados = new DataGridView();
-            dataGridViewTextBoxColumn1 = new DataGridViewTextBoxColumn();
-            dataGridViewTextBoxColumn2 = new DataGridViewTextBoxColumn();
-            dataGridViewTextBoxColumn3 = new DataGridViewTextBoxColumn();
-            dataGridViewTextBoxColumn4 = new DataGridViewTextBoxColumn();
-            dataGridViewTextBoxColumn5 = new DataGridViewTextBoxColumn();
+            Id = new DataGridViewTextBoxColumn();
+            Nombre = new DataGridViewTextBoxColumn();
+            Apellido = new DataGridViewTextBoxColumn();
+            Correo = new DataGridViewTextBoxColumn();
+            Telefono = new DataGridViewTextBoxColumn();
+            Rol = new DataGridViewTextBoxColumn();
             btnFechasAEmpleados = new Button();
             btnFechasREmpleados = new Button();
             btnEliminarEmpleados = new Button();
@@ -102,6 +107,8 @@
             tbBusquedaEmpleados = new TextBox();
             label1 = new Label();
             tabMateriaP = new TabPage();
+            button2 = new Button();
+            pictureBox10 = new PictureBox();
             dataGridMateriaP = new DataGridView();
             dataGridViewTextBoxColumn6 = new DataGridViewTextBoxColumn();
             dataGridViewTextBoxColumn7 = new DataGridViewTextBoxColumn();
@@ -115,6 +122,8 @@
             btnBusquedaMateriaP = new TextBox();
             label10 = new Label();
             tabProveedores = new TabPage();
+            button4 = new Button();
+            pictureBox12 = new PictureBox();
             dataGridProv = new DataGridView();
             dataGridViewTextBoxColumn11 = new DataGridViewTextBoxColumn();
             dataGridViewTextBoxColumn12 = new DataGridViewTextBoxColumn();
@@ -127,8 +136,6 @@
             btnAgregarProv = new Button();
             tbBusquedaProv = new TextBox();
             label11 = new Label();
-            pictureBox9 = new PictureBox();
-            button1 = new Button();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             tabControlInicio.SuspendLayout();
             tabInicio.SuspendLayout();
@@ -140,14 +147,17 @@
             ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             tabInventario.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox9).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridInventarioProducto).BeginInit();
             tabEmpleados.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox11).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridEmpleados).BeginInit();
             tabMateriaP.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox10).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridMateriaP).BeginInit();
             tabProveedores.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox12).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridProv).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox9).BeginInit();
             SuspendLayout();
             // 
             // pictureBox1
@@ -285,6 +295,7 @@
             btnLogout.Size = new Size(205, 45);
             btnLogout.TabIndex = 10;
             btnLogout.UseVisualStyleBackColor = false;
+            btnLogout.Click += btnLogout_Click;
             // 
             // tabControlInicio
             // 
@@ -580,12 +591,34 @@
             tabInventario.Controls.Add(btnAgregarInventario);
             tabInventario.Controls.Add(tbBusquedaInventario);
             tabInventario.Controls.Add(label22);
-            tabInventario.Location = new Point(4, 28);
+            tabInventario.Location = new Point(4, 24);
             tabInventario.Name = "tabInventario";
             tabInventario.Padding = new Padding(3);
-            tabInventario.Size = new Size(1093, 702);
+            tabInventario.Size = new Size(1093, 706);
             tabInventario.TabIndex = 1;
             tabInventario.Text = "tabPage2";
+            // 
+            // button1
+            // 
+            button1.BackColor = Color.FromArgb(221, 221, 221);
+            button1.BackgroundImage = Properties.Resources.btnRestablecer;
+            button1.BackgroundImageLayout = ImageLayout.Stretch;
+            button1.FlatStyle = FlatStyle.Flat;
+            button1.ForeColor = Color.FromArgb(221, 221, 221);
+            button1.Location = new Point(985, 105);
+            button1.Name = "button1";
+            button1.Size = new Size(88, 81);
+            button1.TabIndex = 26;
+            button1.UseVisualStyleBackColor = false;
+            // 
+            // pictureBox9
+            // 
+            pictureBox9.Image = Properties.Resources.Search;
+            pictureBox9.Location = new Point(1010, 69);
+            pictureBox9.Name = "pictureBox9";
+            pictureBox9.Size = new Size(44, 42);
+            pictureBox9.TabIndex = 25;
+            pictureBox9.TabStop = false;
             // 
             // dataGridInventarioProducto
             // 
@@ -732,6 +765,8 @@
             // tabEmpleados
             // 
             tabEmpleados.BackColor = Color.FromArgb(212, 221, 221, 221);
+            tabEmpleados.Controls.Add(button3);
+            tabEmpleados.Controls.Add(pictureBox11);
             tabEmpleados.Controls.Add(dataGridEmpleados);
             tabEmpleados.Controls.Add(btnFechasAEmpleados);
             tabEmpleados.Controls.Add(btnFechasREmpleados);
@@ -745,11 +780,33 @@
             tabEmpleados.TabIndex = 2;
             tabEmpleados.Text = "tabPage1";
             // 
+            // button3
+            // 
+            button3.BackColor = Color.FromArgb(221, 221, 221);
+            button3.BackgroundImage = Properties.Resources.btnRestablecer;
+            button3.BackgroundImageLayout = ImageLayout.Stretch;
+            button3.FlatStyle = FlatStyle.Flat;
+            button3.ForeColor = Color.FromArgb(221, 221, 221);
+            button3.Location = new Point(991, 107);
+            button3.Name = "button3";
+            button3.Size = new Size(88, 81);
+            button3.TabIndex = 33;
+            button3.UseVisualStyleBackColor = false;
+            // 
+            // pictureBox11
+            // 
+            pictureBox11.Image = Properties.Resources.Search;
+            pictureBox11.Location = new Point(1016, 71);
+            pictureBox11.Name = "pictureBox11";
+            pictureBox11.Size = new Size(44, 42);
+            pictureBox11.TabIndex = 32;
+            pictureBox11.TabStop = false;
+            // 
             // dataGridEmpleados
             // 
-            dataGridViewCellStyle4.BackColor = Color.Black;
-            dataGridViewCellStyle4.Font = new Font("Bahnschrift Condensed", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle4.ForeColor = Color.White;
+            dataGridViewCellStyle4.BackColor = Color.FromArgb(221, 221, 221);
+            dataGridViewCellStyle4.Font = new Font("Bahnschrift", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle4.ForeColor = Color.Black;
             dataGridEmpleados.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle4;
             dataGridEmpleados.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridEmpleados.BackgroundColor = Color.FromArgb(221, 221, 221);
@@ -762,8 +819,9 @@
             dataGridViewCellStyle5.SelectionForeColor = SystemColors.ControlText;
             dataGridViewCellStyle5.WrapMode = DataGridViewTriState.True;
             dataGridEmpleados.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
-            dataGridEmpleados.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridEmpleados.Columns.AddRange(new DataGridViewColumn[] { dataGridViewTextBoxColumn1, dataGridViewTextBoxColumn2, dataGridViewTextBoxColumn3, dataGridViewTextBoxColumn4, dataGridViewTextBoxColumn5 });
+            dataGridEmpleados.ColumnHeadersHeight = 45;
+            dataGridEmpleados.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            dataGridEmpleados.Columns.AddRange(new DataGridViewColumn[] { Id, Nombre, Apellido, Correo, Telefono, Rol });
             dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle6.BackColor = Color.FromArgb(221, 221, 221);
             dataGridViewCellStyle6.Font = new Font("Bahnschrift", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
@@ -781,31 +839,37 @@
             dataGridEmpleados.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dataGridEmpleados.Size = new Size(847, 488);
             dataGridEmpleados.TabIndex = 31;
+            dataGridEmpleados.CellDoubleClick += dataGridEmpleados_CellDoubleClick;
             // 
-            // dataGridViewTextBoxColumn1
+            // Id
             // 
-            dataGridViewTextBoxColumn1.HeaderText = "Producto";
-            dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            Id.HeaderText = "ID";
+            Id.Name = "Id";
             // 
-            // dataGridViewTextBoxColumn2
+            // Nombre
             // 
-            dataGridViewTextBoxColumn2.HeaderText = "Talla";
-            dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
+            Nombre.HeaderText = "Nombre";
+            Nombre.Name = "Nombre";
             // 
-            // dataGridViewTextBoxColumn3
+            // Apellido
             // 
-            dataGridViewTextBoxColumn3.HeaderText = "Stock";
-            dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
+            Apellido.HeaderText = "Apellido";
+            Apellido.Name = "Apellido";
             // 
-            // dataGridViewTextBoxColumn4
+            // Correo
             // 
-            dataGridViewTextBoxColumn4.HeaderText = "Categoria";
-            dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
+            Correo.HeaderText = "Correo";
+            Correo.Name = "Correo";
             // 
-            // dataGridViewTextBoxColumn5
+            // Telefono
             // 
-            dataGridViewTextBoxColumn5.HeaderText = "Precio Unit";
-            dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
+            Telefono.HeaderText = "Teléfono";
+            Telefono.Name = "Telefono";
+            // 
+            // Rol
+            // 
+            Rol.HeaderText = "Rol";
+            Rol.Name = "Rol";
             // 
             // btnFechasAEmpleados
             // 
@@ -814,7 +878,7 @@
             btnFechasAEmpleados.BackgroundImageLayout = ImageLayout.Stretch;
             btnFechasAEmpleados.FlatStyle = FlatStyle.Flat;
             btnFechasAEmpleados.ForeColor = Color.FromArgb(221, 221, 221);
-            btnFechasAEmpleados.Location = new Point(769, 126);
+            btnFechasAEmpleados.Location = new Point(749, 126);
             btnFechasAEmpleados.Name = "btnFechasAEmpleados";
             btnFechasAEmpleados.Size = new Size(235, 42);
             btnFechasAEmpleados.TabIndex = 30;
@@ -827,7 +891,7 @@
             btnFechasREmpleados.BackgroundImageLayout = ImageLayout.Stretch;
             btnFechasREmpleados.FlatStyle = FlatStyle.Flat;
             btnFechasREmpleados.ForeColor = Color.FromArgb(221, 221, 221);
-            btnFechasREmpleados.Location = new Point(528, 126);
+            btnFechasREmpleados.Location = new Point(508, 126);
             btnFechasREmpleados.Name = "btnFechasREmpleados";
             btnFechasREmpleados.Size = new Size(235, 42);
             btnFechasREmpleados.TabIndex = 29;
@@ -845,6 +909,7 @@
             btnEliminarEmpleados.Size = new Size(195, 37);
             btnEliminarEmpleados.TabIndex = 28;
             btnEliminarEmpleados.UseVisualStyleBackColor = false;
+            btnEliminarEmpleados.Click += btnEliminarEmpleados_Click;
             // 
             // btnAgregarEmpleados
             // 
@@ -882,6 +947,8 @@
             // tabMateriaP
             // 
             tabMateriaP.BackColor = Color.FromArgb(212, 221, 221, 221);
+            tabMateriaP.Controls.Add(button2);
+            tabMateriaP.Controls.Add(pictureBox10);
             tabMateriaP.Controls.Add(dataGridMateriaP);
             tabMateriaP.Controls.Add(btnFechasAMP);
             tabMateriaP.Controls.Add(btnFechasRMP);
@@ -894,6 +961,28 @@
             tabMateriaP.Size = new Size(1093, 706);
             tabMateriaP.TabIndex = 3;
             tabMateriaP.Text = "tabPage1";
+            // 
+            // button2
+            // 
+            button2.BackColor = Color.FromArgb(221, 221, 221);
+            button2.BackgroundImage = Properties.Resources.btnRestablecer;
+            button2.BackgroundImageLayout = ImageLayout.Stretch;
+            button2.FlatStyle = FlatStyle.Flat;
+            button2.ForeColor = Color.FromArgb(221, 221, 221);
+            button2.Location = new Point(988, 107);
+            button2.Name = "button2";
+            button2.Size = new Size(88, 81);
+            button2.TabIndex = 33;
+            button2.UseVisualStyleBackColor = false;
+            // 
+            // pictureBox10
+            // 
+            pictureBox10.Image = Properties.Resources.Search;
+            pictureBox10.Location = new Point(1009, 71);
+            pictureBox10.Name = "pictureBox10";
+            pictureBox10.Size = new Size(44, 42);
+            pictureBox10.TabIndex = 32;
+            pictureBox10.TabStop = false;
             // 
             // dataGridMateriaP
             // 
@@ -964,7 +1053,7 @@
             btnFechasAMP.BackgroundImageLayout = ImageLayout.Stretch;
             btnFechasAMP.FlatStyle = FlatStyle.Flat;
             btnFechasAMP.ForeColor = Color.FromArgb(221, 221, 221);
-            btnFechasAMP.Location = new Point(769, 126);
+            btnFechasAMP.Location = new Point(747, 126);
             btnFechasAMP.Name = "btnFechasAMP";
             btnFechasAMP.Size = new Size(235, 42);
             btnFechasAMP.TabIndex = 30;
@@ -977,7 +1066,7 @@
             btnFechasRMP.BackgroundImageLayout = ImageLayout.Stretch;
             btnFechasRMP.FlatStyle = FlatStyle.Flat;
             btnFechasRMP.ForeColor = Color.FromArgb(221, 221, 221);
-            btnFechasRMP.Location = new Point(528, 126);
+            btnFechasRMP.Location = new Point(506, 126);
             btnFechasRMP.Name = "btnFechasRMP";
             btnFechasRMP.Size = new Size(235, 42);
             btnFechasRMP.TabIndex = 29;
@@ -1032,6 +1121,8 @@
             // tabProveedores
             // 
             tabProveedores.BackColor = Color.FromArgb(212, 221, 221, 221);
+            tabProveedores.Controls.Add(button4);
+            tabProveedores.Controls.Add(pictureBox12);
             tabProveedores.Controls.Add(dataGridProv);
             tabProveedores.Controls.Add(btnFechasAProv);
             tabProveedores.Controls.Add(btnFechasRProv);
@@ -1044,6 +1135,28 @@
             tabProveedores.Size = new Size(1093, 706);
             tabProveedores.TabIndex = 4;
             tabProveedores.Text = "tabPage1";
+            // 
+            // button4
+            // 
+            button4.BackColor = Color.FromArgb(221, 221, 221);
+            button4.BackgroundImage = Properties.Resources.btnRestablecer;
+            button4.BackgroundImageLayout = ImageLayout.Stretch;
+            button4.FlatStyle = FlatStyle.Flat;
+            button4.ForeColor = Color.FromArgb(221, 221, 221);
+            button4.Location = new Point(991, 107);
+            button4.Name = "button4";
+            button4.Size = new Size(88, 81);
+            button4.TabIndex = 40;
+            button4.UseVisualStyleBackColor = false;
+            // 
+            // pictureBox12
+            // 
+            pictureBox12.Image = Properties.Resources.Search;
+            pictureBox12.Location = new Point(1016, 71);
+            pictureBox12.Name = "pictureBox12";
+            pictureBox12.Size = new Size(44, 42);
+            pictureBox12.TabIndex = 39;
+            pictureBox12.TabStop = false;
             // 
             // dataGridProv
             // 
@@ -1114,7 +1227,7 @@
             btnFechasAProv.BackgroundImageLayout = ImageLayout.Stretch;
             btnFechasAProv.FlatStyle = FlatStyle.Flat;
             btnFechasAProv.ForeColor = Color.FromArgb(221, 221, 221);
-            btnFechasAProv.Location = new Point(769, 126);
+            btnFechasAProv.Location = new Point(753, 126);
             btnFechasAProv.Name = "btnFechasAProv";
             btnFechasAProv.Size = new Size(235, 42);
             btnFechasAProv.TabIndex = 37;
@@ -1127,7 +1240,7 @@
             btnFechasRProv.BackgroundImageLayout = ImageLayout.Stretch;
             btnFechasRProv.FlatStyle = FlatStyle.Flat;
             btnFechasRProv.ForeColor = Color.FromArgb(221, 221, 221);
-            btnFechasRProv.Location = new Point(528, 126);
+            btnFechasRProv.Location = new Point(512, 126);
             btnFechasRProv.Name = "btnFechasRProv";
             btnFechasRProv.Size = new Size(235, 42);
             btnFechasRProv.TabIndex = 36;
@@ -1179,28 +1292,6 @@
             label11.TabIndex = 33;
             label11.Text = "Proveedores";
             // 
-            // pictureBox9
-            // 
-            pictureBox9.Image = Properties.Resources.Search;
-            pictureBox9.Location = new Point(1010, 69);
-            pictureBox9.Name = "pictureBox9";
-            pictureBox9.Size = new Size(44, 42);
-            pictureBox9.TabIndex = 25;
-            pictureBox9.TabStop = false;
-            // 
-            // button1
-            // 
-            button1.BackColor = Color.FromArgb(221, 221, 221);
-            button1.BackgroundImage = Properties.Resources.btnRestablecer;
-            button1.BackgroundImageLayout = ImageLayout.Stretch;
-            button1.FlatStyle = FlatStyle.Flat;
-            button1.ForeColor = Color.FromArgb(221, 221, 221);
-            button1.Location = new Point(985, 105);
-            button1.Name = "button1";
-            button1.Size = new Size(88, 81);
-            button1.TabIndex = 26;
-            button1.UseVisualStyleBackColor = false;
-            // 
             // Inicio
             // 
             AutoScaleDimensions = new SizeF(9F, 19F);
@@ -1239,17 +1330,20 @@
             ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
             tabInventario.ResumeLayout(false);
             tabInventario.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox9).EndInit();
             ((System.ComponentModel.ISupportInitialize)dataGridInventarioProducto).EndInit();
             tabEmpleados.ResumeLayout(false);
             tabEmpleados.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox11).EndInit();
             ((System.ComponentModel.ISupportInitialize)dataGridEmpleados).EndInit();
             tabMateriaP.ResumeLayout(false);
             tabMateriaP.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox10).EndInit();
             ((System.ComponentModel.ISupportInitialize)dataGridMateriaP).EndInit();
             tabProveedores.ResumeLayout(false);
             tabProveedores.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox12).EndInit();
             ((System.ComponentModel.ISupportInitialize)dataGridProv).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox9).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -1302,12 +1396,6 @@
         private Button btnAgregarInventario;
         private TextBox tbBusquedaInventario;
         private Label label22;
-        private DataGridView dataGridEmpleados;
-        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
-        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
-        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
-        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
-        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn5;
         private Button btnFechasAEmpleados;
         private Button btnFechasREmpleados;
         private Button btnEliminarEmpleados;
@@ -1346,5 +1434,17 @@
         private DataGridViewTextBoxColumn precio;
         private Button button1;
         private PictureBox pictureBox9;
+        private DataGridView dataGridEmpleados;
+        private DataGridViewTextBoxColumn Id;
+        private DataGridViewTextBoxColumn Nombre;
+        private DataGridViewTextBoxColumn Apellido;
+        private DataGridViewTextBoxColumn Correo;
+        private DataGridViewTextBoxColumn Telefono;
+        private DataGridViewTextBoxColumn Rol;
+        private Button button2;
+        private PictureBox pictureBox10;
+        private Button button3;
+        private PictureBox pictureBox11;
+        private PictureBox pictureBox12;
     }
 }
