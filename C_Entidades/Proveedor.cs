@@ -9,11 +9,11 @@ namespace C_Entidades
     public class Proveedor
     {
         //Atributos del Proveedor
-        public int Id { get; set; }
+        public int IdProveedor { get; set; }
         public string NombreProv { get; set; }
-        public string Direccion { get; set; }
         public string Telefono { get; set; }
-        public string Email { get; set; }
+        public string Correo { get; set; }
+        public string Direccion { get; set; }
 
 
         // Constructor por defecto
@@ -22,13 +22,13 @@ namespace C_Entidades
         }
 
         // Constructor personalizado
-        public Proveedor(int id, string nombreProv, string direccion, string telefono, string email)
+        public Proveedor(int id, string nombreProv, string direccion, string telefono, string correo)
         {
-            Id = id;
+            IdProveedor = id;
             NombreProv = nombreProv;
             Direccion = direccion;
             Telefono = telefono;
-            Email = email;
+            Correo = correo;
         }
     }
 }

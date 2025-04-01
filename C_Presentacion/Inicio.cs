@@ -16,6 +16,9 @@ namespace C_Presentacion
     {
         private ProductoNeg productoNeg = new ProductoNeg();
         private UsuarioNeg usuarioNeg = new UsuarioNeg();
+        private ProveedorNeg _proveedorNeg = new ProveedorNeg();
+        private MateriaPrimaNeg _materiaPrimaNeg = new MateriaPrimaNeg();
+
         public Inicio()
         {
             InitializeComponent();
@@ -98,6 +101,53 @@ namespace C_Presentacion
             ConfigurarDataGrid(dataGridEmpleados, datosParaMostrar, columnas);
         }
 
+        private void CargarProveedores()
+        {
+            var proveedores = _proveedorNeg.ObtenerProveedores();
+
+            var columnas = new Dictionary<string, string>
+            {
+                    { "IdProveedor", "ID" },
+                    { "NombreProv", "Proveedor" },
+                    { "Telefono", "Teléfono" },
+                    { "Correo", "Correo" },
+                    { "Direccion", "Dirección" }
+            };
+
+            ConfigurarDataGrid(dataGridProv, proveedores, columnas);
+        }
+
+        private void CargarMateriasPrimas()
+        {
+            var materias = _materiaPrimaNeg.ObtenerMateriasPrimas();
+
+            var materiasConProveedor = new List<object>();
+
+            foreach (var m in materias)
+            {
+                materiasConProveedor.Add(new
+                {
+                    IdMateriaPrima = m.IdMateriaPrima,
+                    Nombre = m.Nombre,
+                    PrecioUnit = m.PrecioUnit,
+                    Stock = m.Stock,
+                    Proveedor = m.Proveedor.NombreProv
+                });
+            }
+
+            var columnas = new Dictionary<string, string>
+            {
+                { "IdMateriaPrima", "ID" },
+                { "Nombre", "Material" },
+                { "PrecioUnit", "Precio Unitario" },
+                { "Stock", "Stock" },
+                { "Proveedor", "Proveedor" }
+            };
+
+            ConfigurarDataGrid(dataGridMP, materiasConProveedor, columnas);
+        }
+
+
 
         private void btnInventario_Click(object sender, EventArgs e)
         {
@@ -115,11 +165,13 @@ namespace C_Presentacion
         private void btnMateriaPrima_Click(object sender, EventArgs e)
         {
             tabControlInicio.SelectedTab = tabMateriaP;
+            CargarMateriasPrimas();
         }
 
         private void btnProveedores_Click(object sender, EventArgs e)
         {
             tabControlInicio.SelectedTab = tabProveedores;
+            CargarProveedores();
         }
 
         private void lblDashboard_Click(object sender, EventArgs e)
@@ -332,6 +384,37 @@ namespace C_Presentacion
         private void btnLogout_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void btnEliminarMateriaP_Click(object sender, EventArgs e)
+        {
+            if (dataGridProv.SelectedRows.Count == 0) return;
+
+            var fila = dataGridProv.SelectedRows[0];
+            int id = Convert.ToInt32(fila.Cells["IdProveedor"].Value);
+            string nombre = fila.Cells["NombreProv"].Value.ToString();
+
+            if (MessageBox.Show($"¿Eliminar al proveedor {nombre}?", "Confirmar",
+                MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                try
+                {
+                    if (_proveedorNeg.EliminarProveedor(id))
+                    {
+                        MessageBox.Show("Proveedor eliminado correctamente");
+                        CargarProveedores();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error: {ex.Message}");
+                }
+            }
+        }
+
+        private void dataGridMP_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+
         }
     }
 }

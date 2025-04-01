@@ -109,12 +109,13 @@
             tabMateriaP = new TabPage();
             button2 = new Button();
             pictureBox10 = new PictureBox();
-            dataGridMateriaP = new DataGridView();
-            dataGridViewTextBoxColumn6 = new DataGridViewTextBoxColumn();
-            dataGridViewTextBoxColumn7 = new DataGridViewTextBoxColumn();
-            dataGridViewTextBoxColumn8 = new DataGridViewTextBoxColumn();
-            dataGridViewTextBoxColumn9 = new DataGridViewTextBoxColumn();
-            dataGridViewTextBoxColumn10 = new DataGridViewTextBoxColumn();
+            dataGridMP = new DataGridView();
+            Id_MP = new DataGridViewTextBoxColumn();
+            Nombre_MP = new DataGridViewTextBoxColumn();
+            Precio_MP = new DataGridViewTextBoxColumn();
+            Stock_MP = new DataGridViewTextBoxColumn();
+            Prov_MP = new DataGridViewTextBoxColumn();
+            FechaIngMP = new DataGridViewTextBoxColumn();
             btnFechasAMP = new Button();
             btnFechasRMP = new Button();
             btnEliminarMateriaP = new Button();
@@ -125,11 +126,11 @@
             button4 = new Button();
             pictureBox12 = new PictureBox();
             dataGridProv = new DataGridView();
-            dataGridViewTextBoxColumn11 = new DataGridViewTextBoxColumn();
-            dataGridViewTextBoxColumn12 = new DataGridViewTextBoxColumn();
-            dataGridViewTextBoxColumn13 = new DataGridViewTextBoxColumn();
-            dataGridViewTextBoxColumn14 = new DataGridViewTextBoxColumn();
-            dataGridViewTextBoxColumn15 = new DataGridViewTextBoxColumn();
+            Id_Prov = new DataGridViewTextBoxColumn();
+            Nombre_prov = new DataGridViewTextBoxColumn();
+            Telefono_prov = new DataGridViewTextBoxColumn();
+            Correo_prov = new DataGridViewTextBoxColumn();
+            Direccion_prov = new DataGridViewTextBoxColumn();
             btnFechasAProv = new Button();
             btnFechasRProv = new Button();
             btnEliminarProv = new Button();
@@ -154,7 +155,7 @@
             ((System.ComponentModel.ISupportInitialize)dataGridEmpleados).BeginInit();
             tabMateriaP.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox10).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)dataGridMateriaP).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dataGridMP).BeginInit();
             tabProveedores.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox12).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridProv).BeginInit();
@@ -949,16 +950,16 @@
             tabMateriaP.BackColor = Color.FromArgb(212, 221, 221, 221);
             tabMateriaP.Controls.Add(button2);
             tabMateriaP.Controls.Add(pictureBox10);
-            tabMateriaP.Controls.Add(dataGridMateriaP);
+            tabMateriaP.Controls.Add(dataGridMP);
             tabMateriaP.Controls.Add(btnFechasAMP);
             tabMateriaP.Controls.Add(btnFechasRMP);
             tabMateriaP.Controls.Add(btnEliminarMateriaP);
             tabMateriaP.Controls.Add(btnAgregarMateriaP);
             tabMateriaP.Controls.Add(btnBusquedaMateriaP);
             tabMateriaP.Controls.Add(label10);
-            tabMateriaP.Location = new Point(4, 24);
+            tabMateriaP.Location = new Point(4, 28);
             tabMateriaP.Name = "tabMateriaP";
-            tabMateriaP.Size = new Size(1093, 706);
+            tabMateriaP.Size = new Size(1093, 702);
             tabMateriaP.TabIndex = 3;
             tabMateriaP.Text = "tabPage1";
             // 
@@ -984,14 +985,14 @@
             pictureBox10.TabIndex = 32;
             pictureBox10.TabStop = false;
             // 
-            // dataGridMateriaP
+            // dataGridMP
             // 
-            dataGridViewCellStyle7.BackColor = Color.Black;
-            dataGridViewCellStyle7.Font = new Font("Bahnschrift Condensed", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle7.ForeColor = Color.White;
-            dataGridMateriaP.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle7;
-            dataGridMateriaP.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dataGridMateriaP.BackgroundColor = Color.FromArgb(221, 221, 221);
+            dataGridViewCellStyle7.BackColor = Color.FromArgb(221, 221, 221);
+            dataGridViewCellStyle7.Font = new Font("Bahnschrift", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle7.ForeColor = Color.Black;
+            dataGridMP.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle7;
+            dataGridMP.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dataGridMP.BackgroundColor = Color.FromArgb(221, 221, 221);
             dataGridViewCellStyle8.Alignment = DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle8.BackColor = Color.Black;
             dataGridViewCellStyle8.Font = new Font("Bahnschrift", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
@@ -1000,9 +1001,9 @@
             dataGridViewCellStyle8.SelectionBackColor = SystemColors.Desktop;
             dataGridViewCellStyle8.SelectionForeColor = SystemColors.ControlText;
             dataGridViewCellStyle8.WrapMode = DataGridViewTriState.True;
-            dataGridMateriaP.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle8;
-            dataGridMateriaP.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridMateriaP.Columns.AddRange(new DataGridViewColumn[] { dataGridViewTextBoxColumn6, dataGridViewTextBoxColumn7, dataGridViewTextBoxColumn8, dataGridViewTextBoxColumn9, dataGridViewTextBoxColumn10 });
+            dataGridMP.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle8;
+            dataGridMP.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridMP.Columns.AddRange(new DataGridViewColumn[] { Id_MP, Nombre_MP, Precio_MP, Stock_MP, Prov_MP, FechaIngMP });
             dataGridViewCellStyle9.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle9.BackColor = Color.FromArgb(221, 221, 221);
             dataGridViewCellStyle9.Font = new Font("Bahnschrift", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
@@ -1010,41 +1011,47 @@
             dataGridViewCellStyle9.SelectionBackColor = SystemColors.Desktop;
             dataGridViewCellStyle9.SelectionForeColor = SystemColors.HighlightText;
             dataGridViewCellStyle9.WrapMode = DataGridViewTriState.False;
-            dataGridMateriaP.DefaultCellStyle = dataGridViewCellStyle9;
-            dataGridMateriaP.EnableHeadersVisualStyles = false;
-            dataGridMateriaP.GridColor = Color.FromArgb(221, 221, 221);
-            dataGridMateriaP.Location = new Point(232, 189);
-            dataGridMateriaP.Name = "dataGridMateriaP";
-            dataGridMateriaP.RowHeadersVisible = false;
-            dataGridMateriaP.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
-            dataGridMateriaP.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dataGridMateriaP.Size = new Size(847, 488);
-            dataGridMateriaP.TabIndex = 31;
+            dataGridMP.DefaultCellStyle = dataGridViewCellStyle9;
+            dataGridMP.EnableHeadersVisualStyles = false;
+            dataGridMP.GridColor = Color.FromArgb(221, 221, 221);
+            dataGridMP.Location = new Point(232, 189);
+            dataGridMP.Name = "dataGridMP";
+            dataGridMP.RowHeadersVisible = false;
+            dataGridMP.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
+            dataGridMP.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dataGridMP.Size = new Size(847, 488);
+            dataGridMP.TabIndex = 31;
+            dataGridMP.CellDoubleClick += dataGridMP_CellDoubleClick;
             // 
-            // dataGridViewTextBoxColumn6
+            // Id_MP
             // 
-            dataGridViewTextBoxColumn6.HeaderText = "Producto";
-            dataGridViewTextBoxColumn6.Name = "dataGridViewTextBoxColumn6";
+            Id_MP.HeaderText = "Id";
+            Id_MP.Name = "Id_MP";
             // 
-            // dataGridViewTextBoxColumn7
+            // Nombre_MP
             // 
-            dataGridViewTextBoxColumn7.HeaderText = "Talla";
-            dataGridViewTextBoxColumn7.Name = "dataGridViewTextBoxColumn7";
+            Nombre_MP.HeaderText = "Nombre";
+            Nombre_MP.Name = "Nombre_MP";
             // 
-            // dataGridViewTextBoxColumn8
+            // Precio_MP
             // 
-            dataGridViewTextBoxColumn8.HeaderText = "Stock";
-            dataGridViewTextBoxColumn8.Name = "dataGridViewTextBoxColumn8";
+            Precio_MP.HeaderText = "Precio";
+            Precio_MP.Name = "Precio_MP";
             // 
-            // dataGridViewTextBoxColumn9
+            // Stock_MP
             // 
-            dataGridViewTextBoxColumn9.HeaderText = "Categoria";
-            dataGridViewTextBoxColumn9.Name = "dataGridViewTextBoxColumn9";
+            Stock_MP.HeaderText = "Stock";
+            Stock_MP.Name = "Stock_MP";
             // 
-            // dataGridViewTextBoxColumn10
+            // Prov_MP
             // 
-            dataGridViewTextBoxColumn10.HeaderText = "Precio Unit";
-            dataGridViewTextBoxColumn10.Name = "dataGridViewTextBoxColumn10";
+            Prov_MP.HeaderText = "Proveedor";
+            Prov_MP.Name = "Prov_MP";
+            // 
+            // FechaIngMP
+            // 
+            FechaIngMP.HeaderText = "Fecha Ingreso";
+            FechaIngMP.Name = "FechaIngMP";
             // 
             // btnFechasAMP
             // 
@@ -1084,6 +1091,7 @@
             btnEliminarMateriaP.Size = new Size(195, 37);
             btnEliminarMateriaP.TabIndex = 28;
             btnEliminarMateriaP.UseVisualStyleBackColor = false;
+            btnEliminarMateriaP.Click += btnEliminarMateriaP_Click;
             // 
             // btnAgregarMateriaP
             // 
@@ -1130,9 +1138,9 @@
             tabProveedores.Controls.Add(btnAgregarProv);
             tabProveedores.Controls.Add(tbBusquedaProv);
             tabProveedores.Controls.Add(label11);
-            tabProveedores.Location = new Point(4, 24);
+            tabProveedores.Location = new Point(4, 28);
             tabProveedores.Name = "tabProveedores";
-            tabProveedores.Size = new Size(1093, 706);
+            tabProveedores.Size = new Size(1093, 702);
             tabProveedores.TabIndex = 4;
             tabProveedores.Text = "tabPage1";
             // 
@@ -1160,9 +1168,9 @@
             // 
             // dataGridProv
             // 
-            dataGridViewCellStyle10.BackColor = Color.Black;
-            dataGridViewCellStyle10.Font = new Font("Bahnschrift Condensed", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle10.ForeColor = Color.White;
+            dataGridViewCellStyle10.BackColor = Color.FromArgb(221, 221, 221);
+            dataGridViewCellStyle10.Font = new Font("Bahnschrift", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle10.ForeColor = Color.Black;
             dataGridProv.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle10;
             dataGridProv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridProv.BackgroundColor = Color.FromArgb(221, 221, 221);
@@ -1176,7 +1184,7 @@
             dataGridViewCellStyle11.WrapMode = DataGridViewTriState.True;
             dataGridProv.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle11;
             dataGridProv.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridProv.Columns.AddRange(new DataGridViewColumn[] { dataGridViewTextBoxColumn11, dataGridViewTextBoxColumn12, dataGridViewTextBoxColumn13, dataGridViewTextBoxColumn14, dataGridViewTextBoxColumn15 });
+            dataGridProv.Columns.AddRange(new DataGridViewColumn[] { Id_Prov, Nombre_prov, Telefono_prov, Correo_prov, Direccion_prov });
             dataGridViewCellStyle12.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle12.BackColor = Color.FromArgb(221, 221, 221);
             dataGridViewCellStyle12.Font = new Font("Bahnschrift", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
@@ -1195,30 +1203,30 @@
             dataGridProv.Size = new Size(847, 488);
             dataGridProv.TabIndex = 38;
             // 
-            // dataGridViewTextBoxColumn11
+            // Id_Prov
             // 
-            dataGridViewTextBoxColumn11.HeaderText = "Producto";
-            dataGridViewTextBoxColumn11.Name = "dataGridViewTextBoxColumn11";
+            Id_Prov.HeaderText = "Id";
+            Id_Prov.Name = "Id_Prov";
             // 
-            // dataGridViewTextBoxColumn12
+            // Nombre_prov
             // 
-            dataGridViewTextBoxColumn12.HeaderText = "Talla";
-            dataGridViewTextBoxColumn12.Name = "dataGridViewTextBoxColumn12";
+            Nombre_prov.HeaderText = "Nombre";
+            Nombre_prov.Name = "Nombre_prov";
             // 
-            // dataGridViewTextBoxColumn13
+            // Telefono_prov
             // 
-            dataGridViewTextBoxColumn13.HeaderText = "Stock";
-            dataGridViewTextBoxColumn13.Name = "dataGridViewTextBoxColumn13";
+            Telefono_prov.HeaderText = "Teléfono";
+            Telefono_prov.Name = "Telefono_prov";
             // 
-            // dataGridViewTextBoxColumn14
+            // Correo_prov
             // 
-            dataGridViewTextBoxColumn14.HeaderText = "Categoria";
-            dataGridViewTextBoxColumn14.Name = "dataGridViewTextBoxColumn14";
+            Correo_prov.HeaderText = "Correo";
+            Correo_prov.Name = "Correo_prov";
             // 
-            // dataGridViewTextBoxColumn15
+            // Direccion_prov
             // 
-            dataGridViewTextBoxColumn15.HeaderText = "Precio Unit";
-            dataGridViewTextBoxColumn15.Name = "dataGridViewTextBoxColumn15";
+            Direccion_prov.HeaderText = "Dirección";
+            Direccion_prov.Name = "Direccion_prov";
             // 
             // btnFechasAProv
             // 
@@ -1339,7 +1347,7 @@
             tabMateriaP.ResumeLayout(false);
             tabMateriaP.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox10).EndInit();
-            ((System.ComponentModel.ISupportInitialize)dataGridMateriaP).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dataGridMP).EndInit();
             tabProveedores.ResumeLayout(false);
             tabProveedores.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox12).EndInit();
@@ -1402,12 +1410,7 @@
         private Button btnAgregarEmpleados;
         private TextBox tbBusquedaEmpleados;
         private Label label1;
-        private DataGridView dataGridMateriaP;
-        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn6;
-        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn7;
-        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn8;
-        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn9;
-        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn10;
+        private DataGridView dataGridMP;
         private Button btnFechasAMP;
         private Button btnFechasRMP;
         private Button btnEliminarMateriaP;
@@ -1415,11 +1418,6 @@
         private TextBox btnBusquedaMateriaP;
         private Label label10;
         private DataGridView dataGridProv;
-        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn11;
-        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn12;
-        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn13;
-        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn14;
-        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn15;
         private Button btnFechasAProv;
         private Button btnFechasRProv;
         private Button btnEliminarProv;
@@ -1446,5 +1444,16 @@
         private Button button3;
         private PictureBox pictureBox11;
         private PictureBox pictureBox12;
+        private DataGridViewTextBoxColumn Id_Prov;
+        private DataGridViewTextBoxColumn Nombre_prov;
+        private DataGridViewTextBoxColumn Telefono_prov;
+        private DataGridViewTextBoxColumn Correo_prov;
+        private DataGridViewTextBoxColumn Direccion_prov;
+        private DataGridViewTextBoxColumn Id_MP;
+        private DataGridViewTextBoxColumn Nombre_MP;
+        private DataGridViewTextBoxColumn Precio_MP;
+        private DataGridViewTextBoxColumn Stock_MP;
+        private DataGridViewTextBoxColumn Prov_MP;
+        private DataGridViewTextBoxColumn FechaIngMP;
     }
 }

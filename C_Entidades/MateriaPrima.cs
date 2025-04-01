@@ -8,33 +8,30 @@ namespace C_Entidades
 {
     public class MateriaPrima
     {
-        //Atributos de las Materias Primas
-        public int Id { get; set; }
+        // Propiedades
+        public int IdMateriaPrima { get; set; }
+        public int IdProveedor { get; set; }
         public string Nombre { get; set; }
-        public decimal PrecioUnitario { get; set; }
+        public decimal PrecioUnit { get; set; }
         public int Stock { get; set; }
         public DateTime FechaIngreso { get; set; }
-        public DateTime FechaActMP { get; set; }
-        public int ProveedorId { get; set; } // Clave foránea
-        public Proveedor Proveedor { get; set; } // Objeto proveedor
+        public DateTime FechaAct { get; set; }
+        public Proveedor Proveedor { get; set; }
 
-        // Constructor por defecto
-        public MateriaPrima()
-        {
-            FechaIngreso = DateTime.Now;
-            FechaActMP = DateTime.Now;
-        }
+        public MateriaPrima() { }
 
-        // Constructor con todos los atributos
-        public MateriaPrima(int id, string nombre, decimal precioUnitario, int cantidadStock, int proveedorId)
+        public MateriaPrima(int idMateriaPrima, int idProveedor, string nombre,
+                           decimal precioUnit, int stock, DateTime fechaIngreso,
+                           DateTime fechaAct, Proveedor proveedor)
         {
-            Id = id;
+            IdMateriaPrima = idMateriaPrima;
+            IdProveedor = idProveedor;
             Nombre = nombre;
-            PrecioUnitario = precioUnitario;
-            Stock = cantidadStock;
-            ProveedorId = proveedorId;
-            FechaIngreso = DateTime.Now;
-            FechaActMP = DateTime.Now;
+            PrecioUnit = precioUnit;
+            Stock = stock;
+            FechaIngreso = fechaIngreso;
+            FechaAct = fechaAct;
+            Proveedor = proveedor;
         }
     }
 }
