@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\C_Datos\C_Datos.csproj" />
     <ProjectReference Include="..\C_Entidades\C_Entidades.csproj" />
     <ProjectReference Include="..\C_Negocios\C_Negocios.csproj" />
   </ItemGroup>

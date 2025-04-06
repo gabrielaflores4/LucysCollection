@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             btnRegistrarProv = new Button();
             tbTelefonoProv = new TextBox();
             label5 = new Label();
@@ -40,7 +41,9 @@
             lblDashboard = new Label();
             pictureBox1 = new PictureBox();
             label22 = new Label();
+            errorProveedores = new ErrorProvider(components);
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)errorProveedores).BeginInit();
             SuspendLayout();
             // 
             // btnRegistrarProv
@@ -55,6 +58,7 @@
             btnRegistrarProv.Size = new Size(378, 56);
             btnRegistrarProv.TabIndex = 98;
             btnRegistrarProv.UseVisualStyleBackColor = false;
+            btnRegistrarProv.Click += btnRegistrarProv_Click;
             // 
             // tbTelefonoProv
             // 
@@ -62,6 +66,7 @@
             tbTelefonoProv.Name = "tbTelefonoProv";
             tbTelefonoProv.Size = new Size(483, 27);
             tbTelefonoProv.TabIndex = 93;
+            tbTelefonoProv.KeyPress += tbTelefonoProv_KeyPress;
             // 
             // label5
             // 
@@ -81,6 +86,7 @@
             tbCorreoProv.Name = "tbCorreoProv";
             tbCorreoProv.Size = new Size(483, 27);
             tbCorreoProv.TabIndex = 91;
+            tbCorreoProv.KeyPress += tbCorreoProv_KeyPress;
             // 
             // label4
             // 
@@ -100,6 +106,7 @@
             tbDireccionProv.Name = "tbDireccionProv";
             tbDireccionProv.Size = new Size(483, 27);
             tbDireccionProv.TabIndex = 89;
+            tbDireccionProv.KeyPress += tbDireccionProv_KeyPress;
             // 
             // label3
             // 
@@ -119,6 +126,7 @@
             tbNombreProv.Name = "tbNombreProv";
             tbNombreProv.Size = new Size(483, 27);
             tbNombreProv.TabIndex = 87;
+            tbNombreProv.KeyPress += tbNombreProv_KeyPress;
             // 
             // label1
             // 
@@ -166,6 +174,10 @@
             label22.TabIndex = 84;
             label22.Text = "Nombre";
             // 
+            // errorProveedores
+            // 
+            errorProveedores.ContainerControl = this;
+            // 
             // RegProv
             // 
             AutoScaleDimensions = new SizeF(9F, 19F);
@@ -191,6 +203,7 @@
             Text = "RegProv";
             WindowState = FormWindowState.Maximized;
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)errorProveedores).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -209,5 +222,6 @@
         private Label lblDashboard;
         private PictureBox pictureBox1;
         private Label label22;
+        private ErrorProvider errorProveedores;
     }
 }

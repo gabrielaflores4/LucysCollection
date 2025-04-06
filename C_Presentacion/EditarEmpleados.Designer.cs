@@ -112,6 +112,7 @@
             tbApellidoEmpAct.Name = "tbApellidoEmpAct";
             tbApellidoEmpAct.Size = new Size(399, 27);
             tbApellidoEmpAct.TabIndex = 62;
+            tbApellidoEmpAct.KeyPress += tbApellidoEmpAct_KeyPress;
             // 
             // label1
             // 
@@ -131,6 +132,7 @@
             tbNombreEmpAct.Name = "tbNombreEmpAct";
             tbNombreEmpAct.Size = new Size(399, 27);
             tbNombreEmpAct.TabIndex = 60;
+            tbNombreEmpAct.KeyPress += tbNombreEmpAct_KeyPress;
             // 
             // label22
             // 
@@ -172,6 +174,7 @@
             tbCorreoEmpAct.Name = "tbCorreoEmpAct";
             tbCorreoEmpAct.Size = new Size(399, 27);
             tbCorreoEmpAct.TabIndex = 71;
+            tbCorreoEmpAct.KeyPress += tbCorreoEmpAct_KeyPress;
             // 
             // tbTelefonoEmpAct
             // 
@@ -179,6 +182,7 @@
             tbTelefonoEmpAct.Name = "tbTelefonoEmpAct";
             tbTelefonoEmpAct.Size = new Size(399, 27);
             tbTelefonoEmpAct.TabIndex = 73;
+            tbTelefonoEmpAct.KeyPress += tbTelefonoEmpAct_KeyPress;
             // 
             // label5
             // 

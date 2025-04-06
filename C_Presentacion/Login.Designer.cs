@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             pictureBox1 = new PictureBox();
             pictureBox2 = new PictureBox();
             label1 = new Label();
@@ -37,8 +38,10 @@
             btnLogin = new Button();
             label3 = new Label();
             label4 = new Label();
+            errorProvider = new ErrorProvider(components);
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)errorProvider).BeginInit();
             SuspendLayout();
             // 
             // pictureBox1
@@ -95,6 +98,7 @@
             tbUsername.Name = "tbUsername";
             tbUsername.Size = new Size(404, 27);
             tbUsername.TabIndex = 3;
+            tbUsername.KeyPress += tbUsername_KeyPress;
             // 
             // tbPassword
             // 
@@ -102,6 +106,7 @@
             tbPassword.Name = "tbPassword";
             tbPassword.Size = new Size(404, 27);
             tbPassword.TabIndex = 4;
+            tbPassword.KeyPress += tbPassword_KeyPress;
             // 
             // btnLogin
             // 
@@ -141,6 +146,10 @@
             label4.TabIndex = 7;
             label4.Text = "Password";
             // 
+            // errorProvider
+            // 
+            errorProvider.ContainerControl = this;
+            // 
             // Login
             // 
             AutoScaleDimensions = new SizeF(9F, 19F);
@@ -166,6 +175,7 @@
             Load += Login_Load;
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
+            ((System.ComponentModel.ISupportInitialize)errorProvider).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -181,5 +191,6 @@
         private Button btnLogin;
         private Label label3;
         private Label label4;
+        private ErrorProvider errorProvider;
     }
 }

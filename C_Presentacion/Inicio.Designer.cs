@@ -592,10 +592,10 @@
             tabInventario.Controls.Add(btnAgregarInventario);
             tabInventario.Controls.Add(tbBusquedaInventario);
             tabInventario.Controls.Add(label22);
-            tabInventario.Location = new Point(4, 24);
+            tabInventario.Location = new Point(4, 28);
             tabInventario.Name = "tabInventario";
             tabInventario.Padding = new Padding(3);
-            tabInventario.Size = new Size(1093, 706);
+            tabInventario.Size = new Size(1093, 702);
             tabInventario.TabIndex = 1;
             tabInventario.Text = "tabPage2";
             // 
@@ -775,9 +775,9 @@
             tabEmpleados.Controls.Add(btnAgregarEmpleados);
             tabEmpleados.Controls.Add(tbBusquedaEmpleados);
             tabEmpleados.Controls.Add(label1);
-            tabEmpleados.Location = new Point(4, 24);
+            tabEmpleados.Location = new Point(4, 28);
             tabEmpleados.Name = "tabEmpleados";
-            tabEmpleados.Size = new Size(1093, 706);
+            tabEmpleados.Size = new Size(1093, 702);
             tabEmpleados.TabIndex = 2;
             tabEmpleados.Text = "tabPage1";
             // 
@@ -979,7 +979,7 @@
             // pictureBox10
             // 
             pictureBox10.Image = Properties.Resources.Search;
-            pictureBox10.Location = new Point(1009, 71);
+            pictureBox10.Location = new Point(1010, 64);
             pictureBox10.Name = "pictureBox10";
             pictureBox10.Size = new Size(44, 42);
             pictureBox10.TabIndex = 32;
@@ -1138,9 +1138,9 @@
             tabProveedores.Controls.Add(btnAgregarProv);
             tabProveedores.Controls.Add(tbBusquedaProv);
             tabProveedores.Controls.Add(label11);
-            tabProveedores.Location = new Point(4, 28);
+            tabProveedores.Location = new Point(4, 24);
             tabProveedores.Name = "tabProveedores";
-            tabProveedores.Size = new Size(1093, 702);
+            tabProveedores.Size = new Size(1093, 706);
             tabProveedores.TabIndex = 4;
             tabProveedores.Text = "tabPage1";
             // 

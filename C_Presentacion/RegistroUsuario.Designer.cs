@@ -115,6 +115,7 @@
             tbNombreUser.Name = "tbNombreUser";
             tbNombreUser.Size = new Size(483, 27);
             tbNombreUser.TabIndex = 70;
+            tbNombreUser.KeyPress += tbNombreUser_KeyPress;
             // 
             // tbApellidoUser
             // 
@@ -122,6 +123,7 @@
             tbApellidoUser.Name = "tbApellidoUser";
             tbApellidoUser.Size = new Size(483, 27);
             tbApellidoUser.TabIndex = 72;
+            tbApellidoUser.KeyPress += tbApellidoUser_KeyPress;
             // 
             // label3
             // 
@@ -141,6 +143,7 @@
             tbCorreoUser.Name = "tbCorreoUser";
             tbCorreoUser.Size = new Size(483, 27);
             tbCorreoUser.TabIndex = 74;
+            tbCorreoUser.KeyPress += tbCorreoUser_KeyPress;
             // 
             // label4
             // 
@@ -160,6 +163,7 @@
             tbTelefonoUser.Name = "tbTelefonoUser";
             tbTelefonoUser.Size = new Size(483, 27);
             tbTelefonoUser.TabIndex = 76;
+            tbTelefonoUser.KeyPress += tbTelefonoUser_KeyPress;
             // 
             // label5
             // 
@@ -179,6 +183,7 @@
             tbUsername.Name = "tbUsername";
             tbUsername.Size = new Size(483, 27);
             tbUsername.TabIndex = 78;
+            tbUsername.KeyPress += tbUsername_KeyPress;
             // 
             // label6
             // 
@@ -198,6 +203,7 @@
             tbPassword.Name = "tbPassword";
             tbPassword.Size = new Size(483, 27);
             tbPassword.TabIndex = 80;
+            tbPassword.KeyPress += tbPassword_KeyPress;
             // 
             // label7
             // 
@@ -277,6 +283,7 @@
             StartPosition = FormStartPosition.CenterScreen;
             Text = "RegistroUsuario";
             WindowState = FormWindowState.Maximized;
+            Load += RegistroUsuario_Load;
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
             PerformLayout();

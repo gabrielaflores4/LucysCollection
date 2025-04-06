@@ -9,6 +9,7 @@ using Npgsql;
 
 namespace C_Negocios
 {
+
     public class UsuarioNeg
     {
         private UsuarioDatos usuarioDatos;

@@ -143,6 +143,7 @@
             tbPrecioRegAct.Name = "tbPrecioRegAct";
             tbPrecioRegAct.Size = new Size(399, 27);
             tbPrecioRegAct.TabIndex = 46;
+            tbPrecioRegAct.KeyPress += tbPrecioRegAct_KeyPress;
             // 
             // label1
             // 
@@ -162,6 +163,7 @@
             tbNombreProdAct.Name = "tbNombreProdAct";
             tbNombreProdAct.Size = new Size(399, 27);
             tbNombreProdAct.TabIndex = 44;
+            tbNombreProdAct.KeyPress += tbNombreProdAct_KeyPress;
             // 
             // label22
             // 

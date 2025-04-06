@@ -66,5 +66,15 @@ namespace C_Presentacion
         {
             this.Close();
         }
+
+        private void tbNombreProdAct_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            Validaciones.SoloLetras(e);
+        }
+
+        private void tbPrecioRegAct_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            Validaciones.SoloNumerosDecimales(e, tbPrecioRegAct);
+        }
     }
 }

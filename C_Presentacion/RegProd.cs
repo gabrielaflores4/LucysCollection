@@ -142,5 +142,15 @@ namespace C_Presentacion
                 btnGuardarRegProd.Enabled = true;
             }
         }
+
+        private void tbNombreProdReg_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            Validaciones.SoloLetras(e);
+        }
+
+        private void tbPrecioRegProd_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            Validaciones.SoloNumerosDecimales(e, tbPrecioRegProd);  
+        }
     }
 }

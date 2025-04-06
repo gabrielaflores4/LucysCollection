@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             btnRegistraCliente = new Button();
             tbTelefonoCliente = new TextBox();
             label5 = new Label();
@@ -40,7 +41,9 @@
             lblDashboard = new Label();
             pictureBox1 = new PictureBox();
             label22 = new Label();
+            errorIconoClientes = new ErrorProvider(components);
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)errorIconoClientes).BeginInit();
             SuspendLayout();
             // 
             // btnRegistraCliente
@@ -63,6 +66,7 @@
             tbTelefonoCliente.Name = "tbTelefonoCliente";
             tbTelefonoCliente.Size = new Size(483, 23);
             tbTelefonoCliente.TabIndex = 95;
+            tbTelefonoCliente.KeyPress += tbTelefonoCliente_KeyPress;
             // 
             // label5
             // 
@@ -82,6 +86,7 @@
             tbCorreoCliente.Name = "tbCorreoCliente";
             tbCorreoCliente.Size = new Size(483, 23);
             tbCorreoCliente.TabIndex = 93;
+            tbCorreoCliente.KeyPress += tbCorreoCliente_KeyPress;
             // 
             // label4
             // 
@@ -101,6 +106,7 @@
             tbApellidoCliente.Name = "tbApellidoCliente";
             tbApellidoCliente.Size = new Size(483, 23);
             tbApellidoCliente.TabIndex = 91;
+            tbApellidoCliente.KeyPress += tbApellidoCliente_KeyPress;
             // 
             // label3
             // 
@@ -120,6 +126,7 @@
             tbNombreClien.Name = "tbNombreClien";
             tbNombreClien.Size = new Size(483, 23);
             tbNombreClien.TabIndex = 89;
+            tbNombreClien.KeyPress += tbNombreClien_KeyPress;
             // 
             // label1
             // 
@@ -167,6 +174,10 @@
             label22.TabIndex = 86;
             label22.Text = "Nombre";
             // 
+            // errorIconoClientes
+            // 
+            errorIconoClientes.ContainerControl = this;
+            // 
             // FrmRegClientes
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -190,6 +201,7 @@
             Text = "Clientes";
             WindowState = FormWindowState.Maximized;
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)errorIconoClientes).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -208,5 +220,6 @@
         private Label lblDashboard;
         private PictureBox pictureBox1;
         private Label label22;
+        private ErrorProvider errorIconoClientes;
     }
 }

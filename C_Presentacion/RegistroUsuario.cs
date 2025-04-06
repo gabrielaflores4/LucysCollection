@@ -60,5 +60,40 @@ namespace C_Presentacion
                 MessageBox.Show("Error al registrar usuario: ", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        private void RegistroUsuario_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tbNombreUser_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            Validaciones.SoloLetras(e);
+        }
+
+        private void tbApellidoUser_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            Validaciones.SoloLetras(e);
+        }
+
+        private void tbCorreoUser_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            Validaciones.ParaCorreo(e, tbCorreoUser);
+        }
+
+        private void tbTelefonoUser_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            Validaciones.ParaTelefono(e, tbTelefonoUser);
+        }
+
+        private void tbUsername_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            Validaciones.LetrasYNumeros(e);
+        }
+
+        private void tbPassword_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            Validaciones.LetrasYNumeros(e);
+        }
     }
 }

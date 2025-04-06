@@ -16,6 +16,8 @@ namespace C_Presentacion
     public partial class Login : Form
     {
         private UsuarioNeg usuarioNegocio;
+
+
         public Login()
         {
             InitializeComponent();
@@ -43,6 +45,16 @@ namespace C_Presentacion
             {
                 MessageBox.Show("Usuario o Contraseña incorrectos", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void tbUsername_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            Validaciones.LetrasYNumeros(e);
+        }
+
+        private void tbPassword_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            Validaciones.LetrasYNumeros(e);
         }
     }
 }
