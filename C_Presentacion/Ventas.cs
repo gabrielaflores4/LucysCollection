@@ -37,5 +37,11 @@ namespace C_Presentacion
         {
 
         }
+
+        private void btnReporte_Click(object sender, EventArgs e)
+        {
+            Reporte_de_ventas reporte_De_Ventas = new Reporte_de_ventas();
+            reporte_De_Ventas.Show();
+        }
     }
 }

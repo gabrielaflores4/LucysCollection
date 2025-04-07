@@ -31,6 +31,7 @@
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Ventas));
             btnCancelarRegProd = new Button();
             btnGuardarRegProd = new Button();
             btnEliminarRegProd = new Button();
@@ -55,6 +56,7 @@
             rbCliNuevo = new RadioButton();
             rbCliAntiguo = new RadioButton();
             btnFacturaVenta = new Button();
+            btnReporte = new Button();
             ((System.ComponentModel.ISupportInitialize)nbCantidad).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridVentaProducto).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
@@ -331,12 +333,27 @@
             btnFacturaVenta.TabIndex = 63;
             btnFacturaVenta.UseVisualStyleBackColor = false;
             // 
+            // btnReporte
+            // 
+            btnReporte.BackColor = Color.FromArgb(221, 221, 221);
+            btnReporte.BackgroundImage = (Image)resources.GetObject("btnReporte.BackgroundImage");
+            btnReporte.BackgroundImageLayout = ImageLayout.Zoom;
+            btnReporte.FlatStyle = FlatStyle.Flat;
+            btnReporte.ForeColor = Color.FromArgb(221, 221, 221);
+            btnReporte.Location = new Point(242, 611);
+            btnReporte.Name = "btnReporte";
+            btnReporte.Size = new Size(187, 64);
+            btnReporte.TabIndex = 64;
+            btnReporte.UseVisualStyleBackColor = false;
+            btnReporte.Click += btnReporte_Click;
+            // 
             // Ventas
             // 
             AutoScaleDimensions = new SizeF(9F, 19F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(221, 221, 221);
             ClientSize = new Size(1370, 696);
+            Controls.Add(btnReporte);
             Controls.Add(btnFacturaVenta);
             Controls.Add(rbCliAntiguo);
             Controls.Add(rbCliNuevo);
@@ -396,5 +413,6 @@
         private RadioButton rbCliNuevo;
         private RadioButton rbCliAntiguo;
         private Button btnFacturaVenta;
+        private Button btnReporte;
     }
 }
