@@ -209,5 +209,50 @@ namespace C_Datos
                 }
             }
         }
+
+        List<Producto> BuscarProductos(string texto)
+        {
+            List<Producto> lista = new List<Producto>();
+            using (NpgsqlConnection conn = Conexion.ObtenerConexion())
+            {
+                string query = @"
+            SELECT pr.id_producto, pr.nombre, pr.talla, pr.stock, pr.precio_unitario,
+                   c.nombre AS categoria, pr.fecha_ingreso
+            FROM producto pr
+            JOIN categorias c ON c.id_categoria = pr.id_categoria
+            WHERE 
+                CAST(pr.id_producto AS TEXT) ILIKE @filtro OR
+                pr.nombre ILIKE @filtro OR
+                pr.talla ILIKE @filtro OR
+                c.nombre ILIKE @filtro";
+
+                using (NpgsqlCommand cmd = new NpgsqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@filtro", "%" + texto + "%");
+
+                    using (NpgsqlDataReader dr = cmd.ExecuteReader())
+                    {
+                        while (dr.Read())
+                        {
+                            lista.Add(new Producto
+                            {
+                                Id_Prod = Convert.ToInt32(dr["id_producto"]),
+                                Nombre = dr["nombre"].ToString(),
+                                Talla = Convert.ToInt32(dr["talla"]),
+                                Stock = Convert.ToInt32(dr["stock"]),
+                                Precio = Convert.ToDecimal(dr["precio_unitario"]),
+                                FechaIngreso = Convert.ToDateTime(dr["fecha_ingreso"]),
+                                FechaAct = Convert.ToDateTime(dr["fecha_ingreso"]),
+                                Categoria = new Categoria
+                                {
+                                    Nombre = dr["categoria"].ToString()
+                                }
+                            });
+                        }
+                    }
+                }
+            }
+            return lista;
+        }
     }
 }
