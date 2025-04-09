@@ -99,7 +99,12 @@ namespace C_Negocios
             }
         }
 
+        private UsuarioDatos datos = new UsuarioDatos();
 
+        public List<Usuario> BuscarEmpleados(string texto)
+        {
+            return usuarioDatos.BuscarEmpleados(texto);
+        }
     }
 }
 

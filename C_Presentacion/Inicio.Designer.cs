@@ -28,18 +28,19 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle7 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle8 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle9 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle10 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle11 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle12 = new DataGridViewCellStyle();
+            components = new System.ComponentModel.Container();
+            DataGridViewCellStyle dataGridViewCellStyle28 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle29 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle30 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle31 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle32 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle33 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle25 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle26 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle27 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle34 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle35 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle36 = new DataGridViewCellStyle();
             pictureBox1 = new PictureBox();
             lblDashboard = new Label();
             lblNombreUsuario = new Label();
@@ -92,7 +93,7 @@
             label22 = new Label();
             tabEmpleados = new TabPage();
             button3 = new Button();
-            pictureBox11 = new PictureBox();
+            btnBuscar = new PictureBox();
             dataGridEmpleados = new DataGridView();
             Id = new DataGridViewTextBoxColumn();
             Nombre = new DataGridViewTextBoxColumn();
@@ -108,7 +109,7 @@
             label1 = new Label();
             tabMateriaP = new TabPage();
             button2 = new Button();
-            pictureBox10 = new PictureBox();
+            btnBucasrMateria = new PictureBox();
             dataGridMP = new DataGridView();
             Id_MP = new DataGridViewTextBoxColumn();
             Nombre_MP = new DataGridViewTextBoxColumn();
@@ -137,6 +138,7 @@
             btnAgregarProv = new Button();
             tbBusquedaProv = new TextBox();
             label11 = new Label();
+            busquedaTimer = new System.Windows.Forms.Timer(components);
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             tabControlInicio.SuspendLayout();
             tabInicio.SuspendLayout();
@@ -151,10 +153,10 @@
             ((System.ComponentModel.ISupportInitialize)pictureBox9).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridInventarioProducto).BeginInit();
             tabEmpleados.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox11).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)btnBuscar).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridEmpleados).BeginInit();
             tabMateriaP.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox10).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)btnBucasrMateria).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridMP).BeginInit();
             tabProveedores.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox12).BeginInit();
@@ -592,10 +594,10 @@
             tabInventario.Controls.Add(btnAgregarInventario);
             tabInventario.Controls.Add(tbBusquedaInventario);
             tabInventario.Controls.Add(label22);
-            tabInventario.Location = new Point(4, 28);
+            tabInventario.Location = new Point(4, 24);
             tabInventario.Name = "tabInventario";
             tabInventario.Padding = new Padding(3);
-            tabInventario.Size = new Size(1093, 702);
+            tabInventario.Size = new Size(1093, 706);
             tabInventario.TabIndex = 1;
             tabInventario.Text = "tabPage2";
             // 
@@ -623,32 +625,32 @@
             // 
             // dataGridInventarioProducto
             // 
-            dataGridViewCellStyle1.BackColor = Color.FromArgb(221, 221, 221);
-            dataGridViewCellStyle1.Font = new Font("Bahnschrift", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle1.ForeColor = Color.Black;
-            dataGridInventarioProducto.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle28.BackColor = Color.FromArgb(221, 221, 221);
+            dataGridViewCellStyle28.Font = new Font("Bahnschrift", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle28.ForeColor = Color.Black;
+            dataGridInventarioProducto.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle28;
             dataGridInventarioProducto.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridInventarioProducto.BackgroundColor = Color.FromArgb(221, 221, 221);
-            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.BackColor = Color.Black;
-            dataGridViewCellStyle2.Font = new Font("Bahnschrift", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle2.ForeColor = Color.White;
-            dataGridViewCellStyle2.Padding = new Padding(1);
-            dataGridViewCellStyle2.SelectionBackColor = SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionForeColor = SystemColors.Control;
-            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
-            dataGridInventarioProducto.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle29.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle29.BackColor = Color.Black;
+            dataGridViewCellStyle29.Font = new Font("Bahnschrift", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle29.ForeColor = Color.White;
+            dataGridViewCellStyle29.Padding = new Padding(1);
+            dataGridViewCellStyle29.SelectionBackColor = SystemColors.ControlText;
+            dataGridViewCellStyle29.SelectionForeColor = SystemColors.Control;
+            dataGridViewCellStyle29.WrapMode = DataGridViewTriState.True;
+            dataGridInventarioProducto.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle29;
             dataGridInventarioProducto.ColumnHeadersHeight = 40;
             dataGridInventarioProducto.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             dataGridInventarioProducto.Columns.AddRange(new DataGridViewColumn[] { Id_Prod, producto, talla, stock, categoria, precio });
-            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = Color.FromArgb(221, 221, 221);
-            dataGridViewCellStyle3.Font = new Font("Bahnschrift", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle3.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle3.SelectionBackColor = SystemColors.Desktop;
-            dataGridViewCellStyle3.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.False;
-            dataGridInventarioProducto.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle30.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle30.BackColor = Color.FromArgb(221, 221, 221);
+            dataGridViewCellStyle30.Font = new Font("Bahnschrift", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle30.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle30.SelectionBackColor = SystemColors.Desktop;
+            dataGridViewCellStyle30.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle30.WrapMode = DataGridViewTriState.False;
+            dataGridInventarioProducto.DefaultCellStyle = dataGridViewCellStyle30;
             dataGridInventarioProducto.EnableHeadersVisualStyles = false;
             dataGridInventarioProducto.GridColor = Color.FromArgb(221, 221, 221);
             dataGridInventarioProducto.Location = new Point(232, 189);
@@ -767,7 +769,7 @@
             // 
             tabEmpleados.BackColor = Color.FromArgb(212, 221, 221, 221);
             tabEmpleados.Controls.Add(button3);
-            tabEmpleados.Controls.Add(pictureBox11);
+            tabEmpleados.Controls.Add(btnBuscar);
             tabEmpleados.Controls.Add(dataGridEmpleados);
             tabEmpleados.Controls.Add(btnFechasAEmpleados);
             tabEmpleados.Controls.Add(btnFechasREmpleados);
@@ -794,43 +796,44 @@
             button3.TabIndex = 33;
             button3.UseVisualStyleBackColor = false;
             // 
-            // pictureBox11
+            // btnBuscar
             // 
-            pictureBox11.Image = Properties.Resources.Search;
-            pictureBox11.Location = new Point(1016, 71);
-            pictureBox11.Name = "pictureBox11";
-            pictureBox11.Size = new Size(44, 42);
-            pictureBox11.TabIndex = 32;
-            pictureBox11.TabStop = false;
+            btnBuscar.Image = Properties.Resources.Search;
+            btnBuscar.Location = new Point(1016, 71);
+            btnBuscar.Name = "btnBuscar";
+            btnBuscar.Size = new Size(44, 42);
+            btnBuscar.TabIndex = 32;
+            btnBuscar.TabStop = false;
+            btnBuscar.Click += btnBuscar_Click;
             // 
             // dataGridEmpleados
             // 
-            dataGridViewCellStyle4.BackColor = Color.FromArgb(221, 221, 221);
-            dataGridViewCellStyle4.Font = new Font("Bahnschrift", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle4.ForeColor = Color.Black;
-            dataGridEmpleados.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle31.BackColor = Color.FromArgb(221, 221, 221);
+            dataGridViewCellStyle31.Font = new Font("Bahnschrift", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle31.ForeColor = Color.Black;
+            dataGridEmpleados.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle31;
             dataGridEmpleados.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridEmpleados.BackgroundColor = Color.FromArgb(221, 221, 221);
-            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle5.BackColor = Color.Black;
-            dataGridViewCellStyle5.Font = new Font("Bahnschrift", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle5.ForeColor = Color.White;
-            dataGridViewCellStyle5.Padding = new Padding(1);
-            dataGridViewCellStyle5.SelectionBackColor = SystemColors.Desktop;
-            dataGridViewCellStyle5.SelectionForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle5.WrapMode = DataGridViewTriState.True;
-            dataGridEmpleados.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle32.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle32.BackColor = Color.Black;
+            dataGridViewCellStyle32.Font = new Font("Bahnschrift", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle32.ForeColor = Color.White;
+            dataGridViewCellStyle32.Padding = new Padding(1);
+            dataGridViewCellStyle32.SelectionBackColor = SystemColors.Desktop;
+            dataGridViewCellStyle32.SelectionForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle32.WrapMode = DataGridViewTriState.True;
+            dataGridEmpleados.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle32;
             dataGridEmpleados.ColumnHeadersHeight = 45;
             dataGridEmpleados.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             dataGridEmpleados.Columns.AddRange(new DataGridViewColumn[] { Id, Nombre, Apellido, Correo, Telefono, Rol });
-            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle6.BackColor = Color.FromArgb(221, 221, 221);
-            dataGridViewCellStyle6.Font = new Font("Bahnschrift", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle6.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle6.SelectionBackColor = SystemColors.Desktop;
-            dataGridViewCellStyle6.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle6.WrapMode = DataGridViewTriState.False;
-            dataGridEmpleados.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle33.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle33.BackColor = Color.FromArgb(221, 221, 221);
+            dataGridViewCellStyle33.Font = new Font("Bahnschrift", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle33.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle33.SelectionBackColor = SystemColors.Desktop;
+            dataGridViewCellStyle33.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle33.WrapMode = DataGridViewTriState.False;
+            dataGridEmpleados.DefaultCellStyle = dataGridViewCellStyle33;
             dataGridEmpleados.EnableHeadersVisualStyles = false;
             dataGridEmpleados.GridColor = Color.FromArgb(221, 221, 221);
             dataGridEmpleados.Location = new Point(232, 189);
@@ -932,6 +935,7 @@
             tbBusquedaEmpleados.Name = "tbBusquedaEmpleados";
             tbBusquedaEmpleados.Size = new Size(984, 27);
             tbBusquedaEmpleados.TabIndex = 27;
+            tbBusquedaEmpleados.TextChanged += tbBusquedaEmpleados_TextChanged;
             // 
             // label1
             // 
@@ -949,7 +953,7 @@
             // 
             tabMateriaP.BackColor = Color.FromArgb(212, 221, 221, 221);
             tabMateriaP.Controls.Add(button2);
-            tabMateriaP.Controls.Add(pictureBox10);
+            tabMateriaP.Controls.Add(btnBucasrMateria);
             tabMateriaP.Controls.Add(dataGridMP);
             tabMateriaP.Controls.Add(btnFechasAMP);
             tabMateriaP.Controls.Add(btnFechasRMP);
@@ -976,42 +980,43 @@
             button2.TabIndex = 33;
             button2.UseVisualStyleBackColor = false;
             // 
-            // pictureBox10
+            // btnBucasrMateria
             // 
-            pictureBox10.Image = Properties.Resources.Search;
-            pictureBox10.Location = new Point(1010, 64);
-            pictureBox10.Name = "pictureBox10";
-            pictureBox10.Size = new Size(44, 42);
-            pictureBox10.TabIndex = 32;
-            pictureBox10.TabStop = false;
+            btnBucasrMateria.Image = Properties.Resources.Search;
+            btnBucasrMateria.Location = new Point(1010, 64);
+            btnBucasrMateria.Name = "btnBucasrMateria";
+            btnBucasrMateria.Size = new Size(44, 42);
+            btnBucasrMateria.TabIndex = 32;
+            btnBucasrMateria.TabStop = false;
+            btnBucasrMateria.Click += btnBucasrMateria_Click;
             // 
             // dataGridMP
             // 
-            dataGridViewCellStyle7.BackColor = Color.FromArgb(221, 221, 221);
-            dataGridViewCellStyle7.Font = new Font("Bahnschrift", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle7.ForeColor = Color.Black;
-            dataGridMP.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle25.BackColor = Color.FromArgb(221, 221, 221);
+            dataGridViewCellStyle25.Font = new Font("Bahnschrift", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle25.ForeColor = Color.Black;
+            dataGridMP.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle25;
             dataGridMP.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridMP.BackgroundColor = Color.FromArgb(221, 221, 221);
-            dataGridViewCellStyle8.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle8.BackColor = Color.Black;
-            dataGridViewCellStyle8.Font = new Font("Bahnschrift", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle8.ForeColor = Color.White;
-            dataGridViewCellStyle8.Padding = new Padding(1);
-            dataGridViewCellStyle8.SelectionBackColor = SystemColors.Desktop;
-            dataGridViewCellStyle8.SelectionForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle8.WrapMode = DataGridViewTriState.True;
-            dataGridMP.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle26.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle26.BackColor = Color.Black;
+            dataGridViewCellStyle26.Font = new Font("Bahnschrift", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle26.ForeColor = Color.White;
+            dataGridViewCellStyle26.Padding = new Padding(1);
+            dataGridViewCellStyle26.SelectionBackColor = SystemColors.Desktop;
+            dataGridViewCellStyle26.SelectionForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle26.WrapMode = DataGridViewTriState.True;
+            dataGridMP.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle26;
             dataGridMP.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridMP.Columns.AddRange(new DataGridViewColumn[] { Id_MP, Nombre_MP, Precio_MP, Stock_MP, Prov_MP, FechaIngMP });
-            dataGridViewCellStyle9.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle9.BackColor = Color.FromArgb(221, 221, 221);
-            dataGridViewCellStyle9.Font = new Font("Bahnschrift", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle9.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle9.SelectionBackColor = SystemColors.Desktop;
-            dataGridViewCellStyle9.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle9.WrapMode = DataGridViewTriState.False;
-            dataGridMP.DefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle27.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle27.BackColor = Color.FromArgb(221, 221, 221);
+            dataGridViewCellStyle27.Font = new Font("Bahnschrift", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle27.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle27.SelectionBackColor = SystemColors.Desktop;
+            dataGridViewCellStyle27.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle27.WrapMode = DataGridViewTriState.False;
+            dataGridMP.DefaultCellStyle = dataGridViewCellStyle27;
             dataGridMP.EnableHeadersVisualStyles = false;
             dataGridMP.GridColor = Color.FromArgb(221, 221, 221);
             dataGridMP.Location = new Point(232, 189);
@@ -1168,31 +1173,31 @@
             // 
             // dataGridProv
             // 
-            dataGridViewCellStyle10.BackColor = Color.FromArgb(221, 221, 221);
-            dataGridViewCellStyle10.Font = new Font("Bahnschrift", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle10.ForeColor = Color.Black;
-            dataGridProv.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle10;
+            dataGridViewCellStyle34.BackColor = Color.FromArgb(221, 221, 221);
+            dataGridViewCellStyle34.Font = new Font("Bahnschrift", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle34.ForeColor = Color.Black;
+            dataGridProv.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle34;
             dataGridProv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridProv.BackgroundColor = Color.FromArgb(221, 221, 221);
-            dataGridViewCellStyle11.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle11.BackColor = Color.Black;
-            dataGridViewCellStyle11.Font = new Font("Bahnschrift", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle11.ForeColor = Color.White;
-            dataGridViewCellStyle11.Padding = new Padding(1);
-            dataGridViewCellStyle11.SelectionBackColor = SystemColors.Desktop;
-            dataGridViewCellStyle11.SelectionForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle11.WrapMode = DataGridViewTriState.True;
-            dataGridProv.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle11;
+            dataGridViewCellStyle35.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle35.BackColor = Color.Black;
+            dataGridViewCellStyle35.Font = new Font("Bahnschrift", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle35.ForeColor = Color.White;
+            dataGridViewCellStyle35.Padding = new Padding(1);
+            dataGridViewCellStyle35.SelectionBackColor = SystemColors.Desktop;
+            dataGridViewCellStyle35.SelectionForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle35.WrapMode = DataGridViewTriState.True;
+            dataGridProv.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle35;
             dataGridProv.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridProv.Columns.AddRange(new DataGridViewColumn[] { Id_Prov, Nombre_prov, Telefono_prov, Correo_prov, Direccion_prov });
-            dataGridViewCellStyle12.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle12.BackColor = Color.FromArgb(221, 221, 221);
-            dataGridViewCellStyle12.Font = new Font("Bahnschrift", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle12.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle12.SelectionBackColor = SystemColors.Desktop;
-            dataGridViewCellStyle12.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle12.WrapMode = DataGridViewTriState.False;
-            dataGridProv.DefaultCellStyle = dataGridViewCellStyle12;
+            dataGridViewCellStyle36.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle36.BackColor = Color.FromArgb(221, 221, 221);
+            dataGridViewCellStyle36.Font = new Font("Bahnschrift", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle36.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle36.SelectionBackColor = SystemColors.Desktop;
+            dataGridViewCellStyle36.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle36.WrapMode = DataGridViewTriState.False;
+            dataGridProv.DefaultCellStyle = dataGridViewCellStyle36;
             dataGridProv.EnableHeadersVisualStyles = false;
             dataGridProv.GridColor = Color.FromArgb(221, 221, 221);
             dataGridProv.Location = new Point(232, 189);
@@ -1300,6 +1305,11 @@
             label11.TabIndex = 33;
             label11.Text = "Proveedores";
             // 
+            // busquedaTimer
+            // 
+            busquedaTimer.Interval = 500;
+            busquedaTimer.Tick += busquedaTimer_Tick;
+            // 
             // Inicio
             // 
             AutoScaleDimensions = new SizeF(9F, 19F);
@@ -1342,11 +1352,11 @@
             ((System.ComponentModel.ISupportInitialize)dataGridInventarioProducto).EndInit();
             tabEmpleados.ResumeLayout(false);
             tabEmpleados.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox11).EndInit();
+            ((System.ComponentModel.ISupportInitialize)btnBuscar).EndInit();
             ((System.ComponentModel.ISupportInitialize)dataGridEmpleados).EndInit();
             tabMateriaP.ResumeLayout(false);
             tabMateriaP.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox10).EndInit();
+            ((System.ComponentModel.ISupportInitialize)btnBucasrMateria).EndInit();
             ((System.ComponentModel.ISupportInitialize)dataGridMP).EndInit();
             tabProveedores.ResumeLayout(false);
             tabProveedores.PerformLayout();
@@ -1440,9 +1450,9 @@
         private DataGridViewTextBoxColumn Telefono;
         private DataGridViewTextBoxColumn Rol;
         private Button button2;
-        private PictureBox pictureBox10;
+        private PictureBox btnBucasrMateria;
         private Button button3;
-        private PictureBox pictureBox11;
+        private PictureBox btnBuscar;
         private PictureBox pictureBox12;
         private DataGridViewTextBoxColumn Id_Prov;
         private DataGridViewTextBoxColumn Nombre_prov;
@@ -1455,5 +1465,6 @@
         private DataGridViewTextBoxColumn Stock_MP;
         private DataGridViewTextBoxColumn Prov_MP;
         private DataGridViewTextBoxColumn FechaIngMP;
+        private System.Windows.Forms.Timer busquedaTimer;
     }
 }

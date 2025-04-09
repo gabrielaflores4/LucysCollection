@@ -416,5 +416,83 @@ namespace C_Presentacion
         {
 
         }
+
+        private void tbBusquedaEmpleados_TextChanged(object sender, EventArgs e)
+        {
+            busquedaTimer.Stop();
+            busquedaTimer.Start();
+        }
+
+        private void btnBuscar_Click(object sender, EventArgs e)
+        {
+            string filtro = tbBusquedaEmpleados.Text.Trim();
+            var empleados = usuarioNeg.BuscarEmpleados(filtro);
+
+            var columnas = new Dictionary<string, string>
+            {
+                { "IdUsuario", "ID" },
+                { "Nombre", "Nombre" },
+                { "Apellido", "Apellido" },
+                { "Correo", "Correo" },
+                { "Telefono", "Teléfono" },
+                { "Rol", "Rol" }
+
+            };
+
+            // Filtrar los empleados según el texto de búsqueda
+            var usuarios = usuarioNeg.BuscarEmpleados(filtro);
+
+            var datosParaMostrar = empleados.Select(u => new
+            {
+                IdUsuario = u.IdUsuario,
+                Nombre = u.Nombre,
+                Apellido = u.Apellido,
+                Correo = u.Correo,
+                Telefono = u.Telefono,
+                Rol = u.Rol
+
+            }).ToList();
+
+            ConfigurarDataGrid(dataGridEmpleados, datosParaMostrar, columnas);
+        }
+
+
+
+        private void busquedaTimer_Tick(object sender, EventArgs e)
+        {
+            busquedaTimer.Stop();
+
+            string filtro = tbBusquedaEmpleados.Text.Trim();
+            var empleados = usuarioNeg.BuscarEmpleados(filtro);
+
+            var columnas = new Dictionary<string, string>
+        {
+            { "IdUsuario", "ID" },
+            { "Nombre", "Nombre" },
+            { "Apellido", "Apellido" },
+            { "Correo", "Correo" },
+            { "Telefono", "Teléfono" },
+            { "Rol", "Rol" }
+        };
+
+            var datosParaMostrar = empleados.Select(u => new
+            {
+                IdUsuario = u.IdUsuario,
+                Nombre = u.Nombre,
+                Apellido = u.Apellido,
+                Correo = u.Correo,
+                Telefono = u.Telefono,
+                Rol = u.Rol
+
+            }).ToList();
+
+            ConfigurarDataGrid(dataGridEmpleados, datosParaMostrar, columnas);
+
+        }
+
+        private void btnBucasrMateria_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

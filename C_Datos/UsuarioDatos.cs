@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using C_Entidades;
+using C_Datos;
 
 namespace C_Datos
 {
@@ -150,6 +151,45 @@ namespace C_Datos
                     }
                 }
             }
+        }
+
+        public List<Usuario> BuscarEmpleados(string texto)
+        {
+            List<Usuario> lista = new List<Usuario>();
+            using (NpgsqlConnection conn = Conexion.ObtenerConexion())
+            {
+                string query = @"SELECT e.id_usuario, p.nombre, p.apellido, p.correo, p.telefono, e.rol
+                         FROM usuarios e
+                         JOIN personas p ON p.id_persona = e.id_persona
+                         WHERE 
+                            CAST(e.id_usuario AS TEXT) ILIKE @filtro OR
+                            p.nombre ILIKE @filtro OR
+                            p.apellido ILIKE @filtro OR
+                            p.correo ILIKE @filtro OR
+                            p.telefono ILIKE @filtro OR
+                            e.rol ILIKE @filtro";
+
+                using (NpgsqlCommand cmd = new NpgsqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@filtro", "%" + texto + "%");
+                    using (NpgsqlDataReader dr = cmd.ExecuteReader())
+                    {
+                        while (dr.Read())
+                        {
+                            lista.Add(new Usuario
+                            {
+                                IdUsuario = Convert.ToInt32(dr[0]),
+                                Nombre = dr[1].ToString(),
+                                Apellido = dr[2].ToString(),
+                                Correo = dr[3].ToString(),
+                                Telefono = dr[4].ToString(),
+                                Rol = dr[5].ToString()
+                            });
+                        }
+                    }
+                }
+            }
+            return lista;
         }
     }
 }
