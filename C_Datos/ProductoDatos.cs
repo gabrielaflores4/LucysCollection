@@ -225,5 +225,64 @@ namespace C_Datos
             }
             return nombresProductos;
         }
+
+        public List<int> ObtenerTallasDisponibles()
+        {
+            var tallas = new List<int>();
+            using (var conexion = Conexion.ObtenerConexion())
+            {
+                using (var cmd = new NpgsqlCommand(
+                    "SELECT DISTINCT talla FROM producto ORDER BY talla", conexion))
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        tallas.Add(reader.GetInt32(0));
+                    }
+                }
+            }
+            return tallas;
+        }
+
+        public List<int> ObtenerTallasPorProducto(int idProducto)
+        {
+            var tallas = new List<int>();
+            using (var conexion = Conexion.ObtenerConexion())
+            {
+                using (var cmd = new NpgsqlCommand(
+                    "SELECT DISTINCT talla FROM Producto WHERE nombre_prod = " +
+                    "(SELECT nombre_prod FROM Producto WHERE id_producto = @idProducto) " +
+                    "ORDER BY talla", conexion))
+                {
+                    cmd.Parameters.AddWithValue("@idProducto", idProducto);
+
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            tallas.Add(reader.GetInt32(0));
+                        }
+                    }
+                }
+            }
+            return tallas;
+        }
+
+        public bool ActualizarStock(int productoId, int cantidadModificada)
+        {
+            using (var conexion = Conexion.ObtenerConexion())
+            {
+                using (var cmd = new NpgsqlCommand(
+                    "UPDATE Producto SET stock = stock + @cantidad, fecha_act = NOW() " +
+                    "WHERE id_producto = @productoId", conexion))
+                {
+                    cmd.Parameters.AddWithValue("@productoId", productoId);
+                    cmd.Parameters.AddWithValue("@cantidad", cantidadModificada);
+
+                    return cmd.ExecuteNonQuery() > 0;
+                }
+            }
+        }
+
     }
 }

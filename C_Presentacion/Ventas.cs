@@ -111,7 +111,7 @@ namespace C_Presentacion
 
                 cbProductos.DataSource = productos;
                 cbProductos.DisplayMember = "Nombre";  // Mostrar el nombre del producto
-                cbProductos.ValueMember = "Id_Prod";       // Usar el ID del producto como valor asociado
+                cbProductos.ValueMember = "Id_Prod";   // Usar el ID del producto como valor asociado
             }
             catch (Exception ex)
             {
@@ -123,8 +123,11 @@ namespace C_Presentacion
             try
             {
                 List<int> tallas = productoNeg.ObtenerTallasDisponibles();
-                cbTallasRegProd.DataSource = tallas; // Asigna directamente la lista de enteros
-                cbTallasRegProd.SelectedIndex = -1; // Opcional: Inicia sin selección
+                var tallasUnicas = tallas.Distinct().ToList();
+
+                cbTallasRegProd.DataSource = null;
+                cbTallasRegProd.DataSource = tallasUnicas;
+                cbTallasRegProd.SelectedIndex = -1;
             }
             catch (Exception ex)
             {

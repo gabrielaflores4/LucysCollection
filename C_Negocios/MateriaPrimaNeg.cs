@@ -55,10 +55,10 @@ namespace C_Negocios
                 throw new ArgumentException("Stock no puede ser negativo");
         }
 
-
+        /*
         public List<Usuario> BuscarEmpleados(string texto)
         {
             return MateriaPrimaDatos.BuscarMateriaPrima(texto);
-        }
+        }*/
     }
 }
