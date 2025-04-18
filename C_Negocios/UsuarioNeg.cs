@@ -96,5 +96,11 @@ namespace C_Negocios
                 }
             }
         }
+
+
+        public List<Usuario> BuscarEmpleados(string texto)
+        {
+            return usuarioDatos.BuscarEmpleados(texto);
+        }
     }
 }
