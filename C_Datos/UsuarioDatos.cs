@@ -11,20 +11,35 @@ namespace C_Datos
     public class UsuarioDatos
     {
         // Método para verificar login con nombre de username y password
-        public bool VerificarLogin(string username, string password)
+        public Usuario VerificarLogin(string username, string password)
         {
             using (var conexion = Conexion.ObtenerConexion())
             {
                 using (var cmd = new NpgsqlCommand(
-                    "SELECT COUNT(1) FROM usuarios WHERE username = @username AND password = @password",
+                    @"SELECT u.id_usuario, p.nombre, p.apellido, u.rol
+                      FROM Usuarios u
+                      INNER JOIN Personas p ON u.id_persona = p.id_persona
+                      WHERE u.username = @username AND u.password = @password",
                     conexion))
                 {
-                    cmd.Parameters.AddWithValue("@username", username);  // Buscar por username
-                    cmd.Parameters.AddWithValue("@password", password);  // Verificar password
+                    cmd.Parameters.AddWithValue("@username", username);
+                    cmd.Parameters.AddWithValue("@password", password);
 
-                    return Convert.ToInt32(cmd.ExecuteScalar()) == 1;  // Retorna true si el username y password son correctos
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            return new Usuario(
+                                reader.GetInt32(reader.GetOrdinal("id_usuario")),  // id_usuario
+                                reader.GetString(reader.GetOrdinal("nombre")),    // nombre
+                                reader.GetString(reader.GetOrdinal("apellido")),  // apellido
+                                reader.GetString(reader.GetOrdinal("rol"))        // rol
+                            );
+                        }
+                    }
                 }
             }
+            return null;  // Si las credenciales son incorrectas o no se encuentra el usuario
         }
 
         // Método para crear un usuario
@@ -106,6 +121,7 @@ namespace C_Datos
             }
             return usuarios;
         }
+
         public bool EliminarUsuario(int idUsuario)
         {
             using (var conexion = Conexion.ObtenerConexion())

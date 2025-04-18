@@ -174,7 +174,6 @@ namespace C_Datos
             return productos;
         }
 
-
         // Método para actualizar un producto
         public bool ActualizarProducto(int id, string nombre, int talla, decimal precio, int stock, int categoriaId)
         {
@@ -209,5 +208,81 @@ namespace C_Datos
                 }
             }
         }
+        public List<string> ObtenerNombresProductos()
+        {
+            var nombresProductos = new List<string>();
+            using (var conexion = Conexion.ObtenerConexion())
+            {
+                using (var cmd = new NpgsqlCommand("SELECT nombre_prod FROM Producto", conexion))
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        var nombre = reader.GetString(reader.GetOrdinal("nombre_prod"));
+                        nombresProductos.Add(nombre);
+                    }
+                }
+            }
+            return nombresProductos;
+        }
+
+        public List<int> ObtenerTallasDisponibles()
+        {
+            List<int> tallas = new List<int>();
+            using (var conexion = Conexion.ObtenerConexion())
+            {
+                string query = "SELECT DISTINCT talla FROM Producto WHERE stock > 0 ORDER BY talla";
+                using (var cmd = new NpgsqlCommand(query, conexion))
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        tallas.Add(reader.GetInt32(0));
+                    }
+                }
+            }
+            return tallas;
+        }
+
+        public List<int> ObtenerTallasPorProducto(int idProducto)
+        {
+            List<int> tallas = new List<int>();
+            using (var conexion = Conexion.ObtenerConexion())
+            {
+                string query = "SELECT talla FROM Producto WHERE id_producto = @idProducto AND stock > 0";
+                using (var cmd = new NpgsqlCommand(query, conexion))
+                {
+                    cmd.Parameters.AddWithValue("@idProducto", idProducto);
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            tallas.Add(reader.GetInt32(0));
+                        }
+                    }
+                }
+            }
+            return tallas;
+        }
+
+        public bool ActualizarStock(int idProducto, int cantidadModificacion)
+        {
+            using (var conexion = Conexion.ObtenerConexion())
+            {
+                using (var cmd = new NpgsqlCommand(
+                    @"UPDATE producto 
+              SET stock = stock + @cantidad, 
+                  fecha_act = NOW() 
+              WHERE id_producto = @id",
+                    conexion))
+                {
+                    cmd.Parameters.AddWithValue("@id", idProducto);
+                    cmd.Parameters.AddWithValue("@cantidad", cantidadModificacion);
+
+                    return cmd.ExecuteNonQuery() > 0;
+                }
+            }
+        }
+
     }
 }

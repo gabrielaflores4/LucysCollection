@@ -24,12 +24,9 @@ namespace C_Negocios
         }
 
         // Método para verificar el login de un usuario
-        public bool VerificarLogin(string usuario, string contraseña)
+        public Usuario VerificarLogin(string usuario, string contraseña)
         {
-            // Hash de la contraseña proporcionada
             string passwordHash = hash.HashContraseña(contraseña);
-
-            // Llamar a la clase de datos para verificar el login
             return usuarioDatos.VerificarLogin(usuario, passwordHash);
         }
 
@@ -52,6 +49,7 @@ namespace C_Negocios
         {
             return usuarioDatos.EliminarUsuario(id);
         }
+
 
         public bool ActualizarEmpleado(int id, string nombre, string apellido, string correo, string telefono, string rol)
         {
@@ -98,9 +96,5 @@ namespace C_Negocios
                 }
             }
         }
-
-
     }
 }
-
-

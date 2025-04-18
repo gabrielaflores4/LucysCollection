@@ -19,11 +19,12 @@ namespace C_Entidades
         public Usuario(){}
 
         // Constructor con parámetros (Llama al constructor de la clase heredada)
-        public Usuario(int id, string nombre, string apellido, string telefono, string email, string username, string password, string rol)
-            : base(id, nombre, apellido, telefono, email)
+        public Usuario(int idUsuario, string nombre, string apellido, string rol)
+            : base(idUsuario, nombre, apellido, "", "") // Pasamos id, nombre, apellido y dejamos vacíos teléfono y correo
         {
-            Username = username;
-            Password = password;
+            IdUsuario = idUsuario;
+            Nombre = nombre;
+            Apellido = apellido;
             Rol = rol;
         }
 

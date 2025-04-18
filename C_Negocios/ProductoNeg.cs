@@ -35,9 +35,13 @@ namespace C_Negocios
             }
         }
 
+        public List<string> ObtenerNombresProductos()
+        {
+            return productoDatos.ObtenerNombresProductos();
+        }
         public int ObtenerCategoriaIdPorNombre(string nombre)
         {
-            return categoriaDatos.ObtenerIdPorNombre(nombre); // Aquí llamas a un método de la capa de datos
+            return categoriaDatos.ObtenerIdPorNombre(nombre);
         }
 
         // Método para obtener todos los productos
@@ -66,5 +70,54 @@ namespace C_Negocios
             }
             return productoDatos.EliminarProducto(id);
         }
+
+        public List<int> ObtenerTallasDisponibles()
+        {
+            return productoDatos.ObtenerTallasDisponibles();
+        }
+
+        public List<int> ObtenerTallasPorProducto(int idProducto)
+        {
+            return productoDatos.ObtenerTallasPorProducto(idProducto);
+        }
+
+        public bool ActualizarStock(int productoId, int cantidadModificada)
+        {
+            try
+            {
+                // Validación básica
+                if (productoId <= 0)
+                {
+                    throw new ArgumentException("ID de producto inválido");
+                }
+
+                // Verificar que no estamos intentando quitar más stock del disponible
+                if (cantidadModificada < 0)
+                {
+                    var producto = productoDatos.ObtenerProductos()
+                                    .FirstOrDefault(p => p.Id_Prod == productoId);
+
+                    if (producto != null && Math.Abs(cantidadModificada) > producto.Stock)
+                    {
+                        throw new InvalidOperationException(
+                            $"No hay suficiente stock. Stock actual: {producto.Stock}, intentando quitar: {Math.Abs(cantidadModificada)}");
+                    }
+                }
+
+                return productoDatos.ActualizarStock(productoId, cantidadModificada);
+            }
+            catch (Exception ex)
+            {
+                // Podrías loggear el error aquí
+                throw new Exception($"Error al actualizar stock: {ex.Message}", ex);
+            }
+        }
+
+        public List<Producto> ObtenerProductosConStock()
+        {
+            return productoDatos.ObtenerProductos().Where(p => p.Stock > 0).ToList();
+        }
+
+
     }
 }

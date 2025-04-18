@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using C_Entidades;
 using C_Negocios;
 
 
@@ -27,6 +28,12 @@ namespace C_Presentacion
         private void Inicio_Load(object sender, EventArgs e)
         {
 
+        }
+
+        public void ActualizarInfoUsuario(Usuario usuario)
+        {
+            lblNombreUsuario.Text = usuario.Nombre + " " + usuario.Apellido;
+            lblRolUser.Text = usuario.Rol;
         }
 
         private void ConfigurarDataGrid(DataGridView dataGrid, object data, Dictionary<string, string> columnas)
@@ -383,7 +390,16 @@ namespace C_Presentacion
 
         private void btnLogout_Click(object sender, EventArgs e)
         {
-            this.Close();
+            if (MessageBox.Show("¿Desea cerrar sesión?", "Cerrar sesión", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                this.Close();
+                Login frmLogin = new Login();
+                frmLogin.Show();
+            }
+            else { 
+                
+            }
+           
         }
 
         private void btnEliminarMateriaP_Click(object sender, EventArgs e)

@@ -28,10 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Ventas));
+            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
             btnCancelarRegProd = new Button();
             btnGuardarRegProd = new Button();
             btnEliminarRegProd = new Button();
@@ -41,15 +40,15 @@
             nbCantidad = new NumericUpDown();
             cbTallasRegProd = new ComboBox();
             label22 = new Label();
-            precio = new DataGridViewTextBoxColumn();
-            categoria = new DataGridViewTextBoxColumn();
-            stock = new DataGridViewTextBoxColumn();
-            talla = new DataGridViewTextBoxColumn();
-            producto = new DataGridViewTextBoxColumn();
             dataGridVentaProducto = new DataGridView();
+            id_prod = new DataGridViewTextBoxColumn();
+            producto = new DataGridViewTextBoxColumn();
+            talla = new DataGridViewTextBoxColumn();
+            cantidad = new DataGridViewTextBoxColumn();
+            precioUnit = new DataGridViewTextBoxColumn();
+            subtotal = new DataGridViewTextBoxColumn();
             lblDashboard = new Label();
             pictureBox1 = new PictureBox();
-            label5 = new Label();
             lblTotalVenta = new Label();
             cbProductos = new ComboBox();
             label1 = new Label();
@@ -57,6 +56,8 @@
             rbCliAntiguo = new RadioButton();
             btnFacturaVenta = new Button();
             btnReporte = new Button();
+            cbClientes = new ComboBox();
+            lblStockDisponible = new Label();
             ((System.ComponentModel.ISupportInitialize)nbCantidad).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridVentaProducto).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
@@ -87,6 +88,7 @@
             btnGuardarRegProd.Size = new Size(186, 64);
             btnGuardarRegProd.TabIndex = 55;
             btnGuardarRegProd.UseVisualStyleBackColor = false;
+            btnGuardarRegProd.Click += btnGuardarRegProd_Click;
             // 
             // btnEliminarRegProd
             // 
@@ -95,11 +97,12 @@
             btnEliminarRegProd.BackgroundImageLayout = ImageLayout.Zoom;
             btnEliminarRegProd.FlatStyle = FlatStyle.Flat;
             btnEliminarRegProd.ForeColor = Color.FromArgb(221, 221, 221);
-            btnEliminarRegProd.Location = new Point(24, 309);
+            btnEliminarRegProd.Location = new Point(24, 327);
             btnEliminarRegProd.Name = "btnEliminarRegProd";
             btnEliminarRegProd.Size = new Size(161, 64);
             btnEliminarRegProd.TabIndex = 54;
             btnEliminarRegProd.UseVisualStyleBackColor = false;
+            btnEliminarRegProd.Click += btnEliminarRegProd_Click;
             // 
             // btnAgregarRegProd
             // 
@@ -108,11 +111,12 @@
             btnAgregarRegProd.BackgroundImageLayout = ImageLayout.Zoom;
             btnAgregarRegProd.FlatStyle = FlatStyle.Flat;
             btnAgregarRegProd.ForeColor = Color.FromArgb(221, 221, 221);
-            btnAgregarRegProd.Location = new Point(213, 309);
+            btnAgregarRegProd.Location = new Point(213, 327);
             btnAgregarRegProd.Name = "btnAgregarRegProd";
             btnAgregarRegProd.Size = new Size(162, 64);
             btnAgregarRegProd.TabIndex = 53;
             btnAgregarRegProd.UseVisualStyleBackColor = false;
+            btnAgregarRegProd.Click += btnAgregarRegProd_Click;
             // 
             // label4
             // 
@@ -120,7 +124,7 @@
             label4.BackColor = Color.FromArgb(221, 221, 221);
             label4.Font = new Font("Bahnschrift", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label4.ForeColor = SystemColors.ControlText;
-            label4.Location = new Point(213, 208);
+            label4.Location = new Point(213, 226);
             label4.Name = "label4";
             label4.Size = new Size(93, 25);
             label4.TabIndex = 52;
@@ -132,7 +136,7 @@
             label3.BackColor = Color.FromArgb(221, 221, 221);
             label3.Font = new Font("Bahnschrift", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label3.ForeColor = SystemColors.ControlText;
-            label3.Location = new Point(24, 209);
+            label3.Location = new Point(24, 227);
             label3.Name = "label3";
             label3.Size = new Size(55, 25);
             label3.TabIndex = 51;
@@ -140,7 +144,7 @@
             // 
             // nbCantidad
             // 
-            nbCantidad.Location = new Point(213, 252);
+            nbCantidad.Location = new Point(213, 270);
             nbCantidad.Name = "nbCantidad";
             nbCantidad.Size = new Size(162, 27);
             nbCantidad.TabIndex = 50;
@@ -148,7 +152,8 @@
             // cbTallasRegProd
             // 
             cbTallasRegProd.FormattingEnabled = true;
-            cbTallasRegProd.Location = new Point(28, 251);
+            cbTallasRegProd.Items.AddRange(new object[] { "5", "6", "7", "8", "9" });
+            cbTallasRegProd.Location = new Point(28, 269);
             cbTallasRegProd.Name = "cbTallasRegProd";
             cbTallasRegProd.Size = new Size(162, 27);
             cbTallasRegProd.TabIndex = 49;
@@ -159,73 +164,79 @@
             label22.BackColor = Color.FromArgb(221, 221, 221);
             label22.Font = new Font("Bahnschrift", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label22.ForeColor = SystemColors.ControlText;
-            label22.Location = new Point(24, 107);
+            label22.Location = new Point(24, 108);
             label22.Name = "label22";
             label22.Size = new Size(87, 25);
             label22.TabIndex = 43;
             label22.Text = "Nombre";
             // 
-            // precio
+            // dataGridVentaProducto
             // 
-            precio.HeaderText = "Precio Unit";
-            precio.Name = "precio";
+            dataGridViewCellStyle4.BackColor = Color.FromArgb(221, 221, 221);
+            dataGridViewCellStyle4.Font = new Font("Bahnschrift", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle4.ForeColor = Color.Black;
+            dataGridVentaProducto.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridVentaProducto.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dataGridVentaProducto.BackgroundColor = Color.FromArgb(221, 221, 221);
+            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle5.BackColor = Color.Black;
+            dataGridViewCellStyle5.Font = new Font("Bahnschrift", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle5.ForeColor = Color.White;
+            dataGridViewCellStyle5.Padding = new Padding(1);
+            dataGridViewCellStyle5.SelectionBackColor = SystemColors.Desktop;
+            dataGridViewCellStyle5.SelectionForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle5.WrapMode = DataGridViewTriState.True;
+            dataGridVentaProducto.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
+            dataGridVentaProducto.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridVentaProducto.Columns.AddRange(new DataGridViewColumn[] { id_prod, producto, talla, cantidad, precioUnit, subtotal });
+            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = Color.FromArgb(221, 221, 221);
+            dataGridViewCellStyle6.Font = new Font("Bahnschrift", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle6.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle6.SelectionBackColor = SystemColors.Desktop;
+            dataGridViewCellStyle6.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle6.WrapMode = DataGridViewTriState.False;
+            dataGridVentaProducto.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridVentaProducto.EnableHeadersVisualStyles = false;
+            dataGridVentaProducto.GridColor = Color.FromArgb(221, 221, 221);
+            dataGridVentaProducto.Location = new Point(405, 92);
+            dataGridVentaProducto.MultiSelect = false;
+            dataGridVentaProducto.Name = "dataGridVentaProducto";
+            dataGridVentaProducto.RowHeadersVisible = false;
+            dataGridVentaProducto.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+            dataGridVentaProducto.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dataGridVentaProducto.Size = new Size(941, 382);
+            dataGridVentaProducto.TabIndex = 42;
             // 
-            // categoria
+            // id_prod
             // 
-            categoria.HeaderText = "Categoria";
-            categoria.Name = "categoria";
-            // 
-            // stock
-            // 
-            stock.HeaderText = "Stock";
-            stock.Name = "stock";
-            // 
-            // talla
-            // 
-            talla.HeaderText = "Talla";
-            talla.Name = "talla";
+            id_prod.HeaderText = "ID";
+            id_prod.Name = "id_prod";
             // 
             // producto
             // 
             producto.HeaderText = "Producto";
             producto.Name = "producto";
             // 
-            // dataGridVentaProducto
+            // talla
             // 
-            dataGridViewCellStyle1.BackColor = Color.Black;
-            dataGridViewCellStyle1.Font = new Font("Bahnschrift Condensed", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle1.ForeColor = Color.White;
-            dataGridVentaProducto.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
-            dataGridVentaProducto.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dataGridVentaProducto.BackgroundColor = Color.FromArgb(221, 221, 221);
-            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.BackColor = Color.Black;
-            dataGridViewCellStyle2.Font = new Font("Bahnschrift", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle2.ForeColor = Color.White;
-            dataGridViewCellStyle2.Padding = new Padding(1);
-            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Desktop;
-            dataGridViewCellStyle2.SelectionForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
-            dataGridVentaProducto.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
-            dataGridVentaProducto.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridVentaProducto.Columns.AddRange(new DataGridViewColumn[] { producto, talla, stock, categoria, precio });
-            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = Color.FromArgb(221, 221, 221);
-            dataGridViewCellStyle3.Font = new Font("Bahnschrift", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle3.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle3.SelectionBackColor = SystemColors.Desktop;
-            dataGridViewCellStyle3.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.False;
-            dataGridVentaProducto.DefaultCellStyle = dataGridViewCellStyle3;
-            dataGridVentaProducto.EnableHeadersVisualStyles = false;
-            dataGridVentaProducto.GridColor = Color.FromArgb(221, 221, 221);
-            dataGridVentaProducto.Location = new Point(405, 92);
-            dataGridVentaProducto.Name = "dataGridVentaProducto";
-            dataGridVentaProducto.RowHeadersVisible = false;
-            dataGridVentaProducto.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
-            dataGridVentaProducto.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dataGridVentaProducto.Size = new Size(941, 382);
-            dataGridVentaProducto.TabIndex = 42;
+            talla.HeaderText = "Talla";
+            talla.Name = "talla";
+            // 
+            // cantidad
+            // 
+            cantidad.HeaderText = "Cantidad";
+            cantidad.Name = "cantidad";
+            // 
+            // precioUnit
+            // 
+            precioUnit.HeaderText = "Precio Unit";
+            precioUnit.Name = "precioUnit";
+            // 
+            // subtotal
+            // 
+            subtotal.HeaderText = "SubTotal";
+            subtotal.Name = "subtotal";
             // 
             // lblDashboard
             // 
@@ -238,7 +249,6 @@
             lblDashboard.Size = new Size(96, 33);
             lblDashboard.TabIndex = 41;
             lblDashboard.Text = "Ventas";
-            lblDashboard.Click += lblDashboard_Click;
             // 
             // pictureBox1
             // 
@@ -250,37 +260,26 @@
             pictureBox1.TabIndex = 40;
             pictureBox1.TabStop = false;
             // 
-            // label5
-            // 
-            label5.AutoSize = true;
-            label5.BackColor = Color.FromArgb(221, 221, 221);
-            label5.Font = new Font("Bahnschrift SemiBold", 20.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label5.ForeColor = SystemColors.ControlText;
-            label5.Location = new Point(1145, 536);
-            label5.Name = "label5";
-            label5.Size = new Size(118, 33);
-            label5.TabIndex = 57;
-            label5.Text = "TOTAL: $";
-            // 
             // lblTotalVenta
             // 
             lblTotalVenta.AutoSize = true;
             lblTotalVenta.BackColor = Color.FromArgb(221, 221, 221);
             lblTotalVenta.Font = new Font("Bahnschrift SemiBold", 20.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lblTotalVenta.ForeColor = SystemColors.ControlText;
-            lblTotalVenta.Location = new Point(1253, 536);
+            lblTotalVenta.Location = new Point(947, 534);
             lblTotalVenta.Name = "lblTotalVenta";
-            lblTotalVenta.Size = new Size(30, 33);
+            lblTotalVenta.Size = new Size(116, 33);
             lblTotalVenta.TabIndex = 58;
-            lblTotalVenta.Text = "0";
+            lblTotalVenta.Text = "Total: $0";
             // 
             // cbProductos
             // 
             cbProductos.FormattingEnabled = true;
-            cbProductos.Location = new Point(29, 146);
+            cbProductos.Location = new Point(29, 170);
             cbProductos.Name = "cbProductos";
             cbProductos.Size = new Size(347, 27);
             cbProductos.TabIndex = 59;
+            cbProductos.SelectedIndexChanged += cbProductos_SelectedIndexChanged;
             // 
             // label1
             // 
@@ -288,7 +287,7 @@
             label1.BackColor = Color.FromArgb(221, 221, 221);
             label1.Font = new Font("Bahnschrift", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label1.ForeColor = SystemColors.ControlText;
-            label1.Location = new Point(24, 425);
+            label1.Location = new Point(24, 422);
             label1.Name = "label1";
             label1.Size = new Size(77, 25);
             label1.TabIndex = 60;
@@ -298,7 +297,7 @@
             // 
             rbCliNuevo.AutoSize = true;
             rbCliNuevo.Font = new Font("Bahnschrift", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            rbCliNuevo.Location = new Point(29, 473);
+            rbCliNuevo.Location = new Point(29, 470);
             rbCliNuevo.Name = "rbCliNuevo";
             rbCliNuevo.Size = new Size(82, 27);
             rbCliNuevo.TabIndex = 61;
@@ -311,7 +310,7 @@
             // 
             rbCliAntiguo.AutoSize = true;
             rbCliAntiguo.Font = new Font("Bahnschrift", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            rbCliAntiguo.Location = new Point(213, 473);
+            rbCliAntiguo.Location = new Point(213, 470);
             rbCliAntiguo.Name = "rbCliAntiguo";
             rbCliAntiguo.Size = new Size(93, 27);
             rbCliAntiguo.TabIndex = 62;
@@ -336,16 +335,36 @@
             // btnReporte
             // 
             btnReporte.BackColor = Color.FromArgb(221, 221, 221);
-            btnReporte.BackgroundImage = (Image)resources.GetObject("btnReporte.BackgroundImage");
+            btnReporte.BackgroundImage = Properties.Resources.btnReporte2;
             btnReporte.BackgroundImageLayout = ImageLayout.Zoom;
             btnReporte.FlatStyle = FlatStyle.Flat;
             btnReporte.ForeColor = Color.FromArgb(221, 221, 221);
-            btnReporte.Location = new Point(242, 611);
+            btnReporte.Location = new Point(232, 607);
             btnReporte.Name = "btnReporte";
-            btnReporte.Size = new Size(187, 64);
+            btnReporte.Size = new Size(205, 70);
             btnReporte.TabIndex = 64;
             btnReporte.UseVisualStyleBackColor = false;
             btnReporte.Click += btnReporte_Click;
+            // 
+            // cbClientes
+            // 
+            cbClientes.FormattingEnabled = true;
+            cbClientes.Location = new Point(29, 531);
+            cbClientes.Name = "cbClientes";
+            cbClientes.Size = new Size(346, 27);
+            cbClientes.TabIndex = 65;
+            // 
+            // lblStockDisponible
+            // 
+            lblStockDisponible.AutoSize = true;
+            lblStockDisponible.BackColor = Color.FromArgb(221, 221, 221);
+            lblStockDisponible.Font = new Font("Bahnschrift", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblStockDisponible.ForeColor = Color.Red;
+            lblStockDisponible.Location = new Point(24, 143);
+            lblStockDisponible.Name = "lblStockDisponible";
+            lblStockDisponible.Size = new Size(66, 19);
+            lblStockDisponible.TabIndex = 66;
+            lblStockDisponible.Text = "Stock: 0";
             // 
             // Ventas
             // 
@@ -353,6 +372,8 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(221, 221, 221);
             ClientSize = new Size(1370, 696);
+            Controls.Add(lblStockDisponible);
+            Controls.Add(cbClientes);
             Controls.Add(btnReporte);
             Controls.Add(btnFacturaVenta);
             Controls.Add(rbCliAntiguo);
@@ -360,7 +381,6 @@
             Controls.Add(label1);
             Controls.Add(cbProductos);
             Controls.Add(lblTotalVenta);
-            Controls.Add(label5);
             Controls.Add(btnCancelarRegProd);
             Controls.Add(btnGuardarRegProd);
             Controls.Add(btnEliminarRegProd);
@@ -398,15 +418,9 @@
         private NumericUpDown nbCantidad;
         private ComboBox cbTallasRegProd;
         private Label label22;
-        private DataGridViewTextBoxColumn precio;
-        private DataGridViewTextBoxColumn categoria;
-        private DataGridViewTextBoxColumn stock;
-        private DataGridViewTextBoxColumn talla;
-        private DataGridViewTextBoxColumn producto;
         private DataGridView dataGridVentaProducto;
         private Label lblDashboard;
         private PictureBox pictureBox1;
-        private Label label5;
         private Label lblTotalVenta;
         private ComboBox cbProductos;
         private Label label1;
@@ -414,5 +428,13 @@
         private RadioButton rbCliAntiguo;
         private Button btnFacturaVenta;
         private Button btnReporte;
+        private ComboBox cbClientes;
+        private DataGridViewTextBoxColumn id_prod;
+        private DataGridViewTextBoxColumn producto;
+        private DataGridViewTextBoxColumn talla;
+        private DataGridViewTextBoxColumn cantidad;
+        private DataGridViewTextBoxColumn precioUnit;
+        private DataGridViewTextBoxColumn subtotal;
+        private Label lblStockDisponible;
     }
 }

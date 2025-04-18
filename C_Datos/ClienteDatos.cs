@@ -59,7 +59,45 @@ namespace C_Datos
                 }
             }
         }
+       
+        public List<string> ObtenerNombresClientes()
+        {
+            var nombresClientes = new List<string>();
 
+            using (var conexion = Conexion.ObtenerConexion())
+            {
+                using (var cmd = new NpgsqlCommand("SELECT p.nombre, p.apellido FROM Cliente c JOIN Personas p ON c.id_persona = p.id_persona", conexion))
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        var nombre = reader.GetString(reader.GetOrdinal("nombre"));
+                        var apellido = reader.GetString(reader.GetOrdinal("apellido"));
+                        nombresClientes.Add(nombre + " " + apellido);
+                    }
+                }
+            }
+
+            return nombresClientes;
+        }
+        public List<int> ObtenerIdsClientes()
+        {
+            var idsClientes = new List<int>();
+
+            using (var conexion = Conexion.ObtenerConexion())
+            {
+                using (var cmd = new NpgsqlCommand("SELECT id_Cliente FROM Cliente ORDER BY id_Cliente", conexion))
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        idsClientes.Add(reader.GetInt32(0));
+                    }
+                }
+            }
+
+            return idsClientes;
+        }
     }
 
 }

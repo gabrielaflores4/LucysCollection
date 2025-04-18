@@ -34,6 +34,8 @@ namespace C_Datos
             return categorias;
         }
 
+
+
         public int ObtenerIdPorNombre(string nombre)
         {
             using (var conexion = Conexion.ObtenerConexion())
