@@ -23,21 +23,37 @@ namespace C_Negocios
             return _materiaPrimaDatos.AgregarMateriaPrima(materia);
         }
 
-        public bool ActualizarMateriaPrima(MateriaPrima materia)
+        public bool ActualizarMateriaPrima(int id, string nombre, decimal precioUnit, int stock, int proveedorId)
         {
-            if (materia.IdMateriaPrima <= 0)
-                throw new ArgumentException("ID de materia prima inválido");
+            try
+            {
+                var materia = new MateriaPrima
+                {
+                    IdMateriaPrima = id,
+                    Nombre = nombre,
+                    PrecioUnit = precioUnit,
+                    Stock = stock,
+                    IdProveedor = proveedorId 
+                };
 
-            ValidarMateriaPrima(materia);
-            return _materiaPrimaDatos.ActualizarMateriaPrima(materia);
+                Console.WriteLine($"Actualizando: ID={id}, Nombre={nombre}, ProveedorID={proveedorId}");
+                return _materiaPrimaDatos.ActualizarMateriaPrima(materia);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error en negocio: {ex.Message}");
+                return false;
+            }
         }
 
-        public bool EliminarMateriaPrima(int id)
+
+        public bool EliminarMP(int idMateriaPrima)
         {
-            if (id <= 0)
+            // Solo validación básica del ID
+            if (idMateriaPrima <= 0)
                 throw new ArgumentException("ID de materia prima inválido");
 
-            return _materiaPrimaDatos.EliminarMateriaPrima(id);
+            return _materiaPrimaDatos.EliminarMP(idMateriaPrima);
         }
 
         private void ValidarMateriaPrima(MateriaPrima materia)
@@ -54,6 +70,8 @@ namespace C_Negocios
             if (materia.Stock < 0)
                 throw new ArgumentException("Stock no puede ser negativo");
         }
+
+
 
         /*
         public List<Usuario> BuscarEmpleados(string texto)

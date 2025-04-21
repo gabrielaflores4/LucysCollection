@@ -169,6 +169,50 @@ namespace C_Datos
             }
         }
 
+        public bool ActualizarEmpleado(int idUsuario, string nombre, string apellido, string correo, string telefono, string rol)
+        {
+            using (var conexion = Conexion.ObtenerConexion())
+            {
+                try
+                {
+                    int idPersona;
+                    using (var cmdGetPersona = new NpgsqlCommand(
+                        "SELECT id_persona FROM Usuarios WHERE id_usuario = @idUsuario", conexion))
+                    {
+                        cmdGetPersona.Parameters.AddWithValue("@idUsuario", idUsuario);
+                        idPersona = Convert.ToInt32(cmdGetPersona.ExecuteScalar());
+                    }
+
+                    using (var cmdPersona = new NpgsqlCommand(
+                        @"UPDATE Personas SET nombre = @nombre, apellido = @apellido,correo = @correo, telefono = @telefono 
+                        WHERE id_persona = @idPersona", conexion))
+                    {
+                        cmdPersona.Parameters.AddWithValue("@idPersona", idPersona);
+                        cmdPersona.Parameters.AddWithValue("@nombre", nombre);
+                        cmdPersona.Parameters.AddWithValue("@apellido", apellido);
+                        cmdPersona.Parameters.AddWithValue("@correo", correo);
+                        cmdPersona.Parameters.AddWithValue("@telefono", telefono);
+                        cmdPersona.ExecuteNonQuery();
+                    }
+
+                    using (var cmdUsuario = new NpgsqlCommand(
+                        "UPDATE Usuarios SET rol = @rol WHERE id_usuario = @idUsuario", conexion))
+                    {
+                        cmdUsuario.Parameters.AddWithValue("@idUsuario", idUsuario);
+                        cmdUsuario.Parameters.AddWithValue("@rol", rol);
+                        cmdUsuario.ExecuteNonQuery();
+                    }
+
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error al actualizar empleado: {ex.Message}");
+                    return false;
+                }
+            }
+        }
+
         public List<Usuario> BuscarEmpleados(string texto)
         {
             List<Usuario> lista = new List<Usuario>();

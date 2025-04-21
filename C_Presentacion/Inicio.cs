@@ -20,15 +20,9 @@ namespace C_Presentacion
         private ProveedorNeg _proveedorNeg = new ProveedorNeg();
         private MateriaPrimaNeg _materiaPrimaNeg = new MateriaPrimaNeg();
 
-        public Inicio()
-        {
-            InitializeComponent();
-        }
+        public Inicio() { InitializeComponent(); }
 
-        private void Inicio_Load(object sender, EventArgs e)
-        {
-
-        }
+        private void Inicio_Load(object sender, EventArgs e) { }
 
         public void ActualizarInfoUsuario(Usuario usuario)
         {
@@ -114,17 +108,17 @@ namespace C_Presentacion
 
             var columnas = new Dictionary<string, string>
             {
-                    { "IdProveedor", "ID" },
-                    { "NombreProv", "Proveedor" },
-                    { "Telefono", "Teléfono" },
-                    { "Correo", "Correo" },
-                    { "Direccion", "Dirección" }
+                { "IdProveedor", "ID" },
+                { "NombreProv", "Proveedor" },
+                { "Telefono", "Teléfono" },
+                { "Correo", "Correo" },
+                { "Direccion", "Dirección" }
             };
 
             ConfigurarDataGrid(dataGridProv, proveedores, columnas);
         }
 
-        private void CargarMateriasPrimas()
+        public void CargarMateriasPrimas()
         {
             var materias = _materiaPrimaNeg.ObtenerMateriasPrimas();
 
@@ -154,13 +148,10 @@ namespace C_Presentacion
             ConfigurarDataGrid(dataGridMP, materiasConProveedor, columnas);
         }
 
-
-
         private void btnInventario_Click(object sender, EventArgs e)
         {
             tabControlInicio.SelectedTab = tabInventario;
             CargarProductos();
-
         }
 
         private void btnEmpleados_Click(object sender, EventArgs e)
@@ -232,8 +223,7 @@ namespace C_Presentacion
                 string nombreProducto = fila.Cells[1].Value.ToString();
 
                 // Mostramos confirmación con más información
-                DialogResult resultado = MessageBox.Show(
-                    $"¿Desea eliminar el producto: {nombreProducto}?", "Confirmar Eliminación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                DialogResult resultado = MessageBox.Show($"¿Desea eliminar el producto: {nombreProducto}?", "Confirmar Eliminación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
                 if (resultado == DialogResult.Yes)
                 {
@@ -376,14 +366,7 @@ namespace C_Presentacion
                         formEdicion.Correo,
                         formEdicion.Telefono,
                         formEdicion.Rol))
-                    {
-                        MessageBox.Show("Empleado actualizado correctamente", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        CargarEmpleados();
-                    }
-                    else
-                    {
-                        MessageBox.Show("No se pudo actualizar el empleado", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
+                    {CargarEmpleados();}
                 }
             }
         }
@@ -396,41 +379,91 @@ namespace C_Presentacion
                 Login frmLogin = new Login();
                 frmLogin.Show();
             }
-            else { 
-                
-            }
-           
+            else { }
         }
 
         private void btnEliminarMateriaP_Click(object sender, EventArgs e)
         {
-            if (dataGridProv.SelectedRows.Count == 0) return;
+            if (dataGridMP.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Seleccione una materia prima", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
 
-            var fila = dataGridProv.SelectedRows[0];
-            int id = Convert.ToInt32(fila.Cells["IdProveedor"].Value);
-            string nombre = fila.Cells["NombreProv"].Value.ToString();
+            var fila = dataGridMP.SelectedRows[0];
+            int idMP = Convert.ToInt32(fila.Cells[0].Value);
+            string nombreMP = fila.Cells[1].Value.ToString();
 
-            if (MessageBox.Show($"¿Eliminar al proveedor {nombre}?", "Confirmar",
-                MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            if (MessageBox.Show($"¿Eliminar {nombreMP}?", "Eliminar", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 try
                 {
-                    if (_proveedorNeg.EliminarProveedor(id))
+                    if (_materiaPrimaNeg.EliminarMP(idMP))
                     {
-                        MessageBox.Show("Proveedor eliminado correctamente");
-                        CargarProveedores();
+                        MessageBox.Show("Eliminación exitosa", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        CargarMateriasPrimas(); // Refrescar el listado
                     }
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show($"Error: {ex.Message}");
+                    MessageBox.Show($"Error: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
 
         private void dataGridMP_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
+            try
+            {
+                //Verificar fila seleccionada
+                if (e.RowIndex < 0) return;
 
+                DataGridViewRow fila = dataGridMP.Rows[e.RowIndex];
+
+                //Extraer valores del DataGridView
+                int id = Convert.ToInt32(fila.Cells[0].Value);
+                string nombre = fila.Cells[1].Value?.ToString() ?? string.Empty;
+                decimal precioUnit = Convert.ToDecimal(fila.Cells[2].Value);
+                int stock = Convert.ToInt32(fila.Cells[3].Value);
+                string proveedorNombre = fila.Cells[4].Value?.ToString();
+
+                //Obtener ID del proveedor
+                int proveedorId = _proveedorNeg.ObtenerProveedorIdPorNombre(proveedorNombre);
+
+                // 5. Crear y mostrar formulario de edición
+                using (var formEdicion = new EditarMP(this))
+                {
+                    formEdicion.MateriaPrimaId = id;
+                    formEdicion.Nombre = nombre;
+                    formEdicion.PrecioUnitario = precioUnit;
+                    formEdicion.Stock = stock;
+                    formEdicion.ProveedorId = proveedorId;
+
+                    if (formEdicion.ShowDialog() == DialogResult.OK)
+                    {
+                        //Ejecutar actualización
+                        bool actualizado = _materiaPrimaNeg.ActualizarMateriaPrima(
+                            formEdicion.MateriaPrimaId,
+                            formEdicion.Nombre,
+                            formEdicion.PrecioUnitario,
+                            formEdicion.Stock,
+                            formEdicion.ProveedorId);
+
+                        Console.WriteLine($"Actualización exitosa: {actualizado}");
+
+                        if (actualizado)
+                        {
+                            CargarMateriasPrimas(); //Refrescar datos
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error en CellDoubleClick: {ex.Message}");
+                MessageBox.Show("Error al cargar datos para edición", "Error",
+                               MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void tbBusquedaEmpleados_TextChanged(object sender, EventArgs e)
@@ -472,8 +505,6 @@ namespace C_Presentacion
             ConfigurarDataGrid(dataGridEmpleados, datosParaMostrar, columnas);
         }
 
-
-
         private void busquedaTimer_Tick(object sender, EventArgs e)
         {
             busquedaTimer.Stop();
@@ -509,6 +540,74 @@ namespace C_Presentacion
         private void btnBucasrMateria_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void btnEliminarProv_Click(object sender, EventArgs e)
+        {
+            if (dataGridProv.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Selecciona un proveedor antes de eliminar.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            var fila = dataGridProv.SelectedRows[0];
+            int id = Convert.ToInt32(fila.Cells[0].Value);
+            string nombre = fila.Cells[1].Value.ToString();
+
+            if (MessageBox.Show($"¿Eliminar al proveedor {nombre}? Se eliminarán todos sus productos", "Aviso",
+                MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                try
+                {
+                    if (_proveedorNeg.EliminarProveedor(id))
+                    {
+                        MessageBox.Show("Proveedor eliminado correctamente", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        CargarProveedores();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error: {ex.Message}");
+                }
+            }
+        }
+
+        private void dataGridProv_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0) return;
+
+            DataGridViewRow fila = dataGridProv.Rows[e.RowIndex];
+
+            var proveedor = new Proveedor
+            {
+                IdProveedor = Convert.ToInt32(fila.Cells[0].Value),
+                NombreProv = fila.Cells[1].Value.ToString(),
+                Telefono = fila.Cells[2].Value?.ToString(),
+                Correo = fila.Cells[3].Value?.ToString(),
+                Direccion = fila.Cells[4].Value?.ToString()
+            };
+
+            using (var formEdicion = new EditarProveedores(this)) 
+            {
+                formEdicion.ProveedorId = proveedor.IdProveedor;
+                formEdicion.Nombre = proveedor.NombreProv;
+                formEdicion.Telefono = proveedor.Telefono;
+                formEdicion.Correo = proveedor.Correo;
+                formEdicion.Direccion = proveedor.Direccion;
+
+                if (formEdicion.ShowDialog() == DialogResult.OK)
+                {
+                    if (_proveedorNeg.ActualizarProveedor(
+                        formEdicion.ProveedorId,
+                        formEdicion.Nombre,
+                        formEdicion.Telefono,
+                        formEdicion.Correo,
+                        formEdicion.Direccion))
+                    {
+                        CargarProveedores();
+                    }
+                }
+            }
         }
     }
 }

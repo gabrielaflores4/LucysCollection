@@ -53,47 +53,14 @@ namespace C_Negocios
 
         public bool ActualizarEmpleado(int id, string nombre, string apellido, string correo, string telefono, string rol)
         {
-            using (var conexion = Conexion.ObtenerConexion())
+            try
             {
-                using (var transaction = conexion.BeginTransaction())
-                {
-                    try
-                    {
-                        // Actualizar los datos en la tabla Personas
-                        using (var cmdPersona = new NpgsqlCommand(
-                            "UPDATE Personas SET nombre = @nombre, apellido = @apellido, correo = @correo, telefono = @telefono WHERE id_persona = @id;",
-                            conexion))
-                        {
-                            cmdPersona.Parameters.AddWithValue("@id", id);
-                            cmdPersona.Parameters.AddWithValue("@nombre", nombre);
-                            cmdPersona.Parameters.AddWithValue("@apellido", apellido);
-                            cmdPersona.Parameters.AddWithValue("@correo", correo);
-                            cmdPersona.Parameters.AddWithValue("@telefono", telefono);
-                            cmdPersona.ExecuteNonQuery();
-                        }
-
-                        // Actualizar el rol en la tabla Usuarios
-                        using (var cmdUsuario = new NpgsqlCommand(
-                            "UPDATE Usuarios SET rol = @rol WHERE id_persona = @id;",
-                            conexion))
-                        {
-                            cmdUsuario.Parameters.AddWithValue("@id", id);
-                            cmdUsuario.Parameters.AddWithValue("@rol", rol);
-                            cmdUsuario.ExecuteNonQuery();
-                        }
-
-                        // Confirmar la transacción
-                        transaction.Commit();
-                        return true;
-                    }
-                    catch (Exception ex)
-                    {
-                        // Revertir si hay error
-                        transaction.Rollback();
-                        Console.WriteLine("Error al actualizar el empleado: " + ex.Message);
-                        return false;
-                    }
-                }
+                return usuarioDatos.ActualizarEmpleado(id, nombre, apellido, correo, telefono, rol);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error al actualizar empleado: {ex.Message}");
+                return false;
             }
         }
 

@@ -20,9 +20,7 @@ namespace C_Entidades
 
         public MateriaPrima() { }
 
-        public MateriaPrima(int idMateriaPrima, int idProveedor, string nombre,
-                           decimal precioUnit, int stock, DateTime fechaIngreso,
-                           DateTime fechaAct, Proveedor proveedor)
+        public MateriaPrima(int idMateriaPrima, int idProveedor, string nombre,decimal precioUnit, int stock, DateTime fechaIngreso, DateTime fechaAct, Proveedor proveedor)
         {
             IdMateriaPrima = idMateriaPrima;
             IdProveedor = idProveedor;
@@ -33,5 +31,16 @@ namespace C_Entidades
             FechaAct = fechaAct;
             Proveedor = proveedor;
         }
+
+        public MateriaPrima(int idProveedor, string nombre, decimal precioUnit, int stock)
+        {
+            IdProveedor = idProveedor;
+            Nombre = nombre;
+            PrecioUnit = precioUnit;
+            Stock = stock;
+            FechaIngreso = DateTime.Now;
+            FechaAct = DateTime.Now; 
+        }
+
     }
 }

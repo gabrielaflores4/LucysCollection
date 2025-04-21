@@ -183,7 +183,7 @@
             lblDashboard.BackColor = Color.Black;
             lblDashboard.Font = new Font("Bahnschrift", 20.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblDashboard.ForeColor = SystemColors.Control;
-            lblDashboard.Location = new Point(580, 19);
+            lblDashboard.Location = new Point(580, 16);
             lblDashboard.Name = "lblDashboard";
             lblDashboard.Size = new Size(268, 33);
             lblDashboard.TabIndex = 41;
@@ -192,7 +192,7 @@
             // pictureBox1
             // 
             pictureBox1.Image = Properties.Resources.rectangulo4;
-            pictureBox1.Location = new Point(-1, 1);
+            pictureBox1.Location = new Point(-1, -2);
             pictureBox1.Name = "pictureBox1";
             pictureBox1.Size = new Size(1372, 73);
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;

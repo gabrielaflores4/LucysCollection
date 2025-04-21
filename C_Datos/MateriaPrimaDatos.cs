@@ -1,5 +1,6 @@
 ﻿using C_Entidades;
 using Npgsql;
+using NpgsqlTypes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -66,39 +67,61 @@ namespace C_Datos
 
         public bool ActualizarMateriaPrima(MateriaPrima materia)
         {
-            using (var conexion = Conexion.ObtenerConexion())
-            {
-                using (var cmd = new NpgsqlCommand(
-                    @"UPDATE materia_prima SET 
+            const string query = @"UPDATE materia_prima SET 
                         id_proveedor = @idProv, 
                         nombre = @nombre, 
                         precio_unit = @precio, 
-                        stock = @stock, 
-                        fecha_act = NOW()
-                      WHERE id_materiaPrima = @id", conexion))
-                {
-                    cmd.Parameters.AddWithValue("@id", materia.IdMateriaPrima);
-                    cmd.Parameters.AddWithValue("@idProv", materia.IdProveedor);
-                    cmd.Parameters.AddWithValue("@nombre", materia.Nombre);
-                    cmd.Parameters.AddWithValue("@precio", materia.PrecioUnit);
-                    cmd.Parameters.AddWithValue("@stock", materia.Stock);
+                        stock = @stock,
+                        fecha_act = @fechaAct
+                        WHERE id_materiaPrima = @id";
 
-                    return cmd.ExecuteNonQuery() > 0;
-                }
-            }
-        }
-
-        public bool EliminarMateriaPrima(int id)
-        {
-            using (var conexion = Conexion.ObtenerConexion())
+            try
             {
-                using (var cmd = new NpgsqlCommand(
-                    "DELETE FROM materia_prima WHERE id_materiaPrima = @id", conexion))
+                using (var conexion = Conexion.ObtenerConexion())
+                {
+                    // Debug: Verificar conexión
+                    Console.WriteLine($"Estado conexión: {conexion.State}");
+
+                    using (var cmd = new NpgsqlCommand(query, conexion))
                     {
-                        cmd.Parameters.AddWithValue("@id", id);
-                        return cmd.ExecuteNonQuery() > 0;
+                        // Configuración explícita de tipos Npgsql
+                        cmd.Parameters.Add("@id", NpgsqlDbType.Integer).Value = materia.IdMateriaPrima;
+                        cmd.Parameters.Add("@idProv", NpgsqlDbType.Integer).Value = materia.IdProveedor;
+                        cmd.Parameters.Add("@nombre", NpgsqlDbType.Text).Value = materia.Nombre;
+                        cmd.Parameters.Add("@precio", NpgsqlDbType.Numeric).Value = materia.PrecioUnit;
+                        cmd.Parameters.Add("@stock", NpgsqlDbType.Integer).Value = materia.Stock;
+                        cmd.Parameters.Add("@fechaAct", NpgsqlDbType.Timestamp).Value = DateTime.Now;
+
+                        // Debug: Ver parámetros
+                        Console.WriteLine($"Ejecutando actualización para ID: {materia.IdMateriaPrima}");
+
+                        int filasAfectadas = cmd.ExecuteNonQuery();
+                        Console.WriteLine($"Filas afectadas: {filasAfectadas}");
+                        return filasAfectadas > 0;
                     }
                 }
             }
+            catch (Npgsql.PostgresException ex)
+            {
+                Console.WriteLine($"Error PostgreSQL (Código: {ex.SqlState}): {ex.Message}");
+                return false;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error inesperado: {ex}");
+                return false;
+            }
+        }
+
+        public bool EliminarMP(int idMateriaPrima)
+        {
+            using (var conexion = Conexion.ObtenerConexion())
+            using (var cmd = new NpgsqlCommand(
+                "DELETE FROM materia_prima WHERE id_materiaPrima = @id", conexion))
+            {
+                cmd.Parameters.AddWithValue("@id", idMateriaPrima);
+                return cmd.ExecuteNonQuery() > 0;
+            }
         }
     }
+}

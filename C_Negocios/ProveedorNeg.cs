@@ -28,15 +28,24 @@ namespace C_Negocios
             return _proveedorDatos.AgregarProveedor(proveedor);
         }
 
-        public bool ActualizarProveedor(Proveedor proveedor)
+        public bool ActualizarProveedor(int id, string nombre, string telefono, string correo, string direccion)
         {
-            if (proveedor.IdProveedor <= 0)
-                throw new ArgumentException("ID de proveedor inválido");
-
-            if (string.IsNullOrWhiteSpace(proveedor.NombreProv))
-                throw new ArgumentException("El nombre del proveedor es requerido");
-
-            return _proveedorDatos.ActualizarProveedor(proveedor);
+            try
+            {
+                var proveedor = new Proveedor
+                {
+                    IdProveedor = id,
+                    NombreProv = nombre,
+                    Telefono = telefono,
+                    Correo = correo,
+                    Direccion = direccion
+                };
+                return _proveedorDatos.ActualizarProveedor(proveedor);
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
         }
 
         public bool EliminarProveedor(int id)
@@ -45,6 +54,23 @@ namespace C_Negocios
                 throw new ArgumentException("ID de proveedor inválido");
 
             return _proveedorDatos.EliminarProveedor(id);
+        }
+        public int ObtenerProveedorIdPorNombre(string nombreProveedor)
+        {
+            try
+            {
+                var proveedorDatos = new ProveedorDatos();
+                object resultado = proveedorDatos.ObtenerProveedorIdPorNombre(nombreProveedor);
+                if (resultado == null)
+                {
+                    return 0; 
+                }
+                return Convert.ToInt32(resultado); 
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error al obtener ID del proveedor '{nombreProveedor}': {ex.Message}", ex);
+            }
         }
     }
 }

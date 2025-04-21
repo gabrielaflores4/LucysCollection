@@ -52,7 +52,7 @@
             btnCancelarActEmp.BackgroundImageLayout = ImageLayout.Zoom;
             btnCancelarActEmp.FlatStyle = FlatStyle.Flat;
             btnCancelarActEmp.ForeColor = Color.FromArgb(221, 221, 221);
-            btnCancelarActEmp.Location = new Point(507, 645);
+            btnCancelarActEmp.Location = new Point(507, 619);
             btnCancelarActEmp.Name = "btnCancelarActEmp";
             btnCancelarActEmp.Size = new Size(187, 64);
             btnCancelarActEmp.TabIndex = 70;
@@ -66,7 +66,7 @@
             btnGuardarActEmp.BackgroundImageLayout = ImageLayout.Zoom;
             btnGuardarActEmp.FlatStyle = FlatStyle.Flat;
             btnGuardarActEmp.ForeColor = Color.FromArgb(221, 221, 221);
-            btnGuardarActEmp.Location = new Point(720, 645);
+            btnGuardarActEmp.Location = new Point(720, 619);
             btnGuardarActEmp.Name = "btnGuardarActEmp";
             btnGuardarActEmp.Size = new Size(194, 64);
             btnGuardarActEmp.TabIndex = 69;
@@ -79,7 +79,7 @@
             label3.BackColor = Color.FromArgb(221, 221, 221);
             label3.Font = new Font("Bahnschrift", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label3.ForeColor = SystemColors.ControlText;
-            label3.Location = new Point(503, 509);
+            label3.Location = new Point(503, 491);
             label3.Name = "label3";
             label3.Size = new Size(43, 25);
             label3.TabIndex = 67;
@@ -89,7 +89,7 @@
             // 
             cbRolEmpAct.FormattingEnabled = true;
             cbRolEmpAct.Items.AddRange(new object[] { "admin", "empleado" });
-            cbRolEmpAct.Location = new Point(507, 551);
+            cbRolEmpAct.Location = new Point(507, 533);
             cbRolEmpAct.Name = "cbRolEmpAct";
             cbRolEmpAct.Size = new Size(399, 27);
             cbRolEmpAct.TabIndex = 65;
@@ -100,7 +100,7 @@
             label2.BackColor = Color.FromArgb(221, 221, 221);
             label2.Font = new Font("Bahnschrift", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label2.ForeColor = SystemColors.ControlText;
-            label2.Location = new Point(501, 325);
+            label2.Location = new Point(501, 307);
             label2.Name = "label2";
             label2.Size = new Size(76, 25);
             label2.TabIndex = 63;
@@ -108,7 +108,7 @@
             // 
             // tbApellidoEmpAct
             // 
-            tbApellidoEmpAct.Location = new Point(507, 269);
+            tbApellidoEmpAct.Location = new Point(507, 251);
             tbApellidoEmpAct.Name = "tbApellidoEmpAct";
             tbApellidoEmpAct.Size = new Size(399, 27);
             tbApellidoEmpAct.TabIndex = 62;
@@ -120,7 +120,7 @@
             label1.BackColor = Color.FromArgb(221, 221, 221);
             label1.Font = new Font("Bahnschrift", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label1.ForeColor = SystemColors.ControlText;
-            label1.Location = new Point(503, 231);
+            label1.Location = new Point(503, 213);
             label1.Name = "label1";
             label1.Size = new Size(87, 25);
             label1.TabIndex = 61;
@@ -128,7 +128,7 @@
             // 
             // tbNombreEmpAct
             // 
-            tbNombreEmpAct.Location = new Point(507, 175);
+            tbNombreEmpAct.Location = new Point(507, 157);
             tbNombreEmpAct.Name = "tbNombreEmpAct";
             tbNombreEmpAct.Size = new Size(399, 27);
             tbNombreEmpAct.TabIndex = 60;
@@ -140,7 +140,7 @@
             label22.BackColor = Color.FromArgb(221, 221, 221);
             label22.Font = new Font("Bahnschrift", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label22.ForeColor = SystemColors.ControlText;
-            label22.Location = new Point(503, 136);
+            label22.Location = new Point(503, 118);
             label22.Name = "label22";
             label22.Size = new Size(87, 25);
             label22.TabIndex = 59;
@@ -152,7 +152,7 @@
             lblDashboard.BackColor = Color.Black;
             lblDashboard.Font = new Font("Bahnschrift", 20.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblDashboard.ForeColor = SystemColors.Control;
-            lblDashboard.Location = new Point(580, 19);
+            lblDashboard.Location = new Point(580, 15);
             lblDashboard.Name = "lblDashboard";
             lblDashboard.Size = new Size(278, 33);
             lblDashboard.TabIndex = 58;
@@ -161,7 +161,7 @@
             // pictureBox1
             // 
             pictureBox1.Image = Properties.Resources.rectangulo4;
-            pictureBox1.Location = new Point(-1, 1);
+            pictureBox1.Location = new Point(-1, -2);
             pictureBox1.Name = "pictureBox1";
             pictureBox1.Size = new Size(1372, 73);
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -170,7 +170,7 @@
             // 
             // tbCorreoEmpAct
             // 
-            tbCorreoEmpAct.Location = new Point(507, 366);
+            tbCorreoEmpAct.Location = new Point(507, 348);
             tbCorreoEmpAct.Name = "tbCorreoEmpAct";
             tbCorreoEmpAct.Size = new Size(399, 27);
             tbCorreoEmpAct.TabIndex = 71;
@@ -178,7 +178,7 @@
             // 
             // tbTelefonoEmpAct
             // 
-            tbTelefonoEmpAct.Location = new Point(507, 460);
+            tbTelefonoEmpAct.Location = new Point(507, 442);
             tbTelefonoEmpAct.Name = "tbTelefonoEmpAct";
             tbTelefonoEmpAct.Size = new Size(399, 27);
             tbTelefonoEmpAct.TabIndex = 73;
@@ -190,7 +190,7 @@
             label5.BackColor = Color.FromArgb(221, 221, 221);
             label5.Font = new Font("Bahnschrift", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label5.ForeColor = SystemColors.ControlText;
-            label5.Location = new Point(502, 419);
+            label5.Location = new Point(502, 401);
             label5.Name = "label5";
             label5.Size = new Size(90, 25);
             label5.TabIndex = 72;

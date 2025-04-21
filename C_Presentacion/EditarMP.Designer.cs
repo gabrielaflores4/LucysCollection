@@ -28,13 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
-            btnCancelarActProd = new Button();
-            btnGuardarActProd = new Button();
+            btnCancelarActMP = new Button();
+            btnGuardarActMP = new Button();
             label4 = new Label();
-            label3 = new Label();
             nbCantidad = new NumericUpDown();
-            cbTallasRegAct = new ComboBox();
-            cbCategoriaAct = new ComboBox();
+            cbProvAct = new ComboBox();
             label2 = new Label();
             tbPrecioRegAct = new TextBox();
             label1 = new Label();
@@ -46,31 +44,33 @@
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
-            // btnCancelarActProd
+            // btnCancelarActMP
             // 
-            btnCancelarActProd.BackColor = Color.FromArgb(221, 221, 221);
-            btnCancelarActProd.BackgroundImage = Properties.Resources.btnCancelar;
-            btnCancelarActProd.BackgroundImageLayout = ImageLayout.Zoom;
-            btnCancelarActProd.FlatStyle = FlatStyle.Flat;
-            btnCancelarActProd.ForeColor = Color.FromArgb(221, 221, 221);
-            btnCancelarActProd.Location = new Point(507, 595);
-            btnCancelarActProd.Name = "btnCancelarActProd";
-            btnCancelarActProd.Size = new Size(187, 64);
-            btnCancelarActProd.TabIndex = 70;
-            btnCancelarActProd.UseVisualStyleBackColor = false;
+            btnCancelarActMP.BackColor = Color.FromArgb(221, 221, 221);
+            btnCancelarActMP.BackgroundImage = Properties.Resources.btnCancelar;
+            btnCancelarActMP.BackgroundImageLayout = ImageLayout.Zoom;
+            btnCancelarActMP.FlatStyle = FlatStyle.Flat;
+            btnCancelarActMP.ForeColor = Color.FromArgb(221, 221, 221);
+            btnCancelarActMP.Location = new Point(507, 595);
+            btnCancelarActMP.Name = "btnCancelarActMP";
+            btnCancelarActMP.Size = new Size(187, 64);
+            btnCancelarActMP.TabIndex = 70;
+            btnCancelarActMP.UseVisualStyleBackColor = false;
+            btnCancelarActMP.Click += btnCancelarActMP_Click;
             // 
-            // btnGuardarActProd
+            // btnGuardarActMP
             // 
-            btnGuardarActProd.BackColor = Color.FromArgb(221, 221, 221);
-            btnGuardarActProd.BackgroundImage = Properties.Resources.btnGuardar;
-            btnGuardarActProd.BackgroundImageLayout = ImageLayout.Zoom;
-            btnGuardarActProd.FlatStyle = FlatStyle.Flat;
-            btnGuardarActProd.ForeColor = Color.FromArgb(221, 221, 221);
-            btnGuardarActProd.Location = new Point(720, 595);
-            btnGuardarActProd.Name = "btnGuardarActProd";
-            btnGuardarActProd.Size = new Size(194, 64);
-            btnGuardarActProd.TabIndex = 69;
-            btnGuardarActProd.UseVisualStyleBackColor = false;
+            btnGuardarActMP.BackColor = Color.FromArgb(221, 221, 221);
+            btnGuardarActMP.BackgroundImage = Properties.Resources.btnGuardar;
+            btnGuardarActMP.BackgroundImageLayout = ImageLayout.Zoom;
+            btnGuardarActMP.FlatStyle = FlatStyle.Flat;
+            btnGuardarActMP.ForeColor = Color.FromArgb(221, 221, 221);
+            btnGuardarActMP.Location = new Point(720, 595);
+            btnGuardarActMP.Name = "btnGuardarActMP";
+            btnGuardarActMP.Size = new Size(194, 64);
+            btnGuardarActMP.TabIndex = 69;
+            btnGuardarActMP.UseVisualStyleBackColor = false;
+            btnGuardarActMP.Click += btnGuardarActMP_Click;
             // 
             // label4
             // 
@@ -78,50 +78,29 @@
             label4.BackColor = Color.FromArgb(221, 221, 221);
             label4.Font = new Font("Bahnschrift", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label4.ForeColor = SystemColors.ControlText;
-            label4.Location = new Point(744, 451);
+            label4.Location = new Point(507, 457);
             label4.Name = "label4";
             label4.Size = new Size(93, 25);
             label4.TabIndex = 68;
             label4.Text = "Cantidad";
             // 
-            // label3
-            // 
-            label3.AutoSize = true;
-            label3.BackColor = Color.FromArgb(221, 221, 221);
-            label3.Font = new Font("Bahnschrift", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label3.ForeColor = SystemColors.ControlText;
-            label3.Location = new Point(507, 451);
-            label3.Name = "label3";
-            label3.Size = new Size(55, 25);
-            label3.TabIndex = 67;
-            label3.Text = "Talla";
-            // 
             // nbCantidad
             // 
-            nbCantidad.Location = new Point(744, 495);
+            nbCantidad.Location = new Point(507, 495);
             nbCantidad.Name = "nbCantidad";
-            nbCantidad.Size = new Size(162, 27);
+            nbCantidad.Size = new Size(399, 27);
             nbCantidad.TabIndex = 66;
             // 
-            // cbTallasRegAct
+            // cbProvAct
             // 
-            cbTallasRegAct.FormattingEnabled = true;
-            cbTallasRegAct.Items.AddRange(new object[] { "5", "6", "7", "8", "9" });
-            cbTallasRegAct.Location = new Point(511, 493);
-            cbTallasRegAct.Name = "cbTallasRegAct";
-            cbTallasRegAct.Size = new Size(162, 27);
-            cbTallasRegAct.TabIndex = 65;
-            // 
-            // cbCategoriaAct
-            // 
-            cbCategoriaAct.DropDownHeight = 100;
-            cbCategoriaAct.DropDownWidth = 200;
-            cbCategoriaAct.FormattingEnabled = true;
-            cbCategoriaAct.IntegralHeight = false;
-            cbCategoriaAct.Location = new Point(507, 387);
-            cbCategoriaAct.Name = "cbCategoriaAct";
-            cbCategoriaAct.Size = new Size(399, 27);
-            cbCategoriaAct.TabIndex = 64;
+            cbProvAct.DropDownHeight = 100;
+            cbProvAct.DropDownWidth = 200;
+            cbProvAct.FormattingEnabled = true;
+            cbProvAct.IntegralHeight = false;
+            cbProvAct.Location = new Point(507, 387);
+            cbProvAct.Name = "cbProvAct";
+            cbProvAct.Size = new Size(399, 27);
+            cbProvAct.TabIndex = 64;
             // 
             // label2
             // 
@@ -131,9 +110,9 @@
             label2.ForeColor = SystemColors.ControlText;
             label2.Location = new Point(507, 348);
             label2.Name = "label2";
-            label2.Size = new Size(101, 25);
+            label2.Size = new Size(108, 25);
             label2.TabIndex = 63;
-            label2.Text = "Categoria";
+            label2.Text = "Proveedor";
             // 
             // tbPrecioRegAct
             // 
@@ -203,13 +182,11 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(221, 221, 221);
             ClientSize = new Size(1370, 749);
-            Controls.Add(btnCancelarActProd);
-            Controls.Add(btnGuardarActProd);
+            Controls.Add(btnCancelarActMP);
+            Controls.Add(btnGuardarActMP);
             Controls.Add(label4);
-            Controls.Add(label3);
             Controls.Add(nbCantidad);
-            Controls.Add(cbTallasRegAct);
-            Controls.Add(cbCategoriaAct);
+            Controls.Add(cbProvAct);
             Controls.Add(label2);
             Controls.Add(tbPrecioRegAct);
             Controls.Add(label1);
@@ -223,6 +200,7 @@
             StartPosition = FormStartPosition.CenterScreen;
             Text = "EditarMP";
             WindowState = FormWindowState.Maximized;
+            Load += EditarMP_Load_1;
             ((System.ComponentModel.ISupportInitialize)nbCantidad).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
@@ -231,13 +209,11 @@
 
         #endregion
 
-        private Button btnCancelarActProd;
-        private Button btnGuardarActProd;
+        private Button btnCancelarActMP;
+        private Button btnGuardarActMP;
         private Label label4;
-        private Label label3;
         private NumericUpDown nbCantidad;
-        private ComboBox cbTallasRegAct;
-        private ComboBox cbCategoriaAct;
+        private ComboBox cbProvAct;
         private Label label2;
         private TextBox tbPrecioRegAct;
         private Label label1;

@@ -43,6 +43,7 @@ namespace C_Presentacion
             cbClientes.Visible = false;
             cbClientes.SelectedIndex = -1;
             dataGridVentaProducto.Rows.Clear();
+            lblStockDisponible.Text = "Stock: 0";
             ActualizarTotal();
         }
 

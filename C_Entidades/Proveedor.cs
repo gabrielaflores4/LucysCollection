@@ -17,9 +17,7 @@ namespace C_Entidades
 
 
         // Constructor por defecto
-        public Proveedor()
-        {
-        }
+        public Proveedor(){}
 
         // Constructor personalizado
         public Proveedor(int id, string nombreProv, string direccion, string telefono, string correo)
