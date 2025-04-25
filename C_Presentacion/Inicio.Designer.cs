@@ -216,7 +216,7 @@
             btnInventario.BackgroundImage = Properties.Resources.btn_Inventario;
             btnInventario.BackgroundImageLayout = ImageLayout.Stretch;
             btnInventario.FlatStyle = FlatStyle.Flat;
-            btnInventario.Location = new Point(26, 149);
+            btnInventario.Location = new Point(26, 222);
             btnInventario.Name = "btnInventario";
             btnInventario.Size = new Size(205, 45);
             btnInventario.TabIndex = 4;
@@ -229,7 +229,7 @@
             btnVentas.BackgroundImage = Properties.Resources.btn_Ventas;
             btnVentas.BackgroundImageLayout = ImageLayout.Stretch;
             btnVentas.FlatStyle = FlatStyle.Flat;
-            btnVentas.Location = new Point(26, 220);
+            btnVentas.Location = new Point(26, 153);
             btnVentas.Name = "btnVentas";
             btnVentas.Size = new Size(205, 45);
             btnVentas.TabIndex = 5;
@@ -242,7 +242,7 @@
             btnEmpleados.BackgroundImage = Properties.Resources.btn_Empleados;
             btnEmpleados.BackgroundImageLayout = ImageLayout.Stretch;
             btnEmpleados.FlatStyle = FlatStyle.Flat;
-            btnEmpleados.Location = new Point(26, 291);
+            btnEmpleados.Location = new Point(26, 429);
             btnEmpleados.Name = "btnEmpleados";
             btnEmpleados.Size = new Size(205, 45);
             btnEmpleados.TabIndex = 6;
@@ -255,7 +255,7 @@
             btnMateriaPrima.BackgroundImage = Properties.Resources.btnMateriaPrima;
             btnMateriaPrima.BackgroundImageLayout = ImageLayout.Stretch;
             btnMateriaPrima.FlatStyle = FlatStyle.Flat;
-            btnMateriaPrima.Location = new Point(26, 362);
+            btnMateriaPrima.Location = new Point(26, 291);
             btnMateriaPrima.Name = "btnMateriaPrima";
             btnMateriaPrima.Size = new Size(205, 45);
             btnMateriaPrima.TabIndex = 7;
@@ -268,7 +268,7 @@
             btnProveedores.BackgroundImage = Properties.Resources.btn_Proveedores;
             btnProveedores.BackgroundImageLayout = ImageLayout.Stretch;
             btnProveedores.FlatStyle = FlatStyle.Flat;
-            btnProveedores.Location = new Point(26, 433);
+            btnProveedores.Location = new Point(26, 360);
             btnProveedores.Name = "btnProveedores";
             btnProveedores.Size = new Size(205, 45);
             btnProveedores.TabIndex = 8;
@@ -653,7 +653,7 @@
             dataGridInventarioProducto.DefaultCellStyle = dataGridViewCellStyle3;
             dataGridInventarioProducto.EnableHeadersVisualStyles = false;
             dataGridInventarioProducto.GridColor = Color.FromArgb(221, 221, 221);
-            dataGridInventarioProducto.Location = new Point(232, 189);
+            dataGridInventarioProducto.Location = new Point(228, 189);
             dataGridInventarioProducto.Name = "dataGridInventarioProducto";
             dataGridInventarioProducto.RowHeadersVisible = false;
             dataGridInventarioProducto.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
@@ -725,7 +725,7 @@
             btnEliminarInventario.BackgroundImageLayout = ImageLayout.Stretch;
             btnEliminarInventario.FlatStyle = FlatStyle.Flat;
             btnEliminarInventario.ForeColor = Color.FromArgb(221, 221, 221);
-            btnEliminarInventario.Location = new Point(20, 251);
+            btnEliminarInventario.Location = new Point(17, 251);
             btnEliminarInventario.Name = "btnEliminarInventario";
             btnEliminarInventario.Size = new Size(195, 37);
             btnEliminarInventario.TabIndex = 21;
@@ -739,7 +739,7 @@
             btnAgregarInventario.BackgroundImageLayout = ImageLayout.Stretch;
             btnAgregarInventario.FlatStyle = FlatStyle.Flat;
             btnAgregarInventario.ForeColor = Color.FromArgb(221, 221, 221);
-            btnAgregarInventario.Location = new Point(20, 189);
+            btnAgregarInventario.Location = new Point(17, 189);
             btnAgregarInventario.Name = "btnAgregarInventario";
             btnAgregarInventario.Size = new Size(195, 37);
             btnAgregarInventario.TabIndex = 18;
@@ -961,9 +961,9 @@
             tabMateriaP.Controls.Add(btnAgregarMateriaP);
             tabMateriaP.Controls.Add(btnBusquedaMateriaP);
             tabMateriaP.Controls.Add(label10);
-            tabMateriaP.Location = new Point(4, 24);
+            tabMateriaP.Location = new Point(4, 28);
             tabMateriaP.Name = "tabMateriaP";
-            tabMateriaP.Size = new Size(1093, 706);
+            tabMateriaP.Size = new Size(1093, 702);
             tabMateriaP.TabIndex = 3;
             tabMateriaP.Text = "tabPage1";
             // 
@@ -988,7 +988,6 @@
             btnBucasrMateria.Size = new Size(44, 42);
             btnBucasrMateria.TabIndex = 32;
             btnBucasrMateria.TabStop = false;
-            btnBucasrMateria.Click += btnBucasrMateria_Click;
             // 
             // dataGridMP
             // 
@@ -1019,7 +1018,7 @@
             dataGridMP.DefaultCellStyle = dataGridViewCellStyle9;
             dataGridMP.EnableHeadersVisualStyles = false;
             dataGridMP.GridColor = Color.FromArgb(221, 221, 221);
-            dataGridMP.Location = new Point(232, 189);
+            dataGridMP.Location = new Point(243, 189);
             dataGridMP.Name = "dataGridMP";
             dataGridMP.RowHeadersVisible = false;
             dataGridMP.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
@@ -1143,9 +1142,9 @@
             tabProveedores.Controls.Add(btnAgregarProv);
             tabProveedores.Controls.Add(tbBusquedaProv);
             tabProveedores.Controls.Add(label11);
-            tabProveedores.Location = new Point(4, 28);
+            tabProveedores.Location = new Point(4, 24);
             tabProveedores.Name = "tabProveedores";
-            tabProveedores.Size = new Size(1093, 702);
+            tabProveedores.Size = new Size(1093, 706);
             tabProveedores.TabIndex = 4;
             tabProveedores.Text = "tabPage1";
             // 

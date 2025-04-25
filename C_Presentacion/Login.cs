@@ -47,6 +47,7 @@ namespace C_Presentacion
 
                 // Pasar la información del usuario al formulario Inicio
                 formInicio.ActualizarInfoUsuario(usuarioActivo);
+                formInicio.AplicarPermisosPorRol();
 
                 // Mostrar el formulario principal y ocultar el login
                 formInicio.Show();

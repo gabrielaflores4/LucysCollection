@@ -20,14 +20,98 @@ namespace C_Presentacion
         private ProveedorNeg _proveedorNeg = new ProveedorNeg();
         private MateriaPrimaNeg _materiaPrimaNeg = new MateriaPrimaNeg();
 
-        public Inicio() { InitializeComponent(); }
+        public Inicio() { 
+            InitializeComponent();
+        }
 
-        private void Inicio_Load(object sender, EventArgs e) { }
+        private void Inicio_Load(object sender, EventArgs e) {
+            AjustarDataGridViews();
+        }
 
         public void ActualizarInfoUsuario(Usuario usuario)
         {
             lblNombreUsuario.Text = usuario.Nombre + " " + usuario.Apellido;
             lblRolUser.Text = usuario.Rol;
+            AplicarPermisosPorRol();
+        }
+
+        public void AplicarPermisosPorRol()
+        {
+            if (Sesion.TieneRol("admin"))
+            {
+                // Funciones permitidas para administradores
+                btnVentas.Visible = true;
+                tabEmpleados.Visible = true;
+                tabMateriaP.Visible = true;
+                tabInventario.Visible = true;
+                tabProveedores.Visible = true;
+                AjustarDataGridViews();
+            }
+            else if (Sesion.TieneRol("empleado"))
+            {
+                // Funciones permitidas para empleados
+                btnVentas.Visible = true;
+                tabInventario.Visible = true;
+                tabMateriaP.Visible = true;
+                tabProveedores.Visible = true;
+                btnAgregarInventario.Visible = false;
+                btnEliminarInventario.Visible = false;
+                btnAgregarMateriaP.Visible = false;
+                btnEliminarMateriaP.Visible = false;
+                btnAgregarProv.Visible = false;
+                btnEliminarProv.Visible = false;
+                btnEmpleados.Visible = false;
+                AjustarDataGridViews();
+            }
+        }
+        public void AjustarDataGridViews()
+        {
+            // Obtener la pestaña activa actual
+            TabPage paginaActiva = tabControlInicio.SelectedTab;
+
+            // Tamaño común para todos los DataGridViews
+            int anchoGrid = paginaActiva.Width - 40; 
+            int alturaGrid = paginaActiva.Height - 250; 
+            int posicionY = 180; 
+
+            // Posición horizontal centrada
+            int centroX = (paginaActiva.Width - anchoGrid) / 2;
+
+            // Aplicar a todos los DataGridViews
+            AplicarTamañoYPosicion(dataGridInventarioProducto,
+                                  tabInventario == paginaActiva,
+                                  anchoGrid, alturaGrid, centroX, posicionY);
+
+            AplicarTamañoYPosicion(dataGridProv,
+                                  tabProveedores == paginaActiva,
+                                  anchoGrid, alturaGrid, centroX, posicionY);
+
+            AplicarTamañoYPosicion(dataGridMP,
+                                  tabMateriaP == paginaActiva,
+                                  anchoGrid, alturaGrid, centroX, posicionY);
+
+            // Solo para administradores
+            if (Sesion.TieneRol("admin"))
+            {
+                AplicarTamañoYPosicion(dataGridEmpleados,
+                                      tabEmpleados == paginaActiva,
+                                      anchoGrid, alturaGrid, centroX, posicionY);
+            }
+            else
+            {
+                dataGridEmpleados.Visible = false;
+            }
+        }
+
+        private void AplicarTamañoYPosicion(DataGridView grid, bool mostrar,
+                                           int width, int height, int x, int y)
+        {
+            grid.SuspendLayout();
+            grid.Dock = DockStyle.None;
+            grid.Size = new Size(width, height);
+            grid.Location = new Point(x, y);
+            grid.Visible = mostrar;
+            grid.ResumeLayout(true);
         }
 
         private void ConfigurarDataGrid(DataGridView dataGrid, object data, Dictionary<string, string> columnas)
@@ -117,7 +201,6 @@ namespace C_Presentacion
 
             ConfigurarDataGrid(dataGridProv, proveedores, columnas);
         }
-
         public void CargarMateriasPrimas()
         {
             var materias = _materiaPrimaNeg.ObtenerMateriasPrimas();
@@ -151,24 +234,28 @@ namespace C_Presentacion
         private void btnInventario_Click(object sender, EventArgs e)
         {
             tabControlInicio.SelectedTab = tabInventario;
+            AjustarDataGridViews();
             CargarProductos();
         }
 
         private void btnEmpleados_Click(object sender, EventArgs e)
         {
             tabControlInicio.SelectedTab = tabEmpleados;
+            AjustarDataGridViews();
             CargarEmpleados();
         }
 
         private void btnMateriaPrima_Click(object sender, EventArgs e)
         {
             tabControlInicio.SelectedTab = tabMateriaP;
+            AjustarDataGridViews();
             CargarMateriasPrimas();
         }
 
         private void btnProveedores_Click(object sender, EventArgs e)
         {
             tabControlInicio.SelectedTab = tabProveedores;
+            AjustarDataGridViews();
             CargarProveedores();
         }
 
@@ -366,7 +453,7 @@ namespace C_Presentacion
                         formEdicion.Correo,
                         formEdicion.Telefono,
                         formEdicion.Rol))
-                    {CargarEmpleados();}
+                    { CargarEmpleados(); }
                 }
             }
         }
@@ -537,11 +624,6 @@ namespace C_Presentacion
 
         }
 
-        private void btnBucasrMateria_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void btnEliminarProv_Click(object sender, EventArgs e)
         {
             if (dataGridProv.SelectedRows.Count == 0)
@@ -571,7 +653,6 @@ namespace C_Presentacion
                 }
             }
         }
-
         private void dataGridProv_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0) return;
@@ -587,7 +668,7 @@ namespace C_Presentacion
                 Direccion = fila.Cells[4].Value?.ToString()
             };
 
-            using (var formEdicion = new EditarProveedores(this)) 
+            using (var formEdicion = new EditarProveedores(this))
             {
                 formEdicion.ProveedorId = proveedor.IdProveedor;
                 formEdicion.Nombre = proveedor.NombreProv;
