@@ -28,9 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Ventas));
             btnCancelarRegProd = new Button();
             btnGuardarRegProd = new Button();
             btnEliminarRegProd = new Button();
@@ -58,6 +59,8 @@
             btnReporte = new Button();
             cbClientes = new ComboBox();
             lblStockDisponible = new Label();
+            printDocumentVenta = new System.Drawing.Printing.PrintDocument();
+            printPreviewDialogo = new PrintPreviewDialog();
             ((System.ComponentModel.ISupportInitialize)nbCantidad).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridVentaProducto).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
@@ -172,31 +175,31 @@
             // 
             // dataGridVentaProducto
             // 
-            dataGridViewCellStyle4.BackColor = Color.FromArgb(221, 221, 221);
-            dataGridViewCellStyle4.Font = new Font("Bahnschrift", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle4.ForeColor = Color.Black;
-            dataGridVentaProducto.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle1.BackColor = Color.FromArgb(221, 221, 221);
+            dataGridViewCellStyle1.Font = new Font("Bahnschrift", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle1.ForeColor = Color.Black;
+            dataGridVentaProducto.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             dataGridVentaProducto.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridVentaProducto.BackgroundColor = Color.FromArgb(221, 221, 221);
-            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle5.BackColor = Color.Black;
-            dataGridViewCellStyle5.Font = new Font("Bahnschrift", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle5.ForeColor = Color.White;
-            dataGridViewCellStyle5.Padding = new Padding(1);
-            dataGridViewCellStyle5.SelectionBackColor = SystemColors.Desktop;
-            dataGridViewCellStyle5.SelectionForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle5.WrapMode = DataGridViewTriState.True;
-            dataGridVentaProducto.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.BackColor = Color.Black;
+            dataGridViewCellStyle2.Font = new Font("Bahnschrift", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle2.ForeColor = Color.White;
+            dataGridViewCellStyle2.Padding = new Padding(1);
+            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Desktop;
+            dataGridViewCellStyle2.SelectionForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
+            dataGridVentaProducto.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             dataGridVentaProducto.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridVentaProducto.Columns.AddRange(new DataGridViewColumn[] { id_prod, producto, talla, cantidad, precioUnit, subtotal });
-            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle6.BackColor = Color.FromArgb(221, 221, 221);
-            dataGridViewCellStyle6.Font = new Font("Bahnschrift", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle6.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle6.SelectionBackColor = SystemColors.Desktop;
-            dataGridViewCellStyle6.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle6.WrapMode = DataGridViewTriState.False;
-            dataGridVentaProducto.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = Color.FromArgb(221, 221, 221);
+            dataGridViewCellStyle3.Font = new Font("Bahnschrift", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle3.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle3.SelectionBackColor = SystemColors.Desktop;
+            dataGridViewCellStyle3.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.False;
+            dataGridVentaProducto.DefaultCellStyle = dataGridViewCellStyle3;
             dataGridVentaProducto.EnableHeadersVisualStyles = false;
             dataGridVentaProducto.GridColor = Color.FromArgb(221, 221, 221);
             dataGridVentaProducto.Location = new Point(405, 92);
@@ -331,6 +334,7 @@
             btnFacturaVenta.Size = new Size(187, 64);
             btnFacturaVenta.TabIndex = 63;
             btnFacturaVenta.UseVisualStyleBackColor = false;
+            btnFacturaVenta.Click += btnFacturaVenta_Click;
             // 
             // btnReporte
             // 
@@ -349,10 +353,11 @@
             // cbClientes
             // 
             cbClientes.FormattingEnabled = true;
-            cbClientes.Location = new Point(29, 531);
+            cbClientes.Location = new Point(24, 514);
             cbClientes.Name = "cbClientes";
             cbClientes.Size = new Size(346, 27);
             cbClientes.TabIndex = 65;
+            cbClientes.SelectedIndexChanged += cbClientes_SelectedIndexChanged;
             // 
             // lblStockDisponible
             // 
@@ -365,6 +370,16 @@
             lblStockDisponible.Size = new Size(66, 19);
             lblStockDisponible.TabIndex = 66;
             lblStockDisponible.Text = "Stock: 0";
+            // 
+            // printPreviewDialogo
+            // 
+            printPreviewDialogo.AutoScrollMargin = new Size(0, 0);
+            printPreviewDialogo.AutoScrollMinSize = new Size(0, 0);
+            printPreviewDialogo.ClientSize = new Size(400, 300);
+            printPreviewDialogo.Enabled = true;
+            printPreviewDialogo.Icon = (Icon)resources.GetObject("printPreviewDialogo.Icon");
+            printPreviewDialogo.Name = "printPreviewDialogo";
+            printPreviewDialogo.Visible = false;
             // 
             // Ventas
             // 
@@ -436,5 +451,7 @@
         private DataGridViewTextBoxColumn precioUnit;
         private DataGridViewTextBoxColumn subtotal;
         private Label lblStockDisponible;
+        private System.Drawing.Printing.PrintDocument printDocumentVenta;
+        private PrintPreviewDialog printPreviewDialogo;
     }
 }

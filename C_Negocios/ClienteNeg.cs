@@ -4,10 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using C_Datos;
+using C_Entidades;
 
 namespace C_Negocios
 {
     public class ClienteNeg
+
     {
         private ClienteDatos clienteDatos;
 
@@ -41,6 +43,12 @@ namespace C_Negocios
             {
                 throw new Exception("Error al obtener IDs de clientes: " + ex.Message);
             }
+        }
+
+        public List<Cliente> ObtenerClientes()
+        {
+            ClienteDatos datos = new ClienteDatos();
+            return datos.ObtenerClientes(); // Llama a la capa de datos
         }
     }
 }

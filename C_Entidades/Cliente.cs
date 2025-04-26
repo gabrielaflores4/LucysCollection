@@ -10,17 +10,19 @@ namespace C_Entidades
     {
         //Atributos especificos para clientes
         public DateTime FechaRegistro { get; set; }
+        public string NombreCompleto => $"{Nombre} {Apellido}";
 
-        //Constructor por defecto, con la fecha de registro automática
+
+        //Constructor por defecto
         public Cliente()
         {
-            FechaRegistro = DateTime.Now;
+
         }
 
         // Constructor con todos los parámetros
         public Cliente(int id, string nombre, string apellido, string telefono, string correo)
-            : base()
         {
+
             Id = id;
             Nombre = nombre;
             Apellido = apellido;
@@ -28,6 +30,5 @@ namespace C_Entidades
             Correo = correo;
             FechaRegistro = DateTime.Now;
         }
-
     }
 }

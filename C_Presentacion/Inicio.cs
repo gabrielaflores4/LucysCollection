@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using C_Entidades;
 using C_Negocios;
+using C_Datos;
 
 
 namespace C_Presentacion
@@ -19,6 +20,8 @@ namespace C_Presentacion
         private UsuarioNeg usuarioNeg = new UsuarioNeg();
         private ProveedorNeg _proveedorNeg = new ProveedorNeg();
         private MateriaPrimaNeg _materiaPrimaNeg = new MateriaPrimaNeg();
+        private ClienteNeg clienteNeg = new ClienteNeg();
+
 
         public Inicio() { 
             InitializeComponent();
@@ -26,6 +29,7 @@ namespace C_Presentacion
 
         private void Inicio_Load(object sender, EventArgs e) {
             AjustarDataGridViews();
+
         }
 
         public void ActualizarInfoUsuario(Usuario usuario)
@@ -230,7 +234,7 @@ namespace C_Presentacion
 
             ConfigurarDataGrid(dataGridMP, materiasConProveedor, columnas);
         }
-
+        
         private void btnInventario_Click(object sender, EventArgs e)
         {
             tabControlInicio.SelectedTab = tabInventario;

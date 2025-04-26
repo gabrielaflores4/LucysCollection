@@ -10,7 +10,7 @@ namespace C_Negocios
 {
     public class VentaNeg
     {
-        private VentaDatos ventaDatos;
+        private VentaDatos ventaDatos = new VentaDatos();
         private ProductoNeg productoNeg;  // Nueva instancia de la capa de productos
 
         public VentaNeg()
@@ -35,7 +35,15 @@ namespace C_Negocios
 
             try
             {
-                ventaDatos.RegistrarVenta(venta, Sesion.UsuarioActivo.IdUsuario);
+                int numComprobante = ventaDatos.InsertarComprobante(idCliente);
+
+
+                // 3. Registrar los detalles de la venta
+                foreach (var detalle in detalles)
+                {
+                    ventaDatos.InsertarVentaDetalle(numComprobante, detalle);
+                }
+
 
                 // Actualizar stocks
                 foreach (var detalle in detalles)
@@ -62,6 +70,12 @@ namespace C_Negocios
         public List<Producto> ObtenerProductos()
         {
             return productoNeg.ObtenerProductosConStock();
+        }
+
+        public int ObtenerNumeroTicket()
+        {
+            int ultimoTicket = ventaDatos.ObtenerUltimoTicket();
+            return ultimoTicket + 1;
         }
     }
 }

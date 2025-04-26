@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Printing;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using C_Datos;
 using C_Entidades;
 using C_Negocios;
 
@@ -16,21 +18,28 @@ namespace C_Presentacion
     public partial class Ventas : Form
     {
         private VentaNeg ventaNeg;
+        VentaDatos ventaDatos = new VentaDatos();
+        private int ultimoTicket;
         private List<DetalleVenta> detallesVenta;
         private ProductoNeg productoNeg = new ProductoNeg();
         private ClienteNeg clienteNeg = new ClienteNeg();
         private List<int> idsClientes;
+        private decimal montoPagado;  // Variable para almacenar el monto pagado
+
 
         public Ventas()
         {
             InitializeComponent();
             cbClientes.Visible = false;
             detallesVenta = new List<DetalleVenta>();
-            ventaNeg = new VentaNeg(); // Inicializa primero ventaNeg
+            ventaNeg = new VentaNeg(); 
             ActualizarDataGrid();
-            CargarProductos(); // Ahora puedes llamar a CargarProductos
+            CargarProductos();  
             CargarTallasDisponibles(); // Cargar tallas disponibles
             idsClientes = clienteNeg.ObtenerIdsClientes();
+            ultimoTicket = ventaDatos.ObtenerUltimoTicket();
+           
+
         }
 
         private void LimpiarControles()
@@ -138,8 +147,7 @@ namespace C_Presentacion
 
         private void Ventas_Load(object sender, EventArgs e)
         {
-            List<string> nombresClientes = clienteNeg.ObtenerNombresClientes();
-            cbClientes.DataSource = nombresClientes;
+            CargarClientes();
         }
 
         private void rbCliNuevo_CheckedChanged(object sender, EventArgs e)
@@ -259,7 +267,7 @@ namespace C_Presentacion
 
             // Actualizar el DataGridView
             ActualizarDataGrid();
-            MessageBox.Show("Producto eliminado de la venta.","Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show("Producto eliminado de la venta.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
             ActualizarTotal();
         }
 
@@ -286,6 +294,14 @@ namespace C_Presentacion
                     }
                 }
 
+                else if (rbCliNuevo.Checked)
+                {
+                    // Llamar a la ventana de registro de cliente si se selecciona un cliente nuevo
+                    FrmRegClientes frmRegClientes = new FrmRegClientes();
+                    frmRegClientes.ShowDialog();
+                }
+
+
                 ventaNeg.RegistrarVenta(clienteId, detallesVenta);
 
                 MessageBox.Show("Venta registrada exitosamente", "Confirmación", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -297,8 +313,157 @@ namespace C_Presentacion
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al registrar venta: {ex.Message}","Error",MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Error al registrar venta: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        private void btnFacturaVenta_Click(object sender, EventArgs e)
+        {
+            string input = Microsoft.VisualBasic.Interaction.InputBox("¿Con cuánto pagó el cliente?", "", "");
+
+            // Valida que el valor ingresado sea un número válido
+            if (decimal.TryParse(input, out decimal montoPagado))
+            {
+                // Guarda el monto pagado en una variable
+                this.montoPagado = montoPagado;
+
+                // Impresión del ticket//
+                printDocumentVenta = new System.Drawing.Printing.PrintDocument();
+                PrinterSettings printerSettings = new PrinterSettings();
+                printDocumentVenta.PrinterSettings = printerSettings;
+                printDocumentVenta.PrintPage += Imprimir;
+                printDocumentVenta.Print();
+            }
+            else
+            {
+                MessageBox.Show("Por favor ingrese un monto válido.");
+            }
+
+            ImprimirTicketConVistaPrevia();
+        }
+        private void ImprimirTicketConVistaPrevia()
+        {
+            PrintDocument doc = new PrintDocument();
+            doc.PrintPage += new PrintPageEventHandler(Imprimir);
+
+            PrintPreviewDialog vistaPrevia = new PrintPreviewDialog();
+            vistaPrevia.Document = doc;
+            vistaPrevia.ShowDialog(); // Ventana de visualización de ticket para las pruebas//
+        }
+        private void Imprimir(object sender, PrintPageEventArgs e)
+        {
+
+            Cliente clienteSeleccionado = (Cliente)cbClientes.SelectedItem;
+
+            if (cbClientes.SelectedItem == null || cbClientes.Items.Count == 0)
+            {
+                MessageBox.Show("No hay cliente seleccionado para imprimir el ticket.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                e.HasMorePages = false;
+                return;
+            }
+
+            Cliente ClienteSeleccionado = (Cliente)cbClientes.SelectedItem;
+
+            if (clienteSeleccionado == null)
+            {
+                MessageBox.Show("El cliente seleccionado no es válido.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                e.HasMorePages = false;
+                return;
+            }
+
+            string nombreCliente = clienteSeleccionado.NombreCompleto;
+            int idCliente = clienteSeleccionado.Id;
+
+            Graphics g = e.Graphics;
+            Font monoFont = new Font("Courier New", 12); // Fuente bonita para ticket
+            int yPos = 30;
+
+            g.DrawString("Lucy´s Collections", new Font("Arial", 14, FontStyle.Bold), Brushes.Black, 100, yPos);yPos += 30;
+            
+            g.DrawString($"Ticket: #{ventaNeg.ObtenerNumeroTicket().ToString("D5")}", monoFont, Brushes.Black, 10, yPos);
+            yPos += 20;
+            g.DrawString($"Fecha: {DateTime.Now:dd/MM/yyyy}", monoFont, Brushes.Black, 10, yPos);
+            yPos += 20; 
+            g.DrawString($"Hora: {DateTime.Now:HH:mm:ss}", monoFont, Brushes.Black, 10, yPos);
+            yPos += 30; 
+            g.DrawString("NIT: 0614-080322-115-2", monoFont, Brushes.Black, 10, yPos); yPos += 20;
+            g.DrawString("NRC: 316440-2", monoFont, Brushes.Black, 10, yPos); yPos += 20;
+            g.DrawString("Dirección: Avenida 5 de noviembre, Atiquizaya, Ahuachapán", monoFont, Brushes.Black, 10, yPos); yPos += 30;
+
+            //Datos del cliente//
+            g.DrawString("Cliente:", new Font("Courier New", 12, FontStyle.Bold), Brushes.Black, 10, yPos); yPos += 30;
+            g.DrawString($"Nombre: {nombreCliente}", monoFont, Brushes.Black, 10, yPos); yPos += 20;
+            g.DrawString($"ID Cliente: {idCliente}", monoFont, Brushes.Black, 10, yPos); yPos += 20;
+            g.DrawString($"Fecha Registro: {clienteSeleccionado.FechaRegistro:dd/MM/yyyy}", monoFont, Brushes.Black, 10, yPos); yPos += 30;
+
+
+
+            g.DrawString("Productos:", new Font("Courier New", 12, FontStyle.Bold), Brushes.Black, 10, yPos += 20);
+            yPos += 30;
+
+            // Cabeza de la tablita 
+            string encabezado = string.Format("{0,-15} | {1,8} | {2,8} | {3,10}", "Producto", "Precio", "Cantidad", "Sub Total");
+            g.DrawString(encabezado, monoFont, Brushes.Black, 10, yPos += 20);
+            yPos += 20;
+
+            // Información de los productos 
+            foreach (var item in detallesVenta)
+            {
+                string linea = string.Format("{0,-15} | {1,8:C} | {2,8} | {3,10:C}",
+                                              item.Producto.Nombre.Length > 15 ? item.Producto.Nombre.Substring(0, 15) : item.Producto.Nombre,
+                                              item.PrecioUnitario,
+                                              item.Cantidad,
+                                              item.Cantidad * item.PrecioUnitario);
+                g.DrawString(linea, monoFont, Brushes.Black, 10, yPos += 20);
+                yPos += 30;
+            }
+
+
+           
+
+            // Total
+            decimal totalVenta = detallesVenta.Sum(d => d.PrecioUnitario * d.Cantidad);
+            g.DrawString($"Total: {totalVenta:C}", monoFont, Brushes.Black, 10, yPos +=25);
+            yPos += 20;
+
+            //Pago y cambio//
+            if (montoPagado >= totalVenta)
+            {
+                decimal cambio = montoPagado - totalVenta;
+                g.DrawString($"Pago con: {montoPagado:C}", monoFont, Brushes.Black, 10, yPos);
+                yPos += 20;
+                g.DrawString($"Cambio: {cambio:C}", monoFont, Brushes.Black, 10, yPos);
+                yPos += 20;
+            }
+            else
+            {
+                g.DrawString("Monto insuficiente para completar la compra.", monoFont, Brushes.Black, 10, yPos);
+                yPos += 30;
+            }
+            g.DrawString("¡Gracias por su compra!", new Font("Arial", 14, FontStyle.Bold), Brushes.Black, 80, yPos +=30);
+
+        }
+        private void cbClientes_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Cliente clienteSeleccionado = cbClientes.SelectedItem as Cliente;
+
+            if (cbClientes.SelectedItem != null)
+            {
+                Cliente ClienteSeleccionado = (Cliente)cbClientes.SelectedItem;
+                string nombreCliente = clienteSeleccionado.NombreCompleto;
+                int idCliente = clienteSeleccionado.Id;
+            }
+            else
+            {
+                MessageBox.Show("Por favor, selecciona un cliente antes de imprimir.");
+            }
+        }
+        private void CargarClientes()
+        {
+            cbClientes.DataSource = clienteNeg.ObtenerClientes();
+            cbClientes.DisplayMember = "NombreCompleto"; 
+            cbClientes.ValueMember = "Id"; 
+        }
+
     }
 }

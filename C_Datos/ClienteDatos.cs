@@ -5,15 +5,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using C_Entidades;
+using iTextSharp.text.pdf.codec.wmf;
 
 namespace C_Datos
 {
     public class ClienteDatos
     {
-        
+
 
         // Método para crear un Cliente
-        public int CrearCliente(string nombre, string apellido, string correo,string telefono, DateTime fechaRegistro)
+        public int CrearCliente(string nombre, string apellido, string correo, string telefono, DateTime fechaRegistro)
         {
             using (var conexion = Conexion.ObtenerConexion())
             {
@@ -43,7 +44,7 @@ namespace C_Datos
                         {
                             cmdCliente.Parameters.AddWithValue("@id_persona", idPersona);
                             cmdCliente.Parameters.AddWithValue("@fecha_registro", fechaRegistro);
-                           
+
                             idCliente = Convert.ToInt32(cmdCliente.ExecuteScalar()); // Obtener el ID del Cliente
                         }
 
@@ -59,7 +60,7 @@ namespace C_Datos
                 }
             }
         }
-       
+
         public List<string> ObtenerNombresClientes()
         {
             var nombresClientes = new List<string>();
@@ -98,6 +99,38 @@ namespace C_Datos
 
             return idsClientes;
         }
-    }
 
+        public List<Cliente> ObtenerClientes()
+        {
+            var listaClientes = new List<Cliente>();
+
+            using (var conexion = Conexion.ObtenerConexion())
+            {
+                string query = @"SELECT c.id_cliente, p.nombre, p.apellido, p.telefono, p.correo, c.fecha_registro 
+                         FROM Cliente c 
+                         JOIN Personas p ON c.id_persona = p.id_persona";
+
+                using (var cmd = new NpgsqlCommand(query, conexion))
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        var cliente = new Cliente
+                        {
+                            Id = reader.GetInt32(reader.GetOrdinal("id_cliente")),
+                            Nombre = reader.GetString(reader.GetOrdinal("nombre")),
+                            Apellido = reader.GetString(reader.GetOrdinal("apellido")),
+                            Telefono = reader.GetString(reader.GetOrdinal("telefono")),
+                            Correo = reader.GetString(reader.GetOrdinal("correo")),
+                            FechaRegistro = reader.GetDateTime(reader.GetOrdinal("fecha_registro"))
+                        };
+
+                        listaClientes.Add(cliente);
+                    }
+                }
+            }
+
+            return listaClientes;
+        }
+    }
 }
