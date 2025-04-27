@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using C_Entidades;
 using C_Negocios;
 using C_Datos;
+using System.Windows.Forms.DataVisualization.Charting;
 
 
 namespace C_Presentacion
@@ -27,7 +28,66 @@ namespace C_Presentacion
             InitializeComponent();
         }
 
-        private void Inicio_Load(object sender, EventArgs e) {}
+        private void Inicio_Load(object sender, EventArgs e) {
+            ConfigurarGrafico();
+            CargarEstadisticas();
+        }
+
+        private void ConfigurarGrafico()
+        {
+            //Limpiar configuración previa
+            chartVentas.Series.Clear();
+            chartVentas.ChartAreas.Clear();
+
+            //Área del gráfico
+            ChartArea area = new ChartArea("VentasArea");
+            area.AxisX.Title = "Meses";
+            area.AxisY.Title = "Ventas ($)";
+            area.AxisX.LabelStyle.Angle = -45; 
+            area.AxisX.Interval = 1; 
+            chartVentas.ChartAreas.Add(area);
+
+            //Serie de columnas
+            Series serie = new Series("Ventas Mensuales")
+            {
+                ChartType = SeriesChartType.Column,
+                Color = ColorTranslator.FromHtml("#5a24a6"),
+                IsValueShownAsLabel = true,
+                LabelFormat = "C0" 
+            };
+            chartVentas.Series.Add(serie);
+        }
+
+        private void CargarEstadisticas()
+        {
+            try
+            {
+                //Obtener datos de la capa de negocio
+                var estadisticas = new EstadisticasNeg();
+
+                //Datos para el gráfico (ventas por mes)
+                var ventasMensuales = estadisticas.ObtenerVentasMensualesFormateadas();
+                chartVentas.Series["Ventas Mensuales"].Points.DataBindXY(
+                    ventasMensuales.Keys,
+                    ventasMensuales.Values
+                );
+
+                //Actualizar labels
+                var stock = estadisticas.ObtenerResumenStock();
+                lblStockDisponible.Text = stock.Disponible.ToString("N0");
+                lblStockBajo.Text = stock.BajoStock.ToString("N0");
+                lblSinStock.Text = stock.SinStock.ToString("N0");
+                lblProductoMasVendido.Text = estadisticas.ObtenerProductoMasVendido();
+                lblVentasDiarias.Text = estadisticas.ObtenerVentasDiarias().ToString("C2");
+
+                int total = estadisticas.ObtenerTotalProductos();
+                lblTotalProductos.Text = total.ToString("N0"); 
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al cargar datos: {ex.Message}", "Error",MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
 
         public void ActualizarInfoUsuario(Usuario usuario)
         {

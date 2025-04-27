@@ -106,6 +106,7 @@
             tbPassword.Name = "tbPassword";
             tbPassword.Size = new Size(404, 27);
             tbPassword.TabIndex = 4;
+            tbPassword.UseSystemPasswordChar = true;
             tbPassword.KeyPress += tbPassword_KeyPress;
             // 
             // btnLogin
