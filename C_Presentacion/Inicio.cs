@@ -27,10 +27,7 @@ namespace C_Presentacion
             InitializeComponent();
         }
 
-        private void Inicio_Load(object sender, EventArgs e) {
-            AjustarDataGridViews();
-
-        }
+        private void Inicio_Load(object sender, EventArgs e) {}
 
         public void ActualizarInfoUsuario(Usuario usuario)
         {
@@ -73,36 +70,35 @@ namespace C_Presentacion
             // Obtener la pestaña activa actual
             TabPage paginaActiva = tabControlInicio.SelectedTab;
 
-            // Tamaño común para todos los DataGridViews
-            int anchoGrid = paginaActiva.Width - 40; 
-            int alturaGrid = paginaActiva.Height - 250; 
-            int posicionY = 180; 
-
-            // Posición horizontal centrada
-            int centroX = (paginaActiva.Width - anchoGrid) / 2;
-
-            // Aplicar a todos los DataGridViews
-            AplicarTamañoYPosicion(dataGridInventarioProducto,
-                                  tabInventario == paginaActiva,
-                                  anchoGrid, alturaGrid, centroX, posicionY);
-
-            AplicarTamañoYPosicion(dataGridProv,
-                                  tabProveedores == paginaActiva,
-                                  anchoGrid, alturaGrid, centroX, posicionY);
-
-            AplicarTamañoYPosicion(dataGridMP,
-                                  tabMateriaP == paginaActiva,
-                                  anchoGrid, alturaGrid, centroX, posicionY);
-
-            // Solo para administradores
             if (Sesion.TieneRol("admin"))
             {
-                AplicarTamañoYPosicion(dataGridEmpleados,
-                                      tabEmpleados == paginaActiva,
-                                      anchoGrid, alturaGrid, centroX, posicionY);
+                dataGridEmpleados.SuspendLayout();
+                dataGridEmpleados.Dock = DockStyle.None;
+                dataGridEmpleados.Size = new Size(847, 488); 
+                dataGridEmpleados.Location = new Point(232, 189); 
+                dataGridEmpleados.Visible = (tabEmpleados == paginaActiva);
+                dataGridEmpleados.ResumeLayout(true);
             }
-            else
+            else 
             {
+                // Ajustar los DataGridViews generales
+                int anchoGrid = paginaActiva.Width - 40;
+                int alturaGrid = paginaActiva.Height - 250;
+                int posicionY = 180;
+                int centroX = (paginaActiva.Width - anchoGrid) / 2;
+
+                AplicarTamañoYPosicion(dataGridInventarioProducto,
+                                      tabInventario == paginaActiva,
+                                      anchoGrid, alturaGrid, centroX, posicionY);
+
+                AplicarTamañoYPosicion(dataGridProv,
+                                      tabProveedores == paginaActiva,
+                                      anchoGrid, alturaGrid, centroX, posicionY);
+
+                AplicarTamañoYPosicion(dataGridMP,
+                                      tabMateriaP == paginaActiva,
+                                      anchoGrid, alturaGrid, centroX, posicionY);
+
                 dataGridEmpleados.Visible = false;
             }
         }

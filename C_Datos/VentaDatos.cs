@@ -63,16 +63,13 @@ namespace C_Datos
             }
         }
 
-        private string cadenaConexion = "Host=localhost;Port=5432;Username=postgres;Password=Lincon22;Database=lucyssdb";
-
         public int ObtenerUltimoTicket()
         {
             string query = "SELECT MAX(num_comprobante) FROM Comprobante";
 
             // Conexión y ejecución de la consulta usando Npgsql
-            using (NpgsqlConnection connection = new NpgsqlConnection(cadenaConexion))
+            using (NpgsqlConnection connection = Conexion.ObtenerConexion())
             {
-                connection.Open();
                 using (var cmd = new NpgsqlCommand(query, connection)) // Usa NpgsqlCommand
                 {
                     var result = cmd.ExecuteScalar();
@@ -86,10 +83,8 @@ namespace C_Datos
             try
             {
                 // Crear una conexión a la base de datos (Asegúrate de tener tu conexión configurada)
-                using (var conexion = new NpgsqlConnection(cadenaConexion))
+                using (var conexion = Conexion.ObtenerConexion())
                 {
-                    conexion.Open();
-
                     // Crear el comando para insertar el comprobante
                     string query = "INSERT INTO comprobantes (id_cliente, fecha) VALUES (@idCliente, @fecha) RETURNING num_comprobante";
 
@@ -115,10 +110,8 @@ namespace C_Datos
         {
             try
             {
-                using (var conexion = new NpgsqlConnection(cadenaConexion))
+                using (var conexion = Conexion.ObtenerConexion())
                 {
-                    conexion.Open();
-
                     // Crear el comando para insertar un detalle de venta
                     string query = "INSERT INTO venta_detalles (num_comprobante, producto_id, cantidad, precio_unitario) " +
                                    "VALUES (@numComprobante, @productoId, @cantidad, @precioUnitario)";
@@ -141,6 +134,5 @@ namespace C_Datos
                 throw new Exception($"Error al insertar detalle de venta: {ex.Message}");
             }
         }
-
     }
 }
