@@ -61,12 +61,12 @@ namespace C_Presentacion
 
         private void tbUsername_KeyPress(object sender, KeyPressEventArgs e)
         {
-            Validaciones.LetrasYNumeros(e);
+            //Validaciones.LetrasYNumeros(e);
         }
 
         private void tbPassword_KeyPress(object sender, KeyPressEventArgs e)
         {
-            Validaciones.LetrasYNumeros(e);
+            //Validaciones.LetrasYNumeros(e);
         }
     }
 }

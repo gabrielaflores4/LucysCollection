@@ -55,9 +55,9 @@ namespace C_Presentacion
                 tbPassword.Clear();
                 cbRol.SelectedIndex = -1;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                MessageBox.Show("Error al registrar usuario: ", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Error al registrar usuario: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -68,32 +68,32 @@ namespace C_Presentacion
 
         private void tbNombreUser_KeyPress(object sender, KeyPressEventArgs e)
         {
-            Validaciones.SoloLetras(e);
+            //Validaciones.SoloLetras(e);
         }
 
         private void tbApellidoUser_KeyPress(object sender, KeyPressEventArgs e)
         {
-            Validaciones.SoloLetras(e);
+            //Validaciones.SoloLetras(e);
         }
 
         private void tbCorreoUser_KeyPress(object sender, KeyPressEventArgs e)
         {
-            Validaciones.ParaCorreo(e, tbCorreoUser);
+            //Validaciones.ParaCorreo(e, tbCorreoUser);
         }
 
         private void tbTelefonoUser_KeyPress(object sender, KeyPressEventArgs e)
         {
-            Validaciones.ParaTelefono(e, tbTelefonoUser);
+            //Validaciones.ParaTelefono(e, tbTelefonoUser);
         }
 
         private void tbUsername_KeyPress(object sender, KeyPressEventArgs e)
         {
-            Validaciones.LetrasYNumeros(e);
+            //Validaciones.LetrasYNumeros(e);
         }
 
         private void tbPassword_KeyPress(object sender, KeyPressEventArgs e)
         {
-            Validaciones.LetrasYNumeros(e);
+            //Validaciones.LetrasYNumeros(e);
         }
     }
 }

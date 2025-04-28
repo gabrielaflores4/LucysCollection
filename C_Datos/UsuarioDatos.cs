@@ -48,45 +48,110 @@ namespace C_Datos
         {
             using (var conexion = Conexion.ObtenerConexion())
             {
-                using (var transaccion = conexion.BeginTransaction()) // Iniciar una transacción
+                // PRIMERO: Verificar datos únicos ANTES de la transacción
+                try
+                {
+                    // 1. Verificar correo único
+                    using (var cmd = new NpgsqlCommand("SELECT id_persona FROM Personas WHERE correo = @correo", conexion))
+                    {
+                        cmd.Parameters.AddWithValue("@correo", correo);
+                        var resultado = cmd.ExecuteScalar();
+                        if (resultado != null)
+                            throw new Exception("El correo electrónico ya está registrado");
+                    }
+
+                    // 2. Verificar username único
+                    using (var cmd = new NpgsqlCommand("SELECT id_usuario FROM Usuarios WHERE username = @username", conexion))
+                    {
+                        cmd.Parameters.AddWithValue("@username", username);
+                        var resultado = cmd.ExecuteScalar();
+                        if (resultado != null)
+                            throw new Exception("El nombre de usuario ya existe");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("Error en validación: " + ex.Message);
+                }
+
+                // SEGUNDO: Transacción para inserción
+                using (var transaccion = conexion.BeginTransaction())
                 {
                     try
                     {
-                        //Insertar en la tabla Personas
                         int idPersona;
-                        using (var cmdPersona = new NpgsqlCommand(
-                            @"INSERT INTO Personas (nombre, apellido, correo, telefono) VALUES (@nombre, @apellido, @correo, @telefono) RETURNING id_persona",
-                            conexion))
-                        {
-                            cmdPersona.Parameters.AddWithValue("@nombre", nombre);
-                            cmdPersona.Parameters.AddWithValue("@apellido", apellido);
-                            cmdPersona.Parameters.AddWithValue("@correo", correo);
-                            cmdPersona.Parameters.AddWithValue("@telefono", telefono);
 
-                            idPersona = Convert.ToInt32(cmdPersona.ExecuteScalar()); // Obtener el ID generado
+                        // 1. Insertar en Personas con RETURNING
+                        using (var cmd = new NpgsqlCommand(
+                            @"INSERT INTO Personas (nombre, apellido, correo, telefono) 
+                      VALUES (@nombre, @apellido, @correo, @telefono)
+                      RETURNING id_persona",
+                            conexion, transaccion))
+                        {
+                            cmd.Parameters.AddWithValue("@nombre", nombre);
+                            cmd.Parameters.AddWithValue("@apellido", apellido);
+                            cmd.Parameters.AddWithValue("@correo", correo);
+                            cmd.Parameters.AddWithValue("@telefono", telefono);
+
+                            var resultado = cmd.ExecuteScalar();
+                            if (resultado == null)
+                                throw new Exception("No se pudo obtener el ID de persona generado");
+
+                            idPersona = Convert.ToInt32(resultado);
                         }
 
-                        //Insertar en la tabla Usuarios
+                        // 2. Insertar en Usuarios
                         int idUsuario;
-                        using (var cmdUsuario = new NpgsqlCommand(
-                            @"INSERT INTO Usuarios (id_persona, username, password, rol) VALUES (@id_persona, @username, @password, @rol) RETURNING id_usuario",
-                            conexion))
+                        using (var cmd = new NpgsqlCommand(
+                            @"INSERT INTO Usuarios (id_persona, username, password, rol)
+                      VALUES (@id_persona, @username, @password, @rol)
+                      RETURNING id_usuario",
+                            conexion, transaccion))
                         {
-                            cmdUsuario.Parameters.AddWithValue("@id_persona", idPersona);
-                            cmdUsuario.Parameters.AddWithValue("@username", username);
-                            cmdUsuario.Parameters.AddWithValue("@password", password);
-                            cmdUsuario.Parameters.AddWithValue("@rol", rol);
+                            cmd.Parameters.AddWithValue("@id_persona", idPersona);
+                            cmd.Parameters.AddWithValue("@username", username);
+                            cmd.Parameters.AddWithValue("@password", password);
+                            cmd.Parameters.AddWithValue("@rol", rol);
 
-                            idUsuario = Convert.ToInt32(cmdUsuario.ExecuteScalar()); // Obtener el ID del usuario
+                            var resultado = cmd.ExecuteScalar();
+                            if (resultado == null)
+                                throw new Exception("No se pudo obtener el ID de usuario generado");
+
+                            idUsuario = Convert.ToInt32(resultado);
                         }
 
-                        transaccion.Commit(); 
+                        transaccion.Commit();
                         return idUsuario;
                     }
-                    catch
+                    catch (PostgresException ex) when (ex.SqlState == "23505")
                     {
-                        transaccion.Rollback(); 
-                        throw;
+                        transaccion.Rollback();
+
+                        if (ex.Message.Contains("personas_pkey"))
+                        {
+                            // Solución automática para secuencia desincronizada
+                            try
+                            {
+                                using (var cmd = new NpgsqlCommand(
+                                    "SELECT setval('personas_id_persona_seq', (SELECT MAX(id_persona) FROM personas))",
+                                    conexion))
+                                {
+                                    cmd.ExecuteNonQuery();
+                                }
+                                // Reintentar
+                                return CrearUsuario(nombre, apellido, telefono, correo, username, password, rol);
+                            }
+                            catch
+                            {
+                                throw new Exception("Error crítico en secuencia de IDs. Contacte al administrador.");
+                            }
+                        }
+                        throw new Exception("Error de duplicado: " + ex.Message);
+                    }
+                    catch (Exception ex)
+                    {
+                        transaccion.Rollback();
+                        throw new Exception("Error al crear usuario: " + ex.Message);
                     }
                 }
             }

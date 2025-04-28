@@ -9,6 +9,7 @@ namespace C_Presentacion
 {
     public static class Validaciones
     {
+        
         // Solo letras (A-Z y a-z), backspace y espacio
         public static void SoloLetras(KeyPressEventArgs e)
         {

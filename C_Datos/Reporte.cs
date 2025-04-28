@@ -15,7 +15,7 @@ namespace C_Datos
         {
             DataTable dt = new DataTable();
 
-            using (var con = new NpgsqlConnection(Conexion.cadenaConexion))
+            using (var con = Conexion.ObtenerConexion())
             {
                 con.Open();
 
