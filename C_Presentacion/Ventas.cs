@@ -32,13 +32,13 @@ namespace C_Presentacion
             InitializeComponent();
             cbClientes.Visible = false;
             detallesVenta = new List<DetalleVenta>();
-            ventaNeg = new VentaNeg(); 
+            ventaNeg = new VentaNeg();
             ActualizarDataGrid();
-            CargarProductos();  
+            CargarProductos();
             CargarTallasDisponibles(); // Cargar tallas disponibles
             idsClientes = clienteNeg.ObtenerIdsClientes();
             ultimoTicket = ventaDatos.ObtenerUltimoTicket();
-           
+
 
         }
 
@@ -315,6 +315,28 @@ namespace C_Presentacion
             {
                 MessageBox.Show($"Error al registrar venta: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+
+            string input = Microsoft.VisualBasic.Interaction.InputBox("¿Con cuánto pagó el cliente?", "", "");
+
+            // Valida que el valor ingresado sea un número válido
+            if (decimal.TryParse(input, out decimal montoPagado))
+            {
+                // Guarda el monto pagado en una variable
+                this.montoPagado = montoPagado;
+
+                // Impresión del ticket//
+                printDocumentVenta = new System.Drawing.Printing.PrintDocument();
+                PrinterSettings printerSettings = new PrinterSettings();
+                printDocumentVenta.PrinterSettings = printerSettings;
+                printDocumentVenta.PrintPage += Imprimir;
+                printDocumentVenta.Print();
+            }
+            else
+            {
+                MessageBox.Show("Por favor ingrese un monto válido.");
+            }
+
+            ImprimirTicketConVistaPrevia();
         }
 
         private void btnFacturaVenta_Click(object sender, EventArgs e)
@@ -378,14 +400,14 @@ namespace C_Presentacion
             Font monoFont = new Font("Courier New", 12); // Fuente bonita para ticket
             int yPos = 30;
 
-            g.DrawString("Lucy´s Collections", new Font("Arial", 14, FontStyle.Bold), Brushes.Black, 100, yPos);yPos += 30;
-            
+            g.DrawString("Lucy´s Collections", new Font("Arial", 14, FontStyle.Bold), Brushes.Black, 100, yPos); yPos += 30;
+
             g.DrawString($"Ticket: #{ventaNeg.ObtenerNumeroTicket().ToString("D5")}", monoFont, Brushes.Black, 10, yPos);
             yPos += 20;
             g.DrawString($"Fecha: {DateTime.Now:dd/MM/yyyy}", monoFont, Brushes.Black, 10, yPos);
-            yPos += 20; 
+            yPos += 20;
             g.DrawString($"Hora: {DateTime.Now:HH:mm:ss}", monoFont, Brushes.Black, 10, yPos);
-            yPos += 30; 
+            yPos += 30;
             g.DrawString("NIT: 0614-080322-115-2", monoFont, Brushes.Black, 10, yPos); yPos += 20;
             g.DrawString("NRC: 316440-2", monoFont, Brushes.Black, 10, yPos); yPos += 20;
             g.DrawString("Dirección: Avenida 5 de noviembre, Atiquizaya, Ahuachapán", monoFont, Brushes.Black, 10, yPos); yPos += 30;
@@ -410,20 +432,17 @@ namespace C_Presentacion
             foreach (var item in detallesVenta)
             {
                 string linea = string.Format("{0,-15} | {1,8:C} | {2,8} | {3,10:C}",
-                                              item.Producto.Nombre.Length > 15 ? item.Producto.Nombre.Substring(0, 15) : item.Producto.Nombre,
-                                              item.PrecioUnitario,
-                                              item.Cantidad,
-                                              item.Cantidad * item.PrecioUnitario);
+                item.Producto.Nombre.Length > 15 ? item.Producto.Nombre.Substring(0, 15) : item.Producto.Nombre,
+                item.PrecioUnitario,
+                item.Cantidad,
+                item.Cantidad * item.PrecioUnitario);
                 g.DrawString(linea, monoFont, Brushes.Black, 10, yPos += 20);
                 yPos += 30;
             }
 
-
-           
-
             // Total
             decimal totalVenta = detallesVenta.Sum(d => d.PrecioUnitario * d.Cantidad);
-            g.DrawString($"Total: {totalVenta:C}", monoFont, Brushes.Black, 10, yPos +=25);
+            g.DrawString($"Total: {totalVenta:C}", monoFont, Brushes.Black, 10, yPos += 25);
             yPos += 20;
 
             //Pago y cambio//
@@ -440,7 +459,7 @@ namespace C_Presentacion
                 g.DrawString("Monto insuficiente para completar la compra.", monoFont, Brushes.Black, 10, yPos);
                 yPos += 30;
             }
-            g.DrawString("¡Gracias por su compra!", new Font("Arial", 14, FontStyle.Bold), Brushes.Black, 80, yPos +=30);
+            g.DrawString("¡Gracias por su compra!", new Font("Arial", 14, FontStyle.Bold), Brushes.Black, 80, yPos += 30);
 
         }
         private void cbClientes_SelectedIndexChanged(object sender, EventArgs e)
@@ -461,9 +480,15 @@ namespace C_Presentacion
         private void CargarClientes()
         {
             cbClientes.DataSource = clienteNeg.ObtenerClientes();
-            cbClientes.DisplayMember = "NombreCompleto"; 
-            cbClientes.ValueMember = "Id"; 
+            cbClientes.DisplayMember = "NombreCompleto";
+            cbClientes.ValueMember = "Id";
         }
 
+        private void btnCancelarRegProd_Click(object sender, EventArgs e)
+        {
+            this.Close();
+            Inicio inicio = new Inicio();
+            inicio.Show();
+        }
     }
 }

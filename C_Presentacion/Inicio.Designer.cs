@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            components = new System.ComponentModel.Container();
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
@@ -44,6 +43,7 @@
             DataGridViewCellStyle dataGridViewCellStyle10 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle11 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle12 = new DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Inicio));
             pictureBox1 = new PictureBox();
             lblDashboard = new Label();
             lblNombreUsuario = new Label();
@@ -80,7 +80,10 @@
             pictureBox2 = new PictureBox();
             label2 = new Label();
             tabInventario = new TabPage();
-            button1 = new Button();
+            cmbPrecioUnit = new ComboBox();
+            cmbCategoria = new ComboBox();
+            cmbStockk = new ComboBox();
+            cmbTalla = new ComboBox();
             pictureBox9 = new PictureBox();
             dataGridInventarioProducto = new DataGridView();
             Id_Prod = new DataGridViewTextBoxColumn();
@@ -89,14 +92,11 @@
             stock = new DataGridViewTextBoxColumn();
             categoria = new DataGridViewTextBoxColumn();
             precio = new DataGridViewTextBoxColumn();
-            btnFechasAntInv = new Button();
-            btnFechasRecientesInv = new Button();
             btnEliminarInventario = new Button();
             btnAgregarInventario = new Button();
             tbBusquedaInventario = new TextBox();
             label22 = new Label();
             tabEmpleados = new TabPage();
-            button3 = new Button();
             btnBuscar = new PictureBox();
             dataGridEmpleados = new DataGridView();
             Id = new DataGridViewTextBoxColumn();
@@ -105,14 +105,13 @@
             Correo = new DataGridViewTextBoxColumn();
             Telefono = new DataGridViewTextBoxColumn();
             Rol = new DataGridViewTextBoxColumn();
-            btnFechasAEmpleados = new Button();
-            btnFechasREmpleados = new Button();
             btnEliminarEmpleados = new Button();
             btnAgregarEmpleados = new Button();
             tbBusquedaEmpleados = new TextBox();
             label1 = new Label();
             tabMateriaP = new TabPage();
-            button2 = new Button();
+            cmbStock = new ComboBox();
+            cmbPrecio = new ComboBox();
             btnBucasrMateria = new PictureBox();
             dataGridMP = new DataGridView();
             Id_MP = new DataGridViewTextBoxColumn();
@@ -121,14 +120,11 @@
             Stock_MP = new DataGridViewTextBoxColumn();
             Prov_MP = new DataGridViewTextBoxColumn();
             FechaIngMP = new DataGridViewTextBoxColumn();
-            btnFechasAMP = new Button();
-            btnFechasRMP = new Button();
             btnEliminarMateriaP = new Button();
             btnAgregarMateriaP = new Button();
-            btnBusquedaMateriaP = new TextBox();
+            tbBusquedaMateriaPrima = new TextBox();
             label10 = new Label();
             tabProveedores = new TabPage();
-            button4 = new Button();
             pictureBox12 = new PictureBox();
             dataGridProv = new DataGridView();
             IdProveedor = new DataGridViewTextBoxColumn();
@@ -136,13 +132,11 @@
             Telefono_prov = new DataGridViewTextBoxColumn();
             Correo_prov = new DataGridViewTextBoxColumn();
             Direccion_prov = new DataGridViewTextBoxColumn();
-            btnFechasAProv = new Button();
-            btnFechasRProv = new Button();
             btnEliminarProv = new Button();
             btnAgregarProv = new Button();
             tbBusquedaProv = new TextBox();
             label11 = new Label();
-            busquedaTimer = new System.Windows.Forms.Timer(components);
+            btnReporte = new Button();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             tabControlInicio.SuspendLayout();
             tabInicio.SuspendLayout();
@@ -221,7 +215,7 @@
             btnInventario.BackgroundImage = Properties.Resources.btn_Inventario;
             btnInventario.BackgroundImageLayout = ImageLayout.Stretch;
             btnInventario.FlatStyle = FlatStyle.Flat;
-            btnInventario.Location = new Point(26, 222);
+            btnInventario.Location = new Point(24, 213);
             btnInventario.Name = "btnInventario";
             btnInventario.Size = new Size(205, 45);
             btnInventario.TabIndex = 4;
@@ -234,7 +228,7 @@
             btnVentas.BackgroundImage = Properties.Resources.btn_Ventas;
             btnVentas.BackgroundImageLayout = ImageLayout.Stretch;
             btnVentas.FlatStyle = FlatStyle.Flat;
-            btnVentas.Location = new Point(26, 153);
+            btnVentas.Location = new Point(26, 151);
             btnVentas.Name = "btnVentas";
             btnVentas.Size = new Size(205, 45);
             btnVentas.TabIndex = 5;
@@ -247,7 +241,7 @@
             btnEmpleados.BackgroundImage = Properties.Resources.btn_Empleados;
             btnEmpleados.BackgroundImageLayout = ImageLayout.Stretch;
             btnEmpleados.FlatStyle = FlatStyle.Flat;
-            btnEmpleados.Location = new Point(26, 429);
+            btnEmpleados.Location = new Point(24, 403);
             btnEmpleados.Name = "btnEmpleados";
             btnEmpleados.Size = new Size(205, 45);
             btnEmpleados.TabIndex = 6;
@@ -260,7 +254,7 @@
             btnMateriaPrima.BackgroundImage = Properties.Resources.btnMateriaPrima;
             btnMateriaPrima.BackgroundImageLayout = ImageLayout.Stretch;
             btnMateriaPrima.FlatStyle = FlatStyle.Flat;
-            btnMateriaPrima.Location = new Point(26, 291);
+            btnMateriaPrima.Location = new Point(26, 280);
             btnMateriaPrima.Name = "btnMateriaPrima";
             btnMateriaPrima.Size = new Size(205, 45);
             btnMateriaPrima.TabIndex = 7;
@@ -273,7 +267,7 @@
             btnProveedores.BackgroundImage = Properties.Resources.btn_Proveedores;
             btnProveedores.BackgroundImageLayout = ImageLayout.Stretch;
             btnProveedores.FlatStyle = FlatStyle.Flat;
-            btnProveedores.Location = new Point(26, 360);
+            btnProveedores.Location = new Point(24, 341);
             btnProveedores.Name = "btnProveedores";
             btnProveedores.Size = new Size(205, 45);
             btnProveedores.TabIndex = 8;
@@ -607,34 +601,62 @@
             // tabInventario
             // 
             tabInventario.BackColor = Color.FromArgb(212, 221, 221, 221);
-            tabInventario.Controls.Add(button1);
+            tabInventario.Controls.Add(cmbPrecioUnit);
+            tabInventario.Controls.Add(cmbCategoria);
+            tabInventario.Controls.Add(cmbStockk);
+            tabInventario.Controls.Add(cmbTalla);
             tabInventario.Controls.Add(pictureBox9);
             tabInventario.Controls.Add(dataGridInventarioProducto);
-            tabInventario.Controls.Add(btnFechasAntInv);
-            tabInventario.Controls.Add(btnFechasRecientesInv);
             tabInventario.Controls.Add(btnEliminarInventario);
             tabInventario.Controls.Add(btnAgregarInventario);
             tabInventario.Controls.Add(tbBusquedaInventario);
             tabInventario.Controls.Add(label22);
-            tabInventario.Location = new Point(4, 24);
+            tabInventario.Location = new Point(4, 28);
             tabInventario.Name = "tabInventario";
             tabInventario.Padding = new Padding(3);
-            tabInventario.Size = new Size(1093, 706);
+            tabInventario.Size = new Size(1093, 702);
             tabInventario.TabIndex = 1;
             tabInventario.Text = "tabPage2";
             // 
-            // button1
+            // cmbPrecioUnit
             // 
-            button1.BackColor = Color.FromArgb(221, 221, 221);
-            button1.BackgroundImage = Properties.Resources.btnRestablecer;
-            button1.BackgroundImageLayout = ImageLayout.Stretch;
-            button1.FlatStyle = FlatStyle.Flat;
-            button1.ForeColor = Color.FromArgb(221, 221, 221);
-            button1.Location = new Point(985, 105);
-            button1.Name = "button1";
-            button1.Size = new Size(88, 81);
-            button1.TabIndex = 26;
-            button1.UseVisualStyleBackColor = false;
+            cmbPrecioUnit.FormattingEnabled = true;
+            cmbPrecioUnit.Location = new Point(938, 141);
+            cmbPrecioUnit.Name = "cmbPrecioUnit";
+            cmbPrecioUnit.Size = new Size(134, 27);
+            cmbPrecioUnit.TabIndex = 29;
+            cmbPrecioUnit.Text = "Precio";
+            cmbPrecioUnit.SelectedIndexChanged += comboBox4_SelectedIndexChanged;
+            // 
+            // cmbCategoria
+            // 
+            cmbCategoria.FormattingEnabled = true;
+            cmbCategoria.Location = new Point(798, 141);
+            cmbCategoria.Name = "cmbCategoria";
+            cmbCategoria.Size = new Size(134, 27);
+            cmbCategoria.TabIndex = 28;
+            cmbCategoria.Text = "Categoria";
+            cmbCategoria.SelectedIndexChanged += cmbCategoria_SelectedIndexChanged;
+            // 
+            // cmbStockk
+            // 
+            cmbStockk.FormattingEnabled = true;
+            cmbStockk.Location = new Point(658, 141);
+            cmbStockk.Name = "cmbStockk";
+            cmbStockk.Size = new Size(134, 27);
+            cmbStockk.TabIndex = 27;
+            cmbStockk.Text = "Stock";
+            cmbStockk.SelectedIndexChanged += cmbStockk_SelectedIndexChanged;
+            // 
+            // cmbTalla
+            // 
+            cmbTalla.FormattingEnabled = true;
+            cmbTalla.Location = new Point(513, 141);
+            cmbTalla.Name = "cmbTalla";
+            cmbTalla.Size = new Size(139, 27);
+            cmbTalla.TabIndex = 26;
+            cmbTalla.Text = "Talla";
+            cmbTalla.SelectedIndexChanged += cmbTalla_SelectedIndexChanged;
             // 
             // pictureBox9
             // 
@@ -714,32 +736,6 @@
             precio.HeaderText = "Precio Unit";
             precio.Name = "precio";
             // 
-            // btnFechasAntInv
-            // 
-            btnFechasAntInv.BackColor = Color.FromArgb(221, 221, 221);
-            btnFechasAntInv.BackgroundImage = Properties.Resources.btnFechasAntiguas;
-            btnFechasAntInv.BackgroundImageLayout = ImageLayout.Stretch;
-            btnFechasAntInv.FlatStyle = FlatStyle.Flat;
-            btnFechasAntInv.ForeColor = Color.FromArgb(221, 221, 221);
-            btnFechasAntInv.Location = new Point(742, 126);
-            btnFechasAntInv.Name = "btnFechasAntInv";
-            btnFechasAntInv.Size = new Size(235, 42);
-            btnFechasAntInv.TabIndex = 23;
-            btnFechasAntInv.UseVisualStyleBackColor = false;
-            // 
-            // btnFechasRecientesInv
-            // 
-            btnFechasRecientesInv.BackColor = Color.FromArgb(221, 221, 221);
-            btnFechasRecientesInv.BackgroundImage = Properties.Resources.btnFechasRecientes;
-            btnFechasRecientesInv.BackgroundImageLayout = ImageLayout.Stretch;
-            btnFechasRecientesInv.FlatStyle = FlatStyle.Flat;
-            btnFechasRecientesInv.ForeColor = Color.FromArgb(221, 221, 221);
-            btnFechasRecientesInv.Location = new Point(501, 126);
-            btnFechasRecientesInv.Name = "btnFechasRecientesInv";
-            btnFechasRecientesInv.Size = new Size(235, 42);
-            btnFechasRecientesInv.TabIndex = 22;
-            btnFechasRecientesInv.UseVisualStyleBackColor = false;
-            // 
             // btnEliminarInventario
             // 
             btnEliminarInventario.BackColor = Color.FromArgb(221, 221, 221);
@@ -774,6 +770,7 @@
             tbBusquedaInventario.Name = "tbBusquedaInventario";
             tbBusquedaInventario.Size = new Size(984, 27);
             tbBusquedaInventario.TabIndex = 20;
+            tbBusquedaInventario.TextChanged += tbBusquedaInventario_TextChanged;
             // 
             // label22
             // 
@@ -790,33 +787,17 @@
             // tabEmpleados
             // 
             tabEmpleados.BackColor = Color.FromArgb(212, 221, 221, 221);
-            tabEmpleados.Controls.Add(button3);
             tabEmpleados.Controls.Add(btnBuscar);
             tabEmpleados.Controls.Add(dataGridEmpleados);
-            tabEmpleados.Controls.Add(btnFechasAEmpleados);
-            tabEmpleados.Controls.Add(btnFechasREmpleados);
             tabEmpleados.Controls.Add(btnEliminarEmpleados);
             tabEmpleados.Controls.Add(btnAgregarEmpleados);
             tabEmpleados.Controls.Add(tbBusquedaEmpleados);
             tabEmpleados.Controls.Add(label1);
-            tabEmpleados.Location = new Point(4, 24);
+            tabEmpleados.Location = new Point(4, 28);
             tabEmpleados.Name = "tabEmpleados";
-            tabEmpleados.Size = new Size(1093, 706);
+            tabEmpleados.Size = new Size(1093, 702);
             tabEmpleados.TabIndex = 2;
             tabEmpleados.Text = "tabPage1";
-            // 
-            // button3
-            // 
-            button3.BackColor = Color.FromArgb(221, 221, 221);
-            button3.BackgroundImage = Properties.Resources.btnRestablecer;
-            button3.BackgroundImageLayout = ImageLayout.Stretch;
-            button3.FlatStyle = FlatStyle.Flat;
-            button3.ForeColor = Color.FromArgb(221, 221, 221);
-            button3.Location = new Point(991, 107);
-            button3.Name = "button3";
-            button3.Size = new Size(88, 81);
-            button3.TabIndex = 33;
-            button3.UseVisualStyleBackColor = false;
             // 
             // btnBuscar
             // 
@@ -826,7 +807,6 @@
             btnBuscar.Size = new Size(44, 42);
             btnBuscar.TabIndex = 32;
             btnBuscar.TabStop = false;
-            btnBuscar.Click += btnBuscar_Click;
             // 
             // dataGridEmpleados
             // 
@@ -858,12 +838,12 @@
             dataGridEmpleados.DefaultCellStyle = dataGridViewCellStyle6;
             dataGridEmpleados.EnableHeadersVisualStyles = false;
             dataGridEmpleados.GridColor = Color.FromArgb(221, 221, 221);
-            dataGridEmpleados.Location = new Point(232, 189);
+            dataGridEmpleados.Location = new Point(221, 134);
             dataGridEmpleados.Name = "dataGridEmpleados";
             dataGridEmpleados.RowHeadersVisible = false;
             dataGridEmpleados.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
             dataGridEmpleados.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dataGridEmpleados.Size = new Size(847, 488);
+            dataGridEmpleados.Size = new Size(839, 536);
             dataGridEmpleados.TabIndex = 31;
             dataGridEmpleados.CellDoubleClick += dataGridEmpleados_CellDoubleClick;
             // 
@@ -896,32 +876,6 @@
             // 
             Rol.HeaderText = "Rol";
             Rol.Name = "Rol";
-            // 
-            // btnFechasAEmpleados
-            // 
-            btnFechasAEmpleados.BackColor = Color.FromArgb(221, 221, 221);
-            btnFechasAEmpleados.BackgroundImage = Properties.Resources.btnFechasAntiguas;
-            btnFechasAEmpleados.BackgroundImageLayout = ImageLayout.Stretch;
-            btnFechasAEmpleados.FlatStyle = FlatStyle.Flat;
-            btnFechasAEmpleados.ForeColor = Color.FromArgb(221, 221, 221);
-            btnFechasAEmpleados.Location = new Point(749, 126);
-            btnFechasAEmpleados.Name = "btnFechasAEmpleados";
-            btnFechasAEmpleados.Size = new Size(235, 42);
-            btnFechasAEmpleados.TabIndex = 30;
-            btnFechasAEmpleados.UseVisualStyleBackColor = false;
-            // 
-            // btnFechasREmpleados
-            // 
-            btnFechasREmpleados.BackColor = Color.FromArgb(221, 221, 221);
-            btnFechasREmpleados.BackgroundImage = Properties.Resources.btnFechasRecientes;
-            btnFechasREmpleados.BackgroundImageLayout = ImageLayout.Stretch;
-            btnFechasREmpleados.FlatStyle = FlatStyle.Flat;
-            btnFechasREmpleados.ForeColor = Color.FromArgb(221, 221, 221);
-            btnFechasREmpleados.Location = new Point(508, 126);
-            btnFechasREmpleados.Name = "btnFechasREmpleados";
-            btnFechasREmpleados.Size = new Size(235, 42);
-            btnFechasREmpleados.TabIndex = 29;
-            btnFechasREmpleados.UseVisualStyleBackColor = false;
             // 
             // btnEliminarEmpleados
             // 
@@ -974,33 +928,37 @@
             // tabMateriaP
             // 
             tabMateriaP.BackColor = Color.FromArgb(212, 221, 221, 221);
-            tabMateriaP.Controls.Add(button2);
+            tabMateriaP.Controls.Add(cmbStock);
+            tabMateriaP.Controls.Add(cmbPrecio);
             tabMateriaP.Controls.Add(btnBucasrMateria);
             tabMateriaP.Controls.Add(dataGridMP);
-            tabMateriaP.Controls.Add(btnFechasAMP);
-            tabMateriaP.Controls.Add(btnFechasRMP);
             tabMateriaP.Controls.Add(btnEliminarMateriaP);
             tabMateriaP.Controls.Add(btnAgregarMateriaP);
-            tabMateriaP.Controls.Add(btnBusquedaMateriaP);
+            tabMateriaP.Controls.Add(tbBusquedaMateriaPrima);
             tabMateriaP.Controls.Add(label10);
-            tabMateriaP.Location = new Point(4, 24);
+            tabMateriaP.Location = new Point(4, 28);
             tabMateriaP.Name = "tabMateriaP";
-            tabMateriaP.Size = new Size(1093, 706);
+            tabMateriaP.Size = new Size(1093, 702);
             tabMateriaP.TabIndex = 3;
             tabMateriaP.Text = "tabPage1";
             // 
-            // button2
+            // cmbStock
             // 
-            button2.BackColor = Color.FromArgb(221, 221, 221);
-            button2.BackgroundImage = Properties.Resources.btnRestablecer;
-            button2.BackgroundImageLayout = ImageLayout.Stretch;
-            button2.FlatStyle = FlatStyle.Flat;
-            button2.ForeColor = Color.FromArgb(221, 221, 221);
-            button2.Location = new Point(988, 107);
-            button2.Name = "button2";
-            button2.Size = new Size(88, 81);
-            button2.TabIndex = 33;
-            button2.UseVisualStyleBackColor = false;
+            cmbStock.FormattingEnabled = true;
+            cmbStock.Location = new Point(674, 151);
+            cmbStock.Name = "cmbStock";
+            cmbStock.Size = new Size(132, 27);
+            cmbStock.TabIndex = 34;
+            cmbStock.SelectedIndexChanged += cmbStock_SelectedIndexChanged;
+            // 
+            // cmbPrecio
+            // 
+            cmbPrecio.FormattingEnabled = true;
+            cmbPrecio.Location = new Point(524, 151);
+            cmbPrecio.Name = "cmbPrecio";
+            cmbPrecio.Size = new Size(144, 27);
+            cmbPrecio.TabIndex = 33;
+            cmbPrecio.SelectedIndexChanged += cmbPrecio_SelectedIndexChanged;
             // 
             // btnBucasrMateria
             // 
@@ -1079,32 +1037,6 @@
             FechaIngMP.HeaderText = "Fecha Ingreso";
             FechaIngMP.Name = "FechaIngMP";
             // 
-            // btnFechasAMP
-            // 
-            btnFechasAMP.BackColor = Color.FromArgb(221, 221, 221);
-            btnFechasAMP.BackgroundImage = Properties.Resources.btnFechasAntiguas;
-            btnFechasAMP.BackgroundImageLayout = ImageLayout.Stretch;
-            btnFechasAMP.FlatStyle = FlatStyle.Flat;
-            btnFechasAMP.ForeColor = Color.FromArgb(221, 221, 221);
-            btnFechasAMP.Location = new Point(747, 126);
-            btnFechasAMP.Name = "btnFechasAMP";
-            btnFechasAMP.Size = new Size(235, 42);
-            btnFechasAMP.TabIndex = 30;
-            btnFechasAMP.UseVisualStyleBackColor = false;
-            // 
-            // btnFechasRMP
-            // 
-            btnFechasRMP.BackColor = Color.FromArgb(221, 221, 221);
-            btnFechasRMP.BackgroundImage = Properties.Resources.btnFechasRecientes;
-            btnFechasRMP.BackgroundImageLayout = ImageLayout.Stretch;
-            btnFechasRMP.FlatStyle = FlatStyle.Flat;
-            btnFechasRMP.ForeColor = Color.FromArgb(221, 221, 221);
-            btnFechasRMP.Location = new Point(506, 126);
-            btnFechasRMP.Name = "btnFechasRMP";
-            btnFechasRMP.Size = new Size(235, 42);
-            btnFechasRMP.TabIndex = 29;
-            btnFechasRMP.UseVisualStyleBackColor = false;
-            // 
             // btnEliminarMateriaP
             // 
             btnEliminarMateriaP.BackColor = Color.FromArgb(221, 221, 221);
@@ -1133,12 +1065,13 @@
             btnAgregarMateriaP.UseVisualStyleBackColor = false;
             btnAgregarMateriaP.Click += btnAgregarMateriaP_Click;
             // 
-            // btnBusquedaMateriaP
+            // tbBusquedaMateriaPrima
             // 
-            btnBusquedaMateriaP.Location = new Point(20, 77);
-            btnBusquedaMateriaP.Name = "btnBusquedaMateriaP";
-            btnBusquedaMateriaP.Size = new Size(984, 27);
-            btnBusquedaMateriaP.TabIndex = 27;
+            tbBusquedaMateriaPrima.Location = new Point(20, 77);
+            tbBusquedaMateriaPrima.Name = "tbBusquedaMateriaPrima";
+            tbBusquedaMateriaPrima.Size = new Size(984, 27);
+            tbBusquedaMateriaPrima.TabIndex = 27;
+            tbBusquedaMateriaPrima.TextChanged += tbBusquedaMateriaPrima_TextChanged;
             // 
             // label10
             // 
@@ -1155,33 +1088,17 @@
             // tabProveedores
             // 
             tabProveedores.BackColor = Color.FromArgb(212, 221, 221, 221);
-            tabProveedores.Controls.Add(button4);
             tabProveedores.Controls.Add(pictureBox12);
             tabProveedores.Controls.Add(dataGridProv);
-            tabProveedores.Controls.Add(btnFechasAProv);
-            tabProveedores.Controls.Add(btnFechasRProv);
             tabProveedores.Controls.Add(btnEliminarProv);
             tabProveedores.Controls.Add(btnAgregarProv);
             tabProveedores.Controls.Add(tbBusquedaProv);
             tabProveedores.Controls.Add(label11);
-            tabProveedores.Location = new Point(4, 24);
+            tabProveedores.Location = new Point(4, 28);
             tabProveedores.Name = "tabProveedores";
-            tabProveedores.Size = new Size(1093, 706);
+            tabProveedores.Size = new Size(1093, 702);
             tabProveedores.TabIndex = 4;
             tabProveedores.Text = "tabPage1";
-            // 
-            // button4
-            // 
-            button4.BackColor = Color.FromArgb(221, 221, 221);
-            button4.BackgroundImage = Properties.Resources.btnRestablecer;
-            button4.BackgroundImageLayout = ImageLayout.Stretch;
-            button4.FlatStyle = FlatStyle.Flat;
-            button4.ForeColor = Color.FromArgb(221, 221, 221);
-            button4.Location = new Point(991, 107);
-            button4.Name = "button4";
-            button4.Size = new Size(88, 81);
-            button4.TabIndex = 40;
-            button4.UseVisualStyleBackColor = false;
             // 
             // pictureBox12
             // 
@@ -1226,7 +1143,7 @@
             dataGridProv.DefaultCellStyle = dataGridViewCellStyle12;
             dataGridProv.EnableHeadersVisualStyles = false;
             dataGridProv.GridColor = Color.FromArgb(221, 221, 221);
-            dataGridProv.Location = new Point(232, 189);
+            dataGridProv.Location = new Point(221, 130);
             dataGridProv.MultiSelect = false;
             dataGridProv.Name = "dataGridProv";
             dataGridProv.ReadOnly = true;
@@ -1267,32 +1184,6 @@
             Direccion_prov.Name = "Direccion_prov";
             Direccion_prov.ReadOnly = true;
             // 
-            // btnFechasAProv
-            // 
-            btnFechasAProv.BackColor = Color.FromArgb(221, 221, 221);
-            btnFechasAProv.BackgroundImage = Properties.Resources.btnFechasAntiguas;
-            btnFechasAProv.BackgroundImageLayout = ImageLayout.Stretch;
-            btnFechasAProv.FlatStyle = FlatStyle.Flat;
-            btnFechasAProv.ForeColor = Color.FromArgb(221, 221, 221);
-            btnFechasAProv.Location = new Point(753, 126);
-            btnFechasAProv.Name = "btnFechasAProv";
-            btnFechasAProv.Size = new Size(235, 42);
-            btnFechasAProv.TabIndex = 37;
-            btnFechasAProv.UseVisualStyleBackColor = false;
-            // 
-            // btnFechasRProv
-            // 
-            btnFechasRProv.BackColor = Color.FromArgb(221, 221, 221);
-            btnFechasRProv.BackgroundImage = Properties.Resources.btnFechasRecientes;
-            btnFechasRProv.BackgroundImageLayout = ImageLayout.Stretch;
-            btnFechasRProv.FlatStyle = FlatStyle.Flat;
-            btnFechasRProv.ForeColor = Color.FromArgb(221, 221, 221);
-            btnFechasRProv.Location = new Point(512, 126);
-            btnFechasRProv.Name = "btnFechasRProv";
-            btnFechasRProv.Size = new Size(235, 42);
-            btnFechasRProv.TabIndex = 36;
-            btnFechasRProv.UseVisualStyleBackColor = false;
-            // 
             // btnEliminarProv
             // 
             btnEliminarProv.BackColor = Color.FromArgb(221, 221, 221);
@@ -1327,6 +1218,7 @@
             tbBusquedaProv.Name = "tbBusquedaProv";
             tbBusquedaProv.Size = new Size(984, 27);
             tbBusquedaProv.TabIndex = 34;
+            tbBusquedaProv.TextChanged += tbBusquedaProv_TextChanged;
             // 
             // label11
             // 
@@ -1340,17 +1232,26 @@
             label11.TabIndex = 33;
             label11.Text = "Proveedores";
             // 
-            // busquedaTimer
+            // btnReporte
             // 
-            busquedaTimer.Interval = 500;
-            busquedaTimer.Tick += busquedaTimer_Tick;
+            btnReporte.BackColor = Color.Black;
+            btnReporte.BackgroundImage = (Image)resources.GetObject("btnReporte.BackgroundImage");
+            btnReporte.BackgroundImageLayout = ImageLayout.Stretch;
+            btnReporte.FlatStyle = FlatStyle.Flat;
+            btnReporte.Location = new Point(26, 465);
+            btnReporte.Name = "btnReporte";
+            btnReporte.Size = new Size(205, 45);
+            btnReporte.TabIndex = 12;
+            btnReporte.UseVisualStyleBackColor = false;
+            btnReporte.Click += btnReporte_Click;
             // 
             // Inicio
             // 
             AutoScaleDimensions = new SizeF(9F, 19F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(221, 221, 221);
-            ClientSize = new Size(1370, 696);
+            ClientSize = new Size(1379, 696);
+            Controls.Add(btnReporte);
             Controls.Add(btnLogout);
             Controls.Add(btnAyuda);
             Controls.Add(btnProveedores);
@@ -1412,7 +1313,6 @@
         private Button btnVentas;
         private Button btnLogout;
         private Button btnMateriaPrima;
-        private Button button4;
         private Button btnEmpleados;
         private Button btnProveedores;
         private Button btnAyuda;
@@ -1444,28 +1344,20 @@
         private PictureBox pictureBox2;
         private Label label2;
         private DataGridView dataGridInventarioProducto;
-        private Button btnFechasAntInv;
-        private Button btnFechasRecientesInv;
         private Button btnEliminarInventario;
         private Button btnAgregarInventario;
         private TextBox tbBusquedaInventario;
         private Label label22;
-        private Button btnFechasAEmpleados;
-        private Button btnFechasREmpleados;
         private Button btnEliminarEmpleados;
         private Button btnAgregarEmpleados;
         private TextBox tbBusquedaEmpleados;
         private Label label1;
         private DataGridView dataGridMP;
-        private Button btnFechasAMP;
-        private Button btnFechasRMP;
         private Button btnEliminarMateriaP;
         private Button btnAgregarMateriaP;
-        private TextBox btnBusquedaMateriaP;
+        private TextBox tbBusquedaMateriaPrima;
         private Label label10;
         private DataGridView dataGridProv;
-        private Button btnFechasAProv;
-        private Button btnFechasRProv;
         private Button btnEliminarProv;
         private Button btnAgregarProv;
         private TextBox tbBusquedaProv;
@@ -1476,7 +1368,6 @@
         private DataGridViewTextBoxColumn stock;
         private DataGridViewTextBoxColumn categoria;
         private DataGridViewTextBoxColumn precio;
-        private Button button1;
         private PictureBox pictureBox9;
         private DataGridView dataGridEmpleados;
         private DataGridViewTextBoxColumn Id;
@@ -1485,9 +1376,7 @@
         private DataGridViewTextBoxColumn Correo;
         private DataGridViewTextBoxColumn Telefono;
         private DataGridViewTextBoxColumn Rol;
-        private Button button2;
         private PictureBox btnBucasrMateria;
-        private Button button3;
         private PictureBox btnBuscar;
         private PictureBox pictureBox12;
         private DataGridViewTextBoxColumn Id_MP;
@@ -1496,12 +1385,18 @@
         private DataGridViewTextBoxColumn Stock_MP;
         private DataGridViewTextBoxColumn Prov_MP;
         private DataGridViewTextBoxColumn FechaIngMP;
-        private System.Windows.Forms.Timer busquedaTimer;
         private DataGridViewTextBoxColumn IdProveedor;
         private DataGridViewTextBoxColumn NombreProv;
         private DataGridViewTextBoxColumn Telefono_prov;
         private DataGridViewTextBoxColumn Correo_prov;
         private DataGridViewTextBoxColumn Direccion_prov;
         private System.Windows.Forms.DataVisualization.Charting.Chart chartVentas;
+        private Button btnReporte;
+        private ComboBox cmbStock;
+        private ComboBox cmbPrecio;
+        private ComboBox cmbTalla;
+        private ComboBox cmbPrecioUnit;
+        private ComboBox cmbCategoria;
+        private ComboBox cmbStockk;
     }
 }

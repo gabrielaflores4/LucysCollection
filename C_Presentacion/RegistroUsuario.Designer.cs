@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             lblDashboard = new Label();
             pictureBox1 = new PictureBox();
             label22 = new Label();
@@ -47,7 +48,9 @@
             btnRegistrarUsuarios = new Button();
             label8 = new Label();
             cbRol = new ComboBox();
+            errorIconoUsuarios = new ErrorProvider(components);
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)errorIconoUsuarios).BeginInit();
             SuspendLayout();
             // 
             // lblDashboard
@@ -252,6 +255,10 @@
             cbRol.Size = new Size(483, 27);
             cbRol.TabIndex = 83;
             // 
+            // errorIconoUsuarios
+            // 
+            errorIconoUsuarios.ContainerControl = this;
+            // 
             // RegistroUsuario
             // 
             AutoScaleDimensions = new SizeF(9F, 19F);
@@ -285,6 +292,7 @@
             WindowState = FormWindowState.Maximized;
             Load += RegistroUsuario_Load;
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)errorIconoUsuarios).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -309,5 +317,6 @@
         private Button btnRegistrarUsuarios;
         private Label label8;
         private ComboBox cbRol;
+        private ErrorProvider errorIconoUsuarios;
     }
 }

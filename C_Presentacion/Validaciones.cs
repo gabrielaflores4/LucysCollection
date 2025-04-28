@@ -21,19 +21,11 @@ namespace C_Presentacion
             }
         }
 
-        // Solo números (0-9) y backspace //Para lo del DUI cuando se agregue a la BD
-        public static void SoloNumeros(KeyPressEventArgs e)
-        {
-            if (!char.IsDigit(e.KeyChar) && e.KeyChar != 8)
-            {
-                e.Handled = true;
-            }
-        }
 
         // Números con punto decimal // Para lo del precio
         public static void SoloNumerosDecimales(KeyPressEventArgs e, TextBox textBox)
         {
-            if (!(char.IsDigit(e.KeyChar) || e.KeyChar == 8 || e.KeyChar == 46)) // 46 = punto
+            if (!(char.IsDigit(e.KeyChar) || e.KeyChar == 8 || e.KeyChar == 46)) 
             {
                 e.Handled = true;
             }
@@ -68,11 +60,11 @@ namespace C_Presentacion
         {
             // Permitir letras, números, @, ., _, -
             if (!(char.IsLetterOrDigit(e.KeyChar) ||
-                  e.KeyChar == 8 ||     // Backspace
-                  e.KeyChar == 64 ||    // @
-                  e.KeyChar == 46 ||    // .
-                  e.KeyChar == 95 ||    // _
-                  e.KeyChar == 45))     // -
+                  e.KeyChar == 8 ||     
+                  e.KeyChar == 64 ||    
+                  e.KeyChar == 46 ||    
+                  e.KeyChar == 95 ||    
+                  e.KeyChar == 45))     
             {
                 e.Handled = true;
             }
@@ -100,20 +92,6 @@ namespace C_Presentacion
             }
 
             if (char.IsDigit(e.KeyChar) && textBox.Text.Length >= 8)
-            {
-                e.Handled = true;
-            }
-        }
-
-        // Edad: solo 2 dígitos enteros
-        public static void ParaEdad(KeyPressEventArgs e, TextBox textBox)
-        {
-            if (!char.IsDigit(e.KeyChar) && e.KeyChar != 8)
-            {
-                e.Handled = true;
-            }
-
-            if (char.IsDigit(e.KeyChar) && textBox.Text.Length >= 2)
             {
                 e.Handled = true;
             }

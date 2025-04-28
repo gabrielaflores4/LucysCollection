@@ -11,6 +11,8 @@ using C_Entidades;
 using C_Negocios;
 using C_Datos;
 using System.Windows.Forms.DataVisualization.Charting;
+using Npgsql;
+using C_Presentacion.Resources;
 
 
 namespace C_Presentacion
@@ -24,11 +26,54 @@ namespace C_Presentacion
         private ClienteNeg clienteNeg = new ClienteNeg();
 
 
-        public Inicio() { 
+        public Inicio()
+        {
             InitializeComponent();
         }
 
-        private void Inicio_Load(object sender, EventArgs e) {
+        private void Inicio_Load(object sender, EventArgs e)
+        {
+            // Form MP//
+            cmbPrecio.Items.Add("Todos");
+            cmbPrecio.Items.Add("Mayor precio");
+            cmbPrecio.Items.Add("Menor precio");
+            cmbStock.Items.Add("Todos");
+            cmbStock.Items.Add("Mayor");
+            cmbStock.Items.Add("Menor");
+            cmbStock.Items.Add("Sin stock");
+            cmbPrecio.SelectedIndex = 0;
+            cmbStock.SelectedIndex = 0;
+
+            //Form Inventario//
+            cmbTalla.Items.Clear();
+            cmbTalla.Items.Add("Todos");
+            cmbTalla.Items.Add("6");
+            cmbTalla.Items.Add("7");
+            cmbTalla.Items.Add("8");
+            cmbTalla.Items.Add("9");
+            cmbTalla.Items.Add("10");
+            cmbStockk.Items.Clear();
+            cmbStockk.Items.Add("Todos");
+            cmbStockk.Items.Add("Mayor que 0");
+            cmbStockk.Items.Add("Menor que 5");
+            cmbStockk.Items.Add("Sin stock");
+            cmbCategoria.Items.Clear();
+            cmbCategoria.Items.Add("Todos");
+            cmbCategoria.Items.Add("Electronica");
+            cmbCategoria.Items.Add("Ropa");
+            cmbCategoria.Items.Add("Hogar");
+            cmbCategoria.Items.Add("Alimentos");
+            cmbCategoria.Items.Add("Juguete");
+            cmbPrecioUnit.Items.Clear();
+            cmbPrecioUnit.Items.Add("Todos");
+            cmbPrecioUnit.Items.Add("Mayor precio");
+            cmbPrecioUnit.Items.Add("Menor precio");
+            cmbTalla.SelectedIndex = 0;
+            cmbStockk.SelectedIndex = 0;
+            cmbCategoria.SelectedIndex = 0;
+            cmbPrecioUnit.SelectedIndex = 0;
+
+
             ConfigurarGrafico();
             CargarEstadisticas();
         }
@@ -43,8 +88,8 @@ namespace C_Presentacion
             ChartArea area = new ChartArea("VentasArea");
             area.AxisX.Title = "Meses";
             area.AxisY.Title = "Ventas ($)";
-            area.AxisX.LabelStyle.Angle = -45; 
-            area.AxisX.Interval = 1; 
+            area.AxisX.LabelStyle.Angle = -45;
+            area.AxisX.Interval = 1;
             chartVentas.ChartAreas.Add(area);
 
             //Serie de columnas
@@ -53,7 +98,7 @@ namespace C_Presentacion
                 ChartType = SeriesChartType.Column,
                 Color = ColorTranslator.FromHtml("#5a24a6"),
                 IsValueShownAsLabel = true,
-                LabelFormat = "C0" 
+                LabelFormat = "C0"
             };
             chartVentas.Series.Add(serie);
         }
@@ -81,11 +126,11 @@ namespace C_Presentacion
                 lblVentasDiarias.Text = estadisticas.ObtenerVentasDiarias().ToString("C2");
 
                 int total = estadisticas.ObtenerTotalProductos();
-                lblTotalProductos.Text = total.ToString("N0"); 
+                lblTotalProductos.Text = total.ToString("N0");
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al cargar datos: {ex.Message}", "Error",MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Error al cargar datos: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -134,12 +179,12 @@ namespace C_Presentacion
             {
                 dataGridEmpleados.SuspendLayout();
                 dataGridEmpleados.Dock = DockStyle.None;
-                dataGridEmpleados.Size = new Size(847, 488); 
-                dataGridEmpleados.Location = new Point(232, 189); 
+                dataGridEmpleados.Size = new Size(847, 488);
+                dataGridEmpleados.Location = new Point(232, 189);
                 dataGridEmpleados.Visible = (tabEmpleados == paginaActiva);
                 dataGridEmpleados.ResumeLayout(true);
             }
-            else 
+            else
             {
                 // Ajustar los DataGridViews generales
                 int anchoGrid = paginaActiva.Width - 40;
@@ -195,7 +240,27 @@ namespace C_Presentacion
 
         public void CargarProductos()
         {
-            var productos = productoNeg.ObtenerProductos();
+            string filtro = tbBusquedaInventario.Text.Trim();
+
+            List<Producto> productos;
+
+            if (string.IsNullOrWhiteSpace(filtro))
+            {
+                productos = productoNeg.ObtenerProductos();
+            }
+            else
+            {
+                productos = productoNeg.ObtenerProductos()
+                    .Where(p => p.Nombre.Contains(filtro, StringComparison.OrdinalIgnoreCase) ||
+                    p.Talla.ToString().Contains(filtro, StringComparison.OrdinalIgnoreCase) ||
+                    p.Stock.ToString().Contains(filtro, StringComparison.OrdinalIgnoreCase) ||
+                    p.Categoria.Nombre.Contains(filtro, StringComparison.OrdinalIgnoreCase) ||
+                    p.Precio.ToString("0.##").Contains(filtro, StringComparison.OrdinalIgnoreCase))
+                    .ToList();
+            }
+
+            var producto = productoNeg.ObtenerProductos();
+
             var columnas = new Dictionary<string, string>
             {
                 { "Id_Prod", "Id_Prod" },
@@ -221,6 +286,25 @@ namespace C_Presentacion
 
         private void CargarEmpleados()
         {
+            string filtro = tbBusquedaEmpleados.Text.Trim();
+
+            List<Usuario> empleados;
+
+            if (string.IsNullOrWhiteSpace(filtro))
+            {
+                empleados = usuarioNeg.ObtenerUsuarios();
+            }
+            else
+            {
+                empleados = usuarioNeg.ObtenerUsuarios()
+                .Where(u => u.Nombre.Contains(filtro, StringComparison.OrdinalIgnoreCase) ||
+                 u.Apellido.Contains(filtro, StringComparison.OrdinalIgnoreCase) ||
+                 u.Correo.Contains(filtro, StringComparison.OrdinalIgnoreCase) ||
+                 u.Telefono.Contains(filtro, StringComparison.OrdinalIgnoreCase) ||
+                 u.Rol.Contains(filtro, StringComparison.OrdinalIgnoreCase))
+                 .ToList();
+            }
+
             var usuarios = usuarioNeg.ObtenerUsuarios();
 
             var columnas = new Dictionary<string, string>
@@ -248,7 +332,23 @@ namespace C_Presentacion
 
         private void CargarProveedores()
         {
-            var proveedores = _proveedorNeg.ObtenerProveedores();
+            string filtro = tbBusquedaProv.Text.Trim();
+
+            List<Proveedor> proveedors;
+
+            if (string.IsNullOrWhiteSpace(filtro))
+            {
+                proveedors = _proveedorNeg.ObtenerProveedores();
+            }
+            else
+            {
+                proveedors = _proveedorNeg.ObtenerProveedores()
+                .Where(pr => pr.NombreProv.Contains(filtro, StringComparison.OrdinalIgnoreCase) ||
+                 pr.Telefono.Contains(filtro, StringComparison.OrdinalIgnoreCase) ||
+                 pr.Correo.Contains(filtro, StringComparison.OrdinalIgnoreCase) ||
+                 pr.Direccion.Contains(filtro, StringComparison.OrdinalIgnoreCase))
+                 .ToList();
+            }
 
             var columnas = new Dictionary<string, string>
             {
@@ -259,15 +359,34 @@ namespace C_Presentacion
                 { "Direccion", "Dirección" }
             };
 
-            ConfigurarDataGrid(dataGridProv, proveedores, columnas);
+            ConfigurarDataGrid(dataGridProv, proveedors, columnas);
         }
         public void CargarMateriasPrimas()
         {
+            string filtro = tbBusquedaMateriaPrima.Text.Trim();
+
+            List<MateriaPrima> materiaPrimas;
+
+            if (string.IsNullOrWhiteSpace(filtro))
+            {
+                materiaPrimas = _materiaPrimaNeg.ObtenerMateriasPrimas();
+            }
+            else
+            {
+                materiaPrimas = _materiaPrimaNeg.ObtenerMateriasPrimas()
+            .Where(m => m.Nombre.Contains(filtro, StringComparison.OrdinalIgnoreCase) ||
+                        m.PrecioUnit.ToString("0.##").Contains(filtro, StringComparison.OrdinalIgnoreCase) ||
+                        m.Stock.ToString().Contains(filtro, StringComparison.OrdinalIgnoreCase) ||
+                        m.Proveedor.NombreProv.Contains(filtro, StringComparison.OrdinalIgnoreCase) ||
+                        m.FechaIngreso.ToString("yyyy-MM-dd").Contains(filtro))
+            .ToList();
+            }
+
             var materias = _materiaPrimaNeg.ObtenerMateriasPrimas();
 
             var materiasConProveedor = new List<object>();
 
-            foreach (var m in materias)
+            foreach (var m in materiaPrimas)
             {
                 materiasConProveedor.Add(new
                 {
@@ -290,7 +409,7 @@ namespace C_Presentacion
 
             ConfigurarDataGrid(dataGridMP, materiasConProveedor, columnas);
         }
-        
+
         private void btnInventario_Click(object sender, EventArgs e)
         {
             tabControlInicio.SelectedTab = tabInventario;
@@ -613,77 +732,6 @@ namespace C_Presentacion
             }
         }
 
-        private void tbBusquedaEmpleados_TextChanged(object sender, EventArgs e)
-        {
-            busquedaTimer.Stop();
-            busquedaTimer.Start();
-        }
-
-        private void btnBuscar_Click(object sender, EventArgs e)
-        {
-            string filtro = tbBusquedaEmpleados.Text.Trim();
-            var empleados = usuarioNeg.BuscarEmpleados(filtro);
-
-            var columnas = new Dictionary<string, string>
-            {
-                { "IdUsuario", "ID" },
-                { "Nombre", "Nombre" },
-                { "Apellido", "Apellido" },
-                { "Correo", "Correo" },
-                { "Telefono", "Teléfono" },
-                { "Rol", "Rol" }
-
-            };
-
-            // Filtrar los empleados según el texto de búsqueda
-            var usuarios = usuarioNeg.BuscarEmpleados(filtro);
-
-            var datosParaMostrar = empleados.Select(u => new
-            {
-                IdUsuario = u.IdUsuario,
-                Nombre = u.Nombre,
-                Apellido = u.Apellido,
-                Correo = u.Correo,
-                Telefono = u.Telefono,
-                Rol = u.Rol
-
-            }).ToList();
-
-            ConfigurarDataGrid(dataGridEmpleados, datosParaMostrar, columnas);
-        }
-
-        private void busquedaTimer_Tick(object sender, EventArgs e)
-        {
-            busquedaTimer.Stop();
-
-            string filtro = tbBusquedaEmpleados.Text.Trim();
-            var empleados = usuarioNeg.BuscarEmpleados(filtro);
-
-            var columnas = new Dictionary<string, string>
-        {
-            { "IdUsuario", "ID" },
-            { "Nombre", "Nombre" },
-            { "Apellido", "Apellido" },
-            { "Correo", "Correo" },
-            { "Telefono", "Teléfono" },
-            { "Rol", "Rol" }
-        };
-
-            var datosParaMostrar = empleados.Select(u => new
-            {
-                IdUsuario = u.IdUsuario,
-                Nombre = u.Nombre,
-                Apellido = u.Apellido,
-                Correo = u.Correo,
-                Telefono = u.Telefono,
-                Rol = u.Rol
-
-            }).ToList();
-
-            ConfigurarDataGrid(dataGridEmpleados, datosParaMostrar, columnas);
-
-        }
-
         private void btnEliminarProv_Click(object sender, EventArgs e)
         {
             if (dataGridProv.SelectedRows.Count == 0)
@@ -749,6 +797,170 @@ namespace C_Presentacion
                     }
                 }
             }
+        }
+
+        private void btnReporte_Click(object sender, EventArgs e)
+        {
+            Reporte_de_ventas reporte_De_Ventas = new Reporte_de_ventas();
+            reporte_De_Ventas.Show();
+        }
+        private void FiltrarMateriaPrima()
+        {
+            List<MateriaPrima> materiaPrimas = _materiaPrimaNeg.ObtenerMateriasPrimas();
+
+            if (cmbStock.SelectedItem != null)
+            {
+                string filtroStock = cmbStock.SelectedItem.ToString();
+                if (filtroStock == "Sin stock")
+                {
+                    materiaPrimas = materiaPrimas.Where(p => p.Stock == 0).ToList();
+                }
+            }
+
+            IOrderedEnumerable<MateriaPrima> ordenado = null;
+
+            if (cmbPrecio.SelectedItem != null || cmbStock.SelectedItem != null)
+            {
+                string filtroPrecio = cmbPrecio.SelectedItem?.ToString();
+                string filtroStock = cmbStock.SelectedItem?.ToString();
+
+                if (filtroStock == "Mayor")
+                    ordenado = materiaPrimas.OrderByDescending(p => p.Stock);
+                else if (filtroStock == "Menor")
+                    ordenado = materiaPrimas.OrderBy(p => p.Stock);
+                else
+                    ordenado = materiaPrimas.OrderBy(p => 0);
+
+                if (filtroPrecio == "Mayor precio")
+                    ordenado = ordenado.ThenByDescending(p => p.PrecioUnit);
+                else if (filtroPrecio == "Menor precio")
+                    ordenado = ordenado.ThenBy(p => p.PrecioUnit);
+            }
+            else
+            {
+                ordenado = materiaPrimas.OrderBy(p => p.IdMateriaPrima);
+            }
+
+            dataGridMP.DataSource = ordenado.Select(mp => new
+            {
+                mp.IdMateriaPrima,
+                mp.Nombre,
+                mp.PrecioUnit,
+                mp.Stock,
+                Proveedor = mp.Proveedor.NombreProv
+            }).ToList();
+        }
+
+
+        private void FiltrarInventario()
+        {
+            List<Producto> productos = productoNeg.ObtenerProductos();
+
+            if (cmbStockk.SelectedItem != null)
+            {
+                string filtroStock = cmbStockk.SelectedItem.ToString();
+
+                if (filtroStock == "Sin stock")
+                {
+                    productos = productos.Where(p => p.Stock == 0).ToList();
+                }
+                else if (filtroStock == "Mayor")
+                {
+                    productos = productos.Where(p => p.Stock > 0).ToList();
+                }
+                else if (filtroStock == "Menor")
+                {
+                    productos = productos.Where(p => p.Stock <= 0).ToList();
+                }
+            }
+
+            IOrderedEnumerable<Producto> ordenado = null;
+
+            if (cmbPrecioUnit.SelectedItem != null || cmbStockk.SelectedItem != null || cmbCategoria.SelectedItem != null)
+            {
+                string filtroPrecio = cmbPrecioUnit.SelectedItem?.ToString();
+                string filtroCategoria = cmbCategoria.SelectedItem?.ToString();
+
+                if (cmbStockk.SelectedItem != null)
+                {
+                    if (cmbStockk.SelectedItem.ToString() == "Mayor")
+                        ordenado = productos.OrderByDescending(i => i.Stock);
+                    else if (cmbStockk.SelectedItem.ToString() == "Menor")
+                        ordenado = productos.OrderBy(p => p.Stock);
+                    else
+                        ordenado = productos.OrderBy(p => 0);
+                }
+
+                if (filtroPrecio == "Mayor precio")
+                    ordenado = ordenado.ThenByDescending(p => p.Precio);
+                else if (filtroPrecio == "Menor precio")
+                    ordenado = ordenado.ThenBy(p => p.Precio);
+            }
+            else
+            {
+                ordenado = productos.OrderBy(p => p.Id_Prod);
+            }
+
+            dataGridInventarioProducto.DataSource = ordenado.Select(p => new
+            {
+                p.Id_Prod,
+                p.Nombre,
+                p.Talla,
+                p.Stock,
+                Categoria = p.Categoria.Nombre,
+                p.Precio
+            }).ToList();
+        }
+
+
+        private void cmbStock_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            FiltrarMateriaPrima();
+        }
+
+        private void cmbPrecio_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            FiltrarMateriaPrima();
+        }
+
+        private void comboBox4_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            FiltrarInventario();
+        }
+
+        private void cmbCategoria_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            FiltrarInventario();
+        }
+
+        private void cmbStockk_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            FiltrarInventario();
+        }
+
+        private void cmbTalla_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            FiltrarInventario();
+        }
+
+        private void tbBusquedaEmpleados_TextChanged(object sender, EventArgs e)
+        {
+            CargarEmpleados();
+        }
+
+        private void tbBusquedaProv_TextChanged(object sender, EventArgs e)
+        {
+            CargarProveedores();
+        }
+
+        private void tbBusquedaInventario_TextChanged(object sender, EventArgs e)
+        {
+            CargarProductos();
+        }
+
+        private void tbBusquedaMateriaPrima_TextChanged(object sender, EventArgs e)
+        {
+            CargarMateriasPrimas();
         }
     }
 }

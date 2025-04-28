@@ -55,8 +55,6 @@
             label1 = new Label();
             rbCliNuevo = new RadioButton();
             rbCliAntiguo = new RadioButton();
-            btnFacturaVenta = new Button();
-            btnReporte = new Button();
             cbClientes = new ComboBox();
             lblStockDisponible = new Label();
             printDocumentVenta = new System.Drawing.Printing.PrintDocument();
@@ -78,6 +76,7 @@
             btnCancelarRegProd.Size = new Size(187, 64);
             btnCancelarRegProd.TabIndex = 56;
             btnCancelarRegProd.UseVisualStyleBackColor = false;
+            btnCancelarRegProd.Click += btnCancelarRegProd_Click;
             // 
             // btnGuardarRegProd
             // 
@@ -322,34 +321,6 @@
             rbCliAntiguo.UseVisualStyleBackColor = true;
             rbCliAntiguo.CheckedChanged += rbCliAntiguo_CheckedChanged;
             // 
-            // btnFacturaVenta
-            // 
-            btnFacturaVenta.BackColor = Color.FromArgb(221, 221, 221);
-            btnFacturaVenta.BackgroundImage = Properties.Resources.btnFactura;
-            btnFacturaVenta.BackgroundImageLayout = ImageLayout.Zoom;
-            btnFacturaVenta.FlatStyle = FlatStyle.Flat;
-            btnFacturaVenta.ForeColor = Color.FromArgb(221, 221, 221);
-            btnFacturaVenta.Location = new Point(29, 611);
-            btnFacturaVenta.Name = "btnFacturaVenta";
-            btnFacturaVenta.Size = new Size(187, 64);
-            btnFacturaVenta.TabIndex = 63;
-            btnFacturaVenta.UseVisualStyleBackColor = false;
-            btnFacturaVenta.Click += btnFacturaVenta_Click;
-            // 
-            // btnReporte
-            // 
-            btnReporte.BackColor = Color.FromArgb(221, 221, 221);
-            btnReporte.BackgroundImage = Properties.Resources.btnReporte2;
-            btnReporte.BackgroundImageLayout = ImageLayout.Zoom;
-            btnReporte.FlatStyle = FlatStyle.Flat;
-            btnReporte.ForeColor = Color.FromArgb(221, 221, 221);
-            btnReporte.Location = new Point(232, 607);
-            btnReporte.Name = "btnReporte";
-            btnReporte.Size = new Size(205, 70);
-            btnReporte.TabIndex = 64;
-            btnReporte.UseVisualStyleBackColor = false;
-            btnReporte.Click += btnReporte_Click;
-            // 
             // cbClientes
             // 
             cbClientes.FormattingEnabled = true;
@@ -389,8 +360,6 @@
             ClientSize = new Size(1370, 696);
             Controls.Add(lblStockDisponible);
             Controls.Add(cbClientes);
-            Controls.Add(btnReporte);
-            Controls.Add(btnFacturaVenta);
             Controls.Add(rbCliAntiguo);
             Controls.Add(rbCliNuevo);
             Controls.Add(label1);
@@ -441,8 +410,6 @@
         private Label label1;
         private RadioButton rbCliNuevo;
         private RadioButton rbCliAntiguo;
-        private Button btnFacturaVenta;
-        private Button btnReporte;
         private ComboBox cbClientes;
         private DataGridViewTextBoxColumn id_prod;
         private DataGridViewTextBoxColumn producto;
