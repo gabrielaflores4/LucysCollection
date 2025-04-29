@@ -12,6 +12,7 @@ using System.Windows.Forms;
 using C_Datos;
 using C_Entidades;
 using C_Negocios;
+using static C_Negocios.UsuarioNeg;
 
 namespace C_Presentacion
 {
@@ -24,7 +25,7 @@ namespace C_Presentacion
         private ProductoNeg productoNeg = new ProductoNeg();
         private ClienteNeg clienteNeg = new ClienteNeg();
         private List<int> idsClientes;
-        private decimal montoPagado;  // Variable para almacenar el monto pagado
+        private decimal montoPagado;  
 
 
         public Ventas()
@@ -35,10 +36,10 @@ namespace C_Presentacion
             ventaNeg = new VentaNeg();
             ActualizarDataGrid();
             CargarProductos();
-            CargarTallasDisponibles(); // Cargar tallas disponibles
+            CargarTallasDisponibles();
+            CargarClientes(); 
             idsClientes = clienteNeg.ObtenerIdsClientes();
             ultimoTicket = ventaDatos.ObtenerUltimoTicket();
-
 
         }
 
@@ -270,7 +271,17 @@ namespace C_Presentacion
             MessageBox.Show("Producto eliminado de la venta.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
             ActualizarTotal();
         }
-
+        private int ObtenerIdUsuario()
+        {
+            if (Sesion.EstaLogueado())
+            {
+                return Sesion.UsuarioActivo.IdUsuario;
+            }
+            else
+            {
+                throw new Exception("No hay un usuario logueado.");
+            }
+        }
         private void btnGuardarRegProd_Click(object sender, EventArgs e)
         {
             if (!ValidarControles()) return;
@@ -281,88 +292,56 @@ namespace C_Presentacion
 
                 if (rbCliAntiguo.Checked && cbClientes.SelectedItem != null)
                 {
-                    // Obtener el ID usando el índice seleccionado
                     int selectedIndex = cbClientes.SelectedIndex;
-
                     if (selectedIndex >= 0 && selectedIndex < idsClientes.Count)
-                    {
                         clienteId = idsClientes[selectedIndex];
-                    }
                     else
-                    {
-                        throw new Exception("Índice de cliente no válido");
-                    }
+                        throw new Exception("Índice de cliente no válido.");
                 }
-
                 else if (rbCliNuevo.Checked)
                 {
-                    // Llamar a la ventana de registro de cliente si se selecciona un cliente nuevo
                     FrmRegClientes frmRegClientes = new FrmRegClientes();
                     frmRegClientes.ShowDialog();
+                    return; 
                 }
 
+                if (detallesVenta == null || detallesVenta.Count == 0)
+                    throw new Exception("Debe agregar al menos un producto al detalle de la venta.");
 
-                ventaNeg.RegistrarVenta(clienteId, detallesVenta);
+                Venta venta = new Venta
+                {
+                    ClienteId = clienteId,
+                    Detalles = detallesVenta,
+                    Fecha = DateTime.Now
+                };
 
-                MessageBox.Show("Venta registrada exitosamente", "Confirmación", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                int idUsuario = ObtenerIdUsuario(); 
+                ventaNeg.RegistrarVentaConDetalles(venta, idUsuario);
 
-                // Limpiar después de registrar
+                MessageBox.Show("Venta registrada exitosamente.", "Confirmación", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                string input = Microsoft.VisualBasic.Interaction.InputBox("¿Con cuánto pagó el cliente?", "", "");
+                if (!decimal.TryParse(input, out montoPagado))
+                {
+                    MessageBox.Show("Monto inválido. No se imprimirá el ticket.");
+                    return;
+                }
+
+                printDocumentVenta = new PrintDocument();
+                printDocumentVenta.PrintPage += Imprimir;
+                printDocumentVenta.Print();
+
+                ImprimirTicketConVistaPrevia();
                 detallesVenta.Clear();
                 ActualizarDataGrid();
                 LimpiarControles();
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al registrar venta: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Error: " + ex.Message);
             }
-
-            string input = Microsoft.VisualBasic.Interaction.InputBox("¿Con cuánto pagó el cliente?", "", "");
-
-            // Valida que el valor ingresado sea un número válido
-            if (decimal.TryParse(input, out decimal montoPagado))
-            {
-                // Guarda el monto pagado en una variable
-                this.montoPagado = montoPagado;
-
-                // Impresión del ticket//
-                printDocumentVenta = new System.Drawing.Printing.PrintDocument();
-                PrinterSettings printerSettings = new PrinterSettings();
-                printDocumentVenta.PrinterSettings = printerSettings;
-                printDocumentVenta.PrintPage += Imprimir;
-                printDocumentVenta.Print();
-            }
-            else
-            {
-                MessageBox.Show("Por favor ingrese un monto válido.");
-            }
-
-            ImprimirTicketConVistaPrevia();
         }
 
-        private void btnFacturaVenta_Click(object sender, EventArgs e)
-        {
-            string input = Microsoft.VisualBasic.Interaction.InputBox("¿Con cuánto pagó el cliente?", "", "");
-
-            // Valida que el valor ingresado sea un número válido
-            if (decimal.TryParse(input, out decimal montoPagado))
-            {
-                // Guarda el monto pagado en una variable
-                this.montoPagado = montoPagado;
-
-                // Impresión del ticket//
-                printDocumentVenta = new System.Drawing.Printing.PrintDocument();
-                PrinterSettings printerSettings = new PrinterSettings();
-                printDocumentVenta.PrinterSettings = printerSettings;
-                printDocumentVenta.PrintPage += Imprimir;
-                printDocumentVenta.Print();
-            }
-            else
-            {
-                MessageBox.Show("Por favor ingrese un monto válido.");
-            }
-
-            ImprimirTicketConVistaPrevia();
-        }
         private void ImprimirTicketConVistaPrevia()
         {
             PrintDocument doc = new PrintDocument();
@@ -370,9 +349,9 @@ namespace C_Presentacion
 
             PrintPreviewDialog vistaPrevia = new PrintPreviewDialog();
             vistaPrevia.Document = doc;
-            vistaPrevia.ShowDialog(); // Ventana de visualización de ticket para las pruebas//
+            vistaPrevia.ShowDialog(); 
         }
-        private void Imprimir(object sender, PrintPageEventArgs e)
+        private void Imprimir(object sender, System.Drawing.Printing.PrintPageEventArgs e)
         {
 
             Cliente clienteSeleccionado = (Cliente)cbClientes.SelectedItem;
@@ -397,7 +376,7 @@ namespace C_Presentacion
             int idCliente = clienteSeleccionado.Id;
 
             Graphics g = e.Graphics;
-            Font monoFont = new Font("Courier New", 12); // Fuente bonita para ticket
+            Font monoFont = new Font("Courier New", 12); 
             int yPos = 30;
 
             g.DrawString("Lucy´s Collections", new Font("Arial", 14, FontStyle.Bold), Brushes.Black, 100, yPos); yPos += 30;

@@ -12,7 +12,6 @@ using C_Negocios;
 using C_Datos;
 using System.Windows.Forms.DataVisualization.Charting;
 using Npgsql;
-using C_Presentacion.Resources;
 
 
 namespace C_Presentacion
@@ -33,6 +32,19 @@ namespace C_Presentacion
 
         private void Inicio_Load(object sender, EventArgs e)
         {
+            if (Sesion.EstaLogueado())
+            {
+                Usuario usuarioLogueado = Sesion.UsuarioActivo;
+                lblNombreUsuario.Text = $"{usuarioLogueado.Nombre} {usuarioLogueado.Apellido}";
+                lblRolUser.Text = usuarioLogueado.Rol;
+            }
+            else
+            {
+                MessageBox.Show("No hay un usuario logueado. Inicie sesión primero.");
+
+                Login frmLogin = new Login();
+                frmLogin.ShowDialog();
+            }
             // Form MP//
             cmbPrecio.Items.Add("Todos");
             cmbPrecio.Items.Add("Mayor precio");

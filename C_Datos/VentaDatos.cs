@@ -2,6 +2,7 @@
 using Npgsql;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,95 +11,80 @@ namespace C_Datos
 {
     public class VentaDatos
     {
-
-        public void RegistrarVenta(Venta venta, int idUsuario)
+        public int RegistrarVenta(Venta venta, int idUsuario, NpgsqlConnection conexion, NpgsqlTransaction transaction)
         {
-            using (var conexion = Conexion.ObtenerConexion())
+            if (conexion.State != ConnectionState.Open)
+                conexion.Open();
+
+            try
             {
-                using (var transaction = conexion.BeginTransaction())
+                int ventaId;
+
+                using (var cmd = new NpgsqlCommand(
+                    @"INSERT INTO venta (id_usuario, id_cliente, fecha) 
+            VALUES (@idUsuario, @idCliente, @fecha)
+            RETURNING id_venta;", conexion, transaction))
                 {
-                    try
-                    {
-                        // 1. Registrar venta principal
-                        int ventaId;
-                        using (var cmd = new NpgsqlCommand(
-                            @"INSERT INTO Venta (id_usuario, id_cliente, fecha) 
-                      VALUES (@idUsuario, @idCliente, @fecha)
-                      RETURNING id_venta;",
-                            conexion))
-                        {
-                            cmd.Parameters.AddWithValue("@idUsuario", idUsuario);
-                            cmd.Parameters.AddWithValue("@idCliente", venta.ClienteId);
-                            cmd.Parameters.AddWithValue("@fecha", venta.Fecha);
+                    cmd.Parameters.AddWithValue("@idUsuario", idUsuario);
+                    cmd.Parameters.AddWithValue("@idCliente", venta.ClienteId);
+                    cmd.Parameters.AddWithValue("@fecha", venta.Fecha);
 
-                            ventaId = Convert.ToInt32(cmd.ExecuteScalar());
-                        }
-
-                        // 2. Registrar detalles
-                        foreach (var detalle in venta.Detalles)
-                        {
-                            using (var cmd = new NpgsqlCommand(
-                                @"INSERT INTO detalle_venta 
-                          (id_venta, id_producto, cantidad) 
-                          VALUES (@ventaId, @productoId, @cantidad);",
-                                conexion))
-                            {
-                                cmd.Parameters.AddWithValue("@ventaId", ventaId);
-                                cmd.Parameters.AddWithValue("@productoId", detalle.ProductoId);
-                                cmd.Parameters.AddWithValue("@cantidad", detalle.Cantidad);
-
-                                cmd.ExecuteNonQuery();
-                            }
-                        }
-
-                        transaction.Commit();
-                    }
-                    catch (Exception ex)
-                    {
-                        transaction.Rollback();
-                        throw new Exception($"Error en BD al registrar venta: {ex.Message}");
-
-                    }
+                    ventaId = Convert.ToInt32(cmd.ExecuteScalar());
                 }
+
+                foreach (var detalle in venta.Detalles)
+                {
+                    InsertarVentaDetalle(ventaId, detalle, conexion, transaction); 
+                }
+
+                return ventaId;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error al registrar la venta: {ex.Message}");
             }
         }
 
-        public int ObtenerUltimoTicket()
-        {
-            string query = "SELECT MAX(num_comprobante) FROM Comprobante";
-
-            // Conexión y ejecución de la consulta usando Npgsql
-            using (NpgsqlConnection connection = Conexion.ObtenerConexion())
-            {
-                using (var cmd = new NpgsqlCommand(query, connection)) // Usa NpgsqlCommand
-                {
-                    var result = cmd.ExecuteScalar();
-                    return result != DBNull.Value ? Convert.ToInt32(result) : 0; // Si no hay tickets, devolvemos 0
-                }
-
-            }
-        }
-        public int InsertarComprobante(int idCliente)
+        public void InsertarVentaDetalle(int idVenta, DetalleVenta detalle, NpgsqlConnection conexion, NpgsqlTransaction transaction)
         {
             try
             {
-                // Crear una conexión a la base de datos (Asegúrate de tener tu conexión configurada)
-                using (var conexion = Conexion.ObtenerConexion())
+                using (var cmd = new NpgsqlCommand(
+                    @"INSERT INTO detalle_venta (id_venta, id_producto, cantidad) 
+            VALUES (@idVenta, @idProducto, @cantidad);", conexion, transaction))
                 {
-                    // Crear el comando para insertar el comprobante
-                    string query = "INSERT INTO comprobantes (id_cliente, fecha) VALUES (@idCliente, @fecha) RETURNING num_comprobante";
+                    cmd.Parameters.AddWithValue("@idVenta", idVenta);
+                    cmd.Parameters.AddWithValue("@idProducto", detalle.ProductoId);
+                    cmd.Parameters.AddWithValue("@cantidad", detalle.Cantidad);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error al insertar detalle de venta: {ex.Message}");
+            }
+        }
 
-                    using (var cmd = new NpgsqlCommand(query, conexion))
-                    {
-                        // Agregar parámetros al comando
-                        cmd.Parameters.AddWithValue("@idCliente", idCliente);
-                        cmd.Parameters.AddWithValue("@fecha", DateTime.Now); // Asegúrate de que este valor sea el adecuado
+        public void InsertarComprobante(int idVenta, NpgsqlConnection conexion, NpgsqlTransaction transaction)
+        {
+            try
+            {
+                string numComprobante;
+                using (var cmd = new NpgsqlCommand(
+                    @"SELECT COALESCE(MAX(CAST(num_comprobante AS INTEGER)), 0) + 1 FROM comprobante", conexion, transaction))
+                {
+                    int numero = Convert.ToInt32(cmd.ExecuteScalar());
+                    numComprobante = numero.ToString("D4");
+                }
 
-                        // Ejecutar el comando y devolver el num_comprobante generado
-                        int numComprobante = (int)cmd.ExecuteScalar();
-
-                        return numComprobante;
-                    }
+                using (var cmd = new NpgsqlCommand(
+                    @"INSERT INTO comprobante (id_venta, num_comprobante, fecha) 
+            VALUES (@idVenta, @numComprobante, @fecha);", conexion, transaction))
+                {
+                    cmd.Parameters.AddWithValue("@idVenta", idVenta);
+                    cmd.Parameters.AddWithValue("@numComprobante", numComprobante);
+                    cmd.Parameters.AddWithValue("@fecha", DateTime.Now);
+                    cmd.ExecuteNonQuery();
                 }
             }
             catch (Exception ex)
@@ -106,32 +92,51 @@ namespace C_Datos
                 throw new Exception($"Error al insertar comprobante: {ex.Message}");
             }
         }
-        public void InsertarVentaDetalle(int numComprobante, DetalleVenta detalle)
+
+        public void ActualizarStock(int productoId, int cantidadVendida, NpgsqlConnection conexion, NpgsqlTransaction transaction)
         {
             try
             {
-                using (var conexion = Conexion.ObtenerConexion())
+                using (var cmdCheckStock = new NpgsqlCommand(
+                    @"SELECT stock FROM producto WHERE id_producto = @idProducto;", conexion, transaction))
                 {
-                    // Crear el comando para insertar un detalle de venta
-                    string query = "INSERT INTO venta_detalles (num_comprobante, producto_id, cantidad, precio_unitario) " +
-                                   "VALUES (@numComprobante, @productoId, @cantidad, @precioUnitario)";
+                    cmdCheckStock.Parameters.AddWithValue("@idProducto", productoId);
+                    int stockActual = Convert.ToInt32(cmdCheckStock.ExecuteScalar());
 
-                    using (var cmd = new NpgsqlCommand(query, conexion))
+                    if (stockActual < cantidadVendida)
                     {
-                        // Agregar parámetros al comando
-                        cmd.Parameters.AddWithValue("@numComprobante", numComprobante);
-                        cmd.Parameters.AddWithValue("@productoId", detalle.ProductoId);
-                        cmd.Parameters.AddWithValue("@cantidad", detalle.Cantidad);
-                        cmd.Parameters.AddWithValue("@precioUnitario", detalle.PrecioUnitario);
-
-                        // Ejecutar el comando
-                        cmd.ExecuteNonQuery();
+                        throw new Exception("No hay suficiente stock para realizar la venta.");
                     }
+                }
+
+                using (var cmd = new NpgsqlCommand(
+                    @"UPDATE producto 
+            SET stock = stock - @cantidad 
+            WHERE id_producto = @idProducto;", conexion, transaction))
+                {
+                    cmd.Parameters.AddWithValue("@cantidad", cantidadVendida);
+                    cmd.Parameters.AddWithValue("@idProducto", productoId);
+                    cmd.ExecuteNonQuery();
                 }
             }
             catch (Exception ex)
             {
-                throw new Exception($"Error al insertar detalle de venta: {ex.Message}");
+                throw new Exception($"Error al actualizar stock: {ex.Message}");
+            }
+        }
+
+        // Obtener el último número de ticket (comprobante)
+        public int ObtenerUltimoTicket()
+        {
+            string query = "SELECT MAX(num_comprobante) FROM Comprobante";
+
+            using (NpgsqlConnection connection = Conexion.ObtenerConexion())
+            {
+                using (var cmd = new NpgsqlCommand(query, connection))
+                {
+                    var result = cmd.ExecuteScalar();
+                    return result != DBNull.Value ? Convert.ToInt32(result) : 0;
+                }
             }
         }
     }

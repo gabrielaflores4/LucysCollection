@@ -57,7 +57,6 @@
             rbCliAntiguo = new RadioButton();
             cbClientes = new ComboBox();
             lblStockDisponible = new Label();
-            printDocumentVenta = new System.Drawing.Printing.PrintDocument();
             printPreviewDialogo = new PrintPreviewDialog();
             ((System.ComponentModel.ISupportInitialize)nbCantidad).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridVentaProducto).BeginInit();

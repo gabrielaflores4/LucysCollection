@@ -22,12 +22,21 @@ namespace C_Negocios
             usuarioDatos = new UsuarioDatos();
             hash = new Hash();
         }
-
-        // Método para verificar el login de un usuario
-        public Usuario VerificarLogin(string usuario, string contraseña)
+        public bool VerificarLogin(string usuario, string contraseña)
         {
             string passwordHash = hash.HashContraseña(contraseña);
-            return usuarioDatos.VerificarLogin(usuario, passwordHash);
+            Usuario usuarioLogueado = usuarioDatos.VerificarLogin(usuario, passwordHash);
+
+            if (usuarioLogueado != null)
+            {
+                Sesion.IniciarSesion(usuarioLogueado); 
+                return true;
+            }
+            else
+            {
+                Sesion.CerrarSesion(); 
+                return false;
+            }
         }
 
         public int CrearUsuario(string nombre, string apellido, string telefono, string correo, string username, string contraseña, string rol)

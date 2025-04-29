@@ -1,5 +1,6 @@
 ﻿using C_Datos;
 using C_Entidades;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,49 +12,41 @@ namespace C_Negocios
     public class VentaNeg
     {
         private VentaDatos ventaDatos = new VentaDatos();
-        private ProductoNeg productoNeg;  // Nueva instancia de la capa de productos
+        private ProductoNeg productoNeg;  
 
         public VentaNeg()
         {
             ventaDatos = new VentaDatos();
-            productoNeg = new ProductoNeg();  // Inicialización de ProductoNeg
+            productoNeg = new ProductoNeg(); 
         }
 
-        public void RegistrarVenta(int idCliente, List<DetalleVenta> detalles)
+        public void RegistrarVentaConDetalles(Venta venta, int idUsuario)
         {
-            if (!Sesion.EstaLogueado() || Sesion.UsuarioActivo == null)
-                throw new Exception("Usuario no autenticado");
-
-            if (detalles == null || !detalles.Any())
-                throw new Exception("La venta no contiene productos");
-
-            // Crear objeto Venta (sin total, ya que no se almacena según tu estructura)
-            Venta venta = new Venta(idCliente, DateTime.Now, 0) // El 0 es placeholder, no se usa
+            using (var conexion = Conexion.ObtenerConexion())
+            using (var transaction = conexion.BeginTransaction())
             {
-                Detalles = detalles
-            };
-
-            try
-            {
-                int numComprobante = ventaDatos.InsertarComprobante(idCliente);
-
-
-                // 3. Registrar los detalles de la venta
-                foreach (var detalle in detalles)
+                try
                 {
-                    ventaDatos.InsertarVentaDetalle(numComprobante, detalle);
+                    if (venta.Detalles == null || !venta.Detalles.Any())
+                        throw new Exception("La venta debe contener al menos un detalle.");
+
+                    int idVentaRegistrada = ventaDatos.RegistrarVenta(venta, idUsuario, conexion, transaction);
+                    venta.Id = idVentaRegistrada;
+
+                    foreach (var detalle in venta.Detalles)
+                    {
+                        ventaDatos.ActualizarStock(detalle.ProductoId, detalle.Cantidad, conexion, transaction);
+                    }
+
+                    ventaDatos.InsertarComprobante(venta.Id, conexion, transaction);
+
+                    transaction.Commit();
                 }
-
-
-                // Actualizar stocks
-                foreach (var detalle in detalles)
+                catch (Exception ex)
                 {
-                    productoNeg.ActualizarStock(detalle.ProductoId, -detalle.Cantidad);
+                    transaction.Rollback();
+                    throw new Exception($"Error al registrar la venta con detalles: {ex.Message}");
                 }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception($"Error al registrar venta: {ex.Message}");
             }
         }
 

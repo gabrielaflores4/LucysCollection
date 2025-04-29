@@ -34,28 +34,18 @@ namespace C_Presentacion
             string usuario = tbUsername.Text;
             string password = tbPassword.Text;
 
-            // Verificar las credenciales
-            Usuario usuarioActivo = usuarioNegocio.VerificarLogin(usuario, password);
-
-            if (usuarioActivo != null)
+            if (usuarioNegocio.VerificarLogin(usuario, password))
             {
-                // Iniciar sesión con el usuario
-                Sesion.IniciarSesion(usuarioActivo);
+                Usuario usuarioLogueado = Sesion.UsuarioActivo;
+                MessageBox.Show($"{usuarioLogueado.Nombre} {usuarioLogueado.Apellido}.");
 
-                // Crear el formulario principal (Inicio)
-                Inicio formInicio = new Inicio();
-
-                // Pasar la información del usuario al formulario Inicio
-                formInicio.ActualizarInfoUsuario(usuarioActivo);
-                formInicio.AplicarPermisosPorRol();
-
-                // Mostrar el formulario principal y ocultar el login
-                formInicio.Show();
                 this.Hide();
+                Inicio inicio = new Inicio();
+                inicio.Show();
             }
             else
             {
-                MessageBox.Show("Usuario o Contraseña incorrectos", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Usuario o contraseña incorrectos.");
             }
         }
 
