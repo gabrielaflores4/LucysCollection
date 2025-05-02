@@ -29,16 +29,17 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Login));
             pictureBox1 = new PictureBox();
             pictureBox2 = new PictureBox();
             label1 = new Label();
-            label2 = new Label();
             tbUsername = new TextBox();
             tbPassword = new TextBox();
             btnLogin = new Button();
             label3 = new Label();
             label4 = new Label();
             errorProvider = new ErrorProvider(components);
+            label2 = new Label();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)errorProvider).BeginInit();
@@ -80,18 +81,6 @@
             label1.TabIndex = 0;
             label1.Text = "Lucy's Collection";
             // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.BackColor = Color.FromArgb(89, 89, 89);
-            label2.Font = new Font("Bahnschrift", 21.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label2.ForeColor = SystemColors.Control;
-            label2.Location = new Point(134, 159);
-            label2.Name = "label2";
-            label2.Size = new Size(96, 35);
-            label2.TabIndex = 2;
-            label2.Text = "Log In";
-            // 
             // tbUsername
             // 
             tbUsername.Location = new Point(134, 275);
@@ -112,7 +101,7 @@
             // btnLogin
             // 
             btnLogin.BackColor = Color.FromArgb(89, 89, 89);
-            btnLogin.BackgroundImage = Properties.Resources.Btn_Login;
+            btnLogin.BackgroundImage = (Image)resources.GetObject("btnLogin.BackgroundImage");
             btnLogin.BackgroundImageLayout = ImageLayout.Stretch;
             btnLogin.FlatStyle = FlatStyle.Flat;
             btnLogin.ForeColor = Color.FromArgb(89, 89, 89);
@@ -131,9 +120,9 @@
             label3.ForeColor = SystemColors.Control;
             label3.Location = new Point(128, 237);
             label3.Name = "label3";
-            label3.Size = new Size(124, 29);
+            label3.Size = new Size(96, 29);
             label3.TabIndex = 6;
-            label3.Text = "Username";
+            label3.Text = "Usuario";
             // 
             // label4
             // 
@@ -143,13 +132,25 @@
             label4.ForeColor = SystemColors.Control;
             label4.Location = new Point(127, 353);
             label4.Name = "label4";
-            label4.Size = new Size(119, 29);
+            label4.Size = new Size(136, 29);
             label4.TabIndex = 7;
-            label4.Text = "Password";
+            label4.Text = "Contraseña";
             // 
             // errorProvider
             // 
             errorProvider.ContainerControl = this;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.BackColor = Color.FromArgb(89, 89, 89);
+            label2.Font = new Font("Bahnschrift", 21.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label2.ForeColor = SystemColors.Control;
+            label2.Location = new Point(134, 159);
+            label2.Name = "label2";
+            label2.Size = new Size(109, 35);
+            label2.TabIndex = 2;
+            label2.Text = "Acceso";
             // 
             // Login
             // 
@@ -186,12 +187,12 @@
         private PictureBox pictureBox1;
         private PictureBox pictureBox2;
         private Label label1;
-        private Label label2;
         private TextBox tbUsername;
         private TextBox tbPassword;
         private Button btnLogin;
         private Label label3;
         private Label label4;
         private ErrorProvider errorProvider;
+        private Label label2;
     }
 }

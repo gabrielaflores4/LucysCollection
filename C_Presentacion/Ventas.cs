@@ -25,7 +25,7 @@ namespace C_Presentacion
         private ProductoNeg productoNeg = new ProductoNeg();
         private ClienteNeg clienteNeg = new ClienteNeg();
         private List<int> idsClientes;
-        private decimal montoPagado;  
+        private decimal montoPagado;
 
 
         public Ventas()
@@ -37,7 +37,7 @@ namespace C_Presentacion
             ActualizarDataGrid();
             CargarProductos();
             CargarTallasDisponibles();
-            CargarClientes(); 
+            CargarClientes();
             idsClientes = clienteNeg.ObtenerIdsClientes();
             ultimoTicket = ventaDatos.ObtenerUltimoTicket();
 
@@ -123,6 +123,10 @@ namespace C_Presentacion
                 cbProductos.DataSource = productos;
                 cbProductos.DisplayMember = "Nombre";  // Mostrar el nombre del producto
                 cbProductos.ValueMember = "Id_Prod";   // Usar el ID del producto como valor asociado
+
+                cbProductos.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+                cbProductos.AutoCompleteSource = AutoCompleteSource.ListItems;
+                cbProductos.DropDownStyle = ComboBoxStyle.DropDown;
             }
             catch (Exception ex)
             {
@@ -302,7 +306,7 @@ namespace C_Presentacion
                 {
                     FrmRegClientes frmRegClientes = new FrmRegClientes();
                     frmRegClientes.ShowDialog();
-                    return; 
+                    return;
                 }
 
                 if (detallesVenta == null || detallesVenta.Count == 0)
@@ -315,7 +319,7 @@ namespace C_Presentacion
                     Fecha = DateTime.Now
                 };
 
-                int idUsuario = ObtenerIdUsuario(); 
+                int idUsuario = ObtenerIdUsuario();
                 ventaNeg.RegistrarVentaConDetalles(venta, idUsuario);
 
                 MessageBox.Show("Venta registrada exitosamente.", "Confirmación", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -349,7 +353,7 @@ namespace C_Presentacion
 
             PrintPreviewDialog vistaPrevia = new PrintPreviewDialog();
             vistaPrevia.Document = doc;
-            vistaPrevia.ShowDialog(); 
+            vistaPrevia.ShowDialog();
         }
         private void Imprimir(object sender, System.Drawing.Printing.PrintPageEventArgs e)
         {
@@ -376,7 +380,7 @@ namespace C_Presentacion
             int idCliente = clienteSeleccionado.Id;
 
             Graphics g = e.Graphics;
-            Font monoFont = new Font("Courier New", 12); 
+            Font monoFont = new Font("Courier New", 12);
             int yPos = 30;
 
             g.DrawString("Lucy´s Collections", new Font("Arial", 14, FontStyle.Bold), Brushes.Black, 100, yPos); yPos += 30;
@@ -461,13 +465,15 @@ namespace C_Presentacion
             cbClientes.DataSource = clienteNeg.ObtenerClientes();
             cbClientes.DisplayMember = "NombreCompleto";
             cbClientes.ValueMember = "Id";
+
+            cbClientes.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            cbClientes.AutoCompleteSource = AutoCompleteSource.ListItems;
+            cbClientes.DropDownStyle = ComboBoxStyle.DropDown;
         }
 
         private void btnCancelarRegProd_Click(object sender, EventArgs e)
         {
             this.Close();
-            Inicio inicio = new Inicio();
-            inicio.Show();
         }
     }
 }

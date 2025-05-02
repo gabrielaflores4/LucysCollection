@@ -59,23 +59,23 @@ namespace C_Presentacion
             //Form Inventario//
             cmbTalla.Items.Clear();
             cmbTalla.Items.Add("Todos");
-            cmbTalla.Items.Add("6");
-            cmbTalla.Items.Add("7");
-            cmbTalla.Items.Add("8");
-            cmbTalla.Items.Add("9");
-            cmbTalla.Items.Add("10");
+            cmbTalla.Items.Add("29");
+            cmbTalla.Items.Add("30");
+            cmbTalla.Items.Add("35");
+            cmbTalla.Items.Add("38");
+            cmbTalla.Items.Add("39");
             cmbStockk.Items.Clear();
             cmbStockk.Items.Add("Todos");
-            cmbStockk.Items.Add("Mayor que 0");
-            cmbStockk.Items.Add("Menor que 5");
+            cmbStockk.Items.Add("Mayor");
+            cmbStockk.Items.Add("Menor");
             cmbStockk.Items.Add("Sin stock");
             cmbCategoria.Items.Clear();
             cmbCategoria.Items.Add("Todos");
-            cmbCategoria.Items.Add("Electronica");
-            cmbCategoria.Items.Add("Ropa");
-            cmbCategoria.Items.Add("Hogar");
-            cmbCategoria.Items.Add("Alimentos");
-            cmbCategoria.Items.Add("Juguete");
+            cmbCategoria.Items.Add("Botas");
+            cmbCategoria.Items.Add("Sandalias");
+            cmbCategoria.Items.Add("Zapatillas bordadas");
+            cmbCategoria.Items.Add("Zapatos casuales");
+            cmbCategoria.Items.Add("Calzado infantil");
             cmbPrecioUnit.Items.Clear();
             cmbPrecioUnit.Items.Add("Todos");
             cmbPrecioUnit.Items.Add("Mayor precio");
@@ -317,7 +317,7 @@ namespace C_Presentacion
                  .ToList();
             }
 
-            var usuarios = usuarioNeg.ObtenerUsuarios();
+            var usuarios = empleados;
 
             var columnas = new Dictionary<string, string>
             {
@@ -820,37 +820,36 @@ namespace C_Presentacion
         {
             List<MateriaPrima> materiaPrimas = _materiaPrimaNeg.ObtenerMateriasPrimas();
 
-            if (cmbStock.SelectedItem != null)
+            string filtroStock = cmbStock.SelectedItem?.ToString();
+
+            if (filtroStock == "Sin stock")
             {
-                string filtroStock = cmbStock.SelectedItem.ToString();
-                if (filtroStock == "Sin stock")
-                {
-                    materiaPrimas = materiaPrimas.Where(p => p.Stock == 0).ToList();
-                }
+                materiaPrimas = materiaPrimas.Where(p => p.Stock == 0).ToList();
             }
 
-            IOrderedEnumerable<MateriaPrima> ordenado = null;
-
-            if (cmbPrecio.SelectedItem != null || cmbStock.SelectedItem != null)
+            IOrderedEnumerable<MateriaPrima> ordenado;
+            switch (filtroStock)
             {
-                string filtroPrecio = cmbPrecio.SelectedItem?.ToString();
-                string filtroStock = cmbStock.SelectedItem?.ToString();
-
-                if (filtroStock == "Mayor")
+                case "Mayor":
                     ordenado = materiaPrimas.OrderByDescending(p => p.Stock);
-                else if (filtroStock == "Menor")
+                    break;
+                case "Menor":
                     ordenado = materiaPrimas.OrderBy(p => p.Stock);
-                else
-                    ordenado = materiaPrimas.OrderBy(p => 0);
-
-                if (filtroPrecio == "Mayor precio")
-                    ordenado = ordenado.ThenByDescending(p => p.PrecioUnit);
-                else if (filtroPrecio == "Menor precio")
-                    ordenado = ordenado.ThenBy(p => p.PrecioUnit);
+                    break;
+                default:
+                    ordenado = materiaPrimas.OrderBy(p => p.IdMateriaPrima);
+                    break;
             }
-            else
+
+            string filtroPrecio = cmbPrecio.SelectedItem?.ToString();
+            switch (filtroPrecio)
             {
-                ordenado = materiaPrimas.OrderBy(p => p.IdMateriaPrima);
+                case "Mayor precio":
+                    ordenado = ordenado.ThenByDescending(p => p.PrecioUnit);
+                    break;
+                case "Menor precio":
+                    ordenado = ordenado.ThenBy(p => p.PrecioUnit);
+                    break;
             }
 
             dataGridMP.DataSource = ordenado.Select(mp => new
@@ -868,49 +867,44 @@ namespace C_Presentacion
         {
             List<Producto> productos = productoNeg.ObtenerProductos();
 
-            if (cmbStockk.SelectedItem != null)
-            {
-                string filtroStock = cmbStockk.SelectedItem.ToString();
+            string filtroStock = cmbStockk.SelectedItem?.ToString();
+            if (filtroStock == "Sin stock")
+                productos = productos.Where(p => p.Stock == 0).ToList();
 
-                if (filtroStock == "Sin stock")
-                {
-                    productos = productos.Where(p => p.Stock == 0).ToList();
-                }
-                else if (filtroStock == "Mayor")
-                {
-                    productos = productos.Where(p => p.Stock > 0).ToList();
-                }
-                else if (filtroStock == "Menor")
-                {
-                    productos = productos.Where(p => p.Stock <= 0).ToList();
-                }
+            string filtroCategoria = cmbCategoria.SelectedItem?.ToString();
+            if (filtroCategoria != "Todos")
+                productos = productos.Where(p => p.Categoria.Nombre == filtroCategoria).ToList();
+
+            string filtroTalla = cmbTalla.SelectedItem?.ToString();
+
+            if (filtroTalla != "Todos" && int.TryParse(filtroTalla, out int tallaFiltrada))
+            {
+                productos = productos.Where(p => p.Talla == tallaFiltrada).ToList();
             }
 
-            IOrderedEnumerable<Producto> ordenado = null;
-
-            if (cmbPrecioUnit.SelectedItem != null || cmbStockk.SelectedItem != null || cmbCategoria.SelectedItem != null)
+            IOrderedEnumerable<Producto> ordenado;
+            switch (filtroStock)
             {
-                string filtroPrecio = cmbPrecioUnit.SelectedItem?.ToString();
-                string filtroCategoria = cmbCategoria.SelectedItem?.ToString();
-
-                if (cmbStockk.SelectedItem != null)
-                {
-                    if (cmbStockk.SelectedItem.ToString() == "Mayor")
-                        ordenado = productos.OrderByDescending(i => i.Stock);
-                    else if (cmbStockk.SelectedItem.ToString() == "Menor")
-                        ordenado = productos.OrderBy(p => p.Stock);
-                    else
-                        ordenado = productos.OrderBy(p => 0);
-                }
-
-                if (filtroPrecio == "Mayor precio")
-                    ordenado = ordenado.ThenByDescending(p => p.Precio);
-                else if (filtroPrecio == "Menor precio")
-                    ordenado = ordenado.ThenBy(p => p.Precio);
+                case "Mayor":
+                    ordenado = productos.OrderByDescending(p => p.Stock);
+                    break;
+                case "Menor":
+                    ordenado = productos.OrderBy(p => p.Stock);
+                    break;
+                default:
+                    ordenado = productos.OrderBy(p => p.Id_Prod);
+                    break;
             }
-            else
+
+            string filtroPrecio = cmbPrecioUnit.SelectedItem?.ToString();
+            switch (filtroPrecio)
             {
-                ordenado = productos.OrderBy(p => p.Id_Prod);
+                case "Mayor precio":
+                    ordenado = ordenado.OrderByDescending(p => p.Precio);
+                    break;
+                case "Menor precio":
+                    ordenado = ordenado.OrderBy(p => p.Precio);
+                    break;
             }
 
             dataGridInventarioProducto.DataSource = ordenado.Select(p => new
@@ -972,7 +966,6 @@ namespace C_Presentacion
 
         private void tbBusquedaMateriaPrima_TextChanged(object sender, EventArgs e)
         {
-            CargarMateriasPrimas();
         }
     }
 }

@@ -37,7 +37,6 @@ namespace C_Presentacion
             if (usuarioNegocio.VerificarLogin(usuario, password))
             {
                 Usuario usuarioLogueado = Sesion.UsuarioActivo;
-                MessageBox.Show($"{usuarioLogueado.Nombre} {usuarioLogueado.Apellido}.");
 
                 this.Hide();
                 Inicio inicio = new Inicio();

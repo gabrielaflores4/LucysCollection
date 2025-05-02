@@ -13,7 +13,10 @@ using C_Negocios;
 using iTextSharp.text.pdf;
 using iTextSharp.text;
 using System.IO;
-using Font = System.Drawing.Font; 
+using Font = System.Drawing.Font;
+using Rectangle = System.Drawing.Rectangle;
+using System.Drawing.Drawing2D;
+using System.Security.Policy;
 
 namespace C_Presentacion
 {
@@ -24,107 +27,78 @@ namespace C_Presentacion
             InitializeComponent();
         }
 
-        private void btnFiltrar_Click(object sender, EventArgs e)
+        private void DibujarGrafico(DataTable dt)
         {
-            DateTime desde = dtpDesde.Value.Date;
-            DateTime hasta = dtpHasta.Value.Date.AddDays(1).AddTicks(-1);
+            int width = pbGrafico.Width;
+            int height = pbGrafico.Height;
 
-
-            DataTable dt = Reportes.ObtenerReporteVentas(desde, hasta);
-            dgvVentas.Columns.Clear();
-            dgvVentas.AutoGenerateColumns = true;
-            dgvVentas.DataSource = dt;
-
-            MessageBox.Show("Filas cargadas: " + dt.Rows.Count);
+            Bitmap bmp = new Bitmap(width, height);
+            Graphics g = Graphics.FromImage(bmp);
+            g.SmoothingMode = SmoothingMode.AntiAlias;
+            g.Clear(Color.White);
 
             if (dt.Rows.Count == 0)
             {
-                MessageBox.Show("No se encontraron ventas en ese rango de fechas.");
-                dgvVentas.DataSource = null;
-                pbGrafico.Image = null;
-                lblTotal.Text = "Total generado: $0.00";
-                lblMayorVenta.Text = "Mayor ventas: Sin ventas";
+                pbGrafico.Image = bmp;
                 return;
             }
 
-            // Generar gráfico y totales
-            DibujarGrafico(dt);
-            MostrarTotales(dt);
-            CargarReporte();
+            decimal total = dt.AsEnumerable().Sum(row => Convert.ToDecimal(row["total"]));
+            float startAngle = 0f;
 
-        }
+            int margenX = (int)(width * 0.1);
+            int margenY = (int)(height * 0.1);
+            int diametro = Math.Min(width - 2 * margenX, height - 2 * margenY);
 
+            Rectangle rect = new Rectangle(margenX, margenY, diametro, diametro);
+            Color[] colors = { Color.SteelBlue, Color.Orange, Color.Green, Color.Red, Color.DeepPink, Color.Goldenrod, Color.Teal, Color.LightCoral };
 
-        private void DibujarGrafico(DataTable dt)
-        {
-            if (dt.Rows.Count == 0) return;
-
-            var datos = dt.AsEnumerable()
-                .GroupBy(r => r.Field<string>("producto"))
-                .Select(g => new
-                {
-                    Producto = g.Key,
-                    Total = g.Sum(r => r.Field<decimal>("total"))
-                })
-                .OrderByDescending(g => g.Total)
-                .ToList();
-
-            int ancho = pbGrafico.Width;
-            int altura = pbGrafico.Height;
-
-            Bitmap bmp = new Bitmap(ancho, altura);
-            using (Graphics g = Graphics.FromImage(bmp))
+            int i = 0;
+            foreach (DataRow row in dt.Rows)
             {
-                g.Clear(Color.White);
+                decimal valor = Convert.ToDecimal(row["total"]);
+                float sweepAngle = (float)(valor / total) * 360f;
 
-                int margenIzq = 40, margenInf = 40;
-                int espacio = 20;
-                int anchoBarra = (ancho - 2 * margenIzq - espacio * (datos.Count - 1)) / datos.Count;
-
-                decimal maxTotal = datos.Max(x => x.Total);
-                Font fuente = new Font("Segoe UI", 9);
-                StringFormat formatoCentro = new StringFormat { Alignment = StringAlignment.Center };
-
-                // Ejes
-                g.DrawLine(Pens.Black, margenIzq, altura - margenInf, ancho - margenIzq, altura - margenInf);
-                g.DrawLine(Pens.Black, margenIzq, 20, margenIzq, altura - margenInf);
-
-                for (int i = 0; i < datos.Count; i++)
+                using (Brush b = new SolidBrush(colors[i % colors.Length]))
                 {
-                    var d = datos[i];
-                    int x = margenIzq + i * (anchoBarra + espacio);
-                    int h = (int)((d.Total / maxTotal) * (altura - margenInf - 40));
-                    int y = altura - margenInf - h;
-
-                    g.FillRectangle(Brushes.SkyBlue, x, y, anchoBarra, h);
-                    g.DrawRectangle(Pens.Black, x, y, anchoBarra, h);
-
-                    g.DrawString(d.Producto, fuente, Brushes.Black, x + anchoBarra / 2, altura - 30, formatoCentro);
-                    g.DrawString(d.Total.ToString("C"), fuente, Brushes.Black, x + anchoBarra / 2, y - 20, formatoCentro);
+                    g.FillPie(b, rect, startAngle, sweepAngle);
                 }
+
+                startAngle += sweepAngle;
+                i++;
             }
 
-            pbGrafico.Image?.Dispose();
+            int legendX = rect.Right + 10;
+            int legendY = margenY;
+
+            i = 0;
+
+            foreach (DataRow row in dt.Rows)
+            {
+                string producto = row["producto"].ToString();
+                decimal valor = Convert.ToDecimal(row["total"]);
+                float porcentaje = (float)(valor / total) * 100f;
+
+                using (Brush b = new SolidBrush(colors[i % colors.Length]))
+                {
+                    g.FillRectangle(b, legendX, legendY, 15, 15);
+                }
+
+                g.DrawString($"{producto} ({porcentaje:F1}%)", new Font("Arial", 9), Brushes.Black, legendX + 20, legendY - 2);
+                legendY += 20;
+                i++;
+            }
+
             pbGrafico.Image = bmp;
         }
-        
-        private void CargarReporte()
-        {
-            DateTime desde = dtpDesde.Value.Date;
-            DateTime hasta = dtpDesde.Value.Date.AddDays(1).AddTicks(-1); 
 
-            var tabla = Reportes.ObtenerReporteVentas(desde, hasta);
-            dgvVentas.DataSource = tabla;
-            MostrarTotales(tabla);
-            DibujarGrafico(tabla);
-        }
+
         private void MostrarTotales(DataTable dt)
         {
-            // Calcular el total general de todas las ventas
             decimal totalGeneral = dt.AsEnumerable().Sum(r => r.Field<decimal>("total"));
 
-            // Calcular el producto que más dinero generó
             string masVendido = "Sin ventas";
+            string empleadoTop = "Sin datos";
 
             if (dt.Rows.Count > 0)
             {
@@ -133,54 +107,129 @@ namespace C_Presentacion
                     .OrderByDescending(g => g.Sum(r => r.Field<decimal>("total")))
                     .First()
                     .Key;
+
+                empleadoTop = dt.AsEnumerable()
+                    .GroupBy(r => r.Field<string>("empleado"))
+                    .OrderByDescending(g => g.Sum(r => r.Field<decimal>("total")))
+                    .First()
+                    .Key;
             }
 
-            // Mostrar los resultados en los label
             lblTotal.Text = $"Total generado: {totalGeneral:C}";
             lblMayorVenta.Text = $"Mayor ventas: {masVendido}";
-        }
-
-        private void btnExportar_Click(object sender, EventArgs e)
-        {
-            using (SaveFileDialog sfd = new SaveFileDialog() { Filter = "PDF|*.pdf" })
-            {
-                if (sfd.ShowDialog() == DialogResult.OK)
-                {
-                    using (FileStream fs = new FileStream(sfd.FileName, FileMode.Create))
-                    {
-                        Document doc = new Document(PageSize.A4);
-                        PdfWriter.GetInstance(doc, fs);
-                        doc.Open();
-
-                        doc.Add(new Paragraph("Reporte de Ventas", FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 16)));
-
-                        PdfPTable tabla = new PdfPTable(dgvVentas.Columns.Count);
-                        foreach (DataGridViewColumn col in dgvVentas.Columns)
-                            tabla.AddCell(col.HeaderText);
-
-                        foreach (DataGridViewRow row in dgvVentas.Rows)
-                        {
-                            if (!row.IsNewRow)
-                            {
-                                foreach (DataGridViewCell cell in row.Cells)
-                                    tabla.AddCell(cell.Value?.ToString() ?? "");
-                            }
-                        }
-
-                        doc.Add(tabla);
-                        doc.Add(new Paragraph(lblMayorVenta.Text));
-                        doc.Add(new Paragraph(lblTotal.Text));
-                        doc.Close();
-                    }
-
-                    MessageBox.Show("Exportado con éxito", "PDF", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-            }
+            lblEmpleadoTop.Text = $"Usuario con más ventas: {empleadoTop}";
         }
 
         private void Reporte_de_ventas_Load(object sender, EventArgs e)
         {
+            cbFiltro.Items.Add("Dia");
+            cbFiltro.Items.Add("Semana");
+            cbFiltro.Items.Add("Mes");
+        }
 
+        private void btnCancelarReporte_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void btnExportarPDF_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog sfd = new SaveFileDialog
+            {
+                Filter = "PDF files (*.pdf)|*.pdf",
+                FileName = "Reporte de Ventas.pdf"
+            };
+
+            if (sfd.ShowDialog() == DialogResult.OK)
+            {
+                using (FileStream fs = new FileStream(sfd.FileName, FileMode.Create))
+                {
+                    Document doc = new Document(PageSize.A4, 10, 10, 10, 10);
+                    PdfWriter writer = PdfWriter.GetInstance(doc, fs);
+                    doc.Open();
+
+                    /*Título*/
+                    doc.Add(new Paragraph("Reporte de Ventas"));
+                    doc.Add(new Paragraph("\n"));
+                    doc.Add(new Paragraph("\n"));
+                    doc.Add(new Paragraph("\n"));
+
+                    /*Tabla*/
+                    PdfPTable tabla = new PdfPTable(dgvVentas.Columns.Count);
+                    foreach (DataGridViewColumn col in dgvVentas.Columns)
+                    {
+                        tabla.AddCell(new Phrase(col.HeaderText));
+                    }
+                    foreach (DataGridViewRow row in dgvVentas.Rows)
+                    {
+                        if (!row.IsNewRow)
+                        {
+                            foreach (DataGridViewCell cell in row.Cells)
+                            {
+                                tabla.AddCell(cell.Value?.ToString() ?? "");
+                            }
+                        }
+                    }
+                    doc.Add(tabla);
+                    doc.Add(new Paragraph("\n"));
+
+                    if (pbGrafico.Image != null)
+                    {
+                        using (MemoryStream ms = new MemoryStream())
+                        {
+                            pbGrafico.Image.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
+                            iTextSharp.text.Image chartImg = iTextSharp.text.Image.GetInstance(ms.ToArray());
+                            chartImg.ScaleToFit(500f, 300f);
+                            chartImg.Alignment = Element.ALIGN_CENTER;
+                            doc.Add(chartImg);
+                        }
+                    }
+
+                    doc.Close();
+                }
+
+                MessageBox.Show("PDF guardado correctamente.");
+            }
+        }
+
+        private void btnGenerar_Click(object sender, EventArgs e)
+        {
+            if (cbFiltro.SelectedItem == null)
+            {
+                MessageBox.Show("Por favor, seleccione si por: Día, Semana o Mes).");
+                return;
+            }
+
+            DateTime desde, hasta;
+
+            switch (cbFiltro.SelectedItem.ToString())
+            {
+                case "Dia":
+                    desde = dtpDesde.Value.Date;
+                    hasta = desde.AddDays(1).AddSeconds(-1);
+                    break;
+
+                case "Semana":
+                    int delta = DayOfWeek.Monday - dtpDesde.Value.DayOfWeek;
+                    desde = dtpDesde.Value.AddDays(delta).Date;
+                    hasta = desde.AddDays(7).AddSeconds(-1);
+                    break;
+
+                case "Mes":
+                    desde = new DateTime(dtpDesde.Value.Year, dtpDesde.Value.Month, 1);
+                    hasta = desde.AddMonths(1).AddSeconds(-1);
+                    break;
+
+                default:
+                    MessageBox.Show("Filtro no válido");
+                    return;
+            }
+
+            DataTable dt = Reportes.ObtenerReporteVentas(desde, hasta);
+            dgvVentas.DataSource = dt;
+
+            DibujarGrafico(dt);
+            MostrarTotales(dt);
         }
     }
 }
