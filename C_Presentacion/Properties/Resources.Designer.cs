@@ -93,26 +93,6 @@ namespace C_Presentacion.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Btn_Login {
-            get {
-                object obj = ResourceManager.GetObject("Btn Login", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap btn_LogOut {
-            get {
-                object obj = ResourceManager.GetObject("btn LogOut", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap btn_Proveedores {
             get {
                 object obj = ResourceManager.GetObject("btn Proveedores", resourceCulture);
@@ -153,6 +133,16 @@ namespace C_Presentacion.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap btnCerrarSesion {
+            get {
+                object obj = ResourceManager.GetObject("btnCerrarSesion", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap btnEliminar {
             get {
                 object obj = ResourceManager.GetObject("btnEliminar", resourceCulture);
@@ -163,29 +153,19 @@ namespace C_Presentacion.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap btnEntrar {
+            get {
+                object obj = ResourceManager.GetObject("btnEntrar", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap btnFactura {
             get {
                 object obj = ResourceManager.GetObject("btnFactura", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap btnFechasAntiguas {
-            get {
-                object obj = ResourceManager.GetObject("btnFechasAntiguas", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap btnFechasRecientes {
-            get {
-                object obj = ResourceManager.GetObject("btnFechasRecientes", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

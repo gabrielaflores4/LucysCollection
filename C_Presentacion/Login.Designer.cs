@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Login));
             pictureBox1 = new PictureBox();
             pictureBox2 = new PictureBox();
             label1 = new Label();
@@ -101,7 +100,7 @@
             // btnLogin
             // 
             btnLogin.BackColor = Color.FromArgb(89, 89, 89);
-            btnLogin.BackgroundImage = (Image)resources.GetObject("btnLogin.BackgroundImage");
+            btnLogin.BackgroundImage = Properties.Resources.btnEntrar;
             btnLogin.BackgroundImageLayout = ImageLayout.Stretch;
             btnLogin.FlatStyle = FlatStyle.Flat;
             btnLogin.ForeColor = Color.FromArgb(89, 89, 89);
@@ -146,7 +145,7 @@
             label2.BackColor = Color.FromArgb(89, 89, 89);
             label2.Font = new Font("Bahnschrift", 21.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label2.ForeColor = SystemColors.Control;
-            label2.Location = new Point(134, 159);
+            label2.Location = new Point(129, 159);
             label2.Name = "label2";
             label2.Size = new Size(109, 35);
             label2.TabIndex = 2;

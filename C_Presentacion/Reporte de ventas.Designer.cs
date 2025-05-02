@@ -56,7 +56,7 @@
             label1.BackColor = Color.Black;
             label1.Font = new Font("Bahnschrift", 20.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label1.ForeColor = SystemColors.Control;
-            label1.Location = new Point(565, 18);
+            label1.Location = new Point(565, 15);
             label1.Margin = new Padding(4, 0, 4, 0);
             label1.Name = "label1";
             label1.Size = new Size(235, 33);
@@ -117,7 +117,7 @@
             // pictureBox1
             // 
             pictureBox1.Image = Properties.Resources.rectangulo4;
-            pictureBox1.Location = new Point(-3, 1);
+            pictureBox1.Location = new Point(-3, -1);
             pictureBox1.Name = "pictureBox1";
             pictureBox1.Size = new Size(1372, 73);
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
