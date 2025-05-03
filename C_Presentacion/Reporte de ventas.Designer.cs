@@ -39,13 +39,11 @@
             cbFiltro = new ComboBox();
             lblEmpleadoTop = new Label();
             dtpHasta = new DateTimePicker();
-            btnExportarPDF = new PictureBox();
             btnCancelarReporte = new PictureBox();
             btnGenerar = new PictureBox();
             ((System.ComponentModel.ISupportInitialize)dgvVentas).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pbGrafico).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)btnExportarPDF).BeginInit();
             ((System.ComponentModel.ISupportInitialize)btnCancelarReporte).BeginInit();
             ((System.ComponentModel.ISupportInitialize)btnGenerar).BeginInit();
             SuspendLayout();
@@ -66,7 +64,7 @@
             // dtpDesde
             // 
             dtpDesde.Font = new Font("Bahnschrift", 12F);
-            dtpDesde.Location = new Point(943, 567);
+            dtpDesde.Location = new Point(877, 566);
             dtpDesde.Margin = new Padding(4);
             dtpDesde.Name = "dtpDesde";
             dtpDesde.Size = new Size(76, 27);
@@ -76,17 +74,17 @@
             // dgvVentas
             // 
             dgvVentas.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvVentas.Location = new Point(877, 220);
+            dgvVentas.Location = new Point(723, 234);
             dgvVentas.Margin = new Padding(4);
             dgvVentas.Name = "dgvVentas";
-            dgvVentas.Size = new Size(480, 325);
+            dgvVentas.Size = new Size(615, 325);
             dgvVentas.TabIndex = 5;
             // 
             // lblMayorVenta
             // 
             lblMayorVenta.AutoSize = true;
             lblMayorVenta.Font = new Font("Bahnschrift", 12F);
-            lblMayorVenta.Location = new Point(888, 137);
+            lblMayorVenta.Location = new Point(744, 149);
             lblMayorVenta.Margin = new Padding(4, 0, 4, 0);
             lblMayorVenta.Name = "lblMayorVenta";
             lblMayorVenta.Size = new Size(103, 19);
@@ -95,10 +93,10 @@
             // 
             // pbGrafico
             // 
-            pbGrafico.Location = new Point(13, 81);
+            pbGrafico.Location = new Point(67, 115);
             pbGrafico.Margin = new Padding(4);
             pbGrafico.Name = "pbGrafico";
-            pbGrafico.Size = new Size(856, 602);
+            pbGrafico.Size = new Size(607, 448);
             pbGrafico.TabIndex = 10;
             pbGrafico.TabStop = false;
             // 
@@ -106,7 +104,7 @@
             // 
             lblTotal.AutoSize = true;
             lblTotal.Font = new Font("Bahnschrift", 12F);
-            lblTotal.Location = new Point(888, 86);
+            lblTotal.Location = new Point(744, 98);
             lblTotal.Margin = new Padding(4, 0, 4, 0);
             lblTotal.Name = "lblTotal";
             lblTotal.Size = new Size(48, 19);
@@ -127,7 +125,7 @@
             // cbFiltro
             // 
             cbFiltro.FormattingEnabled = true;
-            cbFiltro.Location = new Point(1050, 567);
+            cbFiltro.Location = new Point(984, 566);
             cbFiltro.Name = "cbFiltro";
             cbFiltro.Size = new Size(121, 27);
             cbFiltro.TabIndex = 59;
@@ -136,7 +134,7 @@
             // 
             lblEmpleadoTop.AutoSize = true;
             lblEmpleadoTop.Font = new Font("Bahnschrift", 12F);
-            lblEmpleadoTop.Location = new Point(888, 188);
+            lblEmpleadoTop.Location = new Point(744, 200);
             lblEmpleadoTop.Margin = new Padding(4, 0, 4, 0);
             lblEmpleadoTop.Name = "lblEmpleadoTop";
             lblEmpleadoTop.Size = new Size(208, 19);
@@ -149,17 +147,6 @@
             dtpHasta.Name = "dtpHasta";
             dtpHasta.Size = new Size(10, 27);
             dtpHasta.TabIndex = 61;
-            // 
-            // btnExportarPDF
-            // 
-            btnExportarPDF.Image = (Image)resources.GetObject("btnExportarPDF.Image");
-            btnExportarPDF.Location = new Point(877, 622);
-            btnExportarPDF.Name = "btnExportarPDF";
-            btnExportarPDF.Size = new Size(167, 73);
-            btnExportarPDF.SizeMode = PictureBoxSizeMode.Zoom;
-            btnExportarPDF.TabIndex = 64;
-            btnExportarPDF.TabStop = false;
-            btnExportarPDF.Click += btnExportarPDF_Click;
             // 
             // btnCancelarReporte
             // 
@@ -175,7 +162,7 @@
             // btnGenerar
             // 
             btnGenerar.Image = (Image)resources.GetObject("btnGenerar.Image");
-            btnGenerar.Location = new Point(1050, 622);
+            btnGenerar.Location = new Point(915, 611);
             btnGenerar.Name = "btnGenerar";
             btnGenerar.Size = new Size(167, 73);
             btnGenerar.SizeMode = PictureBoxSizeMode.Zoom;
@@ -191,7 +178,6 @@
             ClientSize = new Size(1370, 696);
             Controls.Add(btnGenerar);
             Controls.Add(btnCancelarReporte);
-            Controls.Add(btnExportarPDF);
             Controls.Add(dtpHasta);
             Controls.Add(lblEmpleadoTop);
             Controls.Add(cbFiltro);
@@ -212,7 +198,6 @@
             ((System.ComponentModel.ISupportInitialize)dgvVentas).EndInit();
             ((System.ComponentModel.ISupportInitialize)pbGrafico).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
-            ((System.ComponentModel.ISupportInitialize)btnExportarPDF).EndInit();
             ((System.ComponentModel.ISupportInitialize)btnCancelarReporte).EndInit();
             ((System.ComponentModel.ISupportInitialize)btnGenerar).EndInit();
             ResumeLayout(false);
@@ -232,7 +217,6 @@
         private ComboBox cbFiltro;
         private Label lblEmpleadoTop;
         private DateTimePicker dtpHasta;
-        private PictureBox btnExportarPDF;
         private PictureBox btnCancelarReporte;
         private PictureBox btnGenerar;
     }
