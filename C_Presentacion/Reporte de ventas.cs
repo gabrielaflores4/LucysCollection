@@ -132,29 +132,80 @@ namespace C_Presentacion
             this.Close();
         }
 
-        private void btnExportarPDF_Click(object sender, EventArgs e)
+        
+        private void btnGenerar_Click(object sender, EventArgs e)
         {
-            SaveFileDialog sfd = new SaveFileDialog
+            try
             {
-                Filter = "PDF files (*.pdf)|*.pdf",
-                FileName = "Reporte de Ventas.pdf"
-            };
+                if (cbFiltro.SelectedItem == null)
+                {
+                    MessageBox.Show("Por favor, seleccione si por: Día, Semana o Mes.");
+                    return;
+                }
 
-            if (sfd.ShowDialog() == DialogResult.OK)
-            {
-                using (FileStream fs = new FileStream(sfd.FileName, FileMode.Create))
+                DateTime desde, hasta;
+
+                switch (cbFiltro.SelectedItem.ToString())
+                {
+                    case "Dia":
+                        desde = dtpDesde.Value.Date;
+                        hasta = desde.AddDays(1).AddSeconds(-1);
+                        break;
+
+                    case "Semana":
+                        int delta = DayOfWeek.Monday - dtpDesde.Value.DayOfWeek;
+                        desde = dtpDesde.Value.AddDays(delta).Date;
+                        hasta = desde.AddDays(7).AddSeconds(-1);
+                        break;
+
+                    case "Mes":
+                        desde = new DateTime(dtpDesde.Value.Year, dtpDesde.Value.Month, 1);
+                        hasta = desde.AddMonths(1).AddSeconds(-1);
+                        break;
+
+                    default:
+                        MessageBox.Show("Filtro no válido");
+                        return;
+                }
+
+                DataTable dt = Reportes.ObtenerReporteVentas(desde, hasta);
+                dgvVentas.DataSource = dt;
+
+                DibujarGrafico(dt);
+                MostrarTotales(dt);
+
+                string carpetaDestino = @"C:\Users\Usuario\Desktop\Reportes de ventas Lucy´s Collections";
+
+                if (!Directory.Exists(carpetaDestino))
+                {
+                    Directory.CreateDirectory(carpetaDestino);
+                }
+
+                string fechaActual = DateTime.Now.ToString("dd-MM-yyyy");
+                string nombreArchivo = $"RV{fechaActual}.pdf";
+                string rutaCompleta = Path.Combine(carpetaDestino, nombreArchivo);
+
+                int contador = 1;
+                while (File.Exists(rutaCompleta))
+                {
+                    nombreArchivo = $"RV{fechaActual}_{contador}.pdf";
+                    rutaCompleta = Path.Combine(carpetaDestino, nombreArchivo);
+                    contador++;
+                }
+
+                using (FileStream fs = new FileStream(rutaCompleta, FileMode.Create))
                 {
                     Document doc = new Document(PageSize.A4, 10, 10, 10, 10);
                     PdfWriter writer = PdfWriter.GetInstance(doc, fs);
                     doc.Open();
 
-                    /*Título*/
                     doc.Add(new Paragraph("Reporte de Ventas"));
                     doc.Add(new Paragraph("\n"));
-                    doc.Add(new Paragraph("\n"));
+                    doc.Add(new Paragraph(lblTotal.Text));
+                    doc.Add(new Paragraph(lblMayorVenta.Text));
+                    doc.Add(new Paragraph(lblEmpleadoTop.Text));
                     doc.Add(new Paragraph("\n"));
 
-                    /*Tabla*/
                     PdfPTable tabla = new PdfPTable(dgvVentas.Columns.Count);
                     foreach (DataGridViewColumn col in dgvVentas.Columns)
                     {
@@ -188,48 +239,12 @@ namespace C_Presentacion
                     doc.Close();
                 }
 
-                MessageBox.Show("PDF guardado correctamente.");
+                MessageBox.Show($"Reporte guardado correctamente en: {rutaCompleta}");
             }
-        }
-
-        private void btnGenerar_Click(object sender, EventArgs e)
-        {
-            if (cbFiltro.SelectedItem == null)
+            catch (Exception ex)
             {
-                MessageBox.Show("Por favor, seleccione si por: Día, Semana o Mes).");
-                return;
+                MessageBox.Show($"Ocurrió un error al guardar el reporte: {ex.Message}");
             }
-
-            DateTime desde, hasta;
-
-            switch (cbFiltro.SelectedItem.ToString())
-            {
-                case "Dia":
-                    desde = dtpDesde.Value.Date;
-                    hasta = desde.AddDays(1).AddSeconds(-1);
-                    break;
-
-                case "Semana":
-                    int delta = DayOfWeek.Monday - dtpDesde.Value.DayOfWeek;
-                    desde = dtpDesde.Value.AddDays(delta).Date;
-                    hasta = desde.AddDays(7).AddSeconds(-1);
-                    break;
-
-                case "Mes":
-                    desde = new DateTime(dtpDesde.Value.Year, dtpDesde.Value.Month, 1);
-                    hasta = desde.AddMonths(1).AddSeconds(-1);
-                    break;
-
-                default:
-                    MessageBox.Show("Filtro no válido");
-                    return;
-            }
-
-            DataTable dt = Reportes.ObtenerReporteVentas(desde, hasta);
-            dgvVentas.DataSource = dt;
-
-            DibujarGrafico(dt);
-            MostrarTotales(dt);
         }
     }
 }
