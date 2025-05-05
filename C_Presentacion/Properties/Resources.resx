@@ -118,26 +118,53 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="btnAgregar" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\btnAgregar.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="BtnRegistrar" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\BtnRegistrar.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="btnEliminar" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\btnEliminar.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="btn Empleados" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\btn Empleados.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="btnReporte1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\btnReporte1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="zapatos" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\zapatos.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="btn Inventario" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\btn Inventario.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="rectangulo2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\rectangulo2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="rectangulo4" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\rectangulo4.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="btnEntrar" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\btnEntrar.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="btnGuardar" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\btnGuardar.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="btnReporte" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\btnReporte.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="btn Proveedores" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\btn Proveedores.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="btnReporte1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\btnReporte1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="btnReporte2" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\btnReporte2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="btnCancelar" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\btnCancelar.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="btnRestablecer" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\btnRestablecer.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Sidebar" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Sidebar.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="btnEntrar" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\btnEntrar.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="btn Ayuda" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\btn Ayuda.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="btn Ventas" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\btn Ventas.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -145,32 +172,23 @@
   <data name="btnFactura" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\btnFactura.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="btn Ayuda" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\btn Ayuda.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="btn Inventario" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\btn Inventario.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="btnAgregar" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\btnAgregar.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="zapatos" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\zapatos.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="btn Proveedores" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\btn Proveedores.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="btnEliminar" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\btnEliminar.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="contenedorLogin" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\contenedorLogin.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="btnMateriaPrima" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\btnMateriaPrima.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="btnGuardar" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\btnGuardar.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Sidebar" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Sidebar.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="BtnRegistrar" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\BtnRegistrar.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="btnCerrarSesion" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\btnCerrarSesion.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="btnCancelar" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\btnCancelar.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="rectangulo3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\rectangulo3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Search" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Search.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -178,22 +196,7 @@
   <data name="RectangleDashboard" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\RectangleDashboard.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="btnRestablecer" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\btnRestablecer.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="contenedorLogin" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\contenedorLogin.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="rectangulo3" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\rectangulo3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="rectangulo2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\rectangulo2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="btnReporte" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\btnReporte.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="btnCerrarSesion" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\btnCerrarSesion.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="btnEditar" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\btnEditar.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

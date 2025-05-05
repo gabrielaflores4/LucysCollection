@@ -1,17 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using C_Entidades;
+﻿using C_Entidades;
 using C_Negocios;
-using C_Datos;
+using System.Data;
+using System.Globalization;
 using System.Windows.Forms.DataVisualization.Charting;
-using Npgsql;
 
 
 namespace C_Presentacion
@@ -23,7 +14,6 @@ namespace C_Presentacion
         private ProveedorNeg _proveedorNeg = new ProveedorNeg();
         private MateriaPrimaNeg _materiaPrimaNeg = new MateriaPrimaNeg();
         private ClienteNeg clienteNeg = new ClienteNeg();
-
 
         public Inicio()
         {
@@ -45,50 +35,28 @@ namespace C_Presentacion
                 Login frmLogin = new Login();
                 frmLogin.ShowDialog();
             }
-            // Form MP//
-            cmbPrecio.Items.Add("Todos");
-            cmbPrecio.Items.Add("Mayor precio");
-            cmbPrecio.Items.Add("Menor precio");
-            cmbStock.Items.Add("Todos");
-            cmbStock.Items.Add("Mayor");
-            cmbStock.Items.Add("Menor");
-            cmbStock.Items.Add("Sin stock");
-            cmbPrecio.SelectedIndex = 0;
-            cmbStock.SelectedIndex = 0;
 
-            //Form Inventario//
-            cmbTalla.Items.Clear();
-            cmbTalla.Items.Add("Todos");
-            cmbTalla.Items.Add("29");
-            cmbTalla.Items.Add("30");
-            cmbTalla.Items.Add("35");
-            cmbTalla.Items.Add("38");
-            cmbTalla.Items.Add("39");
-            cmbStockk.Items.Clear();
-            cmbStockk.Items.Add("Todos");
-            cmbStockk.Items.Add("Mayor");
-            cmbStockk.Items.Add("Menor");
-            cmbStockk.Items.Add("Sin stock");
-            cmbCategoria.Items.Clear();
-            cmbCategoria.Items.Add("Todos");
-            cmbCategoria.Items.Add("Botas");
-            cmbCategoria.Items.Add("Sandalias");
-            cmbCategoria.Items.Add("Zapatillas bordadas");
-            cmbCategoria.Items.Add("Zapatos casuales");
-            cmbCategoria.Items.Add("Calzado infantil");
-            cmbPrecioUnit.Items.Clear();
-            cmbPrecioUnit.Items.Add("Todos");
-            cmbPrecioUnit.Items.Add("Mayor precio");
-            cmbPrecioUnit.Items.Add("Menor precio");
-            cmbTalla.SelectedIndex = 0;
-            cmbStockk.SelectedIndex = 0;
-            cmbCategoria.SelectedIndex = 0;
-            cmbPrecioUnit.SelectedIndex = 0;
+            // Form MP
+            InicializarComboBox(cmbPrecio, new[] { "Todos", "Mayor precio", "Menor precio" });
+            InicializarComboBox(cmbStock, new[] { "Todos", "Mayor", "Menor", "Sin stock" });
 
+            // Form Inventario
+            InicializarComboBox(cmbTalla, new[] { "Todos", "29", "30", "35", "38", "39" });
+            InicializarComboBox(cmbStockk, new[] { "Todos", "Mayor", "Menor", "Sin stock" });
+            InicializarComboBox(cmbCategoria, new[] { "Todos", "Botas", "Sandalias", "Zapatillas bordadas", "Zapatos casuales", "Calzado infantil" });
+            InicializarComboBox(cmbPrecioUnit, new[] { "Todos", "Mayor precio", "Menor precio" });
 
             ConfigurarGrafico();
             CargarEstadisticas();
         }
+
+        private void InicializarComboBox(ComboBox comboBox, string[] items)
+        {
+            comboBox.Items.Clear();
+            comboBox.Items.AddRange(items);
+            comboBox.SelectedIndex = 0;
+        }
+
 
         private void ConfigurarGrafico()
         {
@@ -182,10 +150,12 @@ namespace C_Presentacion
                 AjustarDataGridViews();
             }
         }
-        public void AjustarDataGridViews()
+        private void AjustarDataGridViews()
         {
             // Obtener la pestaña activa actual
-            TabPage paginaActiva = tabControlInicio.SelectedTab;
+            TabPage? paginaActiva = tabControlInicio.SelectedTab;
+
+            if (paginaActiva == null) { return; }
 
             if (Sesion.TieneRol("admin"))
             {
@@ -220,8 +190,7 @@ namespace C_Presentacion
             }
         }
 
-        private void AplicarTamañoYPosicion(DataGridView grid, bool mostrar,
-                                           int width, int height, int x, int y)
+        private void AplicarTamañoYPosicion(DataGridView grid, bool mostrar, int width, int height, int x, int y)
         {
             grid.SuspendLayout();
             grid.Dock = DockStyle.None;
@@ -253,7 +222,6 @@ namespace C_Presentacion
         public void CargarProductos()
         {
             string filtro = tbBusquedaInventario.Text.Trim();
-
             List<Producto> productos;
 
             if (string.IsNullOrWhiteSpace(filtro))
@@ -264,36 +232,28 @@ namespace C_Presentacion
             {
                 productos = productoNeg.ObtenerProductos()
                     .Where(p => p.Nombre.Contains(filtro, StringComparison.OrdinalIgnoreCase) ||
-                    p.Talla.ToString().Contains(filtro, StringComparison.OrdinalIgnoreCase) ||
-                    p.Stock.ToString().Contains(filtro, StringComparison.OrdinalIgnoreCase) ||
                     p.Categoria.Nombre.Contains(filtro, StringComparison.OrdinalIgnoreCase) ||
                     p.Precio.ToString("0.##").Contains(filtro, StringComparison.OrdinalIgnoreCase))
                     .ToList();
             }
 
-            var producto = productoNeg.ObtenerProductos();
-
             var columnas = new Dictionary<string, string>
             {
-                { "Id_Prod", "Id_Prod" },
+                { "Id_Prod", "ID" },
                 { "Nombre", "Producto" },
-                { "Talla", "Talla" },
-                { "Stock", "Stock" },
                 { "Categoria", "Categoría" },
-                { "Precio", "Precio" }
+                { "Precio", "Precio Unitario" }
             };
 
-            var productosConCategoria = productos.Select(p => new
+            var productosMostrar = productos.Select(p => new
             {
                 p.Id_Prod,
                 p.Nombre,
-                p.Talla,
-                p.Stock,
                 Categoria = p.Categoria.Nombre,
-                p.Precio,
+                Precio = p.Precio.ToString("C")
             }).ToList();
 
-            ConfigurarDataGrid(dataGridInventarioProducto, productosConCategoria, columnas);
+            ConfigurarDataGrid(dataGridInventarioProducto, productosMostrar, columnas);
         }
 
         private void CargarEmpleados()
@@ -498,7 +458,7 @@ namespace C_Presentacion
                 // Obtenemos la primera fila seleccionada
                 DataGridViewRow fila = dataGridInventarioProducto.SelectedRows[0];
                 int id = Convert.ToInt32(fila.Cells[0].Value);
-                string nombreProducto = fila.Cells[1].Value.ToString();
+                string nombreProducto = fila.Cells[1].Value.ToString() ?? string.Empty;
 
                 // Mostramos confirmación con más información
                 DialogResult resultado = MessageBox.Show($"¿Desea eliminar el producto: {nombreProducto}?", "Confirmar Eliminación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
@@ -524,49 +484,51 @@ namespace C_Presentacion
 
         private void dataGridInventarioProducto_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            // Obtener la fila seleccionada
+            if (e.RowIndex < 0) return;
+
             DataGridViewRow fila = dataGridInventarioProducto.Rows[e.RowIndex];
 
-            // Obtener los valores actuales
-            int id = Convert.ToInt32(fila.Cells[0].Value);
-            string nombre = fila.Cells[1].Value?.ToString();
-            int talla = Convert.ToInt32(fila.Cells[2].Value);
-            int stock = Convert.ToInt32(fila.Cells[3].Value);
-            string categoriaNombre = fila.Cells[4].Value?.ToString();
-            decimal precio = Convert.ToDecimal(fila.Cells[5].Value);
+            // Obtener datos del producto seleccionado
+            int idProducto = Convert.ToInt32(fila.Cells[0].Value);
+            string nombreProducto = fila.Cells[1].Value?.ToString() ?? string.Empty;
+            string categoriaNombre = fila.Cells[2].Value?.ToString() ?? string.Empty;
+            decimal precio = decimal.Parse(fila.Cells[3].Value?.ToString() ?? "0", NumberStyles.Currency,CultureInfo.CurrentCulture);
 
-            // Obtener el ID de la categoría (necesitarás implementar este método)
+            // Obtener categoría ID usando el método existente
             int categoriaId = productoNeg.ObtenerCategoriaIdPorNombre(categoriaNombre);
 
-            // Crear y mostrar formulario de edición
+            // Obtener tallas usando el método existente
+            var tallasDisponibles = productoNeg.ObtenerTallasPorProducto(idProducto);
+
+            // Obtener stock para la primera talla disponible (adaptación)
+            var productos = productoNeg.ObtenerProductos();
+            int stock = 0;
+
+            if (tallasDisponibles.Any())
+            {
+                var productoConTalla = productos.FirstOrDefault(p =>
+                    p.Id_Prod == idProducto && p.Talla == tallasDisponibles.First());
+                stock = productoConTalla?.Stock ?? 0;
+            }
+
             using (var formEdicion = new EditarProducto(this))
             {
-                // Configurar los valores actuales en el formulario
-                formEdicion.ProductoId = id;
-                formEdicion.Nombre = nombre;
-                formEdicion.Talla = talla;
+                // Pasar todos los datos necesarios
+                formEdicion.ProductoId = idProducto;
+                formEdicion.Nombre = nombreProducto;
                 formEdicion.Precio = precio;
-                formEdicion.Stock = stock;
                 formEdicion.CategoriaId = categoriaId;
+
+                // Pasar la primera talla y su stock si existen
+                if (tallasDisponibles.Any())
+                {
+                    formEdicion.Talla = tallasDisponibles.First();
+                    formEdicion.Stock = stock;
+                }
 
                 if (formEdicion.ShowDialog() == DialogResult.OK)
                 {
-                    // Actualizar el producto si el usuario guardó los cambios
-                    if (productoNeg.ActualizarProducto(
-                        formEdicion.ProductoId,
-                        formEdicion.Nombre,
-                        formEdicion.Talla,
-                        formEdicion.Precio,
-                        formEdicion.Stock,
-                        formEdicion.CategoriaId))
-                    {
-                        MessageBox.Show("Producto actualizado correctamente", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        CargarProductos();
-                    }
-                    else
-                    {
-                        MessageBox.Show("No se pudo actualizar el producto", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
+                    CargarProductos();
                 }
             }
         }
@@ -583,7 +545,7 @@ namespace C_Presentacion
             {
                 DataGridViewRow fila = dataGridEmpleados.SelectedRows[0];
                 int id = Convert.ToInt32(fila.Cells[0].Value);
-                string nombre = fila.Cells[1].Value.ToString();
+                string nombre = fila.Cells[1].Value.ToString() ?? string.Empty;
 
                 DialogResult resultado = MessageBox.Show(
                     $"¿Desea eliminar al empleado: {nombre}?", "Confirmar Eliminación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
@@ -617,11 +579,11 @@ namespace C_Presentacion
 
             // Obtener los valores actuales
             int id = Convert.ToInt32(fila.Cells[0].Value);
-            string nombre = fila.Cells[1].Value?.ToString();
-            string apellido = fila.Cells[2].Value?.ToString();
-            string correo = fila.Cells[3].Value?.ToString();
-            string telefono = fila.Cells[4].Value?.ToString();
-            string rol = fila.Cells[5].Value?.ToString();
+            string nombre = fila.Cells[1].Value?.ToString() ?? string.Empty;
+            string apellido = fila.Cells[2].Value?.ToString() ?? string.Empty;
+            string correo = fila.Cells[3].Value?.ToString() ?? string.Empty;
+            string telefono = fila.Cells[4].Value?.ToString() ?? string.Empty;
+            string rol = fila.Cells[5].Value?.ToString() ?? string.Empty;
 
             // Crear y mostrar formulario de edición
             using (var formEdicion = new EditarEmpleados(this))
@@ -670,7 +632,7 @@ namespace C_Presentacion
 
             var fila = dataGridMP.SelectedRows[0];
             int idMP = Convert.ToInt32(fila.Cells[0].Value);
-            string nombreMP = fila.Cells[1].Value.ToString();
+            string nombreMP = fila.Cells[1].Value.ToString() ?? string.Empty;
 
             if (MessageBox.Show($"¿Eliminar {nombreMP}?", "Eliminar", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
@@ -703,7 +665,7 @@ namespace C_Presentacion
                 string nombre = fila.Cells[1].Value?.ToString() ?? string.Empty;
                 decimal precioUnit = Convert.ToDecimal(fila.Cells[2].Value);
                 int stock = Convert.ToInt32(fila.Cells[3].Value);
-                string proveedorNombre = fila.Cells[4].Value?.ToString();
+                string proveedorNombre = fila.Cells[4].Value?.ToString() ?? string.Empty; ;
 
                 //Obtener ID del proveedor
                 int proveedorId = _proveedorNeg.ObtenerProveedorIdPorNombre(proveedorNombre);
@@ -731,7 +693,7 @@ namespace C_Presentacion
 
                         if (actualizado)
                         {
-                            CargarMateriasPrimas(); //Refrescar datos
+                            CargarMateriasPrimas();
                         }
                     }
                 }
@@ -739,8 +701,7 @@ namespace C_Presentacion
             catch (Exception ex)
             {
                 Console.WriteLine($"Error en CellDoubleClick: {ex.Message}");
-                MessageBox.Show("Error al cargar datos para edición", "Error",
-                               MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Error al cargar datos para edición", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -754,7 +715,7 @@ namespace C_Presentacion
 
             var fila = dataGridProv.SelectedRows[0];
             int id = Convert.ToInt32(fila.Cells[0].Value);
-            string nombre = fila.Cells[1].Value.ToString();
+            string nombre = fila.Cells[1].Value.ToString() ?? string.Empty;
 
             if (MessageBox.Show($"¿Eliminar al proveedor {nombre}? Se eliminarán todos sus productos", "Aviso",
                 MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
@@ -782,10 +743,10 @@ namespace C_Presentacion
             var proveedor = new Proveedor
             {
                 IdProveedor = Convert.ToInt32(fila.Cells[0].Value),
-                NombreProv = fila.Cells[1].Value.ToString(),
-                Telefono = fila.Cells[2].Value?.ToString(),
-                Correo = fila.Cells[3].Value?.ToString(),
-                Direccion = fila.Cells[4].Value?.ToString()
+                NombreProv = fila.Cells[1].Value.ToString() ?? string.Empty,
+                Telefono = fila.Cells[2].Value?.ToString() ?? string.Empty,
+                Correo = fila.Cells[3].Value?.ToString() ?? string.Empty,
+                Direccion = fila.Cells[4].Value?.ToString() ?? string.Empty
             };
 
             using (var formEdicion = new EditarProveedores(this))
@@ -820,7 +781,7 @@ namespace C_Presentacion
         {
             List<MateriaPrima> materiaPrimas = _materiaPrimaNeg.ObtenerMateriasPrimas();
 
-            string filtroStock = cmbStock.SelectedItem?.ToString();
+            string filtroStock = cmbStock.SelectedItem?.ToString() ?? string.Empty;
 
             if (filtroStock == "Sin stock")
             {
@@ -841,7 +802,7 @@ namespace C_Presentacion
                     break;
             }
 
-            string filtroPrecio = cmbPrecio.SelectedItem?.ToString();
+            string filtroPrecio = cmbPrecio.SelectedItem?.ToString() ?? string.Empty;
             switch (filtroPrecio)
             {
                 case "Mayor precio":
@@ -867,15 +828,15 @@ namespace C_Presentacion
         {
             List<Producto> productos = productoNeg.ObtenerProductos();
 
-            string filtroStock = cmbStockk.SelectedItem?.ToString();
+            string filtroStock = cmbStockk.SelectedItem?.ToString() ?? string.Empty;
             if (filtroStock == "Sin stock")
                 productos = productos.Where(p => p.Stock == 0).ToList();
 
-            string filtroCategoria = cmbCategoria.SelectedItem?.ToString();
+            string filtroCategoria = cmbCategoria.SelectedItem?.ToString() ?? string.Empty;
             if (filtroCategoria != "Todos")
                 productos = productos.Where(p => p.Categoria.Nombre == filtroCategoria).ToList();
 
-            string filtroTalla = cmbTalla.SelectedItem?.ToString();
+            string filtroTalla = cmbTalla.SelectedItem?.ToString() ?? string.Empty;
 
             if (filtroTalla != "Todos" && int.TryParse(filtroTalla, out int tallaFiltrada))
             {
@@ -896,7 +857,7 @@ namespace C_Presentacion
                     break;
             }
 
-            string filtroPrecio = cmbPrecioUnit.SelectedItem?.ToString();
+            string filtroPrecio = cmbPrecioUnit.SelectedItem?.ToString() ?? string.Empty;
             switch (filtroPrecio)
             {
                 case "Mayor precio":
@@ -917,7 +878,6 @@ namespace C_Presentacion
                 p.Precio
             }).ToList();
         }
-
 
         private void cmbStock_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -962,10 +922,6 @@ namespace C_Presentacion
         private void tbBusquedaInventario_TextChanged(object sender, EventArgs e)
         {
             CargarProductos();
-        }
-
-        private void tbBusquedaMateriaPrima_TextChanged(object sender, EventArgs e)
-        {
         }
     }
 }

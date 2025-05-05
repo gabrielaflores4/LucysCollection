@@ -34,8 +34,6 @@ namespace C_Datos
             return categorias;
         }
 
-
-
         public int ObtenerIdPorNombre(string nombre)
         {
             using (var conexion = Conexion.ObtenerConexion())
@@ -50,6 +48,19 @@ namespace C_Datos
 
                     var result = cmd.ExecuteScalar();
                     return result != null ? Convert.ToInt32(result) : -1;
+                }
+            }
+        }
+
+        public bool VerificarExistenciaCategoria(int idCategoria)
+        {
+            using (var conexion = Conexion.ObtenerConexion())
+            {
+                using (var cmd = new NpgsqlCommand("SELECT COUNT(1) FROM Categorias WHERE id_categoria = @idCategoria", conexion))
+                {
+                    cmd.Parameters.AddWithValue("@idCategoria", idCategoria);
+                    var result = cmd.ExecuteScalar();
+                    return Convert.ToInt32(result) > 0;
                 }
             }
         }

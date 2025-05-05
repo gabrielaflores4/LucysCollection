@@ -75,8 +75,6 @@ namespace C_Datos
                 throw new Exception("Error al agregar producto: " + ex.Message, ex);
             }
         }
-
-
         private bool ProductoConTallaYStockExiste(NpgsqlConnection conexion, string nombreProducto, int talla, int stock)
         {
             using (var cmd = new NpgsqlCommand(
@@ -133,41 +131,43 @@ namespace C_Datos
                 return count > 0;  // Si count > 0, significa que ya existe
             }
         }
-
-        // Método para obtener todos los productos
         public List<Producto> ObtenerProductos()
         {
             var productos = new List<Producto>();
             using (var conexion = Conexion.ObtenerConexion())
             {
                 using (var cmd = new NpgsqlCommand(
-                @"SELECT p.id_producto, 
-                     p.nombre_prod AS nombre, 
-                     p.talla AS talla,
-                     p.precio_unit AS precio,
-                     p.stock AS stock,
-                     c.nombre AS categoria
+                @"SELECT 
+                    p.id_producto, 
+                    p.nombre_prod AS nombre, 
+                    p.talla AS talla,
+                    p.precio_unit AS precio,
+                    p.stock AS stock,
+                    p.id_categoria,
+                    c.nombre AS categoria
                 FROM Producto p 
                 INNER JOIN Categorias c ON p.id_categoria = c.id_categoria
-                ORDER BY p.id_producto ASC",
-                    conexion))
-                using (var reader = cmd.ExecuteReader())
+                ORDER BY p.nombre_prod, p.id_producto",
+                  conexion))
                 {
-                    while (reader.Read())
+                    using (var reader = cmd.ExecuteReader())
                     {
-                        var productoInfo = new Producto
+                        while (reader.Read())
                         {
-                            Id_Prod = reader.GetInt32(reader.GetOrdinal("id_producto")),
-                            Nombre = reader.GetString(reader.GetOrdinal("nombre")),
-                            Talla = reader.GetInt32(reader.GetOrdinal("talla")),
-                            Precio = reader.GetDecimal(reader.GetOrdinal("precio")),
-                            Stock = reader.GetInt32(reader.GetOrdinal("stock")),
-                            Categoria = new Categoria
+                            productos.Add(new Producto
                             {
-                                Nombre = reader.GetString(reader.GetOrdinal("categoria"))
-                            }
-                        };
-                        productos.Add(productoInfo);
+                                Id_Prod = reader.GetInt32(0),
+                                Nombre = reader.GetString(1),
+                                Talla = reader.GetInt32(2),
+                                Precio = reader.GetDecimal(3),
+                                Stock = reader.GetInt32(4),
+                                Categoria = new Categoria
+                                {
+                                    Id = reader.GetInt32(5),
+                                    Nombre = reader.GetString(6)
+                                }
+                            });
+                        }
                     }
                 }
             }
@@ -268,6 +268,151 @@ namespace C_Datos
             return tallas;
         }
 
+        public bool ActualizarCamposComunes(string nombre, decimal precio, int categoriaId)
+        {
+            using (var conexion = Conexion.ObtenerConexion())
+            {
+                using (var cmd = new NpgsqlCommand(
+                    @"UPDATE producto SET 
+                precio_unit = @precio, 
+                fecha_act = NOW(), 
+                id_categoria = @id_categoria 
+              WHERE nombre_prod = @nombre",
+                    conexion))
+                {
+                    cmd.Parameters.AddWithValue("@nombre", nombre);
+                    cmd.Parameters.AddWithValue("@precio", precio);
+                    cmd.Parameters.AddWithValue("@id_categoria", categoriaId);
+
+                    return cmd.ExecuteNonQuery() > 0;
+                }
+            }
+        }
+
+        public bool ActualizarTallaYStock(int id, int talla, int stock)
+        {
+            using (var conexion = Conexion.ObtenerConexion())
+            {
+                using (var cmd = new NpgsqlCommand(
+                    @"UPDATE producto SET 
+                talla = @talla, 
+                stock = @stock, 
+                fecha_act = NOW() 
+              WHERE id_producto = @id",
+                    conexion))
+                {
+                    cmd.Parameters.AddWithValue("@id", id);
+                    cmd.Parameters.AddWithValue("@talla", talla);
+                    cmd.Parameters.AddWithValue("@stock", stock);
+
+                    return cmd.ExecuteNonQuery() > 0;
+                }
+            }
+        }
+
+        public Producto? ObtenerProductoPorId(int id)
+        {
+            using (var conexion = Conexion.ObtenerConexion())
+            {
+                using (var cmd = new NpgsqlCommand(
+                    @"SELECT 
+                p.id_producto, 
+                p.nombre_prod, 
+                p.talla, 
+                p.precio_unit, 
+                p.stock,
+                p.id_categoria,
+                c.nombre AS categoria_nombre
+              FROM Producto p
+              INNER JOIN Categorias c ON p.id_categoria = c.id_categoria
+              WHERE p.id_producto = @id",
+                    conexion))
+                {
+                    cmd.Parameters.AddWithValue("@id", id);
+
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            return new Producto
+                            {
+                                Id_Prod = reader.GetInt32(0),
+                                Nombre = reader.GetString(1),
+                                Talla = reader.GetInt32(2),
+                                Precio = reader.GetDecimal(3),
+                                Stock = reader.GetInt32(4),
+                                Categoria = new Categoria
+                                {
+                                    Id = reader.GetInt32(5),
+                                    Nombre = reader.GetString(6)
+                                }
+                            };
+                        }
+                    }
+                }
+            }
+            return null;
+        }
+
+        public bool ActualizarProducto(int id, string nombre, int talla, decimal precio, int stock,int categoriaId, bool actualizarCamposComunes)
+        {
+            string sql = actualizarCamposComunes
+                    ? @"UPDATE producto SET 
+                    nombre_prod = @nombre,
+                    talla = @talla,
+                    precio_unit = @precio,
+                    stock = @stock,
+                    id_categoria = @categoriaId,
+                    fecha_act = NOW()
+                    WHERE id_producto = @id"
+                        : @"UPDATE producto SET 
+                    talla = @talla,
+                    stock = @stock,
+                    fecha_act = NOW()
+                    WHERE id_producto = @id";
+
+            using (var conexion = Conexion.ObtenerConexion())
+            {
+                
+                using (var transaction = conexion.BeginTransaction())
+                {
+                    try
+                    {
+                        using (var cmd = new NpgsqlCommand(sql, conexion, transaction))
+                        {
+                            cmd.Parameters.AddWithValue("@id", id);
+                            cmd.Parameters.AddWithValue("@talla", talla);
+                            cmd.Parameters.AddWithValue("@stock", stock);
+
+                            if (actualizarCamposComunes)
+                            {
+                                cmd.Parameters.AddWithValue("@nombre", nombre);
+                                cmd.Parameters.AddWithValue("@precio", precio);
+                                cmd.Parameters.AddWithValue("@categoriaId", categoriaId);
+                            }
+
+                            int filasAfectadas = cmd.ExecuteNonQuery();
+                            transaction.Commit();
+                            return filasAfectadas > 0;
+                        }
+                    }
+                    catch (Npgsql.PostgresException pgEx)
+                    {
+                        transaction.Rollback();
+                        string errorDetails = $"Error PostgreSQL [{pgEx.SqlState}]: {pgEx.Message}\n" +
+                                            $"Detalles: {pgEx.Detail}\n" +
+                                            $"Consulta ejecutada: {sql}";
+                        throw new Exception(errorDetails, pgEx);
+                    }
+                    catch (Exception ex)
+                    {
+                        transaction.Rollback();
+                        throw new Exception($"Error al actualizar producto: {ex.Message}\nConsulta: {sql}", ex);
+                    }
+                }
+            }
+        }
+
         public bool ActualizarStock(int productoId, int cantidadModificada)
         {
             using (var conexion = Conexion.ObtenerConexion())
@@ -283,6 +428,5 @@ namespace C_Datos
                 }
             }
         }
-
     }
 }

@@ -22,6 +22,10 @@ namespace C_Negocios
         {
             return categoriaDatos.ObtenerIdPorNombre(nombre);
         }
+        public bool VerificarExistenciaCategoria(int idCategoria)
+        {
+            return categoriaDatos.VerificarExistenciaCategoria(idCategoria);
+        }
 
     }
 }

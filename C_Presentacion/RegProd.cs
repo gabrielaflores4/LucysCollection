@@ -29,15 +29,13 @@ namespace C_Presentacion
         {
             try
             {
-                // Obtenemos la lista de categorías desde la capa de negocios
                 List<Categoria> categorias = categoriaNeg.ObtenerCategorias();
 
                 cbCategoriaReg.Items.Clear();
 
-                // Agregamos las categorías al ComboBox
                 cbCategoriaReg.DataSource = categorias;
-                cbCategoriaReg.DisplayMember = "Nombre";  // Muestra el nombre de la categoría
-                cbCategoriaReg.ValueMember = "Id";       // Usa el ID de la categoría como el valor asociado
+                cbCategoriaReg.DisplayMember = "Nombre";  
+                cbCategoriaReg.ValueMember = "Id";  
             }
             catch (Exception ex)
             {

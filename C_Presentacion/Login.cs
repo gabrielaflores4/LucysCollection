@@ -22,6 +22,7 @@ namespace C_Presentacion
         {
             InitializeComponent();
             usuarioNegocio = new UsuarioNeg();
+            this.AcceptButton = btnLogin;
         }
 
         private void Login_Load(object sender, EventArgs e)
