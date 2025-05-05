@@ -149,5 +149,10 @@ namespace C_Presentacion
             Validaciones.ParaTelefono(e, tbTelefonoCliente);
 
         }
+
+        private void btnCancelarCli_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 }

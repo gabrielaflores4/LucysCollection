@@ -8,7 +8,7 @@ namespace C_Presentacion
     public partial class EditarProducto : Form
     {
         public int ProductoId { get; set; }
-        public string Nombre { get; set; } = string.Empty; 
+        public string Nombre { get; set; } = string.Empty;
         public int Talla { get; set; }
         public decimal Precio { get; set; }
         public int Stock { get; set; }
@@ -274,6 +274,11 @@ namespace C_Presentacion
             nbCantidad.Value = stock;
             tbPrecioRegAct.Text = Precio.ToString();
             cbCategoriaAct.SelectedValue = CategoriaId;
+        }
+
+        private void btnCancelarDetallePr_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

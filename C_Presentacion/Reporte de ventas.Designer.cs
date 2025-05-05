@@ -41,6 +41,7 @@
             dtpHasta = new DateTimePicker();
             btnCancelarReporte = new PictureBox();
             btnGenerar = new PictureBox();
+            lblInfor = new Label();
             ((System.ComponentModel.ISupportInitialize)dgvVentas).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pbGrafico).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
@@ -64,7 +65,7 @@
             // dtpDesde
             // 
             dtpDesde.Font = new Font("Bahnschrift", 12F);
-            dtpDesde.Location = new Point(877, 566);
+            dtpDesde.Location = new Point(967, 567);
             dtpDesde.Margin = new Padding(4);
             dtpDesde.Name = "dtpDesde";
             dtpDesde.Size = new Size(76, 27);
@@ -84,7 +85,7 @@
             // 
             lblMayorVenta.AutoSize = true;
             lblMayorVenta.Font = new Font("Bahnschrift", 12F);
-            lblMayorVenta.Location = new Point(744, 149);
+            lblMayorVenta.Location = new Point(739, 144);
             lblMayorVenta.Margin = new Padding(4, 0, 4, 0);
             lblMayorVenta.Name = "lblMayorVenta";
             lblMayorVenta.Size = new Size(103, 19);
@@ -93,10 +94,11 @@
             // 
             // pbGrafico
             // 
-            pbGrafico.Location = new Point(67, 115);
+            pbGrafico.BackColor = Color.Thistle;
+            pbGrafico.Location = new Point(13, 111);
             pbGrafico.Margin = new Padding(4);
             pbGrafico.Name = "pbGrafico";
-            pbGrafico.Size = new Size(607, 448);
+            pbGrafico.Size = new Size(683, 482);
             pbGrafico.TabIndex = 10;
             pbGrafico.TabStop = false;
             // 
@@ -104,7 +106,7 @@
             // 
             lblTotal.AutoSize = true;
             lblTotal.Font = new Font("Bahnschrift", 12F);
-            lblTotal.Location = new Point(744, 98);
+            lblTotal.Location = new Point(739, 97);
             lblTotal.Margin = new Padding(4, 0, 4, 0);
             lblTotal.Name = "lblTotal";
             lblTotal.Size = new Size(48, 19);
@@ -125,7 +127,7 @@
             // cbFiltro
             // 
             cbFiltro.FormattingEnabled = true;
-            cbFiltro.Location = new Point(984, 566);
+            cbFiltro.Location = new Point(1089, 566);
             cbFiltro.Name = "cbFiltro";
             cbFiltro.Size = new Size(121, 27);
             cbFiltro.TabIndex = 59;
@@ -134,7 +136,7 @@
             // 
             lblEmpleadoTop.AutoSize = true;
             lblEmpleadoTop.Font = new Font("Bahnschrift", 12F);
-            lblEmpleadoTop.Location = new Point(744, 200);
+            lblEmpleadoTop.Location = new Point(739, 198);
             lblEmpleadoTop.Margin = new Padding(4, 0, 4, 0);
             lblEmpleadoTop.Name = "lblEmpleadoTop";
             lblEmpleadoTop.Size = new Size(208, 19);
@@ -162,7 +164,7 @@
             // btnGenerar
             // 
             btnGenerar.Image = (Image)resources.GetObject("btnGenerar.Image");
-            btnGenerar.Location = new Point(915, 611);
+            btnGenerar.Location = new Point(1001, 622);
             btnGenerar.Name = "btnGenerar";
             btnGenerar.Size = new Size(167, 73);
             btnGenerar.SizeMode = PictureBoxSizeMode.Zoom;
@@ -170,12 +172,22 @@
             btnGenerar.TabStop = false;
             btnGenerar.Click += btnGenerar_Click;
             // 
+            // lblInfor
+            // 
+            lblInfor.AutoSize = true;
+            lblInfor.Location = new Point(788, 572);
+            lblInfor.Name = "lblInfor";
+            lblInfor.Size = new Size(172, 19);
+            lblInfor.TabIndex = 69;
+            lblInfor.Text = "Seleccione una fecha: ";
+            // 
             // Reporte_de_ventas
             // 
             AutoScaleDimensions = new SizeF(9F, 19F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.LightGray;
+            BackColor = Color.White;
             ClientSize = new Size(1370, 696);
+            Controls.Add(lblInfor);
             Controls.Add(btnGenerar);
             Controls.Add(btnCancelarReporte);
             Controls.Add(dtpHasta);
@@ -219,5 +231,6 @@
         private DateTimePicker dtpHasta;
         private PictureBox btnCancelarReporte;
         private PictureBox btnGenerar;
+        private Label lblInfor;
     }
 }

@@ -150,6 +150,9 @@ namespace C_Presentacion
             Validaciones.ParaTelefono(e, tbTelefonoProv);
         }
 
-      
+        private void btnCancelarProveedor_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 }

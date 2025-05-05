@@ -1059,6 +1059,7 @@
             tbBusquedaMateriaPrima.Name = "tbBusquedaMateriaPrima";
             tbBusquedaMateriaPrima.Size = new Size(984, 27);
             tbBusquedaMateriaPrima.TabIndex = 27;
+            tbBusquedaMateriaPrima.TextChanged += tbBusquedaMateriaPrima_TextChanged;
             // 
             // label10
             // 

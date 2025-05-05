@@ -923,5 +923,10 @@ namespace C_Presentacion
         {
             CargarProductos();
         }
+
+        private void tbBusquedaMateriaPrima_TextChanged(object sender, EventArgs e)
+        {
+            CargarMateriasPrimas();
+        }
     }
 }

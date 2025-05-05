@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RegProv));
             btnRegistrarProv = new Button();
             tbTelefonoProv = new TextBox();
             label5 = new Label();
@@ -42,8 +43,10 @@
             pictureBox1 = new PictureBox();
             label22 = new Label();
             errorProveedores = new ErrorProvider(components);
+            btnCancelarProveedor = new PictureBox();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)errorProveedores).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)btnCancelarProveedor).BeginInit();
             SuspendLayout();
             // 
             // btnRegistrarProv
@@ -178,12 +181,24 @@
             // 
             errorProveedores.ContainerControl = this;
             // 
+            // btnCancelarProveedor
+            // 
+            btnCancelarProveedor.Image = (Image)resources.GetObject("btnCancelarProveedor.Image");
+            btnCancelarProveedor.Location = new Point(1304, 618);
+            btnCancelarProveedor.Name = "btnCancelarProveedor";
+            btnCancelarProveedor.Size = new Size(54, 38);
+            btnCancelarProveedor.SizeMode = PictureBoxSizeMode.Zoom;
+            btnCancelarProveedor.TabIndex = 102;
+            btnCancelarProveedor.TabStop = false;
+            btnCancelarProveedor.Click += btnCancelarProveedor_Click;
+            // 
             // RegProv
             // 
             AutoScaleDimensions = new SizeF(9F, 19F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(221, 221, 221);
             ClientSize = new Size(1370, 696);
+            Controls.Add(btnCancelarProveedor);
             Controls.Add(btnRegistrarProv);
             Controls.Add(tbTelefonoProv);
             Controls.Add(label5);
@@ -204,6 +219,7 @@
             WindowState = FormWindowState.Maximized;
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ((System.ComponentModel.ISupportInitialize)errorProveedores).EndInit();
+            ((System.ComponentModel.ISupportInitialize)btnCancelarProveedor).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -223,5 +239,6 @@
         private PictureBox pictureBox1;
         private Label label22;
         private ErrorProvider errorProveedores;
+        private PictureBox btnCancelarProveedor;
     }
 }

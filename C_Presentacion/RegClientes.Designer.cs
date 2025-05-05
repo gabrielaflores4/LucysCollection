@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmRegClientes));
             btnRegistraCliente = new Button();
             tbTelefonoCliente = new TextBox();
             label5 = new Label();
@@ -42,8 +43,10 @@
             pictureBox1 = new PictureBox();
             label22 = new Label();
             errorIconoClientes = new ErrorProvider(components);
+            btnCancelarCli = new PictureBox();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)errorIconoClientes).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)btnCancelarCli).BeginInit();
             SuspendLayout();
             // 
             // btnRegistraCliente
@@ -178,12 +181,24 @@
             // 
             errorIconoClientes.ContainerControl = this;
             // 
+            // btnCancelarCli
+            // 
+            btnCancelarCli.Image = (Image)resources.GetObject("btnCancelarCli.Image");
+            btnCancelarCli.Location = new Point(1270, 622);
+            btnCancelarCli.Name = "btnCancelarCli";
+            btnCancelarCli.Size = new Size(54, 38);
+            btnCancelarCli.SizeMode = PictureBoxSizeMode.Zoom;
+            btnCancelarCli.TabIndex = 101;
+            btnCancelarCli.TabStop = false;
+            btnCancelarCli.Click += btnCancelarCli_Click;
+            // 
             // FrmRegClientes
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(221, 221, 221);
             ClientSize = new Size(1370, 696);
+            Controls.Add(btnCancelarCli);
             Controls.Add(btnRegistraCliente);
             Controls.Add(tbTelefonoCliente);
             Controls.Add(label5);
@@ -202,6 +217,7 @@
             WindowState = FormWindowState.Maximized;
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ((System.ComponentModel.ISupportInitialize)errorIconoClientes).EndInit();
+            ((System.ComponentModel.ISupportInitialize)btnCancelarCli).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -221,5 +237,6 @@
         private PictureBox pictureBox1;
         private Label label22;
         private ErrorProvider errorIconoClientes;
+        private PictureBox btnCancelarCli;
     }
 }
