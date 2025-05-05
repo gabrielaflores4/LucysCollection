@@ -15,7 +15,7 @@ namespace C_Entidades
         public DateTime FechaIngreso { get; set; }
         public DateTime FechaAct { get; set; }
         public Categoria Categoria { get; set; }
-        public int Talla { get; set; }
+        public Talla Talla { get; set; } 
 
         // Constructor por defecto
         public Producto()
@@ -23,12 +23,13 @@ namespace C_Entidades
             FechaIngreso = DateTime.Now;
             FechaAct = DateTime.Now;
         }
+
         // Constructor con todos los atributos
-        public Producto(int id, string nombre, int talla, decimal precio, int cantidadStock)
+        public Producto(int id, string nombre, Talla talla, decimal precio, int cantidadStock)
         {
             Id_Prod = id;
             Nombre = nombre;
-            Talla = talla;
+            Talla = talla;  
             Precio = precio;
             Stock = cantidadStock;
             FechaIngreso = DateTime.Now;
@@ -36,7 +37,7 @@ namespace C_Entidades
         }
 
         // Constructor para visualización de datos
-        public Producto(int id, string nombre, int talla, decimal precio, int cantidadStock, string categoria)
+        public Producto(int id, string nombre, Talla talla, decimal precio, int cantidadStock, string categoria)
         {
             Id_Prod = id;
             Nombre = nombre;
@@ -45,15 +46,17 @@ namespace C_Entidades
             Stock = cantidadStock;
             Categoria = new Categoria() { Nombre = categoria };
         }
-        public Producto(string nombre, int talla, decimal precio, int stock, int categoriaId)
+
+        // Constructor para crear Producto con Talla por ID
+        public Producto(string nombre, Talla talla, decimal precio, int stock, int categoriaId)
         {
             Nombre = nombre;
-            Talla = talla;
+            Talla = talla; 
             Precio = precio;
             Stock = stock;
-            Categoria = new Categoria() { Id = categoriaId }; // Usamos el ID de la categoría
-            FechaIngreso = DateTime.Now;  // Asignado automáticamente
-            FechaAct = DateTime.Now;      // Asignado automáticamente
+            Categoria = new Categoria() { Id = categoriaId };
+            FechaIngreso = DateTime.Now;
+            FechaAct = DateTime.Now;
         }
     }
 }

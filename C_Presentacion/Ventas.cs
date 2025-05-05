@@ -231,19 +231,21 @@ namespace C_Presentacion
             {
                 lblStockDisponible.Text = $"Stock: {productoSeleccionado.Stock}";
 
-                //Obtener y cargar tallas disponibles para el producto seleccionado
-                List<int> tallasDelProducto = productoNeg.ObtenerTallasPorProducto(productoSeleccionado.Id_Prod);
+                // Obtener y cargar tallas disponibles para el producto seleccionado
+                List<Talla> tallasDelProducto = productoNeg.ObtenerTallasPorProducto(productoSeleccionado.Id_Prod);
+
+                // Configurar el ComboBox para mostrar descripciones pero guardar IDs
+                cbTallasRegProd.DisplayMember = "Descripcion";  // Mostrar la descripción
+                cbTallasRegProd.ValueMember = "Id_Talla";       // Valor interno es el ID
                 cbTallasRegProd.DataSource = tallasDelProducto;
                 cbTallasRegProd.SelectedIndex = -1; // Resetear selección
 
-
-
-                //Configurar el NumericUpDown según el stock
+                // Configurar el NumericUpDown según el stock
                 nbCantidad.Minimum = 1;
                 nbCantidad.Maximum = productoSeleccionado.Stock;
-                nbCantidad.Value = Math.Min(1, productoSeleccionado.Stock); // Tomar el menor entre 1 y el stock
+                nbCantidad.Value = Math.Min(1, productoSeleccionado.Stock);
 
-                //Deshabilitar controles si no hay stock
+                // Deshabilitar controles si no hay stock
                 bool hayStock = productoSeleccionado.Stock > 0;
                 nbCantidad.Enabled = hayStock;
                 btnAgregarRegProd.Enabled = hayStock;
@@ -268,7 +270,7 @@ namespace C_Presentacion
             // Eliminar el detalle de la lista
             detallesVenta.RemoveAll(d =>
                 d.Producto.Id_Prod == idProducto &&
-                d.Producto.Talla == tallaProducto);
+                d.Producto.Talla.Id_Talla == tallaProducto);
 
             // Actualizar el DataGridView
             ActualizarDataGrid();

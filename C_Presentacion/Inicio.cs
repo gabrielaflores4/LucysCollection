@@ -492,39 +492,45 @@ namespace C_Presentacion
             int idProducto = Convert.ToInt32(fila.Cells[0].Value);
             string nombreProducto = fila.Cells[1].Value?.ToString() ?? string.Empty;
             string categoriaNombre = fila.Cells[2].Value?.ToString() ?? string.Empty;
-            decimal precio = decimal.Parse(fila.Cells[3].Value?.ToString() ?? "0", NumberStyles.Currency,CultureInfo.CurrentCulture);
+            string precioTexto = fila.Cells[3].Value?.ToString() ?? "0";
+            precioTexto = precioTexto.Replace("$", "").Replace(",", "").Trim();
 
-            // Obtener categoría ID usando el método existente
+            if (!decimal.TryParse(precioTexto, NumberStyles.Number, CultureInfo.InvariantCulture, out decimal precio))
+            {
+                precio = 0;
+            }
+
             int categoriaId = productoNeg.ObtenerCategoriaIdPorNombre(categoriaNombre);
-
-            // Obtener tallas usando el método existente
             var tallasDisponibles = productoNeg.ObtenerTallasPorProducto(idProducto);
 
-            // Obtener stock para la primera talla disponible (adaptación)
-            var productos = productoNeg.ObtenerProductos();
             int stock = 0;
+            Talla primeraTalla = null;
 
             if (tallasDisponibles.Any())
             {
-                var productoConTalla = productos.FirstOrDefault(p =>
-                    p.Id_Prod == idProducto && p.Talla == tallasDisponibles.First());
+                primeraTalla = tallasDisponibles.First();
+                var productoConTalla = productoNeg.ObtenerProductos().FirstOrDefault(p =>
+                    p.Id_Prod == idProducto &&
+                    p.Talla.Id_Talla == primeraTalla.Id_Talla);
+
                 stock = productoConTalla?.Stock ?? 0;
             }
 
             using (var formEdicion = new EditarProducto(this))
             {
-                // Pasar todos los datos necesarios
+                //Asignamos todos los datos
                 formEdicion.ProductoId = idProducto;
                 formEdicion.Nombre = nombreProducto;
                 formEdicion.Precio = precio;
                 formEdicion.CategoriaId = categoriaId;
 
-                // Pasar la primera talla y su stock si existen
-                if (tallasDisponibles.Any())
+                if (primeraTalla != null)
                 {
-                    formEdicion.Talla = tallasDisponibles.First();
+                    formEdicion.Talla = primeraTalla.Id_Talla;
                     formEdicion.Stock = stock;
                 }
+
+                formEdicion.CargarProducto();
 
                 if (formEdicion.ShowDialog() == DialogResult.OK)
                 {
@@ -840,7 +846,7 @@ namespace C_Presentacion
 
             if (filtroTalla != "Todos" && int.TryParse(filtroTalla, out int tallaFiltrada))
             {
-                productos = productos.Where(p => p.Talla == tallaFiltrada).ToList();
+                productos = productos.Where(p => p.Talla.Id_Talla == tallaFiltrada).ToList();
             }
 
             IOrderedEnumerable<Producto> ordenado;
@@ -872,7 +878,7 @@ namespace C_Presentacion
             {
                 p.Id_Prod,
                 p.Nombre,
-                p.Talla,
+                Talla = p.Talla.Id_Talla, 
                 p.Stock,
                 Categoria = p.Categoria.Nombre,
                 p.Precio

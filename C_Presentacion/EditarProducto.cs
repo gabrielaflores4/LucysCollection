@@ -3,282 +3,283 @@ using System.Globalization;
 using C_Entidades;
 using C_Negocios;
 
-namespace C_Presentacion
-{
-    public partial class EditarProducto : Form
+    namespace C_Presentacion
     {
-        public int ProductoId { get; set; }
-        public string Nombre { get; set; } = string.Empty;
-        public int Talla { get; set; }
-        public decimal Precio { get; set; }
-        public int Stock { get; set; }
-        public int CategoriaId { get; set; }
+        public partial class EditarProducto : Form
+        {
+            public int ProductoId { get; set; }
+            public string Nombre { get; set; } = string.Empty;
+            public int Talla { get; set; }
+            public decimal Precio { get; set; }
+            public int Stock { get; set; }
+            public int CategoriaId { get; set; }
 
-        private ProductoNeg productoNeg = new ProductoNeg();
-
-        private Inicio formInicio;
+            private List<Categoria> categorias;
+            private List<Talla> tallasDisponibles;
+            private ProductoNeg productoNeg = new ProductoNeg();
+            private Inicio formInicio;
 
         public EditarProducto(Inicio inicio)
         {
             InitializeComponent();
             this.formInicio = inicio;
+            categorias = new List<Categoria>();
+            tallasDisponibles = new List<Talla>();
         }
 
         public EditarProducto() : this(new Inicio()) {}
 
         private void EditarProducto_Load(object sender, EventArgs e)
         {
-            lblDetalleProd.Text = "Producto: " + Nombre;
+            CargarDatosIniciales();
+        }
 
-            // === CÓDIGO NUEVO === //
-            // Cargar categorías con verificación
-            var categorias = new CategoriaNeg().ObtenerCategorias().ToList(); // Convertir a lista para evitar modificaciones
-
-            if (categorias.Count == 0)
+        private void CargarDatosIniciales()
+        {
+            try
             {
-                MessageBox.Show("No hay categorías disponibles", "Error",
+                // Cargar tallas
+                tallasDisponibles = productoNeg.ObtenerTodasLasTallas();
+
+                // Verificar que se obtuvieron datos
+                if (tallasDisponibles == null || !tallasDisponibles.Any())
+                {
+                    MessageBox.Show("No se encontraron tallas en la base de datos", "Advertencia",MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                // Configurar el ComboBox
+                cbTallasRegAct.DataSource = tallasDisponibles;
+                cbTallasRegAct.DisplayMember = "Descripcion";
+                cbTallasRegAct.ValueMember = "Id_Talla";
+                cbTallasRegAct.Refresh();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al cargar tallas: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        public void CargarProducto()
+        {
+            if (ProductoId <= 0) return;
+
+            try
+            {
+                // Obtener el producto completo
+                var producto = productoNeg.ObtenerProductoPorId(ProductoId);
+                if (producto == null) return;
+
+                // Asignar valores a los controles
+                lblDetalleProd.Text = $"Producto: {producto.Nombre}";
+                tbNombreProdAct.Text = producto.Nombre;
+                tbPrecioRegAct.Text = producto.Precio.ToString("0.00", CultureInfo.InvariantCulture);
+                nbCantidad.Value = producto.Stock;
+
+                // Seleccionar categoría y talla
+                if (producto.Categoria != null)
+                {
+                    cbCategoriaAct.SelectedValue = producto.Categoria.Id;
+                }
+
+                if (producto.Talla != null)
+                {
+                    cbTallasRegAct.SelectedValue = producto.Talla.Id_Talla;
+                }
+
+                CargarTallasYStock();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al cargar producto: {ex.Message}", "Error",
                               MessageBoxButtons.OK, MessageBoxIcon.Error);
-                this.Close();
-                return;
             }
-
-            cbCategoriaAct.DataSource = categorias;
-            cbCategoriaAct.DisplayMember = "Nombre";
-            cbCategoriaAct.ValueMember = "Id";
-
-            // Verificar si la categoría original existe
-            if (categorias.Any(c => c.Id == CategoriaId))
-            {
-                cbCategoriaAct.SelectedValue = CategoriaId;
-            }
-            else
-            {
-                cbCategoriaAct.SelectedIndex = 0;
-                MessageBox.Show("La categoría original no está disponible. Se seleccionó una por defecto.",
-                              "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
-            // === FIN CÓDIGO NUEVO === //
-
-            CargarTallasYStock();
-
-            // Cargar tallas (29-42)
-            for (int talla = 29; talla <= 42; talla++)
-            {
-                cbTallasRegAct.Items.Add(talla.ToString());
-            }
-
         }
 
         private void CargarTallasYStock()
         {
-            // Las tallas y el Stock del producto seleccionado  
-            var productos = productoNeg.ObtenerProductos()
-                .Where(p => p.Nombre == Nombre)
-                .OrderBy(p => p.Talla)
-                .ToList();
-
-            // Configurar el DataGridView  
-            dataGridProductoDet.AutoGenerateColumns = false;
-            dataGridProductoDet.Columns.Clear();
-
-            // Agregar columnas  
-            dataGridProductoDet.Columns.Add(new DataGridViewTextBoxColumn
-            {
-                DataPropertyName = "Talla",
-                HeaderText = "Talla",
-                ReadOnly = true
-            });
-
-            dataGridProductoDet.Columns.Add(new DataGridViewTextBoxColumn
-            {
-                DataPropertyName = "Stock",
-                HeaderText = "Stock"
-            });
-
-            // Asignar los datos  
-            dataGridProductoDet.DataSource = productos;
-        }
-
-        private void CargarCategorias()
-        {
             try
             {
-                cbCategoriaAct.DataSource = new CategoriaNeg().ObtenerCategorias();
-                cbCategoriaAct.DisplayMember = "Nombre";
-                cbCategoriaAct.ValueMember = "Id";
+                // Obtener productos con tallas
+                var productos = productoNeg.ObtenerProductos()
+                    .Where(p => p.Nombre.Equals(Nombre, StringComparison.OrdinalIgnoreCase))
+                    .OrderBy(p => p.Talla?.Id_Talla)
+                    .ToList();
+
+                var datosParaGrid = productos.Select(p => new
+                {
+                    TallaDescripcion = p.Talla?.Descripcion ?? "Sin talla",
+                    p.Stock,
+                    ProductoCompleto = p
+                }).ToList();
+
+                dataGridProductoDet.AutoGenerateColumns = false;
+                dataGridProductoDet.Columns.Clear();
+
+                dataGridProductoDet.Columns.Add(new DataGridViewTextBoxColumn
+                {
+                    DataPropertyName = "TallaDescripcion",
+                    HeaderText = "Talla",
+                    ReadOnly = true
+                });
+
+                dataGridProductoDet.Columns.Add(new DataGridViewTextBoxColumn
+                {
+                    DataPropertyName = "Stock",
+                    HeaderText = "Stock"
+                });
+
+                dataGridProductoDet.DataSource = datosParaGrid;
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al cargar categorías: {ex.Message}", "Error",
-                              MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Error al cargar tallas y stock: {ex.Message}", "Error",MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         private void btnGuardarActProd_Click(object sender, EventArgs e)
-        {
+            {
             try
             {
-                // 1. Validaciones básicas del formulario
+                // Validaciones básicas
                 if (string.IsNullOrWhiteSpace(tbNombreProdAct.Text))
                 {
-                    MessageBox.Show("El nombre del producto es requerido", "Error",
-                                  MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("El nombre del producto es requerido", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
-                if (cbTallasRegAct.SelectedItem == null)
+                if (!decimal.TryParse(tbPrecioRegAct.Text, NumberStyles.Number, CultureInfo.InvariantCulture, out decimal nuevoPrecio) || nuevoPrecio <= 0)
                 {
-                    MessageBox.Show("Seleccione una talla válida", "Error",
-                                  MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("Ingrese un precio válido mayor a cero", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
-                if (!decimal.TryParse(tbPrecioRegAct.Text, out decimal nuevoPrecio) || nuevoPrecio <= 0)
+                if (cbTallasRegAct.SelectedValue == null || !int.TryParse(cbTallasRegAct.SelectedValue.ToString(), out int nuevaTalla))
                 {
-                    MessageBox.Show("Ingrese un precio válido mayor a cero", "Error",
-                                  MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("Seleccione una talla válida", "Error",MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
-                // 2. Obtener valores del formulario
-                string nuevoNombre = tbNombreProdAct.Text.Trim();
-                int nuevaTalla = Convert.ToInt32(cbTallasRegAct.SelectedItem);
                 int nuevoStock = (int)nbCantidad.Value;
+                int nuevaCategoriaId = (cbCategoriaAct.SelectedItem as Categoria)?.Id ?? 0;
 
-                // 3. Validación de categoría seleccionada
-                if (!(cbCategoriaAct.SelectedItem is Categoria categoriaSeleccionada))
+                // Verificar existencia de producto con misma talla
+                if (productoNeg.ExisteProductoConMismaTalla(tbNombreProdAct.Text.Trim(), nuevaTalla, ProductoId))
                 {
-                    MessageBox.Show("Seleccione una categoría válida", "Error",
-                                  MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-                int nuevaCategoriaId = categoriaSeleccionada.Id;
-
-                // 4. Verificación directa en BD de que la categoría existe
-                if (!new CategoriaNeg().VerificarExistenciaCategoria(nuevaCategoriaId))
-                {
-                    MessageBox.Show("La categoría seleccionada no existe en la base de datos", "Error",
-                                  MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    CargarCategorias(); // Recargar el ComboBox por si hubo cambios
+                    MessageBox.Show("Ya existe un producto con ese nombre y talla", "Error",MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
-                // 5. Verificar si ya existe el mismo producto+talla (excepto el actual)
-                if (productoNeg.ExisteProductoConMismaTalla(nuevoNombre, nuevaTalla, ProductoId))
-                {
-                    MessageBox.Show($"Ya existe un producto {nuevoNombre} con talla {nuevaTalla}",
-                                  "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-
-                // 6. Obtener producto actual (si es edición)
+                // Determinar si hay cambios globales
                 var productoActual = ProductoId > 0 ? productoNeg.ObtenerProductoPorId(ProductoId) : null;
-
-                // 7. Determinar si hay cambios globales (para mostrar advertencia)
                 bool cambiosGlobales = productoActual != null &&
-                    (!productoActual.Nombre.Equals(nuevoNombre, StringComparison.OrdinalIgnoreCase) ||
-                     Math.Abs(productoActual.Precio - nuevoPrecio) > 0.001m ||
-                     productoActual.Categoria.Id != nuevaCategoriaId);
+                                     (productoActual.Nombre != tbNombreProdAct.Text.Trim() ||
+                                      productoActual.Precio != nuevoPrecio ||
+                                      productoActual.Categoria?.Id != nuevaCategoriaId);
 
-                // 8. Mostrar advertencia si hay cambios globales
-                if (cambiosGlobales && productoActual != null)
+                // Mostrar confirmación para cambios globales
+                if (cambiosGlobales)
                 {
-                    var respuesta = MessageBox.Show(
-                        "¿Está seguro de actualizar estos campos para TODOS los productos con este nombre?\n\n" +
-                        $"• Nombre: {productoActual.Nombre} → {nuevoNombre}\n" +
-                        $"• Precio: {productoActual.Precio:C} → {nuevoPrecio:C}\n" +
-                        $"• Categoría: {productoActual.Categoria.Nombre} → {categoriaSeleccionada.Nombre}",
-                        "Confirmar cambios globales",
-                        MessageBoxButtons.YesNo,
-                        MessageBoxIcon.Exclamation);
-
-                    if (respuesta != DialogResult.Yes) return;
+                    var confirmacion = MessageBox.Show("¿Desea aplicar estos cambios a todos los productos con este nombre?","Confirmar cambios globales",MessageBoxButtons.YesNo,MessageBoxIcon.Question);
+                    if (confirmacion != DialogResult.Yes) return;
                 }
 
-                // 9. Ejecutar actualización
+                // Actualizar el producto
                 bool resultado = productoNeg.ActualizarProducto(
                     ProductoId,
-                    nuevoNombre,
+                    tbNombreProdAct.Text.Trim(),
                     nuevaTalla,
                     nuevoPrecio,
                     nuevoStock,
                     nuevaCategoriaId,
-                    actualizarCamposComunes: cambiosGlobales);
+                    cambiosGlobales);
 
                 if (resultado)
                 {
-                    MessageBox.Show("Producto actualizado correctamente", "Éxito",
-                                  MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    this.DialogResult = DialogResult.OK;
-                    this.Close();
+                    MessageBox.Show("Producto actualizado correctamente", "Éxito",MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    DialogResult = DialogResult.OK;
+                    Close();
                 }
                 else
                 {
-                    MessageBox.Show("No se pudo actualizar el producto", "Error",
-                                  MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("No se pudo actualizar el producto", "Error",MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-            }
-            catch (FormatException)
-            {
-                MessageBox.Show("Formato de datos inválido", "Error",
-                              MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al actualizar: {ex.Message}", "Error",
-                              MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Error al guardar: {ex.Message}", "Error",MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        
         }
 
-        private void btnCancelarActProd_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
+            private void btnCancelarActProd_Click(object sender, EventArgs e)
+            {
+                this.Close();
+            }
 
-        private void tbNombreProdAct_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            Validaciones.SoloLetras(e);
-        }
+            private void tbNombreProdAct_KeyPress(object sender, KeyPressEventArgs e)
+            {
+                Validaciones.SoloLetras(e);
+            }
 
-        private void tbPrecioRegAct_KeyPress(object sender, KeyPressEventArgs e)
+            private void tbPrecioRegAct_KeyPress(object sender, KeyPressEventArgs e)
+            {
+                Validaciones.SoloNumerosDecimales(e, tbPrecioRegAct);
+            }
+
+        private void LimpiarControles()
         {
-            Validaciones.SoloNumerosDecimales(e, tbPrecioRegAct);
+            // Limpiar campos de texto
+            tbNombreProdAct.Text = string.Empty;
+            tbPrecioRegAct.Text = "0.00";
+
+            // Resetear valores numéricos
+            nbCantidad.Value = 0;
+
+            // Deseleccionar items en combobox
+            if (cbCategoriaAct.Items.Count > 0)
+                cbCategoriaAct.SelectedIndex = -1;
+
+            if (cbTallasRegAct.Items.Count > 0)
+                cbTallasRegAct.SelectedIndex = -1;
         }
 
         private void btnEditarProd_Click(object sender, EventArgs e)
-        {
-            //Redimencionar el DataGridView  
-            dataGridProductoDet.SuspendLayout();
-            dataGridProductoDet.Dock = DockStyle.None;
-            dataGridProductoDet.Size = new Size(872, 500);
-            dataGridProductoDet.Location = new Point(479, 145);
-            dataGridProductoDet.ResumeLayout(true);
+            {
+                //Redimencionar el DataGridView  
+                dataGridProductoDet.SuspendLayout();
+                dataGridProductoDet.Dock = DockStyle.None;
+                dataGridProductoDet.Size = new Size(872, 500);
+                dataGridProductoDet.Location = new Point(479, 145);
+                dataGridProductoDet.ResumeLayout(true);
 
-            btnEditarProd.Enabled = false;
-        }
+                btnEditarProd.Enabled = false;
+            LimpiarControles();
+            }
 
-        private void dataGridProductoDet_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.RowIndex < 0) return;
+            private void dataGridProductoDet_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+            {
+                if (e.RowIndex < 0) return;
+                var rowData = dataGridProductoDet.Rows[e.RowIndex].DataBoundItem;
+                var propertyInfo = rowData.GetType().GetProperty("ProductoCompleto");
 
-            // Obtener la fila seleccionada  
-            DataGridViewRow fila = dataGridProductoDet.Rows[e.RowIndex];
+                if (propertyInfo?.GetValue(rowData) is Producto producto)
+                {
+                    // Actualizar los controles del formulario
+                    tbNombreProdAct.Text = producto.Nombre;
 
-            // Obtener el ID del producto  
-            //int idProducto = Convert.ToInt32(fila.Cells[0].Value);  
-            int talla = Convert.ToInt32(fila.Cells[0].Value);
-            int stock = Convert.ToInt32(fila.Cells[1].Value);
+                    // Seleccionar la talla correcta en el ComboBox
+                    cbTallasRegAct.SelectedValue = producto.Talla.Id_Talla;
 
-            tbNombreProdAct.Text = Nombre;
-            cbTallasRegAct.SelectedItem = talla.ToString();
-            nbCantidad.Value = stock;
-            tbPrecioRegAct.Text = Precio.ToString();
-            cbCategoriaAct.SelectedValue = CategoriaId;
-        }
+                    nbCantidad.Value = producto.Stock;
+                    tbPrecioRegAct.Text = producto.Precio.ToString("C");
+                    cbCategoriaAct.SelectedValue = producto.Categoria.Id;
+                }
+            }
 
-        private void btnCancelarDetallePr_Click(object sender, EventArgs e)
-        {
-            this.Close();
+            private void btnCancelarDetallePr_Click(object sender, EventArgs e)
+            {
+                this.Close();
+            }
         }
     }
-}

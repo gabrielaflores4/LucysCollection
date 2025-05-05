@@ -88,13 +88,15 @@ namespace C_Presentacion
                 try
                 {
                     string nombreProd = row.Cells[0].Value?.ToString() ?? "";
-                    int talla = Convert.ToInt32(row.Cells[1].Value);
+                    int tallaId = Convert.ToInt32(row.Cells[1].Value);
                     int cantidad = Convert.ToInt32(row.Cells[2].Value);
                     string categoriaNombre = row.Cells[3].Value?.ToString() ?? "";
                     decimal precio = Convert.ToDecimal(row.Cells[4].Value);
 
                     // Obtener ID de la categoría
                     int categoriaId = categoriaNeg.ObtenerCategoriaIdPorNombre(categoriaNombre);
+                    Talla talla = new Talla { Id_Talla = tallaId };
+
                     if (categoriaId == -1)
                     {
                         errores.AppendLine($"Categoría '{categoriaNombre}' no encontrada para '{nombreProd}'.");

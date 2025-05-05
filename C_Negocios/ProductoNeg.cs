@@ -1,11 +1,5 @@
 ﻿using C_Entidades;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using C_Datos;
-
 
 namespace C_Negocios
 {
@@ -13,13 +7,15 @@ namespace C_Negocios
     {
         private ProductoDatos productoDatos = new ProductoDatos();
         private CategoriaDatos categoriaDatos = new CategoriaDatos();
+        private TallaDatos tallaDatos = new TallaDatos();
+
 
         // Método para agregar un producto
         public void AgregarProductos(List<Producto> productos)
         {
             foreach (var producto in productos)
             {
-                // Verificar si la categoría tiene un ID válido (ya asignado desde el formulario)
+                // Verificar si la categoría tiene un ID válido
                 if (producto.Categoria?.Id <= 0)
                 {
                     continue;
@@ -60,6 +56,12 @@ namespace C_Negocios
 
             var productoActual = productoDatos.ObtenerProductoPorId(id);
 
+            // Verificar si productoActual es null antes de acceder a sus propiedades
+            if (productoActual == null || productoActual.Categoria == null)
+            {
+                return false;
+            }
+
             bool necesitaActualizarComunes = actualizarCamposComunes &&
                                            (productoActual.Nombre != nombre ||
                                             productoActual.Precio != precio ||
@@ -83,7 +85,7 @@ namespace C_Negocios
             return productoDatos.ObtenerTallasDisponibles();
         }
 
-        public List<int> ObtenerTallasPorProducto(int idProducto)
+        public List<Talla> ObtenerTallasPorProducto(int idProducto)
         {
             return productoDatos.ObtenerTallasPorProducto(idProducto);
         }
@@ -98,7 +100,6 @@ namespace C_Negocios
                     throw new ArgumentException("ID de producto inválido");
                 }
 
-                // Verificar que no estamos intentando quitar más stock del disponible
                 if (cantidadModificada < 0)
                 {
                     var producto = productoDatos.ObtenerProductos()
@@ -115,7 +116,6 @@ namespace C_Negocios
             }
             catch (Exception ex)
             {
-                // Podrías loggear el error aquí
                 throw new Exception($"Error al actualizar stock: {ex.Message}", ex);
             }
         }
@@ -124,7 +124,7 @@ namespace C_Negocios
         {
             return productoDatos.ObtenerProductos()
                 .Any(p => p.Nombre.Equals(nombre, StringComparison.OrdinalIgnoreCase)
-                       && p.Talla == talla
+                       && p.Talla.Id_Talla == talla
                        && p.Id_Prod != excluirId);
         }
 
@@ -139,5 +139,9 @@ namespace C_Negocios
             return productoDatos.ObtenerProductos().Where(p => p.Stock > 0).ToList();
         }
 
+        public List<Talla> ObtenerTodasLasTallas()
+        {
+            return tallaDatos.ObtenerTodasLasTallas();
+        }
     }
 }
