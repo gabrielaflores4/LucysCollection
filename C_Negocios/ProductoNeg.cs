@@ -13,21 +13,39 @@ namespace C_Negocios
         // Método para agregar un producto
         public void AgregarProductos(List<Producto> productos)
         {
-            foreach (var producto in productos)
-            {
-                // Verificar si la categoría tiene un ID válido
-                if (producto.Categoria?.Id <= 0)
-                {
-                    continue;
-                }
+            if (productos == null || productos.Count == 0)
+                throw new ArgumentException("Debe proporcionar al menos un producto");
 
-                try
-                {
-                    productoDatos.AgregarProducto(producto);
-                }
-                catch (Exception)
-                {
-                }
+            // Validaciones comunes
+            var primerProducto = productos[0];
+
+            if (string.IsNullOrWhiteSpace(primerProducto.Nombre))
+                throw new ArgumentException("El nombre del producto es requerido");
+
+            if (primerProducto.Precio <= 0)
+                throw new ArgumentException("El precio debe ser mayor a 0");
+
+            if (primerProducto.Categoria?.Id <= 0)
+                throw new ArgumentException("Categoría inválida");
+
+            // Verificar duplicados
+            if (productoDatos.ObtenerProductos()
+                .Any(p => p.Nombre.Equals(primerProducto.Nombre, StringComparison.OrdinalIgnoreCase)))
+            {
+                throw new InvalidOperationException($"El producto '{primerProducto.Nombre}' ya existe");
+            }
+
+            // Validar que haya al menos una talla con stock > 0
+            if (!productos.Any(p => p.Stock > 0))
+                throw new InvalidOperationException("Debe haber al menos una talla con stock positivo");
+
+            try
+            {
+                productoDatos.AgregarProductos(productos);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al guardar productos: " + ex.Message, ex);
             }
         }
 

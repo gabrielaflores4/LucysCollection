@@ -878,7 +878,7 @@ namespace C_Presentacion
             {
                 p.Id_Prod,
                 p.Nombre,
-                Talla = p.Talla.Id_Talla, 
+                Talla = p.Talla.Id_Talla,
                 p.Stock,
                 Categoria = p.Categoria.Nombre,
                 p.Precio
@@ -933,6 +933,13 @@ namespace C_Presentacion
         private void tbBusquedaMateriaPrima_TextChanged(object sender, EventArgs e)
         {
             CargarMateriasPrimas();
+        }
+
+        private void btnAyuda_Click(object sender, EventArgs e)
+        {
+            Ayuda ayudaFrm = new Ayuda();
+            ayudaFrm.Show();
+            this.Hide();
         }
     }
 }

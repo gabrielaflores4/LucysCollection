@@ -6,109 +6,91 @@ namespace C_Datos
     public class ProductoDatos
     {
         // Método para agregar un producto
-        public void AgregarProducto(Producto producto)
+        public void AgregarProductos(List<Producto> productos)
         {
+            if (productos == null || productos.Count == 0)
+                throw new ArgumentException("La lista de productos no puede estar vacía");
+
             try
             {
-                using (var conexion = Conexion.ObtenerConexion()) // Obtener la conexión a la base de datos
+                using (var conexion = Conexion.ObtenerConexion())
+                using (var transaction = conexion.BeginTransaction())
                 {
-                    // Iniciar la transacción
-                    using (var transaction = conexion.BeginTransaction())
+                    string nombreProducto = productos[0].Nombre;
+
+                    if (ExisteProducto(conexion, nombreProducto))
                     {
-                        //Verificar si el producto ya existe con la misma talla y cantidad de stock
-                        if (ProductoConTallaYStockExiste(conexion, producto.Nombre, producto.Talla.Id_Talla, producto.Stock))
-                        {
-                            Console.WriteLine($"El producto {producto.Nombre} con talla {producto.Talla} y cantidad de {producto.Stock} ya existe.");
-                            return; // Salir si el producto ya existe
-                        }
-
-                        //Verificar si el producto ya está asociado a otra categoría
-                        if (ProductoEnOtraCategoria(conexion, producto.Nombre, producto.Categoria.Id))
-                        {
-                            Console.WriteLine($"El producto {producto.Nombre} ya está registrado en otra categoría.");
-                            return; // Salir si el producto está en otra categoría
-                        }
-
-                        //Verificar si el precio del producto es consistente para todas las tallas
-                        if (!PrecioConsistente(conexion, producto.Nombre, producto.Precio))
-                        {
-                            Console.WriteLine($"El precio del producto {producto.Nombre} no es consistente para todas las tallas.");
-                            return; // Salir si el precio no es consistente
-                        }
-
-                        //Insertar el producto en la base de datos
-                        using (var cmd = new NpgsqlCommand(
-                            "INSERT INTO Producto (nombre_prod, id_talla, precio_unit, stock, fecha_ingreso, fecha_act, id_categoria) " +
-                            "VALUES (@nombre, @talla, @precio, @stock, NOW(), NOW(), @categoriaId)", conexion))
-                        {
-                            cmd.Parameters.AddWithValue("@nombre", producto.Nombre);
-                            cmd.Parameters.AddWithValue("@talla", producto.Talla.Id_Talla);
-                            cmd.Parameters.AddWithValue("@precio", producto.Precio);
-                            cmd.Parameters.AddWithValue("@stock", producto.Stock);
-                            cmd.Parameters.AddWithValue("@categoriaId", producto.Categoria.Id);
-
-                            cmd.ExecuteNonQuery(); // Ejecutar la consulta para insertar el producto
-                        }
-
-                        // Confirmar la transacción si todo salió bien
-                        transaction.Commit();
+                        throw new InvalidOperationException($"El producto '{nombreProducto}' ya existe en el sistema");
                     }
+
+                    if (!MismaCategoriaParaTodos(conexion, productos))
+                    {
+                        throw new InvalidOperationException("Todas las tallas deben pertenecer a la misma categoría");
+                    }
+
+                    if (!PrecioConsistente(productos))
+                    {
+                        throw new InvalidOperationException("Todas las tallas deben tener el mismo precio");
+                    }
+
+                    var productosConStock = productos.Where(p => p.Stock > 0).ToList();
+
+                    if (productosConStock.Count == 0)
+                    {
+                        throw new InvalidOperationException("Debe haber al menos una talla con stock positivo");
+                    }
+
+                    foreach (var producto in productosConStock)
+                    {
+                        InsertarProducto(conexion, producto);
+                    }
+
+                    transaction.Commit();
                 }
             }
             catch (Exception ex)
             {
-                // En caso de error, hacer rollback de la transacción
-                using (var conexion = Conexion.ObtenerConexion())
-                {
-                    using (var transaction = conexion.BeginTransaction())
-                    {
-                        transaction.Rollback();
-                    }
-                }
-
-                // Lanza una excepción con el mensaje de error
-                throw new Exception("Error al agregar producto: " + ex.Message, ex);
-            }
-        }
-        private bool ProductoConTallaYStockExiste(NpgsqlConnection conexion, string nombreProducto, int talla, int stock)
-        {
-            using (var cmd = new NpgsqlCommand(
-                "SELECT COUNT(*) FROM Producto WHERE nombre_prod = @nombreProducto AND id_talla = @talla AND stock = @stock", conexion))
-            {
-                cmd.Parameters.AddWithValue("@nombreProducto", nombreProducto);
-                cmd.Parameters.AddWithValue("@talla", talla);
-                cmd.Parameters.AddWithValue("@stock", stock);
-
-                int count = Convert.ToInt32(cmd.ExecuteScalar());
-                return count > 0;
+                throw new Exception("Error al agregar productos: " + ex.Message, ex);
             }
         }
 
-        // Verificar si el producto ya está registrado en otra categoría
-        private bool ProductoEnOtraCategoria(NpgsqlConnection conexion, string nombreProducto, int categoriaId)
+        private void InsertarProducto(NpgsqlConnection conexion, Producto producto)
         {
             using (var cmd = new NpgsqlCommand(
-                "SELECT COUNT(*) FROM Producto WHERE nombre_prod = @nombreProducto AND id_categoria != @categoriaId", conexion))
+                "INSERT INTO Producto (nombre_prod, id_talla, precio_unit, stock, fecha_ingreso, fecha_act, id_categoria) " +
+                "VALUES (@nombre, @talla, @precio, @stock, NOW(), NOW(), @categoriaId)", conexion))
             {
-                cmd.Parameters.AddWithValue("@nombreProducto", nombreProducto);
-                cmd.Parameters.AddWithValue("@categoriaId", categoriaId);
+                cmd.Parameters.AddWithValue("@nombre", producto.Nombre);
+                cmd.Parameters.AddWithValue("@talla", producto.Talla.Id_Talla);
+                cmd.Parameters.AddWithValue("@precio", producto.Precio);
+                cmd.Parameters.AddWithValue("@stock", producto.Stock);
+                cmd.Parameters.AddWithValue("@categoriaId", producto.Categoria.Id);
 
-                int count = Convert.ToInt32(cmd.ExecuteScalar());
-                return count > 0;  // Si count > 0, significa que ya está en otra categoría
+                cmd.ExecuteNonQuery();
             }
         }
 
-        // Verificar si el precio del producto es consistente para todas las tallas
-        private bool PrecioConsistente(NpgsqlConnection conexion, string nombreProducto, decimal precio)
+        private bool PrecioConsistente(List<Producto> productos)
+        {
+            if (productos.Count == 0) return true;
+            decimal precio = productos[0].Precio;
+            return productos.All(p => p.Precio == precio);
+        }
+
+        private bool MismaCategoriaParaTodos(NpgsqlConnection conexion, List<Producto> productos)
+        {
+            if (productos.Count == 0) return true;
+            int categoriaId = productos[0].Categoria.Id;
+            return productos.All(p => p.Categoria.Id == categoriaId);
+        }
+
+        private bool ExisteProducto(NpgsqlConnection conexion, string nombreProducto)
         {
             using (var cmd = new NpgsqlCommand(
-                "SELECT COUNT(*) FROM Producto WHERE nombre_prod = @nombreProducto AND precio_unit != @precio", conexion))
+                "SELECT COUNT(*) FROM Producto WHERE nombre_prod = @nombre", conexion))
             {
-                cmd.Parameters.AddWithValue("@nombreProducto", nombreProducto);
-                cmd.Parameters.AddWithValue("@precio", precio);
-
-                int count = Convert.ToInt32(cmd.ExecuteScalar());
-                return count == 0;  // Si count == 0, significa que todos los precios son consistentes
+                cmd.Parameters.AddWithValue("@nombre", nombreProducto);
+                return Convert.ToInt32(cmd.ExecuteScalar()) > 0;
             }
         }
 
@@ -445,4 +427,4 @@ namespace C_Datos
             return tallas;
         }
     }
-}
+}       

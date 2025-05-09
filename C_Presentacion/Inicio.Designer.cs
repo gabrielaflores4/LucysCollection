@@ -283,6 +283,7 @@
             btnAyuda.Size = new Size(205, 45);
             btnAyuda.TabIndex = 7;
             btnAyuda.UseVisualStyleBackColor = false;
+            btnAyuda.Click += btnAyuda_Click;
             // 
             // btnLogout
             // 

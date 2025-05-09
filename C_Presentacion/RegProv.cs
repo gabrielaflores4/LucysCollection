@@ -25,7 +25,7 @@ namespace C_Presentacion
         }
         private bool EsFormularioValido()
         {
-            BorrarErrorProvider(); // Limpiar errores antes
+            BorrarErrorProvider();
 
             bool esValido = true;
 
@@ -74,7 +74,7 @@ namespace C_Presentacion
 
             try
             {
-                bool resultado = proveedorNeg.AgregarProveedor(proveedor); // Aquí sí es válido
+                bool resultado = proveedorNeg.AgregarProveedor(proveedor);
 
                 if (resultado)
                 {

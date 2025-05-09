@@ -242,7 +242,7 @@
             lblDashboard.BackColor = Color.Black;
             lblDashboard.Font = new Font("Bahnschrift", 20.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblDashboard.ForeColor = SystemColors.Control;
-            lblDashboard.Location = new Point(561, 18);
+            lblDashboard.Location = new Point(532, 18);
             lblDashboard.Name = "lblDashboard";
             lblDashboard.Size = new Size(306, 33);
             lblDashboard.TabIndex = 41;

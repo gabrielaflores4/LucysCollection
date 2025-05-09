@@ -1,14 +1,6 @@
 ﻿using C_Entidades;
 using C_Negocios;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace C_Presentacion
 {
@@ -16,6 +8,7 @@ namespace C_Presentacion
     {
         private CategoriaNeg categoriaNeg;
         private ProductoNeg productoNeg;
+        private List<Talla> tallasDisponibles;
 
         public RegProd()
         {
@@ -23,6 +16,9 @@ namespace C_Presentacion
             categoriaNeg = new CategoriaNeg();
             productoNeg = new ProductoNeg();
             CargarCategorias();
+            CargarTallas();
+            ConfigurarDataGridView();
+            CargarTallasEnGrid();
         }
 
         private void CargarCategorias()
@@ -43,95 +39,169 @@ namespace C_Presentacion
             }
         }
 
-        private void btnAgregarRegProd_Click(object sender, EventArgs e)
+        private void CargarTallas()
         {
-            string nombreProd = tbNombreProdReg.Text;
-            Categoria categoriaSeleccionada = (Categoria)cbCategoriaReg.SelectedItem;
-            string nombreCategoria = categoriaSeleccionada.Nombre;
-            decimal precio = Convert.ToDecimal(tbPrecioRegProd.Text);
-            int talla = Convert.ToInt32(cbTallasRegProd.SelectedItem);
-            int cantidad = Convert.ToInt32(nbCantidad.Value);
-
-            // Verificar si el producto con la misma talla ya existe en la DataGridView
-            bool productoExistente = false;
-            foreach (DataGridViewRow row in dataGridRegProducto.Rows)
+            try
             {
-                if (row.Cells[0].Value != null && row.Cells[0].Value.ToString() == nombreProd &&
-                    row.Cells[1].Value != null && Convert.ToInt32(row.Cells[1].Value) == talla)
+                tallasDisponibles = productoNeg.ObtenerTodasLasTallas()
+                    .OrderBy(t => t.Id_Talla)
+                    .ToList();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar tallas: " + ex.Message);
+            }
+        }
+
+        private void ConfigurarDataGridView()
+        {
+            dataGridRegProducto.Columns.Clear();
+
+            // Columna para Talla (solo lectura)
+            DataGridViewTextBoxColumn colTalla = new DataGridViewTextBoxColumn();
+            colTalla.HeaderText = "Talla";
+            colTalla.Name = "Talla";
+            colTalla.ReadOnly = true;
+            dataGridRegProducto.Columns.Add(colTalla);
+
+            // Columna para Cantidad (editable)
+            DataGridViewTextBoxColumn colCantidad = new DataGridViewTextBoxColumn();
+            colCantidad.HeaderText = "Cantidad";
+            colCantidad.Name = "Cantidad";
+            dataGridRegProducto.Columns.Add(colCantidad);
+
+            // Configurar validación numérica para la columna Cantidad
+            dataGridRegProducto.EditingControlShowing += (s, e) =>
+            {
+                if (e.Control is TextBox tb && dataGridRegProducto.CurrentCell.ColumnIndex == 1)
                 {
-                    productoExistente = true;
-                    break;
+                    tb.KeyPress += (sender, ev) =>
+                    {
+                        if (!char.IsControl(ev.KeyChar) && !char.IsDigit(ev.KeyChar))
+                        {
+                            ev.Handled = true;
+                        }
+                    };
                 }
+            };
+        }
+
+        private void CargarTallasEnGrid()
+        {
+            dataGridRegProducto.Rows.Clear();
+
+            foreach (var talla in tallasDisponibles)
+            {
+                int rowIndex = dataGridRegProducto.Rows.Add();
+                dataGridRegProducto.Rows[rowIndex].Cells["Talla"].Value = talla.Descripcion;
+                dataGridRegProducto.Rows[rowIndex].Cells["Cantidad"].Value = 0;
+                dataGridRegProducto.Rows[rowIndex].Tag = talla.Id_Talla;
+            }
+        }
+        private bool ValidarCamposProducto()
+        {
+            if (string.IsNullOrWhiteSpace(tbNombreProdReg.Text))
+            {
+                MessageBox.Show("Ingrese el nombre del producto.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
             }
 
-            // Si no existe, agregarlo
-            if (!productoExistente)
+            if (cbCategoriaReg.SelectedItem == null)
             {
-                dataGridRegProducto.Rows.Add(nombreProd, talla, cantidad, nombreCategoria, precio);
+                MessageBox.Show("Seleccione una categoría.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
             }
-            else
+
+            if (!decimal.TryParse(tbPrecioRegProd.Text, out decimal precio) || precio <= 0)
             {
-                MessageBox.Show("Este producto con la talla especificada ya ha sido agregado.");
+                MessageBox.Show("Ingrese un precio válido mayor a 0.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
             }
+
+            return true;
+        }
+        private void LimpiarFormulario()
+        {
+            tbNombreProdReg.Clear();
+            tbPrecioRegProd.Clear();
+            cbCategoriaReg.SelectedIndex = -1;
+            CargarTallasEnGrid();
         }
 
         private void btnGuardarRegProd_Click(object sender, EventArgs e)
         {
+            if (!ValidarCamposProducto())
+                return;
+
             btnGuardarRegProd.Enabled = false;
             List<Producto> productos = new List<Producto>();
             StringBuilder errores = new StringBuilder();
 
-            foreach (DataGridViewRow row in dataGridRegProducto.Rows)
-            {
-                if (row.IsNewRow) continue;
-
-                try
-                {
-                    string nombreProd = row.Cells[0].Value?.ToString() ?? "";
-                    int tallaId = Convert.ToInt32(row.Cells[1].Value);
-                    int cantidad = Convert.ToInt32(row.Cells[2].Value);
-                    string categoriaNombre = row.Cells[3].Value?.ToString() ?? "";
-                    decimal precio = Convert.ToDecimal(row.Cells[4].Value);
-
-                    // Obtener ID de la categoría
-                    int categoriaId = categoriaNeg.ObtenerCategoriaIdPorNombre(categoriaNombre);
-                    Talla talla = new Talla { Id_Talla = tallaId };
-
-                    if (categoriaId == -1)
-                    {
-                        errores.AppendLine($"Categoría '{categoriaNombre}' no encontrada para '{nombreProd}'.");
-                        continue;
-                    }
-
-                    Producto producto = new Producto
-                    {
-                        Nombre = nombreProd,
-                        Categoria = new Categoria { Id = categoriaId },
-                        Precio = precio,
-                        Talla = talla,
-                        Stock = cantidad
-                    };
-
-                    productos.Add(producto);
-                }
-                catch (Exception ex)
-                {
-                    errores.AppendLine($"Error en fila {row.Index + 1}: {ex.Message}");
-                }
-            }
-
-            if (errores.Length > 0)
-            {
-                MessageBox.Show($"Errores encontrados:\n{errores}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                btnGuardarRegProd.Enabled = true;
-                return;
-            }
-
             try
             {
+                string nombreProd = tbNombreProdReg.Text;
+                if (cbCategoriaReg.SelectedItem == null || !(cbCategoriaReg.SelectedItem is Categoria))
+                {
+                    MessageBox.Show("Debe seleccionar una categoría válida");
+                    return;
+                }
+
+                int categoriaId = ((Categoria)cbCategoriaReg.SelectedItem).Id;
+
+
+                decimal precio = Convert.ToDecimal(tbPrecioRegProd.Text);
+
+                // Verificar si el producto ya existe
+                if (productoNeg.ObtenerProductos().Any(p => p.Nombre.Equals(nombreProd, StringComparison.OrdinalIgnoreCase)))
+                {
+                    MessageBox.Show("Este producto ya existe. Use la opción de edición.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                // Procesar cada talla
+                foreach (DataGridViewRow row in dataGridRegProducto.Rows)
+                {
+                    if (row.IsNewRow || row.Cells["Cantidad"].Value == null)
+                        continue;
+                    try
+                    {
+                        int tallaId = row.Tag != null ? (int)row.Tag : 0;
+                        int cantidad = Convert.ToInt32(row.Cells["Cantidad"].Value ?? 0);
+
+                        if (cantidad > 0)
+                        {
+                            productos.Add(new Producto
+                            {
+                                Nombre = nombreProd,
+                                Categoria = new Categoria { Id = categoriaId },
+                                Precio = precio,
+                                Talla = new Talla { Id_Talla = tallaId },
+                                Stock = cantidad
+                            });
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        errores.AppendLine($"Error en talla {row.Cells["Talla"].Value}: {ex.Message}");
+                    }
+                }
+
+                if (errores.Length > 0)
+                {
+                    MessageBox.Show($"Errores encontrados:\n{errores}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                if (productos.Count == 0)
+                {
+                    MessageBox.Show("Debe ingresar cantidad mayor a 0 en al menos una talla.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                // Guardar productos
                 productoNeg.AgregarProductos(productos);
-                MessageBox.Show("Productos guardados exitosamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                dataGridRegProducto.Rows.Clear();
+                MessageBox.Show($"Producto registrado con {productos.Count} tallas.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                LimpiarFormulario();
             }
             catch (Exception ex)
             {
