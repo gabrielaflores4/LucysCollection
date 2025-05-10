@@ -65,7 +65,7 @@
             // dtpDesde
             // 
             dtpDesde.Font = new Font("Bahnschrift", 12F);
-            dtpDesde.Location = new Point(967, 567);
+            dtpDesde.Location = new Point(1023, 567);
             dtpDesde.Margin = new Padding(4);
             dtpDesde.Name = "dtpDesde";
             dtpDesde.Size = new Size(76, 27);
@@ -75,17 +75,17 @@
             // dgvVentas
             // 
             dgvVentas.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvVentas.Location = new Point(723, 234);
+            dgvVentas.Location = new Point(818, 234);
             dgvVentas.Margin = new Padding(4);
             dgvVentas.Name = "dgvVentas";
-            dgvVentas.Size = new Size(615, 325);
+            dgvVentas.Size = new Size(520, 325);
             dgvVentas.TabIndex = 5;
             // 
             // lblMayorVenta
             // 
             lblMayorVenta.AutoSize = true;
             lblMayorVenta.Font = new Font("Bahnschrift", 12F);
-            lblMayorVenta.Location = new Point(739, 144);
+            lblMayorVenta.Location = new Point(818, 145);
             lblMayorVenta.Margin = new Padding(4, 0, 4, 0);
             lblMayorVenta.Name = "lblMayorVenta";
             lblMayorVenta.Size = new Size(103, 19);
@@ -94,11 +94,11 @@
             // 
             // pbGrafico
             // 
-            pbGrafico.BackColor = Color.Thistle;
-            pbGrafico.Location = new Point(13, 111);
+            pbGrafico.BackColor = Color.White;
+            pbGrafico.Location = new Point(13, 79);
             pbGrafico.Margin = new Padding(4);
             pbGrafico.Name = "pbGrafico";
-            pbGrafico.Size = new Size(683, 482);
+            pbGrafico.Size = new Size(787, 604);
             pbGrafico.TabIndex = 10;
             pbGrafico.TabStop = false;
             // 
@@ -106,7 +106,7 @@
             // 
             lblTotal.AutoSize = true;
             lblTotal.Font = new Font("Bahnschrift", 12F);
-            lblTotal.Location = new Point(739, 97);
+            lblTotal.Location = new Point(818, 98);
             lblTotal.Margin = new Padding(4, 0, 4, 0);
             lblTotal.Name = "lblTotal";
             lblTotal.Size = new Size(48, 19);
@@ -127,7 +127,7 @@
             // cbFiltro
             // 
             cbFiltro.FormattingEnabled = true;
-            cbFiltro.Location = new Point(1089, 566);
+            cbFiltro.Location = new Point(1145, 566);
             cbFiltro.Name = "cbFiltro";
             cbFiltro.Size = new Size(121, 27);
             cbFiltro.TabIndex = 59;
@@ -136,7 +136,7 @@
             // 
             lblEmpleadoTop.AutoSize = true;
             lblEmpleadoTop.Font = new Font("Bahnschrift", 12F);
-            lblEmpleadoTop.Location = new Point(739, 198);
+            lblEmpleadoTop.Location = new Point(818, 199);
             lblEmpleadoTop.Margin = new Padding(4, 0, 4, 0);
             lblEmpleadoTop.Name = "lblEmpleadoTop";
             lblEmpleadoTop.Size = new Size(208, 19);
@@ -164,7 +164,7 @@
             // btnGenerar
             // 
             btnGenerar.Image = (Image)resources.GetObject("btnGenerar.Image");
-            btnGenerar.Location = new Point(1001, 622);
+            btnGenerar.Location = new Point(1057, 622);
             btnGenerar.Name = "btnGenerar";
             btnGenerar.Size = new Size(167, 73);
             btnGenerar.SizeMode = PictureBoxSizeMode.Zoom;
@@ -175,7 +175,7 @@
             // lblInfor
             // 
             lblInfor.AutoSize = true;
-            lblInfor.Location = new Point(788, 572);
+            lblInfor.Location = new Point(844, 572);
             lblInfor.Name = "lblInfor";
             lblInfor.Size = new Size(172, 19);
             lblInfor.TabIndex = 69;

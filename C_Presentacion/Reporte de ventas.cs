@@ -43,49 +43,69 @@ namespace C_Presentacion
                 return;
             }
 
-            decimal total = dt.AsEnumerable().Sum(row => Convert.ToDecimal(row["total"]));
-            float startAngle = 0f;
+            // Colores combinables para el sistema
+            Color[] colores = {
+            Color.FromArgb(128, 0, 128), // Morado //
+            Color.Gray,
+            Color.Black,
+            Color.DarkSlateBlue,
+            Color.DarkGray,
+            Color.MediumPurple,
+            Color.DimGray,
+            Color.Indigo
+         };
 
-            int margenX = (int)(width * 0.1);
-            int margenY = (int)(height * 0.1);
-            int diametro = Math.Min(width - 2 * margenX, height - 2 * margenY);
+            decimal maxValor = dt.AsEnumerable().Max(row => Convert.ToDecimal(row["total"]));
+            int barHeight = 30; 
+            int espacio = 10;
+            int margenIzquierdo = 30;
+            int margenSuperior = 20;
 
-            Rectangle rect = new Rectangle(margenX, margenY, diametro, diametro);
-            Color[] colors = { Color.SteelBlue, Color.Orange, Color.Green, Color.Red, Color.DeepPink, Color.Goldenrod, Color.Teal, Color.LightCoral };
+            int zonaLeyendaAltura = dt.Rows.Count * 20 + 50;
+            int zonaGraficoAltura = height - zonaLeyendaAltura;
 
+            // --- Dibujo de barras (parte superior) ---
             int i = 0;
             foreach (DataRow row in dt.Rows)
             {
                 decimal valor = Convert.ToDecimal(row["total"]);
-                float sweepAngle = (float)(valor / total) * 360f;
+                float proporcion = (float)(valor / maxValor);
 
-                using (Brush b = new SolidBrush(colors[i % colors.Length]))
+                int barraAncho = (int)((width - margenIzquierdo - 30) * proporcion);
+                int posY = margenSuperior + i * (barHeight + espacio);
+
+                if (posY + barHeight > zonaGraficoAltura)
+                    break;
+
+                using (Brush b = new SolidBrush(colores[i % colores.Length]))
                 {
-                    g.FillPie(b, rect, startAngle, sweepAngle);
+                    g.FillRectangle(b, margenIzquierdo, posY, barraAncho, barHeight);
                 }
 
-                startAngle += sweepAngle;
+                // Mostrar solo el valor al final de la barra
+                g.DrawString($"{valor:C}", new Font("Arial", 8), Brushes.Black, margenIzquierdo + barraAncho + 5, posY + 6);
+
                 i++;
             }
 
-            int legendX = rect.Right + 10;
-            int legendY = margenY;
+            // --- Sección con los nombres en forma de lista vertical debajo ---
+            int xLeyenda = 10;
+            int yLeyendaInicio = zonaGraficoAltura - 7;
 
             i = 0;
-
             foreach (DataRow row in dt.Rows)
             {
                 string producto = row["producto"].ToString();
-                decimal valor = Convert.ToDecimal(row["total"]);
-                float porcentaje = (float)(valor / total) * 100f;
+                int y = yLeyendaInicio + i * 20;
 
-                using (Brush b = new SolidBrush(colors[i % colors.Length]))
+                using (Brush b = new SolidBrush(colores[i % colores.Length]))
                 {
-                    g.FillRectangle(b, legendX, legendY, 15, 15);
+                    g.FillRectangle(b, xLeyenda, y, 12, 12);
                 }
 
-                g.DrawString($"{producto} ({porcentaje:F1}%)", new Font("Arial", 9), Brushes.Black, legendX + 20, legendY - 2);
-                legendY += 20;
+                g.DrawRectangle(Pens.Black, xLeyenda, y, 12, 12);
+                g.DrawString(producto, new Font("Arial", 12), Brushes.Black, xLeyenda + 18, y - 1);
+
                 i++;
             }
 
@@ -230,7 +250,7 @@ namespace C_Presentacion
                         {
                             pbGrafico.Image.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
                             iTextSharp.text.Image chartImg = iTextSharp.text.Image.GetInstance(ms.ToArray());
-                            chartImg.ScaleToFit(500f, 300f);
+                            chartImg.ScaleToFit(600f, 400f);
                             chartImg.Alignment = Element.ALIGN_CENTER;
                             doc.Add(chartImg);
                         }
@@ -239,7 +259,7 @@ namespace C_Presentacion
                     doc.Close();
                 }
 
-                MessageBox.Show($"Reporte guardado correctamente en: {rutaCompleta}");
+                MessageBox.Show($"Reporte guardado correctamente");
             }
             catch (Exception ex)
             {
