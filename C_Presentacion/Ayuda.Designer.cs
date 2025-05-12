@@ -28,11 +28,18 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Ayuda));
             lblDashboard = new Label();
             pictureBox1 = new PictureBox();
             btnContacto = new Button();
             lblFAQ = new Label();
+            flpPreguntas = new FlowLayoutPanel();
+            panelRespuesta = new Panel();
+            lblRespuesta = new Label();
+            btnCancelarAyuda = new PictureBox();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            panelRespuesta.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)btnCancelarAyuda).BeginInit();
             SuspendLayout();
             // 
             // lblDashboard
@@ -59,7 +66,7 @@
             // 
             // btnContacto
             // 
-            btnContacto.BackColor = Color.FromArgb(221, 221, 221);
+            btnContacto.BackColor = Color.Transparent;
             btnContacto.BackgroundImage = Properties.Resources.btnContacto;
             btnContacto.BackgroundImageLayout = ImageLayout.Zoom;
             btnContacto.FlatStyle = FlatStyle.Flat;
@@ -69,6 +76,7 @@
             btnContacto.Size = new Size(273, 57);
             btnContacto.TabIndex = 70;
             btnContacto.UseVisualStyleBackColor = false;
+            btnContacto.Click += btnContacto_Click_1;
             // 
             // lblFAQ
             // 
@@ -80,12 +88,55 @@
             lblFAQ.TabIndex = 71;
             lblFAQ.Text = "Preguntas Frecuentes (FAQ)";
             // 
+            // flpPreguntas
+            // 
+            flpPreguntas.AutoScroll = true;
+            flpPreguntas.BackColor = Color.Transparent;
+            flpPreguntas.Location = new Point(34, 139);
+            flpPreguntas.Name = "flpPreguntas";
+            flpPreguntas.Size = new Size(381, 467);
+            flpPreguntas.TabIndex = 72;
+            // 
+            // panelRespuesta
+            // 
+            panelRespuesta.Controls.Add(lblRespuesta);
+            panelRespuesta.Location = new Point(437, 139);
+            panelRespuesta.Name = "panelRespuesta";
+            panelRespuesta.Size = new Size(894, 467);
+            panelRespuesta.TabIndex = 73;
+            // 
+            // lblRespuesta
+            // 
+            lblRespuesta.BackColor = Color.White;
+            lblRespuesta.Dock = DockStyle.Fill;
+            lblRespuesta.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblRespuesta.Location = new Point(0, 0);
+            lblRespuesta.Name = "lblRespuesta";
+            lblRespuesta.Padding = new Padding(20);
+            lblRespuesta.Size = new Size(894, 467);
+            lblRespuesta.TabIndex = 0;
+            lblRespuesta.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // btnCancelarAyuda
+            // 
+            btnCancelarAyuda.Image = (Image)resources.GetObject("btnCancelarAyuda.Image");
+            btnCancelarAyuda.Location = new Point(1304, 646);
+            btnCancelarAyuda.Name = "btnCancelarAyuda";
+            btnCancelarAyuda.Size = new Size(54, 38);
+            btnCancelarAyuda.SizeMode = PictureBoxSizeMode.Zoom;
+            btnCancelarAyuda.TabIndex = 74;
+            btnCancelarAyuda.TabStop = false;
+            btnCancelarAyuda.Click += btnCancelarAyuda_Click_1;
+            // 
             // Ayuda
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.FromArgb(224, 224, 224);
+            BackColor = Color.White;
             ClientSize = new Size(1370, 696);
+            Controls.Add(btnCancelarAyuda);
+            Controls.Add(panelRespuesta);
+            Controls.Add(flpPreguntas);
             Controls.Add(lblFAQ);
             Controls.Add(btnContacto);
             Controls.Add(lblDashboard);
@@ -94,7 +145,10 @@
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Ayuda";
             WindowState = FormWindowState.Maximized;
+            Load += Ayuda_Load;
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            panelRespuesta.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)btnCancelarAyuda).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -105,5 +159,9 @@
         private PictureBox pictureBox1;
         private Button btnContacto;
         private Label lblFAQ;
+        private FlowLayoutPanel flpPreguntas;
+        private Panel panelRespuesta;
+        private Label lblRespuesta;
+        private PictureBox btnCancelarAyuda;
     }
 }
