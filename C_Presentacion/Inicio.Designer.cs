@@ -86,10 +86,6 @@
             cmbTalla = new ComboBox();
             pictureBox9 = new PictureBox();
             dataGridInventarioProducto = new DataGridView();
-            Id_Prod = new DataGridViewTextBoxColumn();
-            producto = new DataGridViewTextBoxColumn();
-            categoria = new DataGridViewTextBoxColumn();
-            precio = new DataGridViewTextBoxColumn();
             btnEliminarInventario = new Button();
             btnAgregarInventario = new Button();
             tbBusquedaInventario = new TextBox();
@@ -135,6 +131,10 @@
             tbBusquedaProv = new TextBox();
             label11 = new Label();
             btnReporte = new Button();
+            Id_Prod = new DataGridViewTextBoxColumn();
+            producto = new DataGridViewTextBoxColumn();
+            categoria = new DataGridViewTextBoxColumn();
+            precio = new DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             tabControlInicio.SuspendLayout();
             tabInicio.SuspendLayout();
@@ -610,10 +610,10 @@
             tabInventario.Controls.Add(btnAgregarInventario);
             tabInventario.Controls.Add(tbBusquedaInventario);
             tabInventario.Controls.Add(label22);
-            tabInventario.Location = new Point(4, 24);
+            tabInventario.Location = new Point(4, 28);
             tabInventario.Name = "tabInventario";
             tabInventario.Padding = new Padding(3);
-            tabInventario.Size = new Size(1093, 706);
+            tabInventario.Size = new Size(1093, 702);
             tabInventario.TabIndex = 1;
             tabInventario.Text = "tabPage2";
             // 
@@ -704,26 +704,6 @@
             dataGridInventarioProducto.Size = new Size(847, 488);
             dataGridInventarioProducto.TabIndex = 24;
             dataGridInventarioProducto.CellDoubleClick += dataGridInventarioProducto_CellDoubleClick;
-            // 
-            // Id_Prod
-            // 
-            Id_Prod.HeaderText = "Id_Prod";
-            Id_Prod.Name = "Id_Prod";
-            // 
-            // producto
-            // 
-            producto.HeaderText = "Producto";
-            producto.Name = "producto";
-            // 
-            // categoria
-            // 
-            categoria.HeaderText = "Categoria";
-            categoria.Name = "categoria";
-            // 
-            // precio
-            // 
-            precio.HeaderText = "Precio Unit";
-            precio.Name = "precio";
             // 
             // btnEliminarInventario
             // 
@@ -1233,6 +1213,27 @@
             btnReporte.TabIndex = 6;
             btnReporte.UseVisualStyleBackColor = false;
             btnReporte.Click += btnReporte_Click;
+            // 
+            // Id_Prod
+            // 
+            Id_Prod.HeaderText = "Id_Prod";
+            Id_Prod.Name = "Id_Prod";
+            Id_Prod.Visible = false;
+            // 
+            // producto
+            // 
+            producto.HeaderText = "Producto";
+            producto.Name = "producto";
+            // 
+            // categoria
+            // 
+            categoria.HeaderText = "Categoria";
+            categoria.Name = "categoria";
+            // 
+            // precio
+            // 
+            precio.HeaderText = "Precio Unit";
+            precio.Name = "precio";
             // 
             // Inicio
             // 

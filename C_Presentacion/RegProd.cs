@@ -1,5 +1,6 @@
 ﻿using C_Entidades;
 using C_Negocios;
+using System.Globalization;
 using System.Text;
 
 namespace C_Presentacion
@@ -9,10 +10,12 @@ namespace C_Presentacion
         private CategoriaNeg categoriaNeg;
         private ProductoNeg productoNeg;
         private List<Talla> tallasDisponibles;
+        private Inicio formInicio;
 
-        public RegProd()
+        public RegProd(Inicio formInicio)
         {
             InitializeComponent();
+            this.formInicio = formInicio;
             categoriaNeg = new CategoriaNeg();
             productoNeg = new ProductoNeg();
             CargarCategorias();
@@ -30,8 +33,8 @@ namespace C_Presentacion
                 cbCategoriaReg.Items.Clear();
 
                 cbCategoriaReg.DataSource = categorias;
-                cbCategoriaReg.DisplayMember = "Nombre";  
-                cbCategoriaReg.ValueMember = "Id";  
+                cbCategoriaReg.DisplayMember = "Nombre";
+                cbCategoriaReg.ValueMember = "Id";
             }
             catch (Exception ex)
             {
@@ -149,12 +152,12 @@ namespace C_Presentacion
                 int categoriaId = ((Categoria)cbCategoriaReg.SelectedItem).Id;
 
 
-                decimal precio = Convert.ToDecimal(tbPrecioRegProd.Text);
+                string precioTexto = tbPrecioRegProd.Text.Trim();
+                precioTexto = precioTexto.Replace("$", "").Replace(",", "");
 
-                // Verificar si el producto ya existe
-                if (productoNeg.ObtenerProductos().Any(p => p.Nombre.Equals(nombreProd, StringComparison.OrdinalIgnoreCase)))
+                if (!decimal.TryParse(precioTexto, NumberStyles.Number, CultureInfo.InvariantCulture, out decimal precio) || precio <= 0)
                 {
-                    MessageBox.Show("Este producto ya existe. Use la opción de edición.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Ingrese un precio válido mayor a 0.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
@@ -202,6 +205,8 @@ namespace C_Presentacion
                 productoNeg.AgregarProductos(productos);
                 MessageBox.Show($"Producto registrado con {productos.Count} tallas.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 LimpiarFormulario();
+                formInicio.CargarProductos();
+                this.Close();
             }
             catch (Exception ex)
             {
@@ -220,7 +225,17 @@ namespace C_Presentacion
 
         private void tbPrecioRegProd_KeyPress(object sender, KeyPressEventArgs e)
         {
-            Validaciones.SoloNumerosDecimales(e, tbPrecioRegProd);  
+            // Permite: números, punto decimal, backspace
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != '.')
+            {
+                e.Handled = true;
+            }
+
+            // Solo permite un punto decimal
+            if (e.KeyChar == '.' && (sender as TextBox).Text.IndexOf('.') > -1)
+            {
+                e.Handled = true;
+            }
         }
     }
 }

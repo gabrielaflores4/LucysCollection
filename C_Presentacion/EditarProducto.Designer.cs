@@ -259,6 +259,7 @@
             // 
             Id_Prod.HeaderText = "Id_Prod";
             Id_Prod.Name = "Id_Prod";
+            Id_Prod.Visible = false;
             // 
             // talla
             // 
@@ -361,11 +362,11 @@
         private Label lblDashboard;
         private PictureBox pictureBox1;
         private DataGridView dataGridProductoDet;
-        private DataGridViewTextBoxColumn Id_Prod;
-        private DataGridViewTextBoxColumn talla;
-        private DataGridViewTextBoxColumn stock;
         private Button btnEditarProd;
         private Label lblDetalleProd;
         private PictureBox btnCancelarDetallePr;
+        private DataGridViewTextBoxColumn Id_Prod;
+        private DataGridViewTextBoxColumn talla;
+        private DataGridViewTextBoxColumn stock;
     }
 }

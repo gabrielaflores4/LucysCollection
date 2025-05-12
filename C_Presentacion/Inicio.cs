@@ -254,6 +254,7 @@ namespace C_Presentacion
             }).ToList();
 
             ConfigurarDataGrid(dataGridInventarioProducto, productosMostrar, columnas);
+            dataGridInventarioProducto.Columns[0].Visible = false;
         }
 
         private void CargarEmpleados()
@@ -423,7 +424,7 @@ namespace C_Presentacion
 
         private void btnAgregarInventario_Click(object sender, EventArgs e)
         {
-            RegProd frmRegProducto = new RegProd();
+            RegProd frmRegProducto = new RegProd(this);
             frmRegProducto.Show();
         }
 
@@ -493,11 +494,25 @@ namespace C_Presentacion
             string nombreProducto = fila.Cells[1].Value?.ToString() ?? string.Empty;
             string categoriaNombre = fila.Cells[2].Value?.ToString() ?? string.Empty;
             string precioTexto = fila.Cells[3].Value?.ToString() ?? "0";
-            precioTexto = precioTexto.Replace("$", "").Replace(",", "").Trim();
 
-            if (!decimal.TryParse(precioTexto, NumberStyles.Number, CultureInfo.InvariantCulture, out decimal precio))
+            // Limpieza segura del formato de moneda
+            precioTexto = precioTexto.Replace("$", "").Trim();
+
+            // Conversión robusta a decimal
+            decimal precio;
+            if (!Decimal.TryParse(precioTexto,
+                                NumberStyles.Currency | NumberStyles.AllowDecimalPoint,
+                                CultureInfo.CurrentCulture,
+                                out precio))
             {
-                precio = 0;
+                precioTexto = precioTexto.Replace(",", "");
+                if (!Decimal.TryParse(precioTexto,
+                                    NumberStyles.Number,
+                                    CultureInfo.InvariantCulture,
+                                    out precio))
+                {
+                    precio = 0;
+                }
             }
 
             int categoriaId = productoNeg.ObtenerCategoriaIdPorNombre(categoriaNombre);
@@ -676,7 +691,7 @@ namespace C_Presentacion
                 //Obtener ID del proveedor
                 int proveedorId = _proveedorNeg.ObtenerProveedorIdPorNombre(proveedorNombre);
 
-                // 5. Crear y mostrar formulario de edición
+                //Crear y mostrar formulario de edición
                 using (var formEdicion = new EditarMP(this))
                 {
                     formEdicion.MateriaPrimaId = id;

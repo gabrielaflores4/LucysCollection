@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,19 +30,13 @@ namespace C_Presentacion
             this.formInicio = inicio;
         }
 
-        public EditarMP()
-        {
-            InitializeComponent();
-
-        }
-
         private void EditarMP_Load_1(object sender, EventArgs e)
         {
             // Configurar controles básicos
             nbCantidad.Minimum = 0;
             nbCantidad.Maximum = 10000;
             tbNombreProdAct.Text = this.Nombre;
-            tbPrecioRegAct.Text = this.PrecioUnitario.ToString();
+            tbPrecioRegAct.Text = this.PrecioUnitario.ToString("0.00", CultureInfo.InvariantCulture);
             nbCantidad.Value = this.Stock;
 
             // Cargar proveedores UNA sola vez
@@ -77,7 +72,7 @@ namespace C_Presentacion
             Validaciones.SoloLetras(e);
         }
 
-        private void tbPrecioRegAct_KeyPress(object sender, KeyPressEventArgs e)
+        private void tbPrecioRegAct_KeyPress(object? sender, KeyPressEventArgs e)
         {
             Validaciones.SoloNumerosDecimales(e, tbPrecioRegAct);
         }
@@ -86,13 +81,32 @@ namespace C_Presentacion
         {
             if (ValidarCampos())
             {
-                // Asignar nuevos valores
+                // Asignar nuevos valores  
                 Nombre = tbNombreProdAct.Text;
-                PrecioUnitario = decimal.Parse(tbPrecioRegAct.Text);
-                Stock = (int)nbCantidad.Value;
-                ProveedorId = (int)cbProvAct.SelectedValue;
+                
+                if (!Validaciones.TryParseDecimal(tbPrecioRegAct.Text, out decimal precioValidado))
+                {
+                    MessageBox.Show("El precio ingresado no es válido", "Error",
+                                  MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
 
-                // Mostrar confirmación con los datos actualizados
+                PrecioUnitario = precioValidado;
+                
+                Stock = (int)nbCantidad.Value;
+
+                // Manejo de posible valor Nulo 
+                if (cbProvAct.SelectedValue is int selectedProveedorId)
+                {
+                    ProveedorId = selectedProveedorId;
+                }
+                else
+                {
+                    MessageBox.Show("Error al obtener el ID del proveedor seleccionado.", "Error",MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                // Mostrar confirmación con los datos actualizados  
                 MessageBox.Show(
                     "¡Actualización exitosa!\n\n" +
                     $"Nombre: {Nombre}\n" +
@@ -128,10 +142,20 @@ namespace C_Presentacion
                 return false;
             }
 
-            if (!decimal.TryParse(tbPrecioRegAct.Text, out decimal precio) || precio <= 0)
+            decimal precio;
+            if (!decimal.TryParse(tbPrecioRegAct.Text, NumberStyles.Any, CultureInfo.InvariantCulture, out precio) || precio <= 0)
             {
-                MessageBox.Show("Ingrese un precio unitario válido", "Validación",
+                MessageBox.Show("Ingrese un precio unitario válido mayor a cero", "Validación",
+                              MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                tbPrecioRegAct.Focus();
+                return false;
+            }
+
+            if (nbCantidad.Value <= 0)
+            {
+                MessageBox.Show("El stock debe ser mayor a cero", "Validación",
                                MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                nbCantidad.Focus();
                 return false;
             }
 
@@ -144,7 +168,5 @@ namespace C_Presentacion
 
             return true;
         }
-
-
     }
 }

@@ -1,5 +1,6 @@
 ﻿using C_Entidades;
 using C_Datos;
+using System.Diagnostics;
 
 namespace C_Negocios
 {
@@ -65,28 +66,72 @@ namespace C_Negocios
         }
 
         // Método para actualizar un producto
-        public bool ActualizarProducto(int id, string nombre, int talla, decimal precio, int stock, int categoriaId, bool actualizarCamposComunes)
+        public bool ActualizarProducto(int id, string nombre, int talla, decimal precio,
+                         int stock, int categoriaId, bool aplicarCambiosGlobales)
         {
-            if (id <= 0 || string.IsNullOrWhiteSpace(nombre) || precio <= 0 || stock < 0 || categoriaId <= 0)
+            // Validaciones básicas
+            if (precio <= 0) throw new ArgumentException("El precio debe ser mayor que cero");
+            if (stock < 0) throw new ArgumentException("El stock no puede ser negativo");
+            if (string.IsNullOrWhiteSpace(nombre)) throw new ArgumentException("El nombre no puede estar vacío");
+
+            // Obtener producto original
+            var productoOriginal = productoDatos.ObtenerProductoPorId(id);
+            if (productoOriginal == null)
+                throw new Exception("Producto no encontrado");
+
+            // Validar antes de actualizar
+            if (!nombre.Equals(productoOriginal.Nombre, StringComparison.OrdinalIgnoreCase))
             {
-                return false;
+                var productoExistente = productoDatos.ObtenerProductoPorNombre(nombre);
+                if (productoExistente != null && productoExistente.Id_Prod != id)
+                {
+                    throw new Exception($"Ya existe un producto con ese nombre (ID: {productoExistente.Id_Prod})");
+                }
             }
 
-            var productoActual = productoDatos.ObtenerProductoPorId(id);
-
-            // Verificar si productoActual es null antes de acceder a sus propiedades
-            if (productoActual == null || productoActual.Categoria == null)
-            {
-                return false;
-            }
-
-            bool necesitaActualizarComunes = actualizarCamposComunes &&
-                                           (productoActual.Nombre != nombre ||
-                                            productoActual.Precio != precio ||
-                                            productoActual.Categoria.Id != categoriaId);
-
-            return productoDatos.ActualizarProducto(id, nombre, talla, precio, stock, categoriaId, necesitaActualizarComunes);
+            return productoDatos.ActualizarProductoCompleto(id, nombre, talla, precio, stock, categoriaId, aplicarCambiosGlobales);
         }
+
+        public bool ActualizarCamposComunes(string nombreProducto, decimal? nuevoPrecio = null,
+                                  int? nuevaCategoriaId = null, string nuevoNombre = null)
+        {
+            try
+            {
+                // Validar que al menos un campo se va a actualizar
+                if (nuevoPrecio == null && nuevaCategoriaId == null && nuevoNombre == null)
+                    throw new ArgumentException("Debe especificar al menos un campo a actualizar");
+
+                // Validar nombre único si se va a cambiar
+                if (nuevoNombre != null && !nuevoNombre.Equals(nombreProducto, StringComparison.OrdinalIgnoreCase))
+                {
+                    if (productoDatos.ExisteProductoConNombre(nuevoNombre))
+                        throw new Exception("Ya existe un producto con ese nombre");
+                }
+
+                return productoDatos.ActualizarCamposComunes(nombreProducto, nuevoPrecio, nuevaCategoriaId, nuevoNombre);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error al actualizar campos comunes: {ex.Message}");
+                throw;
+            }
+        }
+
+        public bool VerificarConsistenciaProducto(string nombreProducto)
+        {
+            try
+            {
+                decimal? precioComun;
+                int? categoriaComun;
+                return productoDatos.VerificarConsistenciaCampos(nombreProducto, out precioComun, out categoriaComun);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error al verificar consistencia: {ex.Message}");
+                throw new Exception("No se pudo verificar la consistencia del producto");
+            }
+        }
+
 
         // Método para eliminar un producto
         public bool EliminarProducto(int id)
@@ -160,6 +205,46 @@ namespace C_Negocios
         public List<Talla> ObtenerTodasLasTallas()
         {
             return tallaDatos.ObtenerTodasLasTallas();
+        }
+
+        public List<Producto> ObtenerProductosConTallasPorNombre(string nombreProducto)
+        {
+            if (string.IsNullOrWhiteSpace(nombreProducto))
+            {
+                throw new ArgumentException("El nombre del producto no puede estar vacío");
+            }
+
+            try
+            {
+                return productoDatos.ObtenerProductosConTallasPorNombre(nombreProducto);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error al obtener productos por nombre: {ex.Message}", ex);
+            }
+        }
+
+        public bool ActualizarTallaYStock(int id, int nuevaTalla, int nuevoStock)
+        {
+            if (id <= 0 || nuevoStock < 0) return false;
+
+            var producto = productoDatos.ObtenerProductoPorId(id);
+            if (producto == null) return false;
+
+            // Validar duplicados de talla para el mismo nombre
+            if (nuevaTalla != producto.Talla?.Id_Talla &&
+                productoDatos.ExisteProductoConMismaTalla(producto.Nombre, nuevaTalla, id))
+            {
+                throw new Exception("Ya existe un producto con este nombre y talla");
+            }
+
+            return productoDatos.ActualizarTallaYStock(id, nuevaTalla, nuevoStock);
+        }
+
+        private void ValidarDatosActualizacion(int id, string nombre, decimal precio, int stock)
+        {
+            if (id <= 0 || string.IsNullOrWhiteSpace(nombre) || precio <= 0 || stock < 0)
+                throw new ArgumentException("Datos inválidos");
         }
     }
 }
