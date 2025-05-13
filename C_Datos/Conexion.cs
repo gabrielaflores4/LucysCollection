@@ -9,7 +9,7 @@ namespace C_Datos
 {
     public class Conexion
     {
-        public static string cadenaConexion = "Host=localhost;Port=5432;Username=postgres;Password=postgress123;Database=lucysdb";
+        public static string cadenaConexion = "Host=localhost;Port=5432;Username=lucysdbuser;Password=lucysdb;Database=lucysdb";
 
         public static NpgsqlConnection ObtenerConexion()
         {

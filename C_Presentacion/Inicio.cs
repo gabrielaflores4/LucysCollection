@@ -927,16 +927,6 @@ namespace C_Presentacion
             FiltrarInventario();
         }
 
-        private void cmbStockk_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            FiltrarInventario();
-        }
-
-        private void cmbTalla_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            FiltrarInventario();
-        }
-
         private void tbBusquedaEmpleados_TextChanged(object sender, EventArgs e)
         {
             CargarEmpleados();

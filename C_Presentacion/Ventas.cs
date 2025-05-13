@@ -395,7 +395,6 @@ namespace C_Presentacion
                 {
                     if (clienteSeleccionado == null)
                     {
-                        // Preguntar si desea registrar un nuevo cliente
                         var respuesta = MessageBox.Show("¿Desea registrar este cliente antes de continuar?",
                                                         "Cliente no registrado",
                                                         MessageBoxButtons.YesNo,
@@ -424,11 +423,33 @@ namespace C_Presentacion
                     }
                 }
 
-                //Validar que hay productos en la venta
                 if (detallesVenta == null || detallesVenta.Count == 0)
                     throw new Exception("Debe agregar al menos un producto al detalle de la venta.");
 
-                //Crear y registrar la venta
+                // Calcular total ANTES de registrar la venta
+                decimal totalVenta = detallesVenta.Sum(d => d.PrecioUnitario * d.Cantidad);
+
+                // Solicitar pago y validar
+                string input = Microsoft.VisualBasic.Interaction.InputBox(
+                    $"Total a pagar: {totalVenta:C}\n\n¿Con cuánto pagará el cliente?",
+                    "Pago", "");
+
+                if (!decimal.TryParse(input, out montoPagado))
+                {
+                    MessageBox.Show("Monto inválido. Operación cancelada.", "Error",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                // Validar si el monto es suficiente
+                if (montoPagado < totalVenta)
+                {
+                    MessageBox.Show($"Monto insuficiente. Faltan {(totalVenta - montoPagado):C} para completar el pago.",
+                        "Pago insuficiente", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return; // Suspender la venta
+                }
+
+                // Registrar la venta (solo si el pago fue suficiente)
                 Venta venta = new Venta
                 {
                     ClienteId = clienteId,
@@ -441,24 +462,19 @@ namespace C_Presentacion
 
                 MessageBox.Show("Venta registrada exitosamente.", "Confirmación", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                string carpetaDestino = @"C:\Users\Usuario\Desktop\Reportes de ventas Lucy´s Collections\Comprobantes de ventas";
+                // Generar comprobante PDF
+                string carpetaDestino = @"C:\Users\gabri\Desktop\Reportes de ventas Lucy´s Collections\Comprobantes de ventas";
 
                 if (!Directory.Exists(carpetaDestino))
                 {
                     Directory.CreateDirectory(carpetaDestino);
                 }
 
-                string fechaActual = DateTime.Now.ToString("dd-MM-yyyy");
-                string nombreArchivo = $"Comprobante{fechaActual}.pdf";
+                // Generar marca de tiempo única
+                DateTime fechaHoraActual = DateTime.Now;
+                string marcaTiempo = fechaHoraActual.ToString("ddMMyyyy_HHmmss");
+                string nombreArchivo = $"Comprobante_{marcaTiempo}.pdf";
                 string rutaCompleta = Path.Combine(carpetaDestino, nombreArchivo);
-
-                int contador = 1;
-                while (File.Exists(rutaCompleta))
-                {
-                    nombreArchivo = $"Comprobante{fechaActual}_{contador}.pdf";
-                    rutaCompleta = Path.Combine(carpetaDestino, nombreArchivo);
-                    contador++;
-                }
 
                 using (FileStream fs = new FileStream(rutaCompleta, FileMode.Create))
                 {
@@ -466,8 +482,9 @@ namespace C_Presentacion
                     PdfWriter writer = PdfWriter.GetInstance(doc, fs);
                     doc.Open();
 
+                    // Encabezado del comprobante
                     doc.Add(new Paragraph("Lucy´s Collections", FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 16)));
-                    doc.Add(new Paragraph($"Fecha: {DateTime.Now:dd/MM/yyyy}    Hora: {DateTime.Now:HH:mm:ss}"));
+                    doc.Add(new Paragraph($"Fecha: {fechaHoraActual:dd/MM/yyyy}    Hora: {fechaHoraActual:HH:mm:ss}"));
                     doc.Add(new Paragraph("NIT: 0614-080322-115-2    NRC: 316440-2"));
                     doc.Add(new Paragraph("Dirección: Avenida 5 de noviembre, Atiquizaya, Ahuachapán"));
                     doc.Add(new Paragraph("\n"));
@@ -479,15 +496,15 @@ namespace C_Presentacion
                         doc.Add(new Paragraph("\n"));
                     }
 
-                    PdfPTable tabla = new PdfPTable(4); 
+                    PdfPTable tabla = new PdfPTable(4);
                     tabla.WidthPercentage = 100;
                     tabla.AddCell("Producto");
                     tabla.AddCell("Precio");
                     tabla.AddCell("Cantidad");
                     tabla.AddCell("Subtotal");
 
-                    decimal totalVenta = 0;
-
+                    // Calcular el total de la venta (usando nombre distinto si es necesario)
+                    decimal totalVentaCalculado = 0;
                     foreach (var item in detallesVenta)
                     {
                         tabla.AddCell(item.Producto.Nombre.Length > 15 ? item.Producto.Nombre.Substring(0, 15) : item.Producto.Nombre);
@@ -495,40 +512,29 @@ namespace C_Presentacion
                         tabla.AddCell(item.Cantidad.ToString());
                         decimal subtotal = item.PrecioUnitario * item.Cantidad;
                         tabla.AddCell(subtotal.ToString("C"));
-                        totalVenta += subtotal;
+                        totalVentaCalculado += subtotal;
                     }
 
                     doc.Add(tabla);
                     doc.Add(new Paragraph("\n"));
-                    doc.Add(new Paragraph($"Total: {totalVenta:C}"));
+                    doc.Add(new Paragraph($"Total: {totalVentaCalculado:C}"));
 
-                    // Manejar el pago
-                    string input = Microsoft.VisualBasic.Interaction.InputBox("¿Con cuánto pagó el cliente?", "", "");
-                    if (!decimal.TryParse(input, out montoPagado))
-                    {
-                        MessageBox.Show("Monto inválido. No se generará el comprobante.");
-                        return;
-                    }
+                    // Información de pago
+                    decimal cambio = montoPagado - totalVentaCalculado;
+                    doc.Add(new Paragraph($"Pagó con: {montoPagado:C}"));
+                    doc.Add(new Paragraph($"Cambio: {cambio:C}"));
 
-                    if (montoPagado >= totalVenta)
-                    {
-                        decimal cambio = montoPagado - totalVenta;
-                        doc.Add(new Paragraph($"Pagó con: {montoPagado:C}"));
-                        doc.Add(new Paragraph($"Cambio: {cambio:C}"));
-                    }
-                    else
-                    {
-                        doc.Add(new Paragraph("Pago insuficiente."));
-                    }
+                    // Número único de comprobante
+                    doc.Add(new Paragraph("\n"));
+                    doc.Add(new Paragraph($"N° Comprobante: {marcaTiempo}"));
+                    doc.Add(new Paragraph("¡Gracias por su compra!", FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 12)));
 
-                    doc.Add(new Paragraph("\n¡Gracias por su compra!", FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 12)));
                     doc.Close();
                 }
 
-                MessageBox.Show($"Comprobante guardado");
+                MessageBox.Show($"Comprobante guardado como: {nombreArchivo}", "Comprobante Generado", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-
-                //Mostrar vista previa y limpiar controles
+                // Mostrar vista previa y limpiar controles
                 ImprimirTicketConVistaPrevia();
                 detallesVenta.Clear();
                 ActualizarDataGrid();
@@ -538,6 +544,7 @@ namespace C_Presentacion
             {
                 MessageBox.Show("Error al guardar la venta: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+
         }
 
         private void ImprimirTicketConVistaPrevia()
@@ -671,38 +678,71 @@ namespace C_Presentacion
         private void cbTallasRegProd_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (cbTallasRegProd.SelectedItem is Talla tallaSeleccionada &&
-                    cbProductos.SelectedItem is Producto productoSeleccionado)
+                cbProductos.SelectedItem is Producto productoSeleccionado)
             {
                 try
                 {
-                    // Obtener el stock disponible
+                    // Obtener el stock disponible para la talla seleccionada
                     int stockDisponible = productoNeg.ObtenerStockPorProductoYTalla(
                         productoSeleccionado.Id_Prod,
                         tallaSeleccionada.Id_Talla);
+
+                    // Obtener todas las tallas disponibles para este producto
+                    List<Talla> tallasDelProducto = productoNeg.ObtenerTallasPorProducto(productoSeleccionado.Id_Prod);
+                    bool hayStockEnAlgunaTalla = false;
+
+                    // Verificar si hay stock en al menos una talla
+                    foreach (var talla in tallasDelProducto)
+                    {
+                        int stockTalla = productoNeg.ObtenerStockPorProductoYTalla(productoSeleccionado.Id_Prod, talla.Id_Talla);
+                        if (stockTalla > 0)
+                        {
+                            hayStockEnAlgunaTalla = true;
+                            break;
+                        }
+                    }
 
                     // Actualizar la etiqueta de stock
                     lblStockDisponible.Text = $"Stock: {stockDisponible}";
 
                     // Configurar el NumericUpDown
-                    nbCantidad.Minimum = 1; // Mínimo siempre 1
-                    nbCantidad.Maximum = stockDisponible > 0 ? stockDisponible : 1; // Máximo según stock
-                    nbCantidad.Value = stockDisponible > 0 ? 1 : 0; // Valor inicial
+                    nbCantidad.Minimum = 1;
+                    nbCantidad.Maximum = Math.Max(stockDisponible, 1);
 
-                    bool hayStock = stockDisponible > 0;
-                    nbCantidad.Enabled = hayStock;
-                    btnAgregarRegProd.Enabled = hayStock;
-
-                    if (!hayStock)
+                    if (stockDisponible > 0)
                     {
-                        MessageBox.Show("No hay stock disponible para esta talla", "Stock",MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        nbCantidad.Value = Math.Min(Math.Max(1, nbCantidad.Value), nbCantidad.Maximum);
+                    }
+                    else
+                    {
+                        nbCantidad.Value = nbCantidad.Minimum;
+                    }
+
+                    bool hayStockEnEstaTalla = stockDisponible > 0;
+                    nbCantidad.Enabled = hayStockEnEstaTalla;
+                    btnAgregarRegProd.Enabled = hayStockEnEstaTalla;
+
+                    // Mostrar mensaje solo si NO hay stock en NINGUNA talla
+                    if (!hayStockEnAlgunaTalla)
+                    {
+                        MessageBox.Show("No hay stock disponible para este producto en ninguna talla",
+                                       "Stock Agotado",
+                                       MessageBoxButtons.OK,
+                                       MessageBoxIcon.Information);
+                    }
+                    else if (!hayStockEnEstaTalla)
+                    {
+                        // Mensaje opcional para talla específica (puedes eliminarlo si no lo deseas)
+                        lblStockDisponible.Text += " (Agotado)";
                     }
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show($"Error al actualizar stock: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     nbCantidad.Minimum = 1;
-                    nbCantidad.Maximum = 100; 
+                    nbCantidad.Maximum = 100;
                     nbCantidad.Value = 1;
+                    lblStockDisponible.Text = "Stock: 0";
                 }
             }
             else

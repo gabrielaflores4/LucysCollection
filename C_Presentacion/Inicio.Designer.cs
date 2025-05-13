@@ -82,8 +82,6 @@
             tabInventario = new TabPage();
             cmbPrecioUnit = new ComboBox();
             cmbCategoria = new ComboBox();
-            cmbStockk = new ComboBox();
-            cmbTalla = new ComboBox();
             pictureBox9 = new PictureBox();
             dataGridInventarioProducto = new DataGridView();
             Id_Prod = new DataGridViewTextBoxColumn();
@@ -602,8 +600,6 @@
             tabInventario.BackColor = Color.FromArgb(212, 221, 221, 221);
             tabInventario.Controls.Add(cmbPrecioUnit);
             tabInventario.Controls.Add(cmbCategoria);
-            tabInventario.Controls.Add(cmbStockk);
-            tabInventario.Controls.Add(cmbTalla);
             tabInventario.Controls.Add(pictureBox9);
             tabInventario.Controls.Add(dataGridInventarioProducto);
             tabInventario.Controls.Add(btnEliminarInventario);
@@ -636,26 +632,6 @@
             cmbCategoria.TabIndex = 28;
             cmbCategoria.Text = "Categoria";
             cmbCategoria.SelectedIndexChanged += cmbCategoria_SelectedIndexChanged;
-            // 
-            // cmbStockk
-            // 
-            cmbStockk.FormattingEnabled = true;
-            cmbStockk.Location = new Point(658, 141);
-            cmbStockk.Name = "cmbStockk";
-            cmbStockk.Size = new Size(134, 27);
-            cmbStockk.TabIndex = 27;
-            cmbStockk.Text = "Stock";
-            cmbStockk.SelectedIndexChanged += cmbStockk_SelectedIndexChanged;
-            // 
-            // cmbTalla
-            // 
-            cmbTalla.FormattingEnabled = true;
-            cmbTalla.Location = new Point(513, 141);
-            cmbTalla.Name = "cmbTalla";
-            cmbTalla.Size = new Size(139, 27);
-            cmbTalla.TabIndex = 26;
-            cmbTalla.Text = "Talla";
-            cmbTalla.SelectedIndexChanged += cmbTalla_SelectedIndexChanged;
             // 
             // pictureBox9
             // 
@@ -1374,10 +1350,8 @@
         private Button btnReporte;
         private ComboBox cmbStock;
         private ComboBox cmbPrecio;
-        private ComboBox cmbTalla;
         private ComboBox cmbPrecioUnit;
         private ComboBox cmbCategoria;
-        private ComboBox cmbStockk;
         private DataGridViewTextBoxColumn Id_Prod;
         private DataGridViewTextBoxColumn producto;
         private DataGridViewTextBoxColumn categoria;
