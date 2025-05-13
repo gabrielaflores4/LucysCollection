@@ -4,6 +4,8 @@ using System.Windows.Forms;
 using C_Datos;
 using C_Entidades;
 using C_Negocios;
+using iTextSharp.text.pdf;
+using iTextSharp.text;
 
 namespace C_Presentacion
 {
@@ -395,9 +397,9 @@ namespace C_Presentacion
                     {
                         // Preguntar si desea registrar un nuevo cliente
                         var respuesta = MessageBox.Show("¿Desea registrar este cliente antes de continuar?",
-                                                     "Cliente no registrado",
-                                                     MessageBoxButtons.YesNo,
-                                                     MessageBoxIcon.Question);
+                                                        "Cliente no registrado",
+                                                        MessageBoxButtons.YesNo,
+                                                        MessageBoxIcon.Question);
 
                         if (respuesta == DialogResult.Yes)
                         {
@@ -439,18 +441,92 @@ namespace C_Presentacion
 
                 MessageBox.Show("Venta registrada exitosamente.", "Confirmación", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                //Manejar el pago
-                string input = Microsoft.VisualBasic.Interaction.InputBox("¿Con cuánto pagó el cliente?", "", "");
-                if (!decimal.TryParse(input, out montoPagado))
+                string carpetaDestino = @"C:\Users\Usuario\Desktop\Reportes de ventas Lucy´s Collections\Comprobantes de ventas";
+
+                if (!Directory.Exists(carpetaDestino))
                 {
-                    MessageBox.Show("Monto inválido. No se imprimirá el ticket.");
-                    return;
+                    Directory.CreateDirectory(carpetaDestino);
                 }
 
-                //Imprimir ticket
-                printDocumentVenta = new PrintDocument();
-                printDocumentVenta.PrintPage += Imprimir;
-                printDocumentVenta.Print();
+                string fechaActual = DateTime.Now.ToString("dd-MM-yyyy");
+                string nombreArchivo = $"Comprobante{fechaActual}.pdf";
+                string rutaCompleta = Path.Combine(carpetaDestino, nombreArchivo);
+
+                int contador = 1;
+                while (File.Exists(rutaCompleta))
+                {
+                    nombreArchivo = $"Comprobante{fechaActual}_{contador}.pdf";
+                    rutaCompleta = Path.Combine(carpetaDestino, nombreArchivo);
+                    contador++;
+                }
+
+                using (FileStream fs = new FileStream(rutaCompleta, FileMode.Create))
+                {
+                    Document doc = new Document(PageSize.A4, 10, 10, 10, 10);
+                    PdfWriter writer = PdfWriter.GetInstance(doc, fs);
+                    doc.Open();
+
+                    doc.Add(new Paragraph("Lucy´s Collections", FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 16)));
+                    doc.Add(new Paragraph($"Fecha: {DateTime.Now:dd/MM/yyyy}    Hora: {DateTime.Now:HH:mm:ss}"));
+                    doc.Add(new Paragraph("NIT: 0614-080322-115-2    NRC: 316440-2"));
+                    doc.Add(new Paragraph("Dirección: Avenida 5 de noviembre, Atiquizaya, Ahuachapán"));
+                    doc.Add(new Paragraph("\n"));
+
+                    if (clienteSeleccionado != null)
+                    {
+                        doc.Add(new Paragraph($"Cliente: {clienteSeleccionado.NombreCompleto}"));
+                        doc.Add(new Paragraph($"Fecha de Registro: {clienteSeleccionado.FechaRegistro:dd/MM/yyyy}"));
+                        doc.Add(new Paragraph("\n"));
+                    }
+
+                    PdfPTable tabla = new PdfPTable(4); 
+                    tabla.WidthPercentage = 100;
+                    tabla.AddCell("Producto");
+                    tabla.AddCell("Precio");
+                    tabla.AddCell("Cantidad");
+                    tabla.AddCell("Subtotal");
+
+                    decimal totalVenta = 0;
+
+                    foreach (var item in detallesVenta)
+                    {
+                        tabla.AddCell(item.Producto.Nombre.Length > 15 ? item.Producto.Nombre.Substring(0, 15) : item.Producto.Nombre);
+                        tabla.AddCell(item.PrecioUnitario.ToString("C"));
+                        tabla.AddCell(item.Cantidad.ToString());
+                        decimal subtotal = item.PrecioUnitario * item.Cantidad;
+                        tabla.AddCell(subtotal.ToString("C"));
+                        totalVenta += subtotal;
+                    }
+
+                    doc.Add(tabla);
+                    doc.Add(new Paragraph("\n"));
+                    doc.Add(new Paragraph($"Total: {totalVenta:C}"));
+
+                    // Manejar el pago
+                    string input = Microsoft.VisualBasic.Interaction.InputBox("¿Con cuánto pagó el cliente?", "", "");
+                    if (!decimal.TryParse(input, out montoPagado))
+                    {
+                        MessageBox.Show("Monto inválido. No se generará el comprobante.");
+                        return;
+                    }
+
+                    if (montoPagado >= totalVenta)
+                    {
+                        decimal cambio = montoPagado - totalVenta;
+                        doc.Add(new Paragraph($"Pagó con: {montoPagado:C}"));
+                        doc.Add(new Paragraph($"Cambio: {cambio:C}"));
+                    }
+                    else
+                    {
+                        doc.Add(new Paragraph("Pago insuficiente."));
+                    }
+
+                    doc.Add(new Paragraph("\n¡Gracias por su compra!", FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 12)));
+                    doc.Close();
+                }
+
+                MessageBox.Show($"Comprobante guardado");
+
 
                 //Mostrar vista previa y limpiar controles
                 ImprimirTicketConVistaPrevia();
@@ -488,10 +564,10 @@ namespace C_Presentacion
             int idCliente = clienteSeleccionado.Id;
 
             Graphics g = e.Graphics;
-            Font monoFont = new Font("Courier New", 12);
+            System.Drawing.Font monoFont = new System.Drawing.Font("Courier New", 12);
             int yPos = 30;
 
-            g.DrawString("Lucy´s Collections", new Font("Arial", 14, FontStyle.Bold), Brushes.Black, 100, yPos); yPos += 30;
+            g.DrawString("Lucy´s Collections", new System.Drawing.Font("Arial", 14, FontStyle.Bold), Brushes.Black, 100, yPos); yPos += 30;
 
             g.DrawString($"Ticket: #{ventaNeg.ObtenerNumeroTicket().ToString("D5")}", monoFont, Brushes.Black, 10, yPos);
             yPos += 20;
@@ -504,14 +580,14 @@ namespace C_Presentacion
             g.DrawString("Dirección: Avenida 5 de noviembre, Atiquizaya, Ahuachapán", monoFont, Brushes.Black, 10, yPos); yPos += 30;
 
             //Datos del cliente//
-            g.DrawString("Cliente:", new Font("Courier New", 12, FontStyle.Bold), Brushes.Black, 10, yPos); yPos += 30;
+            g.DrawString("Cliente:", new System.Drawing.Font("Courier New", 12, FontStyle.Bold), Brushes.Black, 10, yPos); yPos += 30;
             g.DrawString($"Nombre: {nombreCliente}", monoFont, Brushes.Black, 10, yPos); yPos += 20;
-            //g.DrawString($"ID Cliente: {idCliente}", monoFont, Brushes.Black, 10, yPos); yPos += 20;
+            g.DrawString($"ID Cliente: {idCliente}", monoFont, Brushes.Black, 10, yPos); yPos += 20;
             g.DrawString($"Fecha Registro: {clienteSeleccionado.FechaRegistro:dd/MM/yyyy}", monoFont, Brushes.Black, 10, yPos); yPos += 30;
 
 
 
-            g.DrawString("Productos:", new Font("Courier New", 12, FontStyle.Bold), Brushes.Black, 10, yPos += 20);
+            g.DrawString("Productos:", new System.Drawing.Font("Courier New", 12, FontStyle.Bold), Brushes.Black, 10, yPos += 20);
             yPos += 30;
 
             // Cabeza de la tablita 
@@ -550,7 +626,7 @@ namespace C_Presentacion
                 g.DrawString("Monto insuficiente para completar la compra.", monoFont, Brushes.Black, 10, yPos);
                 yPos += 30;
             }
-            g.DrawString("¡Gracias por su compra!", new Font("Arial", 14, FontStyle.Bold), Brushes.Black, 80, yPos += 30);
+            g.DrawString("¡Gracias por su compra!", new System.Drawing.Font("Arial", 14, FontStyle.Bold), Brushes.Black, 80, yPos += 30);
 
         }
         private bool ignorarMensajeCliente = false;
