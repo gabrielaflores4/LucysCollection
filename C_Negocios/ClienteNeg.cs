@@ -50,5 +50,34 @@ namespace C_Negocios
             ClienteDatos datos = new ClienteDatos();
             return datos.ObtenerClientes();
         }
+
+        public Cliente ObtenerClientePorId(int clienteId)
+        {
+            try
+            {
+                // Verificar primero si el ID existe (opcional, puedes omitir este paso si prefieres)
+                var idsExistentes = clienteDatos.ObtenerIdsClientes();
+                if (!idsExistentes.Contains(clienteId))
+                {
+                    throw new Exception($"No existe un cliente con el ID {clienteId}");
+                }
+
+                // Obtener el cliente completo
+                var cliente = clienteDatos.ObtenerClientePorId(clienteId);
+
+                if (cliente == null)
+                {
+                    throw new Exception($"Error al obtener datos del cliente con ID {clienteId}");
+                }
+
+                return cliente;
+            }
+            catch (Exception ex)
+            {
+                // Puedes loggear el error aquí si tienes un sistema de logging
+                throw new Exception("Error al obtener cliente por ID: " + ex.Message);
+            }
+        }
+
     }
 }

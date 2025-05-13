@@ -109,8 +109,7 @@
             dataGridProductos.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dataGridProductos.Size = new Size(1286, 513);
             dataGridProductos.TabIndex = 46;
-            dataGridProductos.CellContentClick += dataGridProductos_CellContentClick;
-            dataGridProductos.CellContentDoubleClick += dataGridProductos_CellContentDoubleClick;
+            dataGridProductos.CellDoubleClick += dataGridProductos_CellDoubleClick;
             // 
             // Id_Prod
             // 

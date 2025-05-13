@@ -29,33 +29,34 @@ namespace C_Presentacion
                         p.Nombre.Contains(filtro, StringComparison.OrdinalIgnoreCase) ||
                         (p.Categoria?.Nombre?.Contains(filtro, StringComparison.OrdinalIgnoreCase) == true) ||
                         p.Precio.ToString("0.##").Contains(filtro))
-                        .ToList(); // Fixed placement of .ToList()
+                        .ToList();
                 }
 
-                // Configuración robusta del DataGridView
+                // Configuración del DataGridView
                 dataGridProductos.AutoGenerateColumns = false;
                 dataGridProductos.Columns.Clear();
 
-                // Columna ID (oculta)
-                dataGridProductos.Columns.Add(new DataGridViewTextBoxColumn()
-                {
-                    DataPropertyName = "Id_Prod",
-                    HeaderText = "ID",
-                    Name = "colIdProd",
-                    Visible = false
-                });
+                dataGridProductos.Columns.Add("Id_Prod", "ID");
+                dataGridProductos.Columns["Id_Prod"].Visible = false; 
 
-                // Columna Nombre
-                dataGridProductos.Columns.Add(new DataGridViewTextBoxColumn()
-                {
-                    DataPropertyName = "Nombre",
-                    HeaderText = "Producto",
-                    Name = "colNombre"
-                });
+                dataGridProductos.Columns.Add("Nombre", "Nombre");
+                dataGridProductos.Columns.Add("Categoria", "Categoría");
+                dataGridProductos.Columns.Add("Precio", "Precio");
 
-                // Asignar los datos
-                dataGridProductos.DataSource = new BindingList<Producto>(productos);
-                dataGridProductos.Refresh();
+                // Formatear columna de precio
+                dataGridProductos.Columns["Precio"].DefaultCellStyle.Format = "C2";
+                dataGridProductos.Columns["Precio"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+
+                // Llenar el DataGridView
+                foreach (var producto in productos)
+                {
+                    dataGridProductos.Rows.Add(
+                        producto.Id_Prod, 
+                        producto.Nombre,
+                        producto.Categoria?.Nombre ?? "Sin categoría",
+                        producto.Precio
+                    );
+                }
             }
             catch (Exception ex)
             {
@@ -81,39 +82,66 @@ namespace C_Presentacion
             dataGrid.DataSource = data;
         }
 
-
-        private void dataGridProductos_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
+        private void dataGridProductos_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
+            // Validar índice de fila
+            if (e.RowIndex < 0 || e.RowIndex >= dataGridProductos.Rows.Count)
+                return;
 
-        }
+            // Obtener la fila
+            var row = dataGridProductos.Rows[e.RowIndex];
 
-        private void dataGridProductos_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.RowIndex >= 0)
+            // Validar que no sea fila nueva
+            if (row.IsNewRow) return;
+
+            try
             {
-                try
-                {
-                    var producto = (Producto)dataGridProductos.Rows[e.RowIndex].DataBoundItem;
+                // Crear nuevo producto
+                var producto = new Producto();
 
-                    // Crear una nueva instancia para evitar problemas de referencia
-                    var productoSeleccionado = new Producto
+                // ID 
+                if (row.Cells[0].Value != null && int.TryParse(row.Cells[0].Value.ToString(), out int id))
+                {
+                    producto.Id_Prod = id;
+                }
+                else
+                {
+                    MessageBox.Show("El ID del producto no es válido", "Error",
+                                  MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                // Nombre 
+                producto.Nombre = row.Cells[1].Value?.ToString() ?? string.Empty;
+
+                // Categoría 
+                if (row.Cells[2].Value != null)
+                {
+                    producto.Categoria = new Categoria
                     {
-                        Id_Prod = producto.Id_Prod,
-                        Nombre = producto.Nombre,
-                        Precio = producto.Precio,
-                        // Copiar otras propiedades necesarias
+                        Nombre = row.Cells[2].Value.ToString()
                     };
-
-                    // Disparar el evento
-                    ProductoSeleccionado?.Invoke(productoSeleccionado);
-
-                    this.DialogResult = DialogResult.OK;
-                    this.Close();
                 }
-                catch (Exception ex)
+
+                // Precio 
+                if (row.Cells[3].Value != null && decimal.TryParse(row.Cells[3].Value.ToString(), out decimal precio))
                 {
-                    MessageBox.Show($"Error al seleccionar producto: {ex.Message}");
+                    producto.Precio = precio;
                 }
+                else
+                {
+                    MessageBox.Show("El precio del producto no es válido", "Error",MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                ProductoSeleccionado?.Invoke(producto);
+                this.DialogResult = DialogResult.OK;
+                this.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al seleccionar producto: {ex.Message}\n\nDetalles técnicos:\n{ex.StackTrace}",
+                              "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

@@ -55,10 +55,10 @@
             label1 = new Label();
             rbCliNuevo = new RadioButton();
             rbCliAntiguo = new RadioButton();
-            cbClientes = new ComboBox();
             lblStockDisponible = new Label();
             printPreviewDialogo = new PrintPreviewDialog();
             btnTodosProductos = new Button();
+            tbClientes = new TextBox();
             ((System.ComponentModel.ISupportInitialize)nbCantidad).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridVentaProducto).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
@@ -324,18 +324,6 @@
             rbCliAntiguo.UseVisualStyleBackColor = true;
             rbCliAntiguo.CheckedChanged += rbCliAntiguo_CheckedChanged;
             // 
-            // cbClientes
-            // 
-            cbClientes.DropDownHeight = 100;
-            cbClientes.DropDownWidth = 100;
-            cbClientes.FormattingEnabled = true;
-            cbClientes.IntegralHeight = false;
-            cbClientes.Location = new Point(24, 540);
-            cbClientes.Name = "cbClientes";
-            cbClientes.Size = new Size(346, 27);
-            cbClientes.TabIndex = 65;
-            cbClientes.SelectedIndexChanged += cbClientes_SelectedIndexChanged;
-            // 
             // lblStockDisponible
             // 
             lblStockDisponible.AutoSize = true;
@@ -372,15 +360,23 @@
             btnTodosProductos.UseVisualStyleBackColor = false;
             btnTodosProductos.Click += btnTodosProductos_Click;
             // 
+            // tbClientes
+            // 
+            tbClientes.Location = new Point(29, 555);
+            tbClientes.Name = "tbClientes";
+            tbClientes.ReadOnly = true;
+            tbClientes.Size = new Size(346, 27);
+            tbClientes.TabIndex = 68;
+            // 
             // Ventas
             // 
             AutoScaleDimensions = new SizeF(9F, 19F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(221, 221, 221);
             ClientSize = new Size(1370, 696);
+            Controls.Add(tbClientes);
             Controls.Add(btnTodosProductos);
             Controls.Add(lblStockDisponible);
-            Controls.Add(cbClientes);
             Controls.Add(rbCliAntiguo);
             Controls.Add(rbCliNuevo);
             Controls.Add(label1);
@@ -431,7 +427,6 @@
         private Label label1;
         private RadioButton rbCliNuevo;
         private RadioButton rbCliAntiguo;
-        private ComboBox cbClientes;
         private Label lblStockDisponible;
         private System.Drawing.Printing.PrintDocument printDocumentVenta;
         private PrintPreviewDialog printPreviewDialogo;
@@ -442,5 +437,6 @@
         private DataGridViewTextBoxColumn cantidad;
         private DataGridViewTextBoxColumn precioUnit;
         private DataGridViewTextBoxColumn subtotal;
+        private TextBox tbClientes;
     }
 }

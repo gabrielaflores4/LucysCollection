@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Drawing.Printing;
+using System.Windows.Forms;
 using C_Datos;
 using C_Entidades;
 using C_Negocios;
@@ -21,34 +22,19 @@ namespace C_Presentacion
         public Ventas(int clienteId = 0)
         {
             InitializeComponent();
-
-            //Debug.WriteLine($"DEBUG [Ventas]: ID de cliente recibido: {clienteId}");
             
             ignorarMensajeCliente = true;
-
-            cbClientes.SelectedIndexChanged -= cbClientes_SelectedIndexChanged;
 
             detallesVenta = new List<DetalleVenta>();
             ventaNeg = new VentaNeg();
             ActualizarDataGrid();
             CargarProductos();
             CargarTallasDisponibles();
-            
 
             if (clienteId > 0)
             {
-                rbCliAntiguo.Checked = true;
-                cbClientes.Visible = true;
+                SeleccionarClientePorId(clienteId);
             }
-
-            CargarClientes(() =>
-            {
-                if (clienteId > 0)
-                {
-                    SeleccionarClientePorId(clienteId);
-                }
-            });
-            cbClientes.SelectedIndexChanged += cbClientes_SelectedIndexChanged;
 
             this.Shown += (s, ev) => { ignorarMensajeCliente = false; };
 
@@ -62,8 +48,8 @@ namespace C_Presentacion
             nbCantidad.Value = 1;
             rbCliNuevo.Checked = false;
             rbCliAntiguo.Checked = false;
-            cbClientes.Visible = true;
-            cbClientes.SelectedIndex = -1;
+            tbClientes.Visible = true;
+            tbClientes.Text=string.Empty;
             dataGridVentaProducto.Rows.Clear();
             lblStockDisponible.Text = "Stock: 0";
             ActualizarTotal();
@@ -72,7 +58,7 @@ namespace C_Presentacion
 
         private bool ValidarControles()
         {
-            // Validar ComboBoxes
+            // Validar ComboBox de productos
             if (cbProductos.SelectedItem == null)
             {
                 MessageBox.Show("Debe seleccionar un producto", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -80,6 +66,7 @@ namespace C_Presentacion
                 return false;
             }
 
+            // Validar ComboBox de tallas
             if (cbTallasRegProd.SelectedItem == null)
             {
                 MessageBox.Show("Debe seleccionar una talla", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -87,14 +74,7 @@ namespace C_Presentacion
                 return false;
             }
 
-            if (cbClientes.Visible && cbClientes.SelectedItem == null)
-            {
-                MessageBox.Show("Debe seleccionar un cliente", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                cbClientes.Focus();
-                return false;
-            }
-
-            // Validar NumericUpDown
+            // Validar NumericUpDown de cantidad
             if (nbCantidad.Value <= 0)
             {
                 MessageBox.Show("La cantidad debe ser mayor a cero", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -102,20 +82,39 @@ namespace C_Presentacion
                 return false;
             }
 
-            // Validar RadioButtons (solo si son obligatorios)
-            if (!rbCliNuevo.Checked && !rbCliAntiguo.Checked)
-            {
-                MessageBox.Show("Debe seleccionar un tipo de cliente", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return false;
-            }
-
-            // Validar DataGridView
+            // Validar DataGridView (productos agregados)
             if (dataGridVentaProducto.Rows.Count == 0)
             {
                 MessageBox.Show("Debe agregar al menos un producto a la venta", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return false;
             }
 
+            // Si el textbox tiene texto pero no hay cliente seleccionado
+            if (!string.IsNullOrWhiteSpace(tbClientes.Text) && clienteSeleccionado == null)
+            {
+                var respuesta = MessageBox.Show("El cliente no está registrado. ¿Desea registrarlo ahora?","Cliente no registrado",MessageBoxButtons.YesNo,MessageBoxIcon.Question);
+
+                if (respuesta == DialogResult.Yes)
+                {
+                    using (var frmRegClientes = new FrmRegClientes())
+                    {
+                        if (frmRegClientes.ShowDialog() == DialogResult.OK)
+                        {
+                            clienteSeleccionado = clienteNeg.ObtenerClientePorId(frmRegClientes.ClienteRegistradoId);
+                            tbClientes.Text = clienteSeleccionado?.NombreCompleto ?? "Nuevo cliente";
+                        }
+                        else
+                        {
+                            tbClientes.Text = string.Empty;
+                            return false;
+                        }
+                    }
+                }
+                else
+                {
+                    tbClientes.Text = string.Empty;
+                }
+            }
             return true;
         }
 
@@ -164,36 +163,65 @@ namespace C_Presentacion
 
         private void Ventas_Load(object sender, EventArgs e)
         {
-            CargarClientes();
+            
         }
 
         private void rbCliNuevo_CheckedChanged(object sender, EventArgs e)
         {
-            FrmRegClientes frmRegClientes = new FrmRegClientes();
-            frmRegClientes.Show();
+            if (rbCliNuevo.Checked && !ignorarMensajeCliente)
+            {
+                using (var frmRegClientes = new FrmRegClientes())
+                {
+                    if (frmRegClientes.ShowDialog() == DialogResult.OK)
+                    {
+                        // Obtener el ID del cliente recién registrado
+                        int nuevoClienteId = frmRegClientes.ClienteRegistradoId;
+
+                        if (nuevoClienteId > 0)
+                        {
+                            // Obtener los datos completos del cliente
+                            clienteSeleccionado = clienteNeg.ObtenerClientePorId(nuevoClienteId);
+                            tbClientes.Text = clienteSeleccionado?.NombreCompleto ?? "Nuevo cliente";
+                        }
+                    }
+                }
+
+                // Deseleccionar el RadioButton después de usar
+                ignorarMensajeCliente = true;
+                rbCliNuevo.Checked = false;
+                ignorarMensajeCliente = false;
+            }
         }
 
         private void rbCliAntiguo_CheckedChanged(object sender, EventArgs e)
         {
-            if (rbCliAntiguo.Checked)
+            if (rbCliAntiguo.Checked && !ignorarMensajeCliente)
             {
-                cbClientes.Visible = true;
-                using (var frmVistaClientes = new VistaClientes())
+                AbrirVistaClientes();
+
+                // Siempre deseleccionar después de cerrar el formulario
+                ignorarMensajeCliente = true;
+                rbCliAntiguo.Checked = false;
+                ignorarMensajeCliente = false;
+            }
+        }
+
+        private void AbrirVistaClientes()
+        {
+            using (var frmVistaClientes = new VistaClientes())
+            {
+                if (frmVistaClientes.ShowDialog() == DialogResult.OK &&
+                    frmVistaClientes.ClienteSeleccionado != null)
                 {
-                    // Desactivar el evento temporalmente
-                    cbClientes.SelectedIndexChanged -= cbClientes_SelectedIndexChanged;
-
-                    if (frmVistaClientes.ShowDialog() == DialogResult.OK &&
-                        frmVistaClientes.ClienteSeleccionado != null)
-                    {
-                        SeleccionarClientePorId(frmVistaClientes.ClienteSeleccionado.Id);
-                    }
-
-                    // Reactivar el evento
-                    cbClientes.SelectedIndexChanged += cbClientes_SelectedIndexChanged;
+                    clienteSeleccionado = frmVistaClientes.ClienteSeleccionado;
+                    tbClientes.Text = clienteSeleccionado.NombreCompleto;
+                }
+                else
+                {
+                    tbClientes.Text = string.Empty;
+                    clienteSeleccionado = null;
                 }
             }
-
         }
 
         private void btnReporte_Click(object sender, EventArgs e)
@@ -360,24 +388,37 @@ namespace C_Presentacion
 
             try
             {
-                //Obtener ID del cliente
                 int clienteId = 0;
-                if (rbCliAntiguo.Checked && cbClientes.SelectedItem != null)
+                if (!string.IsNullOrWhiteSpace(tbClientes.Text))
                 {
-                    clienteId = ((Cliente)cbClientes.SelectedItem).Id;
-                }
-                else if (rbCliNuevo.Checked)
-                {
-                    FrmRegClientes frmRegClientes = new FrmRegClientes();
-                    if (frmRegClientes.ShowDialog() == DialogResult.OK)
+                    if (clienteSeleccionado == null)
                     {
-                        //clienteId = frmRegClientes.ClienteRegistradoId;
-                        CargarClientes();
-                        cbClientes.SelectedValue = clienteId;
+                        // Preguntar si desea registrar un nuevo cliente
+                        var respuesta = MessageBox.Show("¿Desea registrar este cliente antes de continuar?",
+                                                     "Cliente no registrado",
+                                                     MessageBoxButtons.YesNo,
+                                                     MessageBoxIcon.Question);
+
+                        if (respuesta == DialogResult.Yes)
+                        {
+                            using (var frmRegClientes = new FrmRegClientes())
+                            {
+                                if (frmRegClientes.ShowDialog() == DialogResult.OK)
+                                {
+                                    clienteSeleccionado = clienteNeg.ObtenerClientePorId(frmRegClientes.ClienteRegistradoId);
+                                    tbClientes.Text = clienteSeleccionado.NombreCompleto;
+                                    clienteId = clienteSeleccionado.Id;
+                                }
+                                else
+                                {
+                                    return;
+                                }
+                            }
+                        }
                     }
                     else
                     {
-                        return;
+                        clienteId = clienteSeleccionado.Id;
                     }
                 }
 
@@ -435,20 +476,10 @@ namespace C_Presentacion
         private void Imprimir(object sender, System.Drawing.Printing.PrintPageEventArgs e)
         {
 
-            Cliente clienteSeleccionado = (Cliente)cbClientes.SelectedItem;
-
-            if (cbClientes.SelectedItem == null || cbClientes.Items.Count == 0)
-            {
-                MessageBox.Show("No hay cliente seleccionado para imprimir el ticket.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                e.HasMorePages = false;
-                return;
-            }
-
-            Cliente ClienteSeleccionado = (Cliente)cbClientes.SelectedItem;
-
             if (clienteSeleccionado == null)
             {
-                MessageBox.Show("El cliente seleccionado no es válido.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("No hay cliente seleccionado para imprimir el ticket.", "Error",
+                               MessageBoxButtons.OK, MessageBoxIcon.Error);
                 e.HasMorePages = false;
                 return;
             }
@@ -475,7 +506,7 @@ namespace C_Presentacion
             //Datos del cliente//
             g.DrawString("Cliente:", new Font("Courier New", 12, FontStyle.Bold), Brushes.Black, 10, yPos); yPos += 30;
             g.DrawString($"Nombre: {nombreCliente}", monoFont, Brushes.Black, 10, yPos); yPos += 20;
-            g.DrawString($"ID Cliente: {idCliente}", monoFont, Brushes.Black, 10, yPos); yPos += 20;
+            //g.DrawString($"ID Cliente: {idCliente}", monoFont, Brushes.Black, 10, yPos); yPos += 20;
             g.DrawString($"Fecha Registro: {clienteSeleccionado.FechaRegistro:dd/MM/yyyy}", monoFont, Brushes.Black, 10, yPos); yPos += 30;
 
 
@@ -524,58 +555,35 @@ namespace C_Presentacion
         }
         private bool ignorarMensajeCliente = false;
 
-        private void cbClientes_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (!ignorarMensajeCliente && cbClientes.Visible && cbClientes.SelectedItem == null && this.Visible)
-            {
-                MessageBox.Show("Por favor, selecciona un cliente antes de imprimir.");
-            }
-        }
-        
         private void SeleccionarClientePorId(int clienteId)
         {
             try
             {
-                cbClientes.SelectedValue = clienteId;
-                cbClientes.Visible = true;
+                // Obtener el cliente por ID usando la capa de negocio
+                clienteSeleccionado = clienteNeg.ObtenerClientePorId(clienteId);
 
-                // Actualizar solo el RadioButton si es necesario
-                if (rbCliAntiguo.Checked) rbCliAntiguo.Checked = false;
+                if (clienteSeleccionado != null)
+                {
+                    // Mostrar el nombre del cliente en el TextBox
+                    tbClientes.Text = clienteSeleccionado.NombreCompleto;
+                    tbClientes.Visible = true;
+
+                    // Actualizar solo el RadioButton si es necesario
+                    if (rbCliAntiguo.Checked)
+                    {
+                        rbCliAntiguo.Checked = false;
+                    }
+                }
+                else
+                {
+                    Debug.WriteLine($"Cliente con ID {clienteId} no encontrado");
+                    tbClientes.Text = string.Empty;
+                }
             }
             catch (Exception ex)
             {
                 Debug.WriteLine($"Error seleccionando cliente: {ex.Message}");
-            }
-        }
-
-        private void CargarClientes(Action callback = null)
-        {
-            try
-            {
-                var clientes = new List<Cliente>(clienteNeg.ObtenerClientes());
-                cbClientes.DataSource = null;
-                cbClientes.DataSource = clientes;
-                cbClientes.DisplayMember = "NombreCompleto";
-                cbClientes.ValueMember = "Id";
-
-                cbClientes.SelectedIndex = -1;
-
-                cbClientes.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-                cbClientes.AutoCompleteSource = AutoCompleteSource.ListItems;
-                cbClientes.DropDownStyle = ComboBoxStyle.DropDown;
-                
-                /*
-                Debug.WriteLine("Clientes cargados:");
-                foreach (var cliente in clientes)
-                {
-                    Debug.WriteLine($"ID: {cliente.Id}, Nombre: {cliente.NombreCompleto}");
-                }*/
-
-                callback?.Invoke();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error al cargar clientes: " + ex.Message);
+                tbClientes.Text = "Error al cargar cliente";
             }
         }
 
@@ -673,7 +681,6 @@ namespace C_Presentacion
 
                 frm.ShowDialog();
             }
-
         }
 
         private void CargarTallasParaProductoSeleccionado(Producto producto)

@@ -100,6 +100,39 @@ namespace C_Datos
             return idsClientes;
         }
 
+        public Cliente ObtenerClientePorId(int clienteId)
+        {
+            using (var conexion = Conexion.ObtenerConexion())
+            {
+                string query = @"SELECT c.id_cliente, p.nombre, p.apellido, p.telefono, p.correo, c.fecha_registro 
+                        FROM Cliente c 
+                        JOIN Personas p ON c.id_persona = p.id_persona
+                        WHERE c.id_cliente = @id_cliente";
+
+                using (var cmd = new NpgsqlCommand(query, conexion))
+                {
+                    cmd.Parameters.AddWithValue("@id_cliente", clienteId);
+
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            return new Cliente
+                            {
+                                Id = reader.GetInt32(reader.GetOrdinal("id_cliente")),
+                                Nombre = reader.GetString(reader.GetOrdinal("nombre")),
+                                Apellido = reader.GetString(reader.GetOrdinal("apellido")),
+                                Telefono = reader.GetString(reader.GetOrdinal("telefono")),
+                                Correo = reader.GetString(reader.GetOrdinal("correo")),
+                                FechaRegistro = reader.GetDateTime(reader.GetOrdinal("fecha_registro"))
+                            };
+                        }
+                    }
+                }
+            }
+            return null; // Retorna null si no encuentra el cliente
+        }
+
         public List<Cliente> ObtenerClientes()
         {
             var listaClientes = new List<Cliente>();

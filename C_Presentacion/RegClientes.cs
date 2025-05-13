@@ -14,11 +14,13 @@ namespace C_Presentacion
     public partial class FrmRegClientes : Form
     {
         private ClienteNeg clienteNeg;
+        public int ClienteRegistradoId { get; private set; }
         public FrmRegClientes()
         {
             InitializeComponent();
             clienteNeg = new ClienteNeg();
             ValidarCampo();
+            ClienteRegistradoId = 0;
 
         }
         private bool EsFormularioValido()
@@ -54,7 +56,6 @@ namespace C_Presentacion
             return esValido;
         }
 
-
         private void btnRegistraCliente_Click(object sender, EventArgs e)
         {
 
@@ -74,11 +75,14 @@ namespace C_Presentacion
 
                 if (idCliente > 0)
                 {
+                    ClienteRegistradoId = idCliente;
                     MessageBox.Show($"Usuario creado exitosamente. ID: {idCliente}", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    this.DialogResult = DialogResult.OK;
                     tbNombreClien.Clear();
                     tbApellidoCliente.Clear();
                     tbCorreoCliente.Clear();
                     tbTelefonoCliente.Clear();
+                    this.Close();
                 }
                 else
                 {
