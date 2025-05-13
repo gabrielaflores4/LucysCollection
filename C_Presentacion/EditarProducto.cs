@@ -110,7 +110,7 @@ namespace C_Presentacion
 
                 if (tallasDisponibles == null || !tallasDisponibles.Any())
                 {
-                    MessageBox.Show("No se encontraron tallas en la base de datos", "Advertencia",MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("No se encontraron tallas en la base de datos", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
@@ -132,7 +132,7 @@ namespace C_Presentacion
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al cargar datos iniciales: {ex.Message}", "Error",MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Error al cargar datos iniciales: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -314,7 +314,7 @@ namespace C_Presentacion
                 //Validar que hay un producto seleccionado
                 if (dataGridProductoDet.SelectedRows.Count == 0)
                 {
-                    MessageBox.Show("Seleccione un producto para editar", "Advertencia",MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("Seleccione un producto para editar", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
@@ -327,7 +327,7 @@ namespace C_Presentacion
                 var productoBD = productoNeg.ObtenerProductoPorId(productoId);
                 if (productoBD == null)
                 {
-                    MessageBox.Show("Producto no encontrado en la base de datos", "Error",MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Producto no encontrado en la base de datos", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
@@ -337,13 +337,13 @@ namespace C_Presentacion
                 Debug.WriteLine($"- TallaID: {productoBD.Talla?.Id_Talla}");
                 Debug.WriteLine($"- Stock: {productoBD.Stock}");
                 Debug.WriteLine($"- CategoríaID: {productoBD.Categoria?.Id}");
-                
+
 
                 //Obtener nuevos valores del formulario
                 decimal nuevoPrecio;
                 if (!decimal.TryParse(tbPrecioRegAct.Text.Replace("$", "").Replace(",", ""), NumberStyles.Any, CultureInfo.InvariantCulture, out nuevoPrecio) || nuevoPrecio <= 0)
                 {
-                    MessageBox.Show("Ingrese un precio válido mayor a cero", "Error",MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("Ingrese un precio válido mayor a cero", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
@@ -377,7 +377,7 @@ namespace C_Presentacion
                     int diferencia = nuevoStock - productoBD.Stock;
                     Debug.WriteLine(diferencia);
                     resultado = productoNeg.ActualizarStock(productoId, diferencia);
-                    Debug.WriteLine($"Resultado de actualización de stock: {resultado}");   
+                    Debug.WriteLine($"Resultado de actualización de stock: {resultado}");
                     mensajeExito = "Stock actualizado correctamente";
                     mensajeError = "No se pudo actualizar el stock";
                 }
@@ -429,7 +429,7 @@ namespace C_Presentacion
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al guardar cambios: {ex.Message}", "Error",MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Error al guardar cambios: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -471,10 +471,10 @@ namespace C_Presentacion
                 dataGridProductoDet.Location = new Point(479, 145);
                 dataGridProductoDet.ResumeLayout(true);
 
-                btnEditarProd.Enabled = false;
+                btnEliminarTalla.Visible = false;
                 LimpiarControles();
             }
-            else{}
+            else {  }
         }
 
         private void dataGridProductoDet_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
@@ -521,6 +521,67 @@ namespace C_Presentacion
         private void tbPrecioRegAct_KeyPress(object sender, KeyPressEventArgs e)
         {
             Validaciones.SoloNumerosDecimales(e, (TextBox)sender);
+        }
+
+        private void btnEliminarTalla_Click(object sender, EventArgs e)
+        {
+            if (dataGridProductoDet.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Seleccione una talla del producto que desea eliminar.","Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            try
+            {
+                DataGridViewRow filaSeleccionada = dataGridProductoDet.SelectedRows[0];
+                int idProducto = Convert.ToInt32(filaSeleccionada.Cells["IdProducto"].Value);
+                string nombreProducto = tbNombreProdAct.Text.Trim();
+                string talla = filaSeleccionada.Cells["Talla"].Value?.ToString() ?? "Desconocida";
+                int stock = Convert.ToInt32(filaSeleccionada.Cells["Stock"].Value);
+
+                // Advertencia fuerte
+                DialogResult confirmacion = MessageBox.Show(
+                    $"¡ADVERTENCIA! Está a punto de eliminar permanentemente:\n\n" +
+                    $"Producto: {nombreProducto}\n" +
+                    $"Talla: {talla}\n" +
+                    $"Stock: {stock}\n\n" +
+                    "¿Continuar con la eliminación forzada?",
+                    "Confirmar Eliminación Forzada",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Warning,
+                    MessageBoxDefaultButton.Button2); 
+
+                if (confirmacion == DialogResult.Yes)
+                {
+                    bool eliminado = productoNeg.EliminarProductoForzado(idProducto);
+
+                    if (eliminado)
+                    {
+                        MessageBox.Show("Producto eliminado permanentemente.", "Éxito",
+                                      MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                        // Recargar los productos restantes
+                        if (!string.IsNullOrEmpty(nombreProducto))
+                        {
+                            CargarTodasVariantesProducto(nombreProducto);
+                        }
+
+                        // Si no quedan productos, limpiar el formulario
+                        if (dataGridProductoDet.Rows.Count == 0)
+                        {
+                            LimpiarControles();
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("No se pudo eliminar el producto.", "Error",MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error durante la eliminación forzada: {ex.Message}","Error Crítico", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }

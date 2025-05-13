@@ -53,6 +53,7 @@
             btnEditarProd = new Button();
             lblDetalleProd = new Label();
             btnCancelarDetallePr = new PictureBox();
+            btnEliminarTalla = new Button();
             ((System.ComponentModel.ISupportInitialize)nbCantidad).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridProductoDet).BeginInit();
@@ -306,12 +307,27 @@
             btnCancelarDetallePr.TabStop = false;
             btnCancelarDetallePr.Click += btnCancelarDetallePr_Click;
             // 
+            // btnEliminarTalla
+            // 
+            btnEliminarTalla.BackColor = Color.FromArgb(221, 221, 221);
+            btnEliminarTalla.BackgroundImage = Properties.Resources.btnEliminarTalla;
+            btnEliminarTalla.BackgroundImageLayout = ImageLayout.Zoom;
+            btnEliminarTalla.FlatStyle = FlatStyle.Flat;
+            btnEliminarTalla.ForeColor = Color.FromArgb(221, 221, 221);
+            btnEliminarTalla.Location = new Point(983, 71);
+            btnEliminarTalla.Name = "btnEliminarTalla";
+            btnEliminarTalla.Size = new Size(195, 74);
+            btnEliminarTalla.TabIndex = 103;
+            btnEliminarTalla.UseVisualStyleBackColor = false;
+            btnEliminarTalla.Click += btnEliminarTalla_Click;
+            // 
             // EditarProducto
             // 
             AutoScaleDimensions = new SizeF(9F, 19F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(221, 221, 221);
             ClientSize = new Size(1370, 749);
+            Controls.Add(btnEliminarTalla);
             Controls.Add(btnCancelarDetallePr);
             Controls.Add(lblDetalleProd);
             Controls.Add(btnEditarProd);
@@ -368,5 +384,6 @@
         private DataGridViewTextBoxColumn Id_Prod;
         private DataGridViewTextBoxColumn talla;
         private DataGridViewTextBoxColumn stock;
+        private Button btnEliminarTalla;
     }
 }

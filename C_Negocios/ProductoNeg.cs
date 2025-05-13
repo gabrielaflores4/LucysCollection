@@ -1,6 +1,7 @@
 ﻿using C_Entidades;
 using C_Datos;
 using System.Diagnostics;
+using Npgsql;
 
 namespace C_Negocios
 {
@@ -138,9 +139,64 @@ namespace C_Negocios
         {
             if (id <= 0)
             {
-                throw new Exception("ID de producto inválido.");
+                throw new ArgumentException("ID de producto inválido.");
             }
-            return productoDatos.EliminarProducto(id);
+
+            try
+            {
+                // Verificar si el producto existe antes de intentar eliminarlo
+                var producto = productoDatos.ObtenerProductoPorId(id);
+                if (producto == null)
+                {
+                    throw new KeyNotFoundException($"No se encontró el producto con ID: {id}");
+                }
+
+                return productoDatos.EliminarProducto(id);
+            }
+            catch (PostgresException ex) when (ex.SqlState == "23503")
+            {
+                throw new InvalidOperationException(
+                    "No se puede eliminar el producto porque tiene ventas registradas. " + "Considere desactivarlo en lugar de eliminarlo.", ex);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error al eliminar producto: {ex.Message}", ex);
+            }
+        }
+
+        public bool EliminarProductoForzado(int id)
+        {
+            if (id <= 0)
+            {
+                throw new ArgumentException("ID de producto inválido.");
+            }
+
+            try
+            {
+                return productoDatos.EliminarProductoForzado(id);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error al eliminar producto (forzado): {ex.Message}", ex);
+            }
+        }
+
+        public int EliminarProductosPorNombre(string nombreProducto)
+        {
+            if (string.IsNullOrWhiteSpace(nombreProducto))
+            {
+                throw new ArgumentException("El nombre del producto no puede estar vacío");
+            }
+
+            try
+            {
+                // Eliminación directa en una sola operación
+                return productoDatos.EliminarProductosPorNombre(nombreProducto);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error al eliminar productos por nombre: {ex.Message}", ex);
+            }
         }
 
         public List<int> ObtenerTallasDisponibles()

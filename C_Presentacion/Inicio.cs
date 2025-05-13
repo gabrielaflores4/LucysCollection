@@ -449,36 +449,44 @@ namespace C_Presentacion
         {
             if (dataGridInventarioProducto.SelectedRows.Count == 0)
             {
-                MessageBox.Show("Selecciona una fila antes de eliminar.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Seleccione un producto para eliminar todos los del mismo nombre.",
+                              "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            try
+            string nombreProducto = dataGridInventarioProducto.SelectedRows[0].Cells[1].Value?.ToString();
+
+            if (string.IsNullOrWhiteSpace(nombreProducto))
             {
-                // Obtenemos la primera fila seleccionada
-                DataGridViewRow fila = dataGridInventarioProducto.SelectedRows[0];
-                int id = Convert.ToInt32(fila.Cells[0].Value);
-                string nombreProducto = fila.Cells[1].Value.ToString() ?? string.Empty;
-
-                // Mostramos confirmación con más información
-                DialogResult resultado = MessageBox.Show($"¿Desea eliminar el producto: {nombreProducto}?", "Confirmar Eliminación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
-                if (resultado == DialogResult.Yes)
-                {
-                    if (productoNeg.EliminarProducto(id))
-                    {
-                        MessageBox.Show($"Producto '{nombreProducto}' eliminado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        CargarProductos();
-                    }
-                    else
-                    {
-                        MessageBox.Show($"No se pudo eliminar el producto '{nombreProducto}'.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                }
+                MessageBox.Show("No se pudo obtener el nombre del producto seleccionado.",
+                              "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
             }
-            catch (Exception ex)
+
+            // Confirmación importante
+            var confirmacion = MessageBox.Show(
+                $"¿Está seguro que desea eliminar TODOS los productos con el nombre: {nombreProducto}?",
+                "Confirmar Eliminación Masiva",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Warning);
+
+            if (confirmacion == DialogResult.Yes)
             {
-                MessageBox.Show($"Error al eliminar: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                try
+                {
+                    int eliminados = productoNeg.EliminarProductosPorNombre(nombreProducto);
+
+                    MessageBox.Show($"Se eliminaron {eliminados} productos con el nombre: {nombreProducto}",
+                                  "Resultado", MessageBoxButtons.OK,
+                                  eliminados > 0 ? MessageBoxIcon.Information : MessageBoxIcon.Warning);
+
+                    CargarProductos();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error al eliminar productos: {ex.Message}",
+                                  "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
 

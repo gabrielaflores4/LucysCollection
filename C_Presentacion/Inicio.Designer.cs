@@ -125,16 +125,16 @@
             tabProveedores = new TabPage();
             pictureBox12 = new PictureBox();
             dataGridProv = new DataGridView();
-            btnEliminarProv = new Button();
-            btnAgregarProv = new Button();
-            tbBusquedaProv = new TextBox();
-            label11 = new Label();
-            btnReporte = new Button();
             IdProveedor = new DataGridViewTextBoxColumn();
             NombreProv = new DataGridViewTextBoxColumn();
             Telefono_prov = new DataGridViewTextBoxColumn();
             Correo_prov = new DataGridViewTextBoxColumn();
             Direccion_prov = new DataGridViewTextBoxColumn();
+            btnEliminarProv = new Button();
+            btnAgregarProv = new Button();
+            tbBusquedaProv = new TextBox();
+            label11 = new Label();
+            btnReporte = new Button();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             tabControlInicio.SuspendLayout();
             tabInicio.SuspendLayout();
@@ -610,10 +610,10 @@
             tabInventario.Controls.Add(btnAgregarInventario);
             tabInventario.Controls.Add(tbBusquedaInventario);
             tabInventario.Controls.Add(label22);
-            tabInventario.Location = new Point(4, 24);
+            tabInventario.Location = new Point(4, 28);
             tabInventario.Name = "tabInventario";
             tabInventario.Padding = new Padding(3);
-            tabInventario.Size = new Size(1093, 706);
+            tabInventario.Size = new Size(1093, 702);
             tabInventario.TabIndex = 1;
             tabInventario.Text = "tabPage2";
             // 
@@ -729,13 +729,13 @@
             // btnEliminarInventario
             // 
             btnEliminarInventario.BackColor = Color.FromArgb(221, 221, 221);
-            btnEliminarInventario.BackgroundImage = Properties.Resources.btnEliminar;
-            btnEliminarInventario.BackgroundImageLayout = ImageLayout.Stretch;
+            btnEliminarInventario.BackgroundImage = Properties.Resources.btnEliminarProducto;
+            btnEliminarInventario.BackgroundImageLayout = ImageLayout.Zoom;
             btnEliminarInventario.FlatStyle = FlatStyle.Flat;
             btnEliminarInventario.ForeColor = Color.FromArgb(221, 221, 221);
             btnEliminarInventario.Location = new Point(17, 251);
             btnEliminarInventario.Name = "btnEliminarInventario";
-            btnEliminarInventario.Size = new Size(195, 37);
+            btnEliminarInventario.Size = new Size(195, 74);
             btnEliminarInventario.TabIndex = 21;
             btnEliminarInventario.UseVisualStyleBackColor = false;
             btnEliminarInventario.Click += btnEliminarInventario_Click;
@@ -926,9 +926,9 @@
             tabMateriaP.Controls.Add(btnAgregarMateriaP);
             tabMateriaP.Controls.Add(tbBusquedaMateriaPrima);
             tabMateriaP.Controls.Add(label10);
-            tabMateriaP.Location = new Point(4, 28);
+            tabMateriaP.Location = new Point(4, 24);
             tabMateriaP.Name = "tabMateriaP";
-            tabMateriaP.Size = new Size(1093, 702);
+            tabMateriaP.Size = new Size(1093, 706);
             tabMateriaP.TabIndex = 3;
             tabMateriaP.Text = "tabPage1";
             // 
@@ -1084,9 +1084,9 @@
             tabProveedores.Controls.Add(btnAgregarProv);
             tabProveedores.Controls.Add(tbBusquedaProv);
             tabProveedores.Controls.Add(label11);
-            tabProveedores.Location = new Point(4, 28);
+            tabProveedores.Location = new Point(4, 24);
             tabProveedores.Name = "tabProveedores";
-            tabProveedores.Size = new Size(1093, 702);
+            tabProveedores.Size = new Size(1093, 706);
             tabProveedores.TabIndex = 4;
             tabProveedores.Text = "tabPage1";
             // 
@@ -1143,6 +1143,37 @@
             dataGridProv.Size = new Size(847, 488);
             dataGridProv.TabIndex = 38;
             dataGridProv.CellDoubleClick += dataGridProv_CellDoubleClick;
+            // 
+            // IdProveedor
+            // 
+            IdProveedor.HeaderText = "ID";
+            IdProveedor.Name = "IdProveedor";
+            IdProveedor.ReadOnly = true;
+            IdProveedor.Visible = false;
+            // 
+            // NombreProv
+            // 
+            NombreProv.HeaderText = "Proveedor";
+            NombreProv.Name = "NombreProv";
+            NombreProv.ReadOnly = true;
+            // 
+            // Telefono_prov
+            // 
+            Telefono_prov.HeaderText = "Teléfono";
+            Telefono_prov.Name = "Telefono_prov";
+            Telefono_prov.ReadOnly = true;
+            // 
+            // Correo_prov
+            // 
+            Correo_prov.HeaderText = "Correo";
+            Correo_prov.Name = "Correo_prov";
+            Correo_prov.ReadOnly = true;
+            // 
+            // Direccion_prov
+            // 
+            Direccion_prov.HeaderText = "Dirección";
+            Direccion_prov.Name = "Direccion_prov";
+            Direccion_prov.ReadOnly = true;
             // 
             // btnEliminarProv
             // 
@@ -1204,37 +1235,6 @@
             btnReporte.TabIndex = 6;
             btnReporte.UseVisualStyleBackColor = false;
             btnReporte.Click += btnReporte_Click;
-            // 
-            // IdProveedor
-            // 
-            IdProveedor.HeaderText = "ID";
-            IdProveedor.Name = "IdProveedor";
-            IdProveedor.ReadOnly = true;
-            IdProveedor.Visible = false;
-            // 
-            // NombreProv
-            // 
-            NombreProv.HeaderText = "Proveedor";
-            NombreProv.Name = "NombreProv";
-            NombreProv.ReadOnly = true;
-            // 
-            // Telefono_prov
-            // 
-            Telefono_prov.HeaderText = "Teléfono";
-            Telefono_prov.Name = "Telefono_prov";
-            Telefono_prov.ReadOnly = true;
-            // 
-            // Correo_prov
-            // 
-            Correo_prov.HeaderText = "Correo";
-            Correo_prov.Name = "Correo_prov";
-            Correo_prov.ReadOnly = true;
-            // 
-            // Direccion_prov
-            // 
-            Direccion_prov.HeaderText = "Dirección";
-            Direccion_prov.Name = "Direccion_prov";
-            Direccion_prov.ReadOnly = true;
             // 
             // Inicio
             // 

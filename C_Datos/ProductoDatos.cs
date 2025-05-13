@@ -172,6 +172,84 @@ namespace C_Datos
             }
         }
 
+        // En ProductoDatos
+        public bool EliminarProductoForzado(int id)
+        {
+            using (var conexion = Conexion.ObtenerConexion())
+            {
+                using (var transaction = conexion.BeginTransaction())
+                {
+                    try
+                    {
+                        // 1. Eliminar primero los registros en detalle_venta
+                        using (var cmdDetalles = new NpgsqlCommand(
+                            "DELETE FROM detalle_venta WHERE id_producto = @id",
+                            conexion, transaction))
+                        {
+                            cmdDetalles.Parameters.AddWithValue("@id", id);
+                            cmdDetalles.ExecuteNonQuery();
+                        }
+
+                        // 2. Luego eliminar el producto
+                        using (var cmdProducto = new NpgsqlCommand(
+                            "DELETE FROM Producto WHERE id_producto = @id",
+                            conexion, transaction))
+                        {
+                            cmdProducto.Parameters.AddWithValue("@id", id);
+                            int result = cmdProducto.ExecuteNonQuery();
+                            transaction.Commit();
+                            return result > 0;
+                        }
+                    }
+                    catch
+                    {
+                        transaction.Rollback();
+                        throw;
+                    }
+                }
+            }
+        }
+
+
+        public int EliminarProductosPorNombre(string nombreProducto)
+        {
+            using (var conexion = Conexion.ObtenerConexion())
+            {
+                using (var transaction = conexion.BeginTransaction())
+                {
+                    try
+                    {
+                        //Eliminar los detalles de venta relacionados
+                        using (var cmdDetalles = new NpgsqlCommand(
+                            "DELETE FROM detalle_venta WHERE id_producto IN " +
+                            "(SELECT id_producto FROM Producto WHERE nombre_prod ILIKE @nombre)",
+                            conexion, transaction))
+                        {
+                            cmdDetalles.Parameters.AddWithValue("@nombre", nombreProducto);
+                            cmdDetalles.ExecuteNonQuery();
+                        }
+
+                        //Eliminar los productos
+                        using (var cmdProductos = new NpgsqlCommand(
+                            "DELETE FROM Producto WHERE nombre_prod ILIKE @nombre",
+                            conexion, transaction))
+                        {
+                            cmdProductos.Parameters.AddWithValue("@nombre", nombreProducto);
+                            int eliminados = cmdProductos.ExecuteNonQuery();
+                            transaction.Commit();
+                            return eliminados;
+                        }
+                    }
+                    catch
+                    {
+                        transaction.Rollback();
+                        throw;
+                    }
+                }
+            }
+        }
+
+
         public List<string> ObtenerNombresProductos()
         {
             var nombresProductos = new List<string>();
