@@ -241,10 +241,9 @@ namespace C_Negocios
             return productoDatos.ActualizarTallaYStock(id, nuevaTalla, nuevoStock);
         }
 
-        private void ValidarDatosActualizacion(int id, string nombre, decimal precio, int stock)
+        public int ObtenerStockPorProductoYTalla(int productoId, int tallaId)
         {
-            if (id <= 0 || string.IsNullOrWhiteSpace(nombre) || precio <= 0 || stock < 0)
-                throw new ArgumentException("Datos inválidos");
+            return productoDatos.ObtenerStockPorProductoYTalla(productoId, tallaId);
         }
     }
 }

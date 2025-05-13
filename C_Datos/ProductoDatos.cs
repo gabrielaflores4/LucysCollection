@@ -712,5 +712,21 @@ namespace C_Datos
             return true;
         }
 
+        public int ObtenerStockPorProductoYTalla(int productoId, int tallaId)
+        {
+            using (var conexion = Conexion.ObtenerConexion())
+            {
+                using (var cmd = new NpgsqlCommand(
+                    "SELECT stock FROM producto WHERE id_producto = @productoId AND id_talla = @tallaId",
+                    conexion))
+                {
+                    cmd.Parameters.AddWithValue("@productoId", productoId);
+                    cmd.Parameters.AddWithValue("@tallaId", tallaId);
+                    var result = cmd.ExecuteScalar();
+                    return result != null ? Convert.ToInt32(result) : 0;
+                }
+            }
+        }
+
     }
 }

@@ -1,11 +1,5 @@
 ﻿using C_Datos;
 using C_Entidades;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace C_Negocios
 {
@@ -20,32 +14,42 @@ namespace C_Negocios
             productoNeg = new ProductoNeg(); 
         }
 
-        public void RegistrarVentaConDetalles(Venta venta, int idUsuario)
+        public bool RegistrarVentaConDetalles(Venta venta, int idUsuario)
         {
             using (var conexion = Conexion.ObtenerConexion())
             using (var transaction = conexion.BeginTransaction())
             {
                 try
                 {
+                    // Validación
                     if (venta.Detalles == null || !venta.Detalles.Any())
-                        throw new Exception("La venta debe contener al menos un detalle.");
+                        return false;
 
-                    int idVentaRegistrada = ventaDatos.RegistrarVenta(venta, idUsuario, conexion, transaction);
-                    venta.Id = idVentaRegistrada;
+                    // Registrar la venta
+                    int idVenta = ventaDatos.RegistrarVenta(venta, idUsuario, conexion, transaction);
+                    if (idVenta <= 0) return false;
 
+                    // Registrar detalles y actualizar stock
                     foreach (var detalle in venta.Detalles)
                     {
+                        // Insertar detalle de venta
+                        ventaDatos.InsertarVentaDetalle(idVenta, detalle, conexion, transaction);
+
+                        // Actualizar stock
                         ventaDatos.ActualizarStock(detalle.ProductoId, detalle.Cantidad, conexion, transaction);
                     }
 
-                    ventaDatos.InsertarComprobante(venta.Id, conexion, transaction);
+                    // Comprobar si la venta necesita comprobante
+                    ventaDatos.InsertarComprobante(idVenta, conexion, transaction);
 
+                    // Commit de la transacción
                     transaction.Commit();
+                    return true; // Éxito
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
-                    transaction.Rollback();
-                    throw new Exception($"Error al registrar la venta con detalles: {ex.Message}");
+                    transaction.Rollback(); 
+                    return false;
                 }
             }
         }

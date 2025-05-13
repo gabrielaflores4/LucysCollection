@@ -48,7 +48,7 @@ namespace C_Negocios
         public List<Cliente> ObtenerClientes()
         {
             ClienteDatos datos = new ClienteDatos();
-            return datos.ObtenerClientes(); // Llama a la capa de datos
+            return datos.ObtenerClientes();
         }
     }
 }

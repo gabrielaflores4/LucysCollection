@@ -1,18 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
+﻿using System.Diagnostics;
 using System.Drawing.Printing;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using C_Datos;
 using C_Entidades;
 using C_Negocios;
-using static C_Negocios.UsuarioNeg;
 
 namespace C_Presentacion
 {
@@ -26,21 +16,43 @@ namespace C_Presentacion
         private ClienteNeg clienteNeg = new ClienteNeg();
         private List<int> idsClientes;
         private decimal montoPagado;
+        private Cliente clienteSeleccionado;
 
-
-        public Ventas()
+        public Ventas(int clienteId = 0)
         {
             InitializeComponent();
-            cbClientes.Visible = false;
+
+            //Debug.WriteLine($"DEBUG [Ventas]: ID de cliente recibido: {clienteId}");
+            
+            ignorarMensajeCliente = true;
+
+            cbClientes.SelectedIndexChanged -= cbClientes_SelectedIndexChanged;
+
             detallesVenta = new List<DetalleVenta>();
             ventaNeg = new VentaNeg();
             ActualizarDataGrid();
             CargarProductos();
             CargarTallasDisponibles();
-            CargarClientes();
-            idsClientes = clienteNeg.ObtenerIdsClientes();
-            ultimoTicket = ventaDatos.ObtenerUltimoTicket();
+            
 
+            if (clienteId > 0)
+            {
+                rbCliAntiguo.Checked = true;
+                cbClientes.Visible = true;
+            }
+
+            CargarClientes(() =>
+            {
+                if (clienteId > 0)
+                {
+                    SeleccionarClientePorId(clienteId);
+                }
+            });
+            cbClientes.SelectedIndexChanged += cbClientes_SelectedIndexChanged;
+
+            this.Shown += (s, ev) => { ignorarMensajeCliente = false; };
+
+            ultimoTicket = ventaDatos.ObtenerUltimoTicket();
         }
 
         private void LimpiarControles()
@@ -50,7 +62,7 @@ namespace C_Presentacion
             nbCantidad.Value = 1;
             rbCliNuevo.Checked = false;
             rbCliAntiguo.Checked = false;
-            cbClientes.Visible = false;
+            cbClientes.Visible = true;
             cbClientes.SelectedIndex = -1;
             dataGridVentaProducto.Rows.Clear();
             lblStockDisponible.Text = "Stock: 0";
@@ -121,8 +133,8 @@ namespace C_Presentacion
                 List<Producto> productos = ventaNeg.ObtenerProductos();
 
                 cbProductos.DataSource = productos;
-                cbProductos.DisplayMember = "Nombre";  // Mostrar el nombre del producto
-                cbProductos.ValueMember = "Id_Prod";   // Usar el ID del producto como valor asociado
+                cbProductos.DisplayMember = "Nombre";  
+                cbProductos.ValueMember = "Id_Prod";
 
                 cbProductos.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
                 cbProductos.AutoCompleteSource = AutoCompleteSource.ListItems;
@@ -163,7 +175,25 @@ namespace C_Presentacion
 
         private void rbCliAntiguo_CheckedChanged(object sender, EventArgs e)
         {
-            cbClientes.Visible = true;
+            if (rbCliAntiguo.Checked)
+            {
+                cbClientes.Visible = true;
+                using (var frmVistaClientes = new VistaClientes())
+                {
+                    // Desactivar el evento temporalmente
+                    cbClientes.SelectedIndexChanged -= cbClientes_SelectedIndexChanged;
+
+                    if (frmVistaClientes.ShowDialog() == DialogResult.OK &&
+                        frmVistaClientes.ClienteSeleccionado != null)
+                    {
+                        SeleccionarClientePorId(frmVistaClientes.ClienteSeleccionado.Id);
+                    }
+
+                    // Reactivar el evento
+                    cbClientes.SelectedIndexChanged += cbClientes_SelectedIndexChanged;
+                }
+            }
+
         }
 
         private void btnReporte_Click(object sender, EventArgs e)
@@ -181,7 +211,7 @@ namespace C_Presentacion
                 dataGridVentaProducto.Rows.Add(
                     detalle.Producto.Id_Prod,
                     detalle.Producto.Nombre,
-                    detalle.Producto.Talla,  // Mostrar la talla
+                    detalle.Producto.Talla.Descripcion,
                     detalle.Cantidad,
                     detalle.PrecioUnitario,
                     detalle.Cantidad * detalle.PrecioUnitario
@@ -193,29 +223,59 @@ namespace C_Presentacion
         {
             try
             {
-                Producto productoSeleccionado = (Producto)cbProductos.SelectedItem;
-                int cantidad = (int)nbCantidad.Value;
-
-                // Verificar si ya existe este producto con la misma talla en la venta
-                bool tallaRepetida = detallesVenta.Any(d =>
-                    d.Producto.Id_Prod == productoSeleccionado.Id_Prod &&
-                    d.Producto.Talla == productoSeleccionado.Talla);
-
-                if (tallaRepetida)
+                if (!(cbProductos.SelectedItem is Producto productoSeleccionado) ||
+                    !(cbTallasRegProd.SelectedItem is Talla tallaSeleccionada))
                 {
-                    MessageBox.Show("¡Este producto con la talla seleccionada ya fue agregado!");
+                    MessageBox.Show("Debe seleccionar un producto y una talla válidos");
                     return;
                 }
 
-                DetalleVenta detalle = new DetalleVenta
-                {
-                    ProductoId = productoSeleccionado.Id_Prod,
-                    Cantidad = cantidad,
-                    PrecioUnitario = productoSeleccionado.Precio,
-                    Producto = productoSeleccionado
-                };
+                int cantidad = (int)nbCantidad.Value;
+                int stockDisponible = productoNeg.ObtenerStockPorProductoYTalla(
+                    productoSeleccionado.Id_Prod,
+                    tallaSeleccionada.Id_Talla);
 
-                detallesVenta.Add(detalle);
+                if (cantidad > stockDisponible)
+                {
+                    MessageBox.Show($"No hay suficiente stock. Stock disponible: {stockDisponible}");
+                    return;
+                }
+
+                // Verificar si ya existe este producto con la misma talla en la venta
+                var detalleExistente = detallesVenta.FirstOrDefault(d =>
+                    d.Producto.Id_Prod == productoSeleccionado.Id_Prod &&
+                    d.Producto.Talla.Id_Talla == tallaSeleccionada.Id_Talla);
+
+                if (detalleExistente != null)
+                {
+                    // Si ya existe, actualizar la cantidad (si no supera el stock)
+                    if (detalleExistente.Cantidad + cantidad > stockDisponible)
+                    {
+                        MessageBox.Show($"No hay suficiente stock para agregar más unidades. Stock disponible: {stockDisponible}");
+                        return;
+                    }
+                    detalleExistente.Cantidad += cantidad;
+                }
+                else
+                {
+                    // Crear nuevo detalle
+                    DetalleVenta detalle = new DetalleVenta
+                    {
+                        ProductoId = productoSeleccionado.Id_Prod,
+                        Cantidad = cantidad,
+                        PrecioUnitario = productoSeleccionado.Precio,
+                        Producto = new Producto
+                        {
+                            Id_Prod = productoSeleccionado.Id_Prod,
+                            Nombre = productoSeleccionado.Nombre,
+                            Precio = productoSeleccionado.Precio,
+                            Talla = tallaSeleccionada,
+                            Stock = stockDisponible
+                        }
+                    };
+                    detallesVenta.Add(detalle);
+                }
+
                 ActualizarDataGrid();
                 ActualizarTotal();
             }
@@ -229,26 +289,32 @@ namespace C_Presentacion
         {
             if (cbProductos.SelectedItem is Producto productoSeleccionado)
             {
-                lblStockDisponible.Text = $"Stock: {productoSeleccionado.Stock}";
+                try
+                {
+                    // Obtener tallas disponibles para el producto seleccionado
+                    List<Talla> tallasDelProducto = productoNeg.ObtenerTallasPorProducto(productoSeleccionado.Id_Prod);
 
-                // Obtener y cargar tallas disponibles para el producto seleccionado
-                List<Talla> tallasDelProducto = productoNeg.ObtenerTallasPorProducto(productoSeleccionado.Id_Prod);
+                    // Configurar el ComboBox de tallas
+                    cbTallasRegProd.DataSource = null; // Limpiar primero
+                    cbTallasRegProd.DataSource = tallasDelProducto;
+                    cbTallasRegProd.DisplayMember = "Descripcion";  
+                    cbTallasRegProd.ValueMember = "Id_Talla";       
 
-                // Configurar el ComboBox para mostrar descripciones pero guardar IDs
-                cbTallasRegProd.DisplayMember = "Descripcion";  // Mostrar la descripción
-                cbTallasRegProd.ValueMember = "Id_Talla";       // Valor interno es el ID
-                cbTallasRegProd.DataSource = tallasDelProducto;
-                cbTallasRegProd.SelectedIndex = -1; // Resetear selección
-
-                // Configurar el NumericUpDown según el stock
-                nbCantidad.Minimum = 1;
-                nbCantidad.Maximum = productoSeleccionado.Stock;
-                nbCantidad.Value = Math.Min(1, productoSeleccionado.Stock);
-
-                // Deshabilitar controles si no hay stock
-                bool hayStock = productoSeleccionado.Stock > 0;
-                nbCantidad.Enabled = hayStock;
-                btnAgregarRegProd.Enabled = hayStock;
+                    // Seleccionar la primera talla por defecto si hay tallas disponibles
+                    if (tallasDelProducto.Count > 0)
+                    {
+                        cbTallasRegProd.SelectedIndex = 0;
+                    }
+                    else
+                    {
+                        cbTallasRegProd.Text = "No hay tallas disponibles";
+                        lblStockDisponible.Text = "Stock: 0";
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error al cargar tallas: {ex.Message}");
+                }
             }
         }
 
@@ -294,26 +360,32 @@ namespace C_Presentacion
 
             try
             {
+                //Obtener ID del cliente
                 int clienteId = 0;
-
                 if (rbCliAntiguo.Checked && cbClientes.SelectedItem != null)
                 {
-                    int selectedIndex = cbClientes.SelectedIndex;
-                    if (selectedIndex >= 0 && selectedIndex < idsClientes.Count)
-                        clienteId = idsClientes[selectedIndex];
-                    else
-                        throw new Exception("Índice de cliente no válido.");
+                    clienteId = ((Cliente)cbClientes.SelectedItem).Id;
                 }
                 else if (rbCliNuevo.Checked)
                 {
                     FrmRegClientes frmRegClientes = new FrmRegClientes();
-                    frmRegClientes.ShowDialog();
-                    return;
+                    if (frmRegClientes.ShowDialog() == DialogResult.OK)
+                    {
+                        //clienteId = frmRegClientes.ClienteRegistradoId;
+                        CargarClientes();
+                        cbClientes.SelectedValue = clienteId;
+                    }
+                    else
+                    {
+                        return;
+                    }
                 }
 
+                //Validar que hay productos en la venta
                 if (detallesVenta == null || detallesVenta.Count == 0)
                     throw new Exception("Debe agregar al menos un producto al detalle de la venta.");
 
+                //Crear y registrar la venta
                 Venta venta = new Venta
                 {
                     ClienteId = clienteId,
@@ -326,6 +398,7 @@ namespace C_Presentacion
 
                 MessageBox.Show("Venta registrada exitosamente.", "Confirmación", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
+                //Manejar el pago
                 string input = Microsoft.VisualBasic.Interaction.InputBox("¿Con cuánto pagó el cliente?", "", "");
                 if (!decimal.TryParse(input, out montoPagado))
                 {
@@ -333,10 +406,12 @@ namespace C_Presentacion
                     return;
                 }
 
+                //Imprimir ticket
                 printDocumentVenta = new PrintDocument();
                 printDocumentVenta.PrintPage += Imprimir;
                 printDocumentVenta.Print();
 
+                //Mostrar vista previa y limpiar controles
                 ImprimirTicketConVistaPrevia();
                 detallesVenta.Clear();
                 ActualizarDataGrid();
@@ -344,7 +419,7 @@ namespace C_Presentacion
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error: " + ex.Message);
+                MessageBox.Show("Error al guardar la venta: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -447,35 +522,188 @@ namespace C_Presentacion
             g.DrawString("¡Gracias por su compra!", new Font("Arial", 14, FontStyle.Bold), Brushes.Black, 80, yPos += 30);
 
         }
+        private bool ignorarMensajeCliente = false;
+
         private void cbClientes_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Cliente clienteSeleccionado = cbClientes.SelectedItem as Cliente;
-
-            if (cbClientes.SelectedItem != null)
-            {
-                Cliente ClienteSeleccionado = (Cliente)cbClientes.SelectedItem;
-                string nombreCliente = clienteSeleccionado.NombreCompleto;
-                int idCliente = clienteSeleccionado.Id;
-            }
-            else
+            if (!ignorarMensajeCliente && cbClientes.Visible && cbClientes.SelectedItem == null && this.Visible)
             {
                 MessageBox.Show("Por favor, selecciona un cliente antes de imprimir.");
             }
         }
-        private void CargarClientes()
+        
+        private void SeleccionarClientePorId(int clienteId)
         {
-            cbClientes.DataSource = clienteNeg.ObtenerClientes();
-            cbClientes.DisplayMember = "NombreCompleto";
-            cbClientes.ValueMember = "Id";
+            try
+            {
+                cbClientes.SelectedValue = clienteId;
+                cbClientes.Visible = true;
 
-            cbClientes.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-            cbClientes.AutoCompleteSource = AutoCompleteSource.ListItems;
-            cbClientes.DropDownStyle = ComboBoxStyle.DropDown;
+                // Actualizar solo el RadioButton si es necesario
+                if (rbCliAntiguo.Checked) rbCliAntiguo.Checked = false;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error seleccionando cliente: {ex.Message}");
+            }
+        }
+
+        private void CargarClientes(Action callback = null)
+        {
+            try
+            {
+                var clientes = new List<Cliente>(clienteNeg.ObtenerClientes());
+                cbClientes.DataSource = null;
+                cbClientes.DataSource = clientes;
+                cbClientes.DisplayMember = "NombreCompleto";
+                cbClientes.ValueMember = "Id";
+
+                cbClientes.SelectedIndex = -1;
+
+                cbClientes.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+                cbClientes.AutoCompleteSource = AutoCompleteSource.ListItems;
+                cbClientes.DropDownStyle = ComboBoxStyle.DropDown;
+                
+                /*
+                Debug.WriteLine("Clientes cargados:");
+                foreach (var cliente in clientes)
+                {
+                    Debug.WriteLine($"ID: {cliente.Id}, Nombre: {cliente.NombreCompleto}");
+                }*/
+
+                callback?.Invoke();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar clientes: " + ex.Message);
+            }
         }
 
         private void btnCancelarRegProd_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void cbTallasRegProd_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cbTallasRegProd.SelectedItem is Talla tallaSeleccionada &&
+                    cbProductos.SelectedItem is Producto productoSeleccionado)
+            {
+                try
+                {
+                    // Obtener el stock disponible
+                    int stockDisponible = productoNeg.ObtenerStockPorProductoYTalla(
+                        productoSeleccionado.Id_Prod,
+                        tallaSeleccionada.Id_Talla);
+
+                    // Actualizar la etiqueta de stock
+                    lblStockDisponible.Text = $"Stock: {stockDisponible}";
+
+                    // Configurar el NumericUpDown
+                    nbCantidad.Minimum = 1; // Mínimo siempre 1
+                    nbCantidad.Maximum = stockDisponible > 0 ? stockDisponible : 1; // Máximo según stock
+                    nbCantidad.Value = stockDisponible > 0 ? 1 : 0; // Valor inicial
+
+                    bool hayStock = stockDisponible > 0;
+                    nbCantidad.Enabled = hayStock;
+                    btnAgregarRegProd.Enabled = hayStock;
+
+                    if (!hayStock)
+                    {
+                        MessageBox.Show("No hay stock disponible para esta talla", "Stock",MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error al actualizar stock: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    nbCantidad.Minimum = 1;
+                    nbCantidad.Maximum = 100; 
+                    nbCantidad.Value = 1;
+                }
+            }
+            else
+            {
+                // Resetear valores
+                nbCantidad.Minimum = 1;
+                nbCantidad.Maximum = 100;
+                nbCantidad.Value = 1;
+                lblStockDisponible.Text = "Stock: 0";
+            }
+        }
+
+        private void btnTodosProductos_Click(object sender, EventArgs e)
+        {
+            using (var frm = new VistaProductos())
+            {
+                frm.ProductoSeleccionado += producto =>
+                {
+                    if (producto != null)
+                    {
+                        // Verificar si el producto ya existe en el ComboBox
+                        bool productoExiste = false;
+                        if (cbProductos.DataSource is List<Producto> listaProductos)
+                        {
+                            productoExiste = listaProductos.Any(p => p.Id_Prod == producto.Id_Prod);
+                        }
+
+                        if (!productoExiste)
+                        {
+                            // Actualizar la lista de productos
+                            var nuevaLista = new List<Producto>();
+                            if (cbProductos.DataSource != null)
+                            {
+                                nuevaLista = ((List<Producto>)cbProductos.DataSource).ToList();
+                            }
+                            nuevaLista.Add(producto);
+
+                            // Actualizar el ComboBox
+                            cbProductos.DataSource = null;
+                            cbProductos.DataSource = nuevaLista;
+                            cbProductos.DisplayMember = "Nombre";
+                            cbProductos.ValueMember = "Id_Prod";
+                        }
+
+                        // Seleccionar el producto recién agregado
+                        cbProductos.SelectedValue = producto.Id_Prod;
+
+                        // Cargar las tallas para el producto seleccionado
+                        CargarTallasParaProductoSeleccionado(producto);
+                    }
+                };
+
+                frm.ShowDialog();
+            }
+
+        }
+
+        private void CargarTallasParaProductoSeleccionado(Producto producto)
+        {
+            if (producto != null)
+            {
+                try
+                {
+                    cbTallasRegProd.SelectedIndexChanged -= cbTallasRegProd_SelectedIndexChanged;
+
+                    // Obtener tallas para el producto seleccionado
+                    List<Talla> tallasDelProducto = productoNeg.ObtenerTallasPorProducto(producto.Id_Prod);
+
+                    // Actualizar el ComboBox de tallas
+                    cbTallasRegProd.DataSource = tallasDelProducto;
+                    cbTallasRegProd.DisplayMember = "Descripcion";
+                    cbTallasRegProd.ValueMember = "Id_Talla";
+
+                    if (tallasDelProducto.Count > 0)
+                    {
+                        cbTallasRegProd.SelectedIndex = 0;
+                    }
+
+                    cbTallasRegProd.SelectedIndexChanged += cbTallasRegProd_SelectedIndexChanged;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error al cargar tallas: {ex.Message}");
+                }
+            }
         }
     }
 }

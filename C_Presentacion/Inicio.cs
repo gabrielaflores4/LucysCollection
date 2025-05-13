@@ -57,7 +57,6 @@ namespace C_Presentacion
             comboBox.SelectedIndex = 0;
         }
 
-
         private void ConfigurarGrafico()
         {
             //Limpiar configuración previa

@@ -82,7 +82,7 @@
             // 
             lblFAQ.AutoSize = true;
             lblFAQ.Font = new Font("Bahnschrift SemiBold", 21.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblFAQ.Location = new Point(34, 101);
+            lblFAQ.Location = new Point(34, 89);
             lblFAQ.Name = "lblFAQ";
             lblFAQ.Size = new Size(381, 35);
             lblFAQ.TabIndex = 71;

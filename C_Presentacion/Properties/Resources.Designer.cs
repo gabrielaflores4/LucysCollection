@@ -263,6 +263,16 @@ namespace C_Presentacion.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap btnTodosLosProductos {
+            get {
+                object obj = ResourceManager.GetObject("btnTodosLosProductos", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap contenedorLogin {
             get {
                 object obj = ResourceManager.GetObject("contenedorLogin", resourceCulture);
