@@ -13,7 +13,9 @@ namespace C_Presentacion
         public VistaProductos()
         {
             InitializeComponent();
+            tbBusquedaProductos.TextChanged += tbBusquedaProductos_TextChanged;
             CargarProductos();
+
         }
 
         public void CargarProductos()
@@ -26,60 +28,48 @@ namespace C_Presentacion
                 if (!string.IsNullOrWhiteSpace(filtro))
                 {
                     productos = productos.Where(p =>
-                        p.Nombre.Contains(filtro, StringComparison.OrdinalIgnoreCase) ||
+                        (p.Nombre?.Contains(filtro, StringComparison.OrdinalIgnoreCase) == true) ||
                         (p.Categoria?.Nombre?.Contains(filtro, StringComparison.OrdinalIgnoreCase) == true) ||
-                        p.Precio.ToString("0.##").Contains(filtro))
-                        .ToList();
+                        p.Precio.ToString("0.##").Contains(filtro)
+                    ).ToList();
                 }
 
-                // Configuración del DataGridView
+                dataGridProductos.SuspendLayout();
                 dataGridProductos.AutoGenerateColumns = false;
                 dataGridProductos.Columns.Clear();
 
+                // Columnas con índices explícitos
                 dataGridProductos.Columns.Add("Id_Prod", "ID");
-                dataGridProductos.Columns["Id_Prod"].Visible = false; 
-
                 dataGridProductos.Columns.Add("Nombre", "Nombre");
                 dataGridProductos.Columns.Add("Categoria", "Categoría");
                 dataGridProductos.Columns.Add("Precio", "Precio");
 
-                // Formatear columna de precio
-                dataGridProductos.Columns["Precio"].DefaultCellStyle.Format = "C2";
-                dataGridProductos.Columns["Precio"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+                dataGridProductos.Columns[0].Visible = false;
+                dataGridProductos.Columns[3].DefaultCellStyle.Format = "C2";
+                dataGridProductos.Columns[3].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
 
-                // Llenar el DataGridView
+                // Limpiar filas existentes
+                dataGridProductos.Rows.Clear();
+
+                // Llenar datos usando índices
                 foreach (var producto in productos)
                 {
-                    dataGridProductos.Rows.Add(
-                        producto.Id_Prod, 
-                        producto.Nombre,
-                        producto.Categoria?.Nombre ?? "Sin categoría",
-                        producto.Precio
-                    );
+                    int rowIndex = dataGridProductos.Rows.Add();
+                    DataGridViewRow row = dataGridProductos.Rows[rowIndex];
+
+                    // Asignar valores por índice
+                    row.Cells[0].Value = producto.Id_Prod;
+                    row.Cells[1].Value = producto.Nombre;
+                    row.Cells[2].Value = producto.Categoria?.Nombre ?? "Sin categoría";
+                    row.Cells[3].Value = producto.Precio;
                 }
+
+                dataGridProductos.ResumeLayout();
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al cargar productos: {ex.Message}", "Error",
-                               MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Error al cargar productos: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-        }
-
-        private void ConfigurarDataGrid(DataGridView dataGrid, object data, Dictionary<string, string> columnas)
-        {
-            dataGrid.AutoGenerateColumns = false;
-            dataGrid.Columns.Clear();
-
-            foreach (var columna in columnas)
-            {
-                dataGrid.Columns.Add(new DataGridViewTextBoxColumn
-                {
-                    DataPropertyName = columna.Key,
-                    HeaderText = columna.Value
-                });
-            }
-
-            dataGrid.DataSource = data;
         }
 
         private void dataGridProductos_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
@@ -130,7 +120,7 @@ namespace C_Presentacion
                 }
                 else
                 {
-                    MessageBox.Show("El precio del producto no es válido", "Error",MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("El precio del producto no es válido", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
@@ -140,9 +130,18 @@ namespace C_Presentacion
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al seleccionar producto: {ex.Message}\n\nDetalles técnicos:\n{ex.StackTrace}",
-                              "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Error al seleccionar producto: {ex.Message}\n\nDetalles técnicos:\n{ex.StackTrace}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void tbBusquedaProductos_TextChanged(object sender, EventArgs e)
+        {
+            CargarProductos();
+        }
+
+        private void btnCancelarAyuda_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

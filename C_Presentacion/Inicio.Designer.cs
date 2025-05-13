@@ -86,6 +86,10 @@
             cmbTalla = new ComboBox();
             pictureBox9 = new PictureBox();
             dataGridInventarioProducto = new DataGridView();
+            Id_Prod = new DataGridViewTextBoxColumn();
+            producto = new DataGridViewTextBoxColumn();
+            categoria = new DataGridViewTextBoxColumn();
+            precio = new DataGridViewTextBoxColumn();
             btnEliminarInventario = new Button();
             btnAgregarInventario = new Button();
             tbBusquedaInventario = new TextBox();
@@ -121,20 +125,16 @@
             tabProveedores = new TabPage();
             pictureBox12 = new PictureBox();
             dataGridProv = new DataGridView();
-            IdProveedor = new DataGridViewTextBoxColumn();
-            NombreProv = new DataGridViewTextBoxColumn();
-            Telefono_prov = new DataGridViewTextBoxColumn();
-            Correo_prov = new DataGridViewTextBoxColumn();
-            Direccion_prov = new DataGridViewTextBoxColumn();
             btnEliminarProv = new Button();
             btnAgregarProv = new Button();
             tbBusquedaProv = new TextBox();
             label11 = new Label();
             btnReporte = new Button();
-            Id_Prod = new DataGridViewTextBoxColumn();
-            producto = new DataGridViewTextBoxColumn();
-            categoria = new DataGridViewTextBoxColumn();
-            precio = new DataGridViewTextBoxColumn();
+            IdProveedor = new DataGridViewTextBoxColumn();
+            NombreProv = new DataGridViewTextBoxColumn();
+            Telefono_prov = new DataGridViewTextBoxColumn();
+            Correo_prov = new DataGridViewTextBoxColumn();
+            Direccion_prov = new DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             tabControlInicio.SuspendLayout();
             tabInicio.SuspendLayout();
@@ -610,10 +610,10 @@
             tabInventario.Controls.Add(btnAgregarInventario);
             tabInventario.Controls.Add(tbBusquedaInventario);
             tabInventario.Controls.Add(label22);
-            tabInventario.Location = new Point(4, 28);
+            tabInventario.Location = new Point(4, 24);
             tabInventario.Name = "tabInventario";
             tabInventario.Padding = new Padding(3);
-            tabInventario.Size = new Size(1093, 702);
+            tabInventario.Size = new Size(1093, 706);
             tabInventario.TabIndex = 1;
             tabInventario.Text = "tabPage2";
             // 
@@ -704,6 +704,27 @@
             dataGridInventarioProducto.Size = new Size(847, 488);
             dataGridInventarioProducto.TabIndex = 24;
             dataGridInventarioProducto.CellDoubleClick += dataGridInventarioProducto_CellDoubleClick;
+            // 
+            // Id_Prod
+            // 
+            Id_Prod.HeaderText = "Id_Prod";
+            Id_Prod.Name = "Id_Prod";
+            Id_Prod.Visible = false;
+            // 
+            // producto
+            // 
+            producto.HeaderText = "Producto";
+            producto.Name = "producto";
+            // 
+            // categoria
+            // 
+            categoria.HeaderText = "Categoria";
+            categoria.Name = "categoria";
+            // 
+            // precio
+            // 
+            precio.HeaderText = "Precio Unit";
+            precio.Name = "precio";
             // 
             // btnEliminarInventario
             // 
@@ -905,9 +926,9 @@
             tabMateriaP.Controls.Add(btnAgregarMateriaP);
             tabMateriaP.Controls.Add(tbBusquedaMateriaPrima);
             tabMateriaP.Controls.Add(label10);
-            tabMateriaP.Location = new Point(4, 24);
+            tabMateriaP.Location = new Point(4, 28);
             tabMateriaP.Name = "tabMateriaP";
-            tabMateriaP.Size = new Size(1093, 706);
+            tabMateriaP.Size = new Size(1093, 702);
             tabMateriaP.TabIndex = 3;
             tabMateriaP.Text = "tabPage1";
             // 
@@ -951,8 +972,8 @@
             dataGridViewCellStyle8.Font = new Font("Bahnschrift", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             dataGridViewCellStyle8.ForeColor = Color.White;
             dataGridViewCellStyle8.Padding = new Padding(1);
-            dataGridViewCellStyle8.SelectionBackColor = SystemColors.Desktop;
-            dataGridViewCellStyle8.SelectionForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle8.SelectionBackColor = Color.Black;
+            dataGridViewCellStyle8.SelectionForeColor = Color.White;
             dataGridViewCellStyle8.WrapMode = DataGridViewTriState.True;
             dataGridMP.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle8;
             dataGridMP.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -1063,9 +1084,9 @@
             tabProveedores.Controls.Add(btnAgregarProv);
             tabProveedores.Controls.Add(tbBusquedaProv);
             tabProveedores.Controls.Add(label11);
-            tabProveedores.Location = new Point(4, 24);
+            tabProveedores.Location = new Point(4, 28);
             tabProveedores.Name = "tabProveedores";
-            tabProveedores.Size = new Size(1093, 706);
+            tabProveedores.Size = new Size(1093, 702);
             tabProveedores.TabIndex = 4;
             tabProveedores.Text = "tabPage1";
             // 
@@ -1122,36 +1143,6 @@
             dataGridProv.Size = new Size(847, 488);
             dataGridProv.TabIndex = 38;
             dataGridProv.CellDoubleClick += dataGridProv_CellDoubleClick;
-            // 
-            // IdProveedor
-            // 
-            IdProveedor.HeaderText = "ID";
-            IdProveedor.Name = "IdProveedor";
-            IdProveedor.ReadOnly = true;
-            // 
-            // NombreProv
-            // 
-            NombreProv.HeaderText = "Proveedor";
-            NombreProv.Name = "NombreProv";
-            NombreProv.ReadOnly = true;
-            // 
-            // Telefono_prov
-            // 
-            Telefono_prov.HeaderText = "Teléfono";
-            Telefono_prov.Name = "Telefono_prov";
-            Telefono_prov.ReadOnly = true;
-            // 
-            // Correo_prov
-            // 
-            Correo_prov.HeaderText = "Correo";
-            Correo_prov.Name = "Correo_prov";
-            Correo_prov.ReadOnly = true;
-            // 
-            // Direccion_prov
-            // 
-            Direccion_prov.HeaderText = "Dirección";
-            Direccion_prov.Name = "Direccion_prov";
-            Direccion_prov.ReadOnly = true;
             // 
             // btnEliminarProv
             // 
@@ -1214,26 +1205,36 @@
             btnReporte.UseVisualStyleBackColor = false;
             btnReporte.Click += btnReporte_Click;
             // 
-            // Id_Prod
+            // IdProveedor
             // 
-            Id_Prod.HeaderText = "Id_Prod";
-            Id_Prod.Name = "Id_Prod";
-            Id_Prod.Visible = false;
+            IdProveedor.HeaderText = "ID";
+            IdProveedor.Name = "IdProveedor";
+            IdProveedor.ReadOnly = true;
+            IdProveedor.Visible = false;
             // 
-            // producto
+            // NombreProv
             // 
-            producto.HeaderText = "Producto";
-            producto.Name = "producto";
+            NombreProv.HeaderText = "Proveedor";
+            NombreProv.Name = "NombreProv";
+            NombreProv.ReadOnly = true;
             // 
-            // categoria
+            // Telefono_prov
             // 
-            categoria.HeaderText = "Categoria";
-            categoria.Name = "categoria";
+            Telefono_prov.HeaderText = "Teléfono";
+            Telefono_prov.Name = "Telefono_prov";
+            Telefono_prov.ReadOnly = true;
             // 
-            // precio
+            // Correo_prov
             // 
-            precio.HeaderText = "Precio Unit";
-            precio.Name = "precio";
+            Correo_prov.HeaderText = "Correo";
+            Correo_prov.Name = "Correo_prov";
+            Correo_prov.ReadOnly = true;
+            // 
+            // Direccion_prov
+            // 
+            Direccion_prov.HeaderText = "Dirección";
+            Direccion_prov.Name = "Direccion_prov";
+            Direccion_prov.ReadOnly = true;
             // 
             // Inicio
             // 
@@ -1369,11 +1370,6 @@
         private DataGridViewTextBoxColumn Stock_MP;
         private DataGridViewTextBoxColumn Prov_MP;
         private DataGridViewTextBoxColumn FechaIngMP;
-        private DataGridViewTextBoxColumn IdProveedor;
-        private DataGridViewTextBoxColumn NombreProv;
-        private DataGridViewTextBoxColumn Telefono_prov;
-        private DataGridViewTextBoxColumn Correo_prov;
-        private DataGridViewTextBoxColumn Direccion_prov;
         private System.Windows.Forms.DataVisualization.Charting.Chart chartVentas;
         private Button btnReporte;
         private ComboBox cmbStock;
@@ -1386,5 +1382,10 @@
         private DataGridViewTextBoxColumn producto;
         private DataGridViewTextBoxColumn categoria;
         private DataGridViewTextBoxColumn precio;
+        private DataGridViewTextBoxColumn IdProveedor;
+        private DataGridViewTextBoxColumn NombreProv;
+        private DataGridViewTextBoxColumn Telefono_prov;
+        private DataGridViewTextBoxColumn Correo_prov;
+        private DataGridViewTextBoxColumn Direccion_prov;
     }
 }

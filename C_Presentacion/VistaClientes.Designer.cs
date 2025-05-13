@@ -149,6 +149,7 @@
             tbBusquedaClientes.Name = "tbBusquedaClientes";
             tbBusquedaClientes.Size = new Size(984, 27);
             tbBusquedaClientes.TabIndex = 49;
+            tbBusquedaClientes.TextChanged += tbBusquedaClientes_TextChanged;
             // 
             // btnEditarClientes
             // 

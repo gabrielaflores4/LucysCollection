@@ -147,10 +147,12 @@
             // 
             // tbBusquedaProductos
             // 
+            tbBusquedaProductos.Font = new Font("Bahnschrift", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             tbBusquedaProductos.Location = new Point(292, 103);
             tbBusquedaProductos.Name = "tbBusquedaProductos";
             tbBusquedaProductos.Size = new Size(984, 27);
             tbBusquedaProductos.TabIndex = 47;
+            tbBusquedaProductos.TextChanged += tbBusquedaProductos_TextChanged;
             // 
             // btnCancelarAyuda
             // 
@@ -161,6 +163,7 @@
             btnCancelarAyuda.SizeMode = PictureBoxSizeMode.Zoom;
             btnCancelarAyuda.TabIndex = 75;
             btnCancelarAyuda.TabStop = false;
+            btnCancelarAyuda.Click += btnCancelarAyuda_Click;
             // 
             // VistaProductos
             // 

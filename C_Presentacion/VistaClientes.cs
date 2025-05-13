@@ -9,16 +9,13 @@ namespace C_Presentacion
         public VistaClientes()
         {
             InitializeComponent();
-            ConfigurarDataGrid();
             CargarClientesEnDataGrid();
         }
-
         private void ConfigurarDataGrid()
         {
-            // Limpiar columnas existentes
+            // Limpieza inicial
             dataGridClientes.Columns.Clear();
-
-            // Configuración básica del DataGrid
+            dataGridClientes.DataSource = null;
             dataGridClientes.AutoGenerateColumns = false;
             dataGridClientes.AllowUserToAddRows = false;
             dataGridClientes.AllowUserToDeleteRows = false;
@@ -26,13 +23,15 @@ namespace C_Presentacion
             dataGridClientes.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dataGridClientes.MultiSelect = false;
             dataGridClientes.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dataGridClientes.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
             dataGridClientes.Columns.Add(new DataGridViewTextBoxColumn()
             {
                 DataPropertyName = "Id",
                 HeaderText = "ID",
                 Name = "colId",
-                Visible = false
+                Visible = false,
+                DisplayIndex = 0
             });
 
             dataGridClientes.Columns.Add(new DataGridViewTextBoxColumn()
@@ -40,7 +39,8 @@ namespace C_Presentacion
                 DataPropertyName = "Nombre",
                 HeaderText = "Nombre",
                 Name = "colNombre",
-                Width = 150
+                DisplayIndex = 1,
+                FillWeight = 25 
             });
 
             dataGridClientes.Columns.Add(new DataGridViewTextBoxColumn()
@@ -48,7 +48,8 @@ namespace C_Presentacion
                 DataPropertyName = "Apellido",
                 HeaderText = "Apellido",
                 Name = "colApellido",
-                Width = 150
+                DisplayIndex = 2,
+                FillWeight = 25
             });
 
             dataGridClientes.Columns.Add(new DataGridViewTextBoxColumn()
@@ -56,7 +57,8 @@ namespace C_Presentacion
                 DataPropertyName = "Telefono",
                 HeaderText = "Teléfono",
                 Name = "colTelefono",
-                Width = 100
+                DisplayIndex = 3,
+                FillWeight = 15 
             });
 
             dataGridClientes.Columns.Add(new DataGridViewTextBoxColumn()
@@ -64,7 +66,8 @@ namespace C_Presentacion
                 DataPropertyName = "Correo",
                 HeaderText = "Correo",
                 Name = "colCorreo",
-                Width = 200
+                DisplayIndex = 4,
+                FillWeight = 25 
             });
 
             dataGridClientes.Columns.Add(new DataGridViewTextBoxColumn()
@@ -72,10 +75,12 @@ namespace C_Presentacion
                 DataPropertyName = "FechaRegistro",
                 HeaderText = "Fecha Registro",
                 Name = "colFechaRegistro",
-                Width = 120,
+                DisplayIndex = 5,
+                FillWeight = 10, 
                 DefaultCellStyle = new DataGridViewCellStyle()
                 {
-                    Format = "dd/MM/yyyy"
+                    Format = "dd/MM/yyyy",
+                    Alignment = DataGridViewContentAlignment.MiddleRight
                 }
             });
         }
@@ -86,6 +91,22 @@ namespace C_Presentacion
             {
                 ClienteNeg clienteNeg = new ClienteNeg();
                 List<Cliente> listaClientes = clienteNeg.ObtenerClientes();
+
+                // Aplicar filtro si existe
+                if (!string.IsNullOrWhiteSpace(tbBusquedaClientes.Text))
+                {
+                    string filtro = tbBusquedaClientes.Text.Trim();
+                    listaClientes = listaClientes.Where(c =>
+                        (c.Nombre?.Contains(filtro, StringComparison.OrdinalIgnoreCase) == true) ||
+                        (c.Apellido?.Contains(filtro, StringComparison.OrdinalIgnoreCase) == true) ||
+                        (c.Telefono?.Contains(filtro) == true) ||
+                        (c.Correo?.Contains(filtro, StringComparison.OrdinalIgnoreCase) == true) ||
+                        (c.FechaRegistro.ToString("dd/MM/yyyy").Contains(filtro))
+                    ).ToList();
+                }
+
+                // Limpiar y volver a configurar para mantener orden
+                ConfigurarDataGrid();
                 dataGridClientes.DataSource = listaClientes;
             }
             catch (Exception ex)
@@ -120,6 +141,11 @@ namespace C_Presentacion
             ClienteSeleccionado = (Cliente)dataGridClientes.SelectedRows[0].DataBoundItem;
             this.DialogResult = DialogResult.OK;
             this.Close();
+        }
+
+        private void tbBusquedaClientes_TextChanged(object sender, EventArgs e)
+        {
+            CargarClientesEnDataGrid();
         }
     }
 }
