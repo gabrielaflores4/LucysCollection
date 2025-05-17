@@ -25,36 +25,60 @@ namespace C_Presentacion
         }
         private bool EsFormularioValido()
         {
-            BorrarErrorProvider(); // Limpiar errores antes
-
             bool esValido = true;
 
-            if (string.IsNullOrWhiteSpace(tbNombreClien.Text))
-            {
-                errorIconoClientes.SetError(tbNombreClien, "Ingresar nombre");
-                esValido = false;
-            }
+            // Limpiar todos los errores primero
+            errorIconoClientes.Clear();
 
-            if (string.IsNullOrWhiteSpace(tbApellidoCliente.Text))
-            {
-                errorIconoClientes.SetError(tbApellidoCliente, "Ingresar apellido");
-                esValido = false;
-            }
-
-            if (string.IsNullOrWhiteSpace(tbCorreoCliente.Text) || !tbCorreoCliente.Text.EndsWith("@gmail.com"))
-            {
-                errorIconoClientes.SetError(tbCorreoCliente, "Correo inválido. Debe terminar en @gmail.com");
-                esValido = false;
-            }
-
-            if (string.IsNullOrWhiteSpace(tbTelefonoCliente.Text) || tbTelefonoCliente.Text.Length != 8)
-            {
-                errorIconoClientes.SetError(tbTelefonoCliente, "Teléfono debe tener 8 dígitos");
-                esValido = false;
-            }
+            // Validar cada campo individualmente
+            esValido &= ValidarNombre();
+            esValido &= ValidarApellido();
+            esValido &= ValidarCorreo();
+            esValido &= ValidarTelefono();
 
             return esValido;
         }
+
+        private bool ValidarNombre()
+        {
+            if (string.IsNullOrWhiteSpace(tbNombreClien.Text))
+            {
+                errorIconoClientes.SetError(tbNombreClien, "Ingresar nombre");
+                return false;
+            }
+            return true;
+        }
+
+        private bool ValidarApellido()
+        {
+            if (string.IsNullOrWhiteSpace(tbApellidoCliente.Text))
+            {
+                errorIconoClientes.SetError(tbApellidoCliente, "Ingresar apellido");
+                return false;
+            }
+            return true;
+        }
+
+        private bool ValidarCorreo()
+        {
+            if (string.IsNullOrWhiteSpace(tbCorreoCliente.Text) || !tbCorreoCliente.Text.EndsWith("@gmail.com"))
+            {
+                errorIconoClientes.SetError(tbCorreoCliente, "Correo inválido. Debe terminar en @gmail.com");
+                return false;
+            }
+            return true;
+        }
+
+        private bool ValidarTelefono()
+        {
+            if (string.IsNullOrWhiteSpace(tbTelefonoCliente.Text) || tbTelefonoCliente.Text.Length != 8)
+            {
+                errorIconoClientes.SetError(tbTelefonoCliente, "Teléfono debe tener 8 dígitos");
+                return false;
+            }
+            return true;
+        }
+
 
         private void btnRegistraCliente_Click(object sender, EventArgs e)
         {
@@ -158,5 +182,11 @@ namespace C_Presentacion
         {
             this.Close();
         }
+
+        private void BorrarMensajesError()
+        {
+            errorIconoClientes.Clear();
+        }
+
     }
 }

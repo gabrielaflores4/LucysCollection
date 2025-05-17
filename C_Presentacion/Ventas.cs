@@ -386,6 +386,7 @@ namespace C_Presentacion
         }
         private void btnGuardarRegProd_Click(object sender, EventArgs e)
         {
+            /*
             if (!ValidarControles()) return;
 
             try
@@ -543,6 +544,206 @@ namespace C_Presentacion
             catch (Exception ex)
             {
                 MessageBox.Show("Error al guardar la venta: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }*/
+            if (!ValidarControles()) return;
+
+            try
+            {
+                int clienteId = 0;
+                if (!string.IsNullOrWhiteSpace(tbClientes.Text))
+                {
+                    if (clienteSeleccionado == null)
+                    {
+                        var respuesta = MessageBox.Show("¿Desea registrar este cliente antes de continuar?",
+                                                        "Cliente no registrado",
+                                                        MessageBoxButtons.YesNo,
+                                                        MessageBoxIcon.Question);
+
+                        if (respuesta == DialogResult.Yes)
+                        {
+                            using (var frmRegClientes = new FrmRegClientes())
+                            {
+                                if (frmRegClientes.ShowDialog() == DialogResult.OK)
+                                {
+                                    clienteSeleccionado = clienteNeg.ObtenerClientePorId(frmRegClientes.ClienteRegistradoId);
+                                    tbClientes.Text = clienteSeleccionado.NombreCompleto;
+                                    clienteId = clienteSeleccionado.Id;
+                                }
+                                else
+                                {
+                                    return;
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        clienteId = clienteSeleccionado.Id;
+                    }
+                }
+
+                if (detallesVenta == null || detallesVenta.Count == 0)
+                    throw new Exception("Debe agregar al menos un producto al detalle de la venta.");
+
+                // Calcular total
+                decimal totalVenta = detallesVenta.Sum(d => d.PrecioUnitario * d.Cantidad);
+
+                // Solicitar pago
+                string input = Microsoft.VisualBasic.Interaction.InputBox(
+                    $"Total a pagar: {totalVenta:C}\n\n¿Con cuánto pagará el cliente?",
+                    "Pago", "");
+
+                if (!decimal.TryParse(input, out montoPagado))
+                {
+                    MessageBox.Show("Monto inválido. Operación cancelada.", "Error",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                if (montoPagado < totalVenta)
+                {
+                    MessageBox.Show($"Monto insuficiente. Faltan {(totalVenta - montoPagado):C} para completar el pago.",
+                        "Pago insuficiente", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                // Registrar la venta
+                Venta venta = new Venta
+                {
+                    ClienteId = clienteId,
+                    Detalles = detallesVenta,
+                    Fecha = DateTime.Now
+                };
+
+                int idUsuario = ObtenerIdUsuario();
+                ventaNeg.RegistrarVentaConDetalles(venta, idUsuario);
+
+                MessageBox.Show("Venta registrada exitosamente.", "Confirmación", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                // Obtener ruta para guardar el comprobante
+                string carpetaDestino = ObtenerRutaGuardadoTickets();
+                DateTime fechaHoraActual = DateTime.Now;
+                string marcaTiempo = fechaHoraActual.ToString("ddMMyyyy_HHmmss");
+                string nombreArchivo = $"Comprobante_{marcaTiempo}.pdf";
+                string rutaCompleta = Path.Combine(carpetaDestino, nombreArchivo);
+
+                // Generar PDF
+                GenerarComprobantePDF(rutaCompleta, fechaHoraActual, marcaTiempo, totalVenta);
+
+                MessageBox.Show($"Comprobante guardado en: {rutaCompleta}", "Comprobante Generado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                // Mostrar vista previa y limpiar
+                ImprimirTicketConVistaPrevia();
+                detallesVenta.Clear();
+                ActualizarDataGrid();
+                LimpiarControles();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al guardar la venta: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        // Métodos auxiliares adicionales
+        private string ObtenerRutaGuardadoTickets()
+        {
+            // 1. Intentar en AppData común primero
+            string rutaBase = Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData),
+                "LucyCollections", "Tickets");
+
+            try
+            {
+                if (!Directory.Exists(rutaBase))
+                {
+                    Directory.CreateDirectory(rutaBase);
+                }
+                return rutaBase;
+            }
+            catch (UnauthorizedAccessException)
+            {
+                // 2. Fallback a documentos del usuario si no hay permisos
+                rutaBase = Path.Combine(
+                    Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+                    "LucyCollectionsTickets");
+
+                if (!Directory.Exists(rutaBase))
+                {
+                    Directory.CreateDirectory(rutaBase);
+                }
+                return rutaBase;
+            }
+            catch (Exception ex)
+            {
+                // 3. Último fallback a directorio temporal
+                MessageBox.Show($"No se pudo acceder a las ubicaciones estándar: {ex.Message}\nSe usará directorio temporal.",
+                               "Advertencia",
+                               MessageBoxButtons.OK,
+                               MessageBoxIcon.Warning);
+
+                rutaBase = Path.Combine(Path.GetTempPath(), "LucyCollectionsTickets");
+                if (!Directory.Exists(rutaBase))
+                {
+                    Directory.CreateDirectory(rutaBase);
+                }
+                return rutaBase;
+            }
+        }
+
+        private void GenerarComprobantePDF(string rutaCompleta, DateTime fechaHoraActual, string marcaTiempo, decimal totalVenta)
+        {
+            using (FileStream fs = new FileStream(rutaCompleta, FileMode.Create))
+            {
+                Document doc = new Document(PageSize.A4, 10, 10, 10, 10);
+                PdfWriter writer = PdfWriter.GetInstance(doc, fs);
+                doc.Open();
+
+                // Encabezado
+                doc.Add(new Paragraph("Lucy´s Collections", FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 16)));
+                doc.Add(new Paragraph($"Fecha: {fechaHoraActual:dd/MM/yyyy}    Hora: {fechaHoraActual:HH:mm:ss}"));
+                doc.Add(new Paragraph("NIT: 0614-080322-115-2    NRC: 316440-2"));
+                doc.Add(new Paragraph("Dirección: Avenida 5 de noviembre, Atiquizaya, Ahuachapán"));
+                doc.Add(new Paragraph("\n"));
+
+                if (clienteSeleccionado != null)
+                {
+                    doc.Add(new Paragraph($"Cliente: {clienteSeleccionado.NombreCompleto}"));
+                    doc.Add(new Paragraph($"Fecha de Registro: {clienteSeleccionado.FechaRegistro:dd/MM/yyyy}"));
+                    doc.Add(new Paragraph("\n"));
+                }
+
+                // Tabla de productos
+                PdfPTable tabla = new PdfPTable(4);
+                tabla.WidthPercentage = 100;
+                tabla.AddCell("Producto");
+                tabla.AddCell("Precio");
+                tabla.AddCell("Cantidad");
+                tabla.AddCell("Subtotal");
+
+                foreach (var item in detallesVenta)
+                {
+                    tabla.AddCell(item.Producto.Nombre.Length > 15 ? item.Producto.Nombre.Substring(0, 15) : item.Producto.Nombre);
+                    tabla.AddCell(item.PrecioUnitario.ToString("C"));
+                    tabla.AddCell(item.Cantidad.ToString());
+                    decimal subtotal = item.PrecioUnitario * item.Cantidad;
+                    tabla.AddCell(subtotal.ToString("C"));
+                }
+
+                doc.Add(tabla);
+                doc.Add(new Paragraph("\n"));
+                doc.Add(new Paragraph($"Total: {totalVenta:C}"));
+
+                // Información de pago
+                decimal cambio = montoPagado - totalVenta;
+                doc.Add(new Paragraph($"Pagó con: {montoPagado:C}"));
+                doc.Add(new Paragraph($"Cambio: {cambio:C}"));
+
+                // Pie de comprobante
+                doc.Add(new Paragraph("\n"));
+                doc.Add(new Paragraph($"N° Comprobante: {marcaTiempo}"));
+                doc.Add(new Paragraph("¡Gracias por su compra!", FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 12)));
+
+                doc.Close();
             }
 
         }

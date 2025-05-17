@@ -606,10 +606,10 @@
             tabInventario.Controls.Add(btnAgregarInventario);
             tabInventario.Controls.Add(tbBusquedaInventario);
             tabInventario.Controls.Add(label22);
-            tabInventario.Location = new Point(4, 28);
+            tabInventario.Location = new Point(4, 24);
             tabInventario.Name = "tabInventario";
             tabInventario.Padding = new Padding(3);
-            tabInventario.Size = new Size(1093, 702);
+            tabInventario.Size = new Size(1093, 706);
             tabInventario.TabIndex = 1;
             tabInventario.Text = "tabPage2";
             // 
@@ -1232,6 +1232,7 @@
             Controls.Add(pictureBox1);
             Controls.Add(tabControlInicio);
             Font = new Font("Bahnschrift", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Margin = new Padding(4);
             Name = "Inicio";
             StartPosition = FormStartPosition.CenterScreen;

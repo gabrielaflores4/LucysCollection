@@ -1,37 +1,70 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <OutputType>WinExe</OutputType>
-    <TargetFramework>net8.0-windows</TargetFramework>
-    <Nullable>enable</Nullable>
-    <UseWindowsForms>true</UseWindowsForms>
-    <ImplicitUsings>enable</ImplicitUsings>
-  </PropertyGroup>
+	<PropertyGroup>
+		<!-- Configuración básica -->
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>net8.0-windows</TargetFramework>
+		<Nullable>enable</Nullable>
+		<UseWindowsForms>true</UseWindowsForms>
+		<ImplicitUsings>enable</ImplicitUsings>
 
-  <ItemGroup>
-    <PackageReference Include="iTextSharp.LGPLv2.Core" Version="3.7.1" />
-    <PackageReference Include="WinForms.DataVisualization" Version="1.10.0" />
-  </ItemGroup>
+		<!-- Identificación de la aplicación -->
+		<AssemblyName>LucysCollection</AssemblyName>
+		<ApplicationIcon>lucysIconFinal.ico</ApplicationIcon>
 
-  <ItemGroup>
-    <ProjectReference Include="..\C_Datos\C_Datos.csproj" />
-    <ProjectReference Include="..\C_Entidades\C_Entidades.csproj" />
-    <ProjectReference Include="..\C_Negocios\C_Negocios.csproj" />
-  </ItemGroup>
+		<!-- Configuración de publicación auto-contenida -->
+		<PublishSingleFile>true</PublishSingleFile>
+		<SelfContained>true</SelfContained>
+		<RuntimeIdentifier>win-x64</RuntimeIdentifier>
+		<IncludeAllContentForSelfExtract>true</IncludeAllContentForSelfExtract>
+		<PublishReadyToRun>true</PublishReadyToRun>
+		<PublishTrimmed>false</PublishTrimmed>
+		<!-- Evita problemas con trimming -->
 
-  <ItemGroup>
-    <Compile Update="Properties\Resources.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-  </ItemGroup>
+		<!-- Configuración crítica -->
+		<UseAppHost>true</UseAppHost>
+		<EnableComHosting>false</EnableComHosting>
+		<!-- Desactivado si no se usa COM -->
+		<WindowsPackageType>None</WindowsPackageType>
 
-  <ItemGroup>
-    <EmbeddedResource Update="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-  </ItemGroup>
+		<!-- Configuración de depuración -->
+		<DebugType>none</DebugType>
+		<DebugSymbols>false</DebugSymbols>
+
+		<!-- Optimizaciones -->
+		<ErrorOnDuplicatePublishOutputFiles>false</ErrorOnDuplicatePublishOutputFiles>
+		<AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+	</PropertyGroup>
+
+	<!-- Archivos de contenido (icono) -->
+	<ItemGroup>
+		<Content Include="lucysIconFinal.ico">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
+
+	<!-- Paquetes NuGet -->
+	<ItemGroup>
+		<PackageReference Include="iTextSharp.LGPLv2.Core" Version="3.7.1" />
+		<PackageReference Include="Microsoft.VisualBasic" Version="10.3.0" />
+		<PackageReference Include="WinForms.DataVisualization" Version="1.10.0" />
+	</ItemGroup>
+
+	<!-- Referencias a proyectos -->
+	<ItemGroup>
+		<ProjectReference Include="..\C_Datos\C_Datos.csproj" />
+		<ProjectReference Include="..\C_Entidades\C_Entidades.csproj" />
+		<ProjectReference Include="..\C_Negocios\C_Negocios.csproj" />
+	</ItemGroup>
+
+	<!-- Archivos adicionales para publicación -->
+	<ItemGroup>
+		<None Update="*.json">
+			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+		</None>
+		<None Update="*.config">
+			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+		</None>
+	</ItemGroup>
 
 </Project>

@@ -41,8 +41,6 @@ namespace C_Presentacion
             InicializarComboBox(cmbStock, new[] { "Todos", "Mayor", "Menor", "Sin stock" });
 
             // Form Inventario
-            InicializarComboBox(cmbTalla, new[] { "Todos", "29", "30", "35", "38", "39" });
-            InicializarComboBox(cmbStockk, new[] { "Todos", "Mayor", "Menor", "Sin stock" });
             InicializarComboBox(cmbCategoria, new[] { "Todos", "Botas", "Sandalias", "Zapatillas bordadas", "Zapatos casuales", "Calzado infantil" });
             InicializarComboBox(cmbPrecioUnit, new[] { "Todos", "Mayor precio", "Menor precio" });
 
@@ -854,37 +852,20 @@ namespace C_Presentacion
 
         private void FiltrarInventario()
         {
+            // Obtener todos los productos
             List<Producto> productos = productoNeg.ObtenerProductos();
 
-            string filtroStock = cmbStockk.SelectedItem?.ToString() ?? string.Empty;
-            if (filtroStock == "Sin stock")
-                productos = productos.Where(p => p.Stock == 0).ToList();
-
+            // Filtrar por categoría si se ha seleccionado una específica
             string filtroCategoria = cmbCategoria.SelectedItem?.ToString() ?? string.Empty;
-            if (filtroCategoria != "Todos")
+            if (filtroCategoria != "Todos" && !string.IsNullOrEmpty(filtroCategoria))
+            {
                 productos = productos.Where(p => p.Categoria.Nombre == filtroCategoria).ToList();
-
-            string filtroTalla = cmbTalla.SelectedItem?.ToString() ?? string.Empty;
-
-            if (filtroTalla != "Todos" && int.TryParse(filtroTalla, out int tallaFiltrada))
-            {
-                productos = productos.Where(p => p.Talla.Id_Talla == tallaFiltrada).ToList();
             }
 
-            IOrderedEnumerable<Producto> ordenado;
-            switch (filtroStock)
-            {
-                case "Mayor":
-                    ordenado = productos.OrderByDescending(p => p.Stock);
-                    break;
-                case "Menor":
-                    ordenado = productos.OrderBy(p => p.Stock);
-                    break;
-                default:
-                    ordenado = productos.OrderBy(p => p.Id_Prod);
-                    break;
-            }
+            // Ordenar los productos
+            IOrderedEnumerable<Producto> ordenado = productos.OrderBy(p => p.Id_Prod);
 
+            // Aplicar ordenamiento por precio si se ha seleccionado
             string filtroPrecio = cmbPrecioUnit.SelectedItem?.ToString() ?? string.Empty;
             switch (filtroPrecio)
             {
@@ -896,14 +877,14 @@ namespace C_Presentacion
                     break;
             }
 
+            // Configurar el DataSource del DataGridView
             dataGridInventarioProducto.DataSource = ordenado.Select(p => new
             {
                 p.Id_Prod,
                 p.Nombre,
-                Talla = p.Talla.Id_Talla,
-                p.Stock,
                 Categoria = p.Categoria.Nombre,
-                p.Precio
+                p.Precio,
+                p.Stock  // Mantenido por si aún necesitas mostrar el stock
             }).ToList();
         }
 
