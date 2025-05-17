@@ -54,6 +54,7 @@ namespace C_Datos
                     {
                         //Insertar en la tabla Personas
                         int idPersona;
+                        
                         using (var cmdPersona = new NpgsqlCommand(
                             @"INSERT INTO Personas (nombre, apellido, correo, telefono) VALUES (@nombre, @apellido, @correo, @telefono) RETURNING id_persona",
                             conexion))

@@ -65,7 +65,6 @@
             lblDashboard.Size = new Size(234, 33);
             lblDashboard.TabIndex = 65;
             lblDashboard.Text = "Registro Usuarios";
-            lblDashboard.Click += lblDashboard_Click;
             // 
             // pictureBox1
             // 
@@ -292,7 +291,6 @@
             StartPosition = FormStartPosition.CenterScreen;
             Text = "RegistroUsuario";
             WindowState = FormWindowState.Maximized;
-            Load += RegistroUsuario_Load;
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ((System.ComponentModel.ISupportInitialize)errorIconoUsuarios).EndInit();
             ResumeLayout(false);

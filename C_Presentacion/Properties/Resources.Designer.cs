@@ -123,6 +123,16 @@ namespace C_Presentacion.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap btnAgregarTallas {
+            get {
+                object obj = ResourceManager.GetObject("btnAgregarTallas", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap btnCancelar {
             get {
                 object obj = ResourceManager.GetObject("btnCancelar", resourceCulture);

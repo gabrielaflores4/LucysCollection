@@ -37,9 +37,18 @@ namespace C_Presentacion
         private void EditarProducto_Load(object sender, EventArgs e)
         {
             CargarDatosIniciales();
+            ConfigurarPermisos();
         }
 
+        public void ConfigurarPermisos()
+        {
+            bool esAdmin = Sesion.TieneRol("admin"); 
 
+            // Ejemplo: Ocultar botones si NO es admin
+            btnAgregarTallas.Visible = esAdmin;
+            btnEditarProd.Visible = esAdmin;
+            btnEliminarTalla.Visible = esAdmin;
+        }
         private void ConfigurarDataGridView()
         {
             dataGridProductoDet.AutoGenerateColumns = false;
@@ -381,6 +390,7 @@ namespace C_Presentacion
                     mensajeExito = "Stock actualizado correctamente";
                     mensajeError = "No se pudo actualizar el stock";
                 }
+                
                 //Cambio de talla y stock
                 else if (!cambioNombre && !cambioPrecio && !cambioCategoria && cambioTalla && cambioStock)
                 {
@@ -474,7 +484,7 @@ namespace C_Presentacion
                 btnEliminarTalla.Visible = false;
                 LimpiarControles();
             }
-            else {  }
+            else { }
         }
 
         private void dataGridProductoDet_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
@@ -527,7 +537,7 @@ namespace C_Presentacion
         {
             if (dataGridProductoDet.SelectedRows.Count == 0)
             {
-                MessageBox.Show("Seleccione una talla del producto que desea eliminar.","Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Seleccione una talla del producto que desea eliminar.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
@@ -549,7 +559,7 @@ namespace C_Presentacion
                     "Confirmar Eliminación Forzada",
                     MessageBoxButtons.YesNo,
                     MessageBoxIcon.Warning,
-                    MessageBoxDefaultButton.Button2); 
+                    MessageBoxDefaultButton.Button2);
 
                 if (confirmacion == DialogResult.Yes)
                 {
@@ -574,13 +584,75 @@ namespace C_Presentacion
                     }
                     else
                     {
-                        MessageBox.Show("No se pudo eliminar el producto.", "Error",MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show("No se pudo eliminar el producto.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error durante la eliminación forzada: {ex.Message}","Error Crítico", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Error durante la eliminación forzada: {ex.Message}", "Error Crítico", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnAgregarTallas_Click(object sender, EventArgs e)
+        {
+            // Validar que haya un producto seleccionado o un nombre ingresado
+            if (string.IsNullOrEmpty(tbNombreProdAct.Text))
+            {
+                MessageBox.Show("Ingrese el nombre del producto primero", "Advertencia",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // Obtener los parámetros necesarios
+            decimal precio = 0;
+            int categoriaId = 0;
+            bool datosCompletos = true;
+
+            // Intentar obtener precio y categoría si están disponibles
+            if (!decimal.TryParse(tbPrecioRegAct.Text, out precio))
+            {
+                datosCompletos = false;
+            }
+
+            if (cbCategoriaAct.SelectedItem == null)
+            {
+                datosCompletos = false;
+            }
+            else
+            {
+                categoriaId = ((Categoria)cbCategoriaAct.SelectedItem).Id;
+            }
+
+            // Mostrar advertencia si faltan datos
+            if (!datosCompletos)
+            {
+                var confirmacion = MessageBox.Show("Algunos datos (precio/categoría) no están completos. " +
+                    "¿Desea usar los valores por defecto del producto base?",
+                    "Confirmar", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                if (confirmacion != DialogResult.Yes)
+                {
+                    return;
+                }
+            }
+
+            // Abrir formulario de agregar tallas
+            using (var frmAgregarTallas = new AgregarTallas(
+                nombreProducto: tbNombreProdAct.Text,
+                precio: datosCompletos ? precio : (decimal?)null,
+                categoriaId: datosCompletos ? categoriaId : (int?)null
+            ))
+            {
+                if (frmAgregarTallas.ShowDialog() == DialogResult.OK)
+                {
+                    // Actualizar la lista de productos después de agregar tallas
+                    CargarTodasVariantesProducto(tbNombreProdAct.Text);
+
+                    // Mostrar mensaje de éxito
+                    MessageBox.Show("Tallas agregadas correctamente", "Éxito",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
             }
         }
     }

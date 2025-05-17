@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using System.Data;
 using C_Negocios;
 
 namespace C_Presentacion
@@ -19,12 +11,6 @@ namespace C_Presentacion
             InitializeComponent();
             usuarioNegocio = new UsuarioNeg();
         }
-
-        private void lblDashboard_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private bool EsFormularioValido()
         {
             BorrarErrorProvider(); 
@@ -88,68 +74,78 @@ namespace C_Presentacion
         }
         private void btnRegistrarUsuarios_Click(object sender, EventArgs e)
         {
+            // Validar el formulario completo
             if (!EsFormularioValido())
             {
-                MessageBox.Show("Por favor, corrige los errores antes de continuar.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Por favor complete todos los campos correctamente","Validación",MessageBoxButtons.OK,MessageBoxIcon.Warning);
                 return;
             }
-            string nombre = tbNombreUser.Text;
-            string apellido = tbApellidoUser.Text;
-            string correo = tbCorreoUser.Text;
-            string telefono = tbTelefonoUser.Text;
-            string username = tbUsername.Text;
-            string contraseña = tbPassword.Text;
 
+            // Limpieza y validación del teléfono
+            string telefono = new string(tbTelefonoUser.Text.Where(char.IsDigit).ToArray());
+
+            if (telefono.Length != 8)
+            {
+                errorIconoUsuarios.SetError(tbTelefonoUser, "Debe tener 8 dígitos exactos");
+                MessageBox.Show("El teléfono debe contener exactamente 8 dígitos numéricos", "Error en teléfono",MessageBoxButtons.OK,MessageBoxIcon.Error);
+                tbTelefonoUser.Focus();
+                return;
+            }
 
             try
             {
-                int idUsuario = usuarioNegocio.CrearUsuario(nombre, apellido, correo, telefono, correo, username, contraseña);
+                // Registrar el usuario
+                int idUsuario = usuarioNegocio.CrearUsuario(
+                    tbNombreUser.Text.Trim(),
+                    tbApellidoUser.Text.Trim(),
+                    telefono, 
+                    tbCorreoUser.Text.Trim(),
+                    tbUsername.Text.Trim(),
+                    tbPassword.Text,
+                    cbRol.SelectedItem?.ToString() ?? string.Empty
+                );
 
                 if (idUsuario > 0)
                 {
-                    MessageBox.Show($"Usuario creado exitosamente. ID: {idUsuario}", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    tbNombreUser.Clear();
-                    tbApellidoUser.Clear();
-                    tbCorreoUser.Clear();
-                    tbTelefonoUser.Clear();
-                    tbUsername.Clear();
-                    tbPassword.Clear();
+                    MessageBox.Show($"Usuario registrado exitosamente!","Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    LimpiarFormulario();
+                    this.Close();
                 }
                 else
                 {
-                    MessageBox.Show("No se pudo crear el cliente. Intenta de nuevo.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("No se pudo crear el usuario. Por favor intente nuevamente.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
+            }
+            catch (ArgumentException ex)
+            {
+                // Manejo específico para errores de validación
+                MessageBox.Show(ex.Message, "Error de validación", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (Npgsql.PostgresException ex) when (ex.SqlState == "23505")
+            {
+                MessageBox.Show("El nombre de usuario o correo ya existe",
+                              "Error de duplicado",
+                              MessageBoxButtons.OK,
+                              MessageBoxIcon.Error);
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al registrar cliente: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-
-            try
-            {
-                // Crear una instancia de UsuarioNeg
-                UsuarioNeg usuarioNeg = new UsuarioNeg();
-
-                MessageBox.Show($"Usuario creado exitosamente", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                // Limpiar campos después de registrar
-                tbNombreUser.Clear();
-                tbApellidoUser.Clear();
-                tbCorreoUser.Clear();
-                tbTelefonoUser.Clear();
-                tbUsername.Clear();
-                tbPassword.Clear();
-                cbRol.SelectedIndex = -1;
-            }
-            catch (Exception)
-            {
-                MessageBox.Show("Error al registrar usuario: ", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Error inesperado: {ex.Message}","Error",MessageBoxButtons.OK, MessageBoxIcon.Error);Console.WriteLine($"Error al registrar usuario: {ex}");
             }
         }
 
-        private void RegistroUsuario_Load(object sender, EventArgs e)
+        private void LimpiarFormulario()
         {
-
+            // Limpiar campos
+            tbNombreUser.Clear();
+            tbApellidoUser.Clear();
+            tbCorreoUser.Clear();
+            tbTelefonoUser.Clear();
+            tbUsername.Clear();
+            tbPassword.Clear();
+            cbRol.SelectedIndex = -1;
+            BorrarErrorProvider();
+            tbNombreUser.Focus();
         }
 
         private void tbNombreUser_KeyPress(object sender, KeyPressEventArgs e)

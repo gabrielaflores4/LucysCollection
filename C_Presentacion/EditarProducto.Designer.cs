@@ -54,6 +54,8 @@
             lblDetalleProd = new Label();
             btnCancelarDetallePr = new PictureBox();
             btnEliminarTalla = new Button();
+            button1 = new Button();
+            btnAgregarTallas = new Button();
             ((System.ComponentModel.ISupportInitialize)nbCantidad).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridProductoDet).BeginInit();
@@ -321,12 +323,40 @@
             btnEliminarTalla.UseVisualStyleBackColor = false;
             btnEliminarTalla.Click += btnEliminarTalla_Click;
             // 
+            // button1
+            // 
+            button1.BackColor = Color.FromArgb(221, 221, 221);
+            button1.BackgroundImageLayout = ImageLayout.Zoom;
+            button1.FlatStyle = FlatStyle.Flat;
+            button1.ForeColor = Color.FromArgb(221, 221, 221);
+            button1.Location = new Point(773, 71);
+            button1.Name = "button1";
+            button1.Size = new Size(195, 74);
+            button1.TabIndex = 104;
+            button1.UseVisualStyleBackColor = false;
+            // 
+            // btnAgregarTallas
+            // 
+            btnAgregarTallas.BackColor = Color.FromArgb(221, 221, 221);
+            btnAgregarTallas.BackgroundImage = Properties.Resources.btnAgregarTallas;
+            btnAgregarTallas.BackgroundImageLayout = ImageLayout.Zoom;
+            btnAgregarTallas.FlatStyle = FlatStyle.Flat;
+            btnAgregarTallas.ForeColor = Color.FromArgb(221, 221, 221);
+            btnAgregarTallas.Location = new Point(782, 71);
+            btnAgregarTallas.Name = "btnAgregarTallas";
+            btnAgregarTallas.Size = new Size(195, 74);
+            btnAgregarTallas.TabIndex = 105;
+            btnAgregarTallas.UseVisualStyleBackColor = false;
+            btnAgregarTallas.Click += btnAgregarTallas_Click;
+            // 
             // EditarProducto
             // 
             AutoScaleDimensions = new SizeF(9F, 19F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(221, 221, 221);
             ClientSize = new Size(1370, 749);
+            Controls.Add(btnAgregarTallas);
+            Controls.Add(button1);
             Controls.Add(btnEliminarTalla);
             Controls.Add(btnCancelarDetallePr);
             Controls.Add(lblDetalleProd);
@@ -351,7 +381,7 @@
             Margin = new Padding(4);
             Name = "EditarProducto";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "EditarProducto";
+            Text = "Editar Producto";
             WindowState = FormWindowState.Maximized;
             Load += EditarProducto_Load;
             ((System.ComponentModel.ISupportInitialize)nbCantidad).EndInit();
@@ -386,5 +416,7 @@
         private DataGridViewTextBoxColumn talla;
         private DataGridViewTextBoxColumn stock;
         private Button btnEliminarTalla;
+        private Button button1;
+        private Button btnAgregarTallas;
     }
 }

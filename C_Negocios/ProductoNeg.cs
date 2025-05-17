@@ -12,44 +12,47 @@ namespace C_Negocios
         private TallaDatos tallaDatos = new TallaDatos();
 
 
-        // Método para agregar un producto
         public void AgregarProductos(List<Producto> productos)
-        {
-            if (productos == null || productos.Count == 0)
-                throw new ArgumentException("Debe proporcionar al menos un producto");
+{
+    // Validación básica de lista
+    if (productos == null || productos.Count == 0)
+        throw new ArgumentException("Debe proporcionar al menos un producto");
 
-            // Validaciones comunes
-            var primerProducto = productos[0];
+    var primerProducto = productos[0];
 
-            if (string.IsNullOrWhiteSpace(primerProducto.Nombre))
-                throw new ArgumentException("El nombre del producto es requerido");
+    // Validaciones de campos obligatorios
+    if (string.IsNullOrWhiteSpace(primerProducto.Nombre))
+        throw new ArgumentException("El nombre del producto es requerido");
 
-            if (primerProducto.Precio <= 0)
-                throw new ArgumentException("El precio debe ser mayor a 0");
+    if (primerProducto.Precio <= 0)
+        throw new ArgumentException("El precio debe ser mayor a 0");
 
-            if (primerProducto.Categoria?.Id <= 0)
-                throw new ArgumentException("Categoría inválida");
+    if (primerProducto.Categoria?.Id <= 0)
+        throw new ArgumentException("Categoría inválida");
 
-            // Verificar duplicados
-            if (productoDatos.ObtenerProductos()
-                .Any(p => p.Nombre.Equals(primerProducto.Nombre, StringComparison.OrdinalIgnoreCase)))
-            {
-                throw new InvalidOperationException($"El producto '{primerProducto.Nombre}' ya existe");
-            }
+    // Verificar consistencia en el grupo de productos
+    if (productos.Any(p => p.Nombre != primerProducto.Nombre))
+        throw new ArgumentException("Todos los productos deben tener el mismo nombre");
 
-            // Validar que haya al menos una talla con stock > 0
-            if (!productos.Any(p => p.Stock > 0))
-                throw new InvalidOperationException("Debe haber al menos una talla con stock positivo");
+    if (productos.Any(p => p.Precio != primerProducto.Precio))
+        throw new ArgumentException("Todos los productos deben tener el mismo precio");
 
-            try
-            {
-                productoDatos.AgregarProductos(productos);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Error al guardar productos: " + ex.Message, ex);
-            }
-        }
+    if (productos.Any(p => p.Categoria?.Id != primerProducto.Categoria?.Id))
+        throw new ArgumentException("Todos los productos deben tener la misma categoría");
+
+    // Validar stock positivo
+    if (!productos.Any(p => p.Stock > 0))
+        throw new InvalidOperationException("Debe haber al menos una talla con stock positivo");
+
+    try
+    {
+        productoDatos.AgregarProductos(productos);
+    }
+    catch (Exception ex)
+    {
+        throw new Exception("Error al guardar productos: " + ex.Message, ex);
+    }
+}
 
         public List<string> ObtenerNombresProductos()
         {
@@ -288,10 +291,17 @@ namespace C_Negocios
             if (producto == null) return false;
 
             // Validar duplicados de talla para el mismo nombre
-            if (nuevaTalla != producto.Talla?.Id_Talla &&
-                productoDatos.ExisteProductoConMismaTalla(producto.Nombre, nuevaTalla, id))
+            if (nuevaTalla != producto.Talla?.Id_Talla)
             {
-                throw new Exception("Ya existe un producto con este nombre y talla");
+                if (productoDatos.ExisteProductoConMismaTalla(producto.Nombre, nuevaTalla, id))
+                {
+                    var tallas = productoDatos.ObtenerTodasLasTallas();
+                    var descripcionTalla = tallas.FirstOrDefault(t => t.Id_Talla == nuevaTalla)?.Descripcion
+                                          ?? nuevaTalla.ToString();
+
+                    throw new InvalidOperationException(
+                        $"Ya existe el producto '{producto.Nombre}' con la talla {descripcionTalla}");
+                }
             }
 
             return productoDatos.ActualizarTallaYStock(id, nuevaTalla, nuevoStock);
@@ -301,5 +311,33 @@ namespace C_Negocios
         {
             return productoDatos.ObtenerStockPorProductoYTalla(productoId, tallaId);
         }
+
+        public List<Talla> ObtenerTallasNoRegistradas(string nombreProducto)
+        {
+            if (string.IsNullOrWhiteSpace(nombreProducto))
+                throw new ArgumentException("El nombre del producto no puede estar vacío");
+
+            try
+            {
+                // Obtener todas las tallas
+                var todasLasTallas = productoDatos.ObtenerTodasLasTallas();
+
+                // Obtener tallas ya usadas por este producto
+                var tallasRegistradas = productoDatos.ObtenerProductosConTallasPorNombre(nombreProducto)
+                    .Select(p => p.Talla.Id_Talla)
+                    .Distinct()
+                    .ToList();
+
+                // Filtrar las no registradas
+                return todasLasTallas
+                    .Where(t => !tallasRegistradas.Contains(t.Id_Talla))
+                    .ToList();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error al obtener tallas no registradas: {ex.Message}", ex);
+            }
+        }
+
     }
 }

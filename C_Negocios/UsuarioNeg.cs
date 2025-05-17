@@ -16,7 +16,6 @@ namespace C_Negocios
         private Hash hash;
         private UsuarioDatos _usuarioDatos = new UsuarioDatos();
 
-        // Constructor que inicializa las clases necesarias
         public UsuarioNeg()
         {
             usuarioDatos = new UsuarioDatos();
@@ -39,13 +38,41 @@ namespace C_Negocios
             }
         }
 
-        public int CrearUsuario(string nombre, string apellido, string telefono, string correo, string username, string contraseña, string rol)
+        public int CrearUsuario(string nombre, string apellido, string telefono, string correo,
+                              string username, string contraseña, string rol)
         {
-            // Hash de la contraseña proporcionada
-            string passwordHash = hash.HashContraseña(contraseña);
+            // Validaciones de parámetros
+            if (string.IsNullOrWhiteSpace(nombre))
+                throw new ArgumentException("El nombre no puede estar vacío", nameof(nombre));
 
-            // Llamar a la clase de datos para crear el usuario
-            return usuarioDatos.CrearUsuario(nombre, apellido, telefono, correo, username, passwordHash, rol);
+            if (string.IsNullOrWhiteSpace(apellido))
+                throw new ArgumentException("El apellido no puede estar vacío", nameof(apellido));
+
+            if (string.IsNullOrWhiteSpace(telefono) || telefono.Length != 8 || !telefono.All(char.IsDigit))
+                throw new ArgumentException("El teléfono debe tener exactamente 8 dígitos", nameof(telefono));
+
+            if (string.IsNullOrWhiteSpace(correo) || !correo.Contains("@"))
+                throw new ArgumentException("El correo no es válido", nameof(correo));
+
+            if (string.IsNullOrWhiteSpace(username))
+                throw new ArgumentException("El nombre de usuario no puede estar vacío", nameof(username));
+
+            if (string.IsNullOrWhiteSpace(contraseña) || contraseña.Length < 6)
+                throw new ArgumentException("La contraseña debe tener al menos 6 caracteres", nameof(contraseña));
+
+            if (string.IsNullOrWhiteSpace(rol))
+                throw new ArgumentException("Debe seleccionar un rol", nameof(rol));
+
+            try
+            {
+                string passwordHash = hash.HashContraseña(contraseña);
+                return _usuarioDatos.CrearUsuario(nombre, apellido, telefono, correo, username, passwordHash, rol);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error al crear usuario: {ex.Message}");
+                throw; 
+            }
         }
 
         public List<Usuario> ObtenerUsuarios()
@@ -72,7 +99,6 @@ namespace C_Negocios
                 return false;
             }
         }
-
 
         public List<Usuario> BuscarEmpleados(string texto)
         {

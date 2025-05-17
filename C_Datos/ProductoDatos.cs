@@ -18,12 +18,7 @@ namespace C_Datos
                 using (var conexion = Conexion.ObtenerConexion())
                 using (var transaction = conexion.BeginTransaction())
                 {
-                    string nombreProducto = productos[0].Nombre;
-
-                    if (ExisteProducto(conexion, nombreProducto))
-                    {
-                        throw new InvalidOperationException($"El producto '{nombreProducto}' ya existe en el sistema");
-                    }
+                    // Eliminamos la validación de ExisteProducto que verifica solo por nombre
 
                     if (!MismaCategoriaParaTodos(conexion, productos))
                     {
@@ -40,6 +35,15 @@ namespace C_Datos
                     if (productosConStock.Count == 0)
                     {
                         throw new InvalidOperationException("Debe haber al menos una talla con stock positivo");
+                    }
+
+                    // Verificar duplicados por nombre + talla
+                    foreach (var producto in productosConStock)
+                    {
+                        if (ExisteProductoConMismaTalla(conexion, producto.Nombre, producto.Talla.Id_Talla))
+                        {
+                            throw new InvalidOperationException($"Ya existe el producto '{producto.Nombre}' con la talla {producto.Talla.Id_Talla}");
+                        }
                     }
 
                     foreach (var producto in productosConStock)
@@ -476,22 +480,27 @@ namespace C_Datos
             return null;
         }
 
+        public bool ExisteProductoConMismaTalla(NpgsqlConnection conexion, string nombre, int talla, int excluirId = 0)
+        {
+            using (var cmd = new NpgsqlCommand(
+                @"SELECT COUNT(*) FROM producto 
+                    WHERE nombre_prod = @nombre 
+                    AND id_talla = @talla 
+                    AND id_producto != @excluirId",
+                conexion))
+            {
+                cmd.Parameters.AddWithValue("@nombre", nombre);
+                cmd.Parameters.AddWithValue("@talla", talla);
+                cmd.Parameters.AddWithValue("@excluirId", excluirId);
+                return Convert.ToInt32(cmd.ExecuteScalar()) > 0;
+            }
+        }
+
         public bool ExisteProductoConMismaTalla(string nombre, int talla, int excluirId = 0)
         {
             using (var conexion = Conexion.ObtenerConexion())
             {
-                using (var cmd = new NpgsqlCommand(
-                    @"SELECT COUNT(*) FROM producto 
-                      WHERE nombre_prod = @nombre 
-                      AND id_talla = @talla 
-                      AND id_producto != @excluirId", 
-                    conexion))
-                {
-                    cmd.Parameters.AddWithValue("@nombre", nombre);
-                    cmd.Parameters.AddWithValue("@talla", talla);
-                    cmd.Parameters.AddWithValue("@excluirId", excluirId);
-                    return Convert.ToInt32(cmd.ExecuteScalar()) > 0;
-                }
+                return ExisteProductoConMismaTalla(conexion, nombre, talla, excluirId);
             }
         }
 

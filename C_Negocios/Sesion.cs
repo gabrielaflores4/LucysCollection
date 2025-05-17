@@ -1,17 +1,10 @@
-﻿using C_Datos;
-using C_Entidades;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using C_Negocios;
+﻿using C_Entidades;
 
 namespace C_Negocios
 {
     public static class Sesion
     {
-        public static Usuario UsuarioActivo { get; private set; }
+        public static Usuario? UsuarioActivo { get; private set; }
 
         public static void IniciarSesion(Usuario usuario)
         {

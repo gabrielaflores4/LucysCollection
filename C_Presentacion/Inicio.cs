@@ -14,7 +14,7 @@ namespace C_Presentacion
         private ProveedorNeg _proveedorNeg = new ProveedorNeg();
         private MateriaPrimaNeg _materiaPrimaNeg = new MateriaPrimaNeg();
         private ClienteNeg clienteNeg = new ClienteNeg();
-
+        private EditarProducto _formEditarProducto;
         public Inicio()
         {
             InitializeComponent();
@@ -24,23 +24,29 @@ namespace C_Presentacion
         {
             if (Sesion.EstaLogueado())
             {
-                Usuario usuarioLogueado = Sesion.UsuarioActivo;
-                lblNombreUsuario.Text = $"{usuarioLogueado.Nombre} {usuarioLogueado.Apellido}";
-                lblRolUser.Text = usuarioLogueado.Rol;
+                Usuario? usuarioLogueado = Sesion.UsuarioActivo;
+
+                if (usuarioLogueado != null)
+                {
+                    lblNombreUsuario.Text = $"{usuarioLogueado.Nombre} {usuarioLogueado.Apellido}";
+                    lblRolUser.Text = usuarioLogueado.Rol;
+                    AplicarPermisosPorRol();
+                }
+                else
+                {
+                    MessageBox.Show("Error: Usuario no encontrado en la sesión.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
             }
             else
             {
-                MessageBox.Show("No hay un usuario logueado. Inicie sesión primero.");
-
                 Login frmLogin = new Login();
                 frmLogin.ShowDialog();
+                return;
             }
 
-            // Form MP
             InicializarComboBox(cmbPrecio, new[] { "Todos", "Mayor precio", "Menor precio" });
             InicializarComboBox(cmbStock, new[] { "Todos", "Mayor", "Menor", "Sin stock" });
-
-            // Form Inventario
             InicializarComboBox(cmbCategoria, new[] { "Todos", "Botas", "Sandalias", "Zapatillas bordadas", "Zapatos casuales", "Calzado infantil" });
             InicializarComboBox(cmbPrecioUnit, new[] { "Todos", "Mayor precio", "Menor precio" });
 
@@ -144,6 +150,7 @@ namespace C_Presentacion
                 btnAgregarProv.Visible = false;
                 btnEliminarProv.Visible = false;
                 btnEmpleados.Visible = false;
+                btnReporte.Visible = false;
                 AjustarDataGridViews();
             }
         }
