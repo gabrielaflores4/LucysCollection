@@ -42,7 +42,9 @@
             Telefono = new DataGridViewTextBoxColumn();
             pictureBox9 = new PictureBox();
             tbBusquedaClientes = new TextBox();
-            btnEditarClientes = new Button();
+            btnEditarCli = new Button();
+            btnAgregarCli = new Button();
+            btnEliminarCli = new Button();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridClientes).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox9).BeginInit();
@@ -146,24 +148,51 @@
             // 
             // tbBusquedaClientes
             // 
-            tbBusquedaClientes.Location = new Point(294, 98);
+            tbBusquedaClientes.Location = new Point(684, 98);
             tbBusquedaClientes.Name = "tbBusquedaClientes";
-            tbBusquedaClientes.Size = new Size(984, 27);
+            tbBusquedaClientes.Size = new Size(594, 27);
             tbBusquedaClientes.TabIndex = 49;
             tbBusquedaClientes.TextChanged += tbBusquedaClientes_TextChanged;
             // 
-            // btnEditarClientes
+            // btnEditarCli
             // 
-            btnEditarClientes.BackColor = Color.FromArgb(221, 221, 221);
-            btnEditarClientes.BackgroundImage = Properties.Resources.btnEditar;
-            btnEditarClientes.BackgroundImageLayout = ImageLayout.Zoom;
-            btnEditarClientes.FlatStyle = FlatStyle.Flat;
-            btnEditarClientes.ForeColor = Color.FromArgb(221, 221, 221);
-            btnEditarClientes.Location = new Point(34, 87);
-            btnEditarClientes.Name = "btnEditarClientes";
-            btnEditarClientes.Size = new Size(133, 47);
-            btnEditarClientes.TabIndex = 59;
-            btnEditarClientes.UseVisualStyleBackColor = false;
+            btnEditarCli.BackColor = Color.FromArgb(221, 221, 221);
+            btnEditarCli.BackgroundImage = Properties.Resources.btnEditar;
+            btnEditarCli.BackgroundImageLayout = ImageLayout.Zoom;
+            btnEditarCli.FlatStyle = FlatStyle.Flat;
+            btnEditarCli.ForeColor = Color.FromArgb(221, 221, 221);
+            btnEditarCli.Location = new Point(325, 87);
+            btnEditarCli.Name = "btnEditarCli";
+            btnEditarCli.Size = new Size(157, 47);
+            btnEditarCli.TabIndex = 59;
+            btnEditarCli.UseVisualStyleBackColor = false;
+            // 
+            // btnAgregarCli
+            // 
+            btnAgregarCli.BackColor = Color.FromArgb(221, 221, 221);
+            btnAgregarCli.BackgroundImage = (Image)resources.GetObject("btnAgregarCli.BackgroundImage");
+            btnAgregarCli.BackgroundImageLayout = ImageLayout.Zoom;
+            btnAgregarCli.FlatStyle = FlatStyle.Flat;
+            btnAgregarCli.ForeColor = Color.FromArgb(221, 221, 221);
+            btnAgregarCli.Location = new Point(27, 87);
+            btnAgregarCli.Name = "btnAgregarCli";
+            btnAgregarCli.Size = new Size(157, 47);
+            btnAgregarCli.TabIndex = 60;
+            btnAgregarCli.UseVisualStyleBackColor = false;
+            btnAgregarCli.Click += btnAgregarCli_Click;
+            // 
+            // btnEliminarCli
+            // 
+            btnEliminarCli.BackColor = Color.FromArgb(221, 221, 221);
+            btnEliminarCli.BackgroundImage = Properties.Resources.btnEliminarCli;
+            btnEliminarCli.BackgroundImageLayout = ImageLayout.Zoom;
+            btnEliminarCli.FlatStyle = FlatStyle.Flat;
+            btnEliminarCli.ForeColor = Color.FromArgb(221, 221, 221);
+            btnEliminarCli.Location = new Point(176, 87);
+            btnEliminarCli.Name = "btnEliminarCli";
+            btnEliminarCli.Size = new Size(157, 47);
+            btnEliminarCli.TabIndex = 61;
+            btnEliminarCli.UseVisualStyleBackColor = false;
             // 
             // VistaClientes
             // 
@@ -171,7 +200,9 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(221, 221, 221);
             ClientSize = new Size(1370, 696);
-            Controls.Add(btnEditarClientes);
+            Controls.Add(btnEliminarCli);
+            Controls.Add(btnAgregarCli);
+            Controls.Add(btnEditarCli);
             Controls.Add(pictureBox9);
             Controls.Add(tbBusquedaClientes);
             Controls.Add(dataGridClientes);
@@ -184,6 +215,7 @@
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Clientes";
             WindowState = FormWindowState.Maximized;
+            Load += VistaClientes_Load;
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ((System.ComponentModel.ISupportInitialize)dataGridClientes).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox9).EndInit();
@@ -198,11 +230,13 @@
         private DataGridView dataGridClientes;
         private PictureBox pictureBox9;
         private TextBox tbBusquedaClientes;
-        private Button btnEditarClientes;
+        private Button btnEditarCli;
         private DataGridViewTextBoxColumn Id;
         private DataGridViewTextBoxColumn Nombre;
         private DataGridViewTextBoxColumn Apellido;
         private DataGridViewTextBoxColumn Correo;
         private DataGridViewTextBoxColumn Telefono;
+        private Button btnAgregarCli;
+        private Button btnEliminarCli;
     }
 }

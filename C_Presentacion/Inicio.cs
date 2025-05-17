@@ -941,5 +941,12 @@ namespace C_Presentacion
             ayudaFrm.Show();
             this.Hide();
         }
+
+        private void btnClientes_Click(object sender, EventArgs e)
+        {
+            VistaClientes frmClientes = new VistaClientes();
+            frmClientes.Show();
+            this.Hide();
+        }
     }
 }

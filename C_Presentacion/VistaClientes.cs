@@ -40,7 +40,7 @@ namespace C_Presentacion
                 HeaderText = "Nombre",
                 Name = "colNombre",
                 DisplayIndex = 1,
-                FillWeight = 25 
+                FillWeight = 25
             });
 
             dataGridClientes.Columns.Add(new DataGridViewTextBoxColumn()
@@ -58,7 +58,7 @@ namespace C_Presentacion
                 HeaderText = "Teléfono",
                 Name = "colTelefono",
                 DisplayIndex = 3,
-                FillWeight = 15 
+                FillWeight = 15
             });
 
             dataGridClientes.Columns.Add(new DataGridViewTextBoxColumn()
@@ -67,7 +67,7 @@ namespace C_Presentacion
                 HeaderText = "Correo",
                 Name = "colCorreo",
                 DisplayIndex = 4,
-                FillWeight = 25 
+                FillWeight = 25
             });
 
             dataGridClientes.Columns.Add(new DataGridViewTextBoxColumn()
@@ -76,7 +76,7 @@ namespace C_Presentacion
                 HeaderText = "Fecha Registro",
                 Name = "colFechaRegistro",
                 DisplayIndex = 5,
-                FillWeight = 10, 
+                FillWeight = 10,
                 DefaultCellStyle = new DataGridViewCellStyle()
                 {
                     Format = "dd/MM/yyyy",
@@ -146,6 +146,17 @@ namespace C_Presentacion
         private void tbBusquedaClientes_TextChanged(object sender, EventArgs e)
         {
             CargarClientesEnDataGrid();
+        }
+
+        private void btnAgregarCli_Click(object sender, EventArgs e)
+        {
+            FrmRegClientes frmRegClientes = new FrmRegClientes();
+            frmRegClientes.ShowDialog();
+        }
+
+        private void VistaClientes_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

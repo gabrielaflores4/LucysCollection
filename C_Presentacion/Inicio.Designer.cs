@@ -133,6 +133,7 @@
             tbBusquedaProv = new TextBox();
             label11 = new Label();
             btnReporte = new Button();
+            btnClientes = new Button();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             tabControlInicio.SuspendLayout();
             tabInicio.SuspendLayout();
@@ -174,7 +175,7 @@
             lblDashboard.BackColor = Color.Black;
             lblDashboard.Font = new Font("Bahnschrift", 20.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblDashboard.ForeColor = SystemColors.Control;
-            lblDashboard.Location = new Point(24, 32);
+            lblDashboard.Location = new Point(30, 25);
             lblDashboard.Name = "lblDashboard";
             lblDashboard.Size = new Size(216, 33);
             lblDashboard.TabIndex = 0;
@@ -187,7 +188,7 @@
             lblNombreUsuario.BackColor = Color.Black;
             lblNombreUsuario.Font = new Font("Bahnschrift", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblNombreUsuario.ForeColor = SystemColors.Control;
-            lblNombreUsuario.Location = new Point(24, 81);
+            lblNombreUsuario.Location = new Point(30, 74);
             lblNombreUsuario.Name = "lblNombreUsuario";
             lblNombreUsuario.Size = new Size(85, 25);
             lblNombreUsuario.TabIndex = 2;
@@ -199,7 +200,7 @@
             lblRolUser.BackColor = Color.Black;
             lblRolUser.Font = new Font("Bahnschrift", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblRolUser.ForeColor = Color.Gray;
-            lblRolUser.Location = new Point(26, 111);
+            lblRolUser.Location = new Point(32, 104);
             lblRolUser.Name = "lblRolUser";
             lblRolUser.Size = new Size(33, 19);
             lblRolUser.TabIndex = 3;
@@ -211,7 +212,7 @@
             btnInventario.BackgroundImage = Properties.Resources.btn_Inventario;
             btnInventario.BackgroundImageLayout = ImageLayout.Stretch;
             btnInventario.FlatStyle = FlatStyle.Flat;
-            btnInventario.Location = new Point(24, 213);
+            btnInventario.Location = new Point(30, 200);
             btnInventario.Name = "btnInventario";
             btnInventario.Size = new Size(205, 45);
             btnInventario.TabIndex = 2;
@@ -224,7 +225,7 @@
             btnVentas.BackgroundImage = Properties.Resources.btn_Ventas;
             btnVentas.BackgroundImageLayout = ImageLayout.Stretch;
             btnVentas.FlatStyle = FlatStyle.Flat;
-            btnVentas.Location = new Point(26, 151);
+            btnVentas.Location = new Point(30, 139);
             btnVentas.Name = "btnVentas";
             btnVentas.Size = new Size(205, 45);
             btnVentas.TabIndex = 1;
@@ -237,7 +238,7 @@
             btnEmpleados.BackgroundImage = Properties.Resources.btn_Empleados;
             btnEmpleados.BackgroundImageLayout = ImageLayout.Stretch;
             btnEmpleados.FlatStyle = FlatStyle.Flat;
-            btnEmpleados.Location = new Point(24, 403);
+            btnEmpleados.Location = new Point(30, 444);
             btnEmpleados.Name = "btnEmpleados";
             btnEmpleados.Size = new Size(205, 45);
             btnEmpleados.TabIndex = 5;
@@ -250,7 +251,7 @@
             btnMateriaPrima.BackgroundImage = Properties.Resources.btnMateriaPrima;
             btnMateriaPrima.BackgroundImageLayout = ImageLayout.Stretch;
             btnMateriaPrima.FlatStyle = FlatStyle.Flat;
-            btnMateriaPrima.Location = new Point(26, 280);
+            btnMateriaPrima.Location = new Point(30, 261);
             btnMateriaPrima.Name = "btnMateriaPrima";
             btnMateriaPrima.Size = new Size(205, 45);
             btnMateriaPrima.TabIndex = 3;
@@ -263,7 +264,7 @@
             btnProveedores.BackgroundImage = Properties.Resources.btn_Proveedores;
             btnProveedores.BackgroundImageLayout = ImageLayout.Stretch;
             btnProveedores.FlatStyle = FlatStyle.Flat;
-            btnProveedores.Location = new Point(24, 341);
+            btnProveedores.Location = new Point(30, 322);
             btnProveedores.Name = "btnProveedores";
             btnProveedores.Size = new Size(205, 45);
             btnProveedores.TabIndex = 4;
@@ -276,7 +277,7 @@
             btnAyuda.BackgroundImage = Properties.Resources.btn_Ayuda;
             btnAyuda.BackgroundImageLayout = ImageLayout.Stretch;
             btnAyuda.FlatStyle = FlatStyle.Flat;
-            btnAyuda.Location = new Point(24, 559);
+            btnAyuda.Location = new Point(30, 566);
             btnAyuda.Name = "btnAyuda";
             btnAyuda.Size = new Size(205, 45);
             btnAyuda.TabIndex = 7;
@@ -289,7 +290,7 @@
             btnLogout.BackgroundImage = Properties.Resources.btnCerrarSesion;
             btnLogout.BackgroundImageLayout = ImageLayout.Stretch;
             btnLogout.FlatStyle = FlatStyle.Flat;
-            btnLogout.Location = new Point(26, 625);
+            btnLogout.Location = new Point(30, 627);
             btnLogout.Name = "btnLogout";
             btnLogout.Size = new Size(205, 45);
             btnLogout.TabIndex = 8;
@@ -1205,12 +1206,25 @@
             btnReporte.BackgroundImage = (Image)resources.GetObject("btnReporte.BackgroundImage");
             btnReporte.BackgroundImageLayout = ImageLayout.Stretch;
             btnReporte.FlatStyle = FlatStyle.Flat;
-            btnReporte.Location = new Point(26, 465);
+            btnReporte.Location = new Point(30, 505);
             btnReporte.Name = "btnReporte";
             btnReporte.Size = new Size(205, 45);
             btnReporte.TabIndex = 6;
             btnReporte.UseVisualStyleBackColor = false;
             btnReporte.Click += btnReporte_Click;
+            // 
+            // btnClientes
+            // 
+            btnClientes.BackColor = Color.Black;
+            btnClientes.BackgroundImage = (Image)resources.GetObject("btnClientes.BackgroundImage");
+            btnClientes.BackgroundImageLayout = ImageLayout.Stretch;
+            btnClientes.FlatStyle = FlatStyle.Flat;
+            btnClientes.Location = new Point(30, 383);
+            btnClientes.Name = "btnClientes";
+            btnClientes.Size = new Size(205, 45);
+            btnClientes.TabIndex = 12;
+            btnClientes.UseVisualStyleBackColor = false;
+            btnClientes.Click += btnClientes_Click;
             // 
             // Inicio
             // 
@@ -1218,6 +1232,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(221, 221, 221);
             ClientSize = new Size(1370, 696);
+            Controls.Add(btnClientes);
             Controls.Add(btnReporte);
             Controls.Add(btnLogout);
             Controls.Add(btnAyuda);
@@ -1362,5 +1377,6 @@
         private DataGridViewTextBoxColumn Telefono_prov;
         private DataGridViewTextBoxColumn Correo_prov;
         private DataGridViewTextBoxColumn Direccion_prov;
+        private Button btnClientes;
     }
 }
