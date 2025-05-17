@@ -31,6 +31,7 @@
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RegMP));
             btnCancelarMP = new Button();
             btnGuardarMP = new Button();
             btnEliminarMP = new Button();
@@ -288,6 +289,7 @@
             Controls.Add(lblDashboard);
             Controls.Add(pictureBox1);
             Font = new Font("Bahnschrift", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Margin = new Padding(4);
             Name = "RegMP";
             StartPosition = FormStartPosition.CenterScreen;

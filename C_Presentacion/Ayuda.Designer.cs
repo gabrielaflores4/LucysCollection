@@ -141,6 +141,7 @@
             Controls.Add(btnContacto);
             Controls.Add(lblDashboard);
             Controls.Add(pictureBox1);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "Ayuda";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Ayuda";

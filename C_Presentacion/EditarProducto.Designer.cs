@@ -347,6 +347,7 @@
             Controls.Add(lblDashboard);
             Controls.Add(pictureBox1);
             Font = new Font("Bahnschrift", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Margin = new Padding(4);
             Name = "EditarProducto";
             StartPosition = FormStartPosition.CenterScreen;

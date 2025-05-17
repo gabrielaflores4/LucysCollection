@@ -178,6 +178,7 @@
             Controls.Add(lblDashboard);
             Controls.Add(pictureBox1);
             Font = new Font("Bahnschrift Condensed", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Margin = new Padding(3, 4, 3, 4);
             Name = "VistaProductos";
             StartPosition = FormStartPosition.CenterScreen;

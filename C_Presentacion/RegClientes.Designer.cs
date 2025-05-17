@@ -211,6 +211,7 @@
             Controls.Add(lblDashboard);
             Controls.Add(pictureBox1);
             Controls.Add(label22);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "FrmRegClientes";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Clientes";

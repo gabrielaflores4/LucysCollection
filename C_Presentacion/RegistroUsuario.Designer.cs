@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RegistroUsuario));
             lblDashboard = new Label();
             pictureBox1 = new PictureBox();
             label22 = new Label();
@@ -285,6 +286,7 @@
             Controls.Add(pictureBox1);
             Controls.Add(label22);
             Font = new Font("Bahnschrift", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Margin = new Padding(4);
             Name = "RegistroUsuario";
             StartPosition = FormStartPosition.CenterScreen;
