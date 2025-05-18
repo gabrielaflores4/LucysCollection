@@ -1,6 +1,7 @@
 ﻿using C_Entidades;
 using C_Negocios;
 using System.Data;
+using System.Diagnostics;
 using System.Globalization;
 using System.Windows.Forms.DataVisualization.Charting;
 
@@ -838,13 +839,14 @@ namespace C_Presentacion
             }
 
             string filtroPrecio = cmbPrecio.SelectedItem?.ToString() ?? string.Empty;
+
             switch (filtroPrecio)
             {
                 case "Mayor precio":
-                    ordenado = ordenado.ThenByDescending(p => p.PrecioUnit);
+                    ordenado = materiaPrimas.OrderByDescending(p => p.PrecioUnit);
                     break;
                 case "Menor precio":
-                    ordenado = ordenado.ThenBy(p => p.PrecioUnit);
+                    ordenado = materiaPrimas.OrderBy(p => p.PrecioUnit);
                     break;
             }
 
@@ -857,7 +859,6 @@ namespace C_Presentacion
                 Proveedor = mp.Proveedor.NombreProv
             }).ToList();
         }
-
 
         private void FiltrarInventario()
         {
