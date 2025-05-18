@@ -237,5 +237,20 @@ namespace C_Presentacion
                 e.Handled = true;
             }
         }
+
+        private void btnCancelarRegProd_Click(object sender, EventArgs e)
+        {
+            DialogResult resultado = MessageBox.Show(
+                "¿Estás seguro que deseas cancelar?",
+                "Confirmar cancelación",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question
+            );
+
+            if (resultado == DialogResult.Yes)
+            {
+                this.Close();
+            }
+        }
     }
 }

@@ -189,6 +189,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(221, 221, 221);
             ClientSize = new Size(1370, 696);
+            ControlBox = false;
             Controls.Add(label4);
             Controls.Add(tbDirecProvAct);
             Controls.Add(label3);
@@ -206,6 +207,7 @@
             Icon = (Icon)resources.GetObject("$this.Icon");
             Margin = new Padding(4);
             Name = "EditarProveedores";
+            ShowInTaskbar = false;
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Proveedores";
             WindowState = FormWindowState.Maximized;

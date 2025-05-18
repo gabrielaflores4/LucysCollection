@@ -71,7 +71,7 @@
             btnContacto.BackgroundImageLayout = ImageLayout.Zoom;
             btnContacto.FlatStyle = FlatStyle.Flat;
             btnContacto.ForeColor = Color.FromArgb(221, 221, 221);
-            btnContacto.Location = new Point(34, 612);
+            btnContacto.Location = new Point(34, 625);
             btnContacto.Name = "btnContacto";
             btnContacto.Size = new Size(273, 57);
             btnContacto.TabIndex = 3;
@@ -82,7 +82,7 @@
             // 
             lblFAQ.AutoSize = true;
             lblFAQ.Font = new Font("Bahnschrift SemiBold", 21.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblFAQ.Location = new Point(34, 89);
+            lblFAQ.Location = new Point(495, 89);
             lblFAQ.Name = "lblFAQ";
             lblFAQ.Size = new Size(381, 35);
             lblFAQ.TabIndex = 1;
@@ -91,7 +91,7 @@
             // flpPreguntas
             // 
             flpPreguntas.AutoScroll = true;
-            flpPreguntas.BackColor = Color.Transparent;
+            flpPreguntas.BackColor = Color.FromArgb(224, 224, 224);
             flpPreguntas.Location = new Point(34, 139);
             flpPreguntas.Name = "flpPreguntas";
             flpPreguntas.Size = new Size(381, 467);
@@ -107,7 +107,7 @@
             // 
             // lblRespuesta
             // 
-            lblRespuesta.BackColor = Color.White;
+            lblRespuesta.BackColor = Color.FromArgb(224, 224, 224);
             lblRespuesta.Dock = DockStyle.Fill;
             lblRespuesta.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblRespuesta.Location = new Point(0, 0);
@@ -132,8 +132,9 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.White;
+            BackColor = Color.FromArgb(224, 224, 224);
             ClientSize = new Size(1370, 696);
+            ControlBox = false;
             Controls.Add(btnCancelarAyuda);
             Controls.Add(panelRespuesta);
             Controls.Add(flpPreguntas);
@@ -143,6 +144,7 @@
             Controls.Add(pictureBox1);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "Ayuda";
+            ShowInTaskbar = false;
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Ayuda";
             WindowState = FormWindowState.Maximized;

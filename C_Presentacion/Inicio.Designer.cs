@@ -308,7 +308,7 @@
             tabControlInicio.Name = "tabControlInicio";
             tabControlInicio.SelectedIndex = 0;
             tabControlInicio.Size = new Size(1101, 734);
-            tabControlInicio.TabIndex = 8;
+            tabControlInicio.TabIndex = 0;
             // 
             // tabInicio
             // 
@@ -356,7 +356,7 @@
             series1.Name = "Series1";
             chartVentas.Series.Add(series1);
             chartVentas.Size = new Size(468, 332);
-            chartVentas.TabIndex = 11;
+            chartVentas.TabIndex = 10;
             chartVentas.Text = "chart1";
             // 
             // lblProductoMasVendido
@@ -368,7 +368,7 @@
             lblProductoMasVendido.Location = new Point(585, 577);
             lblProductoMasVendido.Name = "lblProductoMasVendido";
             lblProductoMasVendido.Size = new Size(32, 39);
-            lblProductoMasVendido.TabIndex = 0;
+            lblProductoMasVendido.TabIndex = 14;
             lblProductoMasVendido.Text = "-";
             // 
             // lblVentasDiarias
@@ -380,7 +380,7 @@
             lblVentasDiarias.Location = new Point(589, 377);
             lblVentasDiarias.Name = "lblVentasDiarias";
             lblVentasDiarias.Size = new Size(40, 45);
-            lblVentasDiarias.TabIndex = 13;
+            lblVentasDiarias.TabIndex = 12;
             lblVentasDiarias.Text = "0";
             // 
             // label9
@@ -392,7 +392,7 @@
             label9.Location = new Point(585, 547);
             label9.Name = "label9";
             label9.Size = new Size(217, 25);
-            label9.TabIndex = 14;
+            label9.TabIndex = 13;
             label9.Text = "Producto Más Vendido";
             // 
             // label8
@@ -404,7 +404,7 @@
             label8.Location = new Point(585, 341);
             label8.Name = "label8";
             label8.Size = new Size(233, 25);
-            label8.TabIndex = 12;
+            label8.TabIndex = 11;
             label8.Text = "Ventas Diarias (Totales)";
             // 
             // label7
@@ -416,7 +416,7 @@
             label7.Location = new Point(44, 288);
             label7.Name = "label7";
             label7.Size = new Size(182, 25);
-            label7.TabIndex = 10;
+            label7.TabIndex = 9;
             label7.Text = "Ventas Mensuales";
             // 
             // lblSinStock
@@ -428,7 +428,7 @@
             lblSinStock.Location = new Point(854, 151);
             lblSinStock.Name = "lblSinStock";
             lblSinStock.Size = new Size(40, 45);
-            lblSinStock.TabIndex = 9;
+            lblSinStock.TabIndex = 8;
             lblSinStock.Text = "0";
             // 
             // lblStockBajo
@@ -440,7 +440,7 @@
             lblStockBajo.Location = new Point(585, 151);
             lblStockBajo.Name = "lblStockBajo";
             lblStockBajo.Size = new Size(40, 45);
-            lblStockBajo.TabIndex = 7;
+            lblStockBajo.TabIndex = 6;
             lblStockBajo.Text = "0";
             // 
             // lblStockDisponible
@@ -452,7 +452,7 @@
             lblStockDisponible.Location = new Point(319, 153);
             lblStockDisponible.Name = "lblStockDisponible";
             lblStockDisponible.Size = new Size(40, 45);
-            lblStockDisponible.TabIndex = 5;
+            lblStockDisponible.TabIndex = 4;
             lblStockDisponible.Text = "0";
             // 
             // lblTotalProductos
@@ -464,7 +464,7 @@
             lblTotalProductos.Location = new Point(44, 151);
             lblTotalProductos.Name = "lblTotalProductos";
             lblTotalProductos.Size = new Size(40, 45);
-            lblTotalProductos.TabIndex = 3;
+            lblTotalProductos.TabIndex = 2;
             lblTotalProductos.Text = "0";
             // 
             // label6
@@ -476,7 +476,7 @@
             label6.Location = new Point(854, 98);
             label6.Name = "label6";
             label6.Size = new Size(100, 25);
-            label6.TabIndex = 8;
+            label6.TabIndex = 7;
             label6.Text = "Sin Stock";
             // 
             // label5
@@ -488,7 +488,7 @@
             label5.Location = new Point(585, 98);
             label5.Name = "label5";
             label5.Size = new Size(112, 25);
-            label5.TabIndex = 6;
+            label5.TabIndex = 5;
             label5.Text = "Stock Bajo";
             // 
             // label4
@@ -500,7 +500,7 @@
             label4.Location = new Point(319, 99);
             label4.Name = "label4";
             label4.Size = new Size(167, 25);
-            label4.TabIndex = 4;
+            label4.TabIndex = 3;
             label4.Text = "Stock Disponible";
             // 
             // label3
@@ -512,7 +512,7 @@
             label3.Location = new Point(44, 100);
             label3.Name = "label3";
             label3.Size = new Size(156, 25);
-            label3.TabIndex = 2;
+            label3.TabIndex = 1;
             label3.Text = "Total Productos";
             // 
             // pictureBox8
@@ -594,7 +594,7 @@
             label2.Location = new Point(22, 25);
             label2.Name = "label2";
             label2.Size = new Size(79, 33);
-            label2.TabIndex = 1;
+            label2.TabIndex = 0;
             label2.Text = "Inicio";
             // 
             // tabInventario
@@ -761,9 +761,9 @@
             tabEmpleados.Controls.Add(btnAgregarEmpleados);
             tabEmpleados.Controls.Add(tbBusquedaEmpleados);
             tabEmpleados.Controls.Add(label1);
-            tabEmpleados.Location = new Point(4, 28);
+            tabEmpleados.Location = new Point(4, 24);
             tabEmpleados.Name = "tabEmpleados";
-            tabEmpleados.Size = new Size(1093, 702);
+            tabEmpleados.Size = new Size(1093, 706);
             tabEmpleados.TabIndex = 2;
             tabEmpleados.Text = "tabPage1";
             // 
@@ -789,8 +789,8 @@
             dataGridViewCellStyle5.Font = new Font("Bahnschrift", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             dataGridViewCellStyle5.ForeColor = Color.White;
             dataGridViewCellStyle5.Padding = new Padding(1);
-            dataGridViewCellStyle5.SelectionBackColor = SystemColors.Desktop;
-            dataGridViewCellStyle5.SelectionForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle5.SelectionBackColor = Color.Black;
+            dataGridViewCellStyle5.SelectionForeColor = Color.White;
             dataGridViewCellStyle5.WrapMode = DataGridViewTriState.True;
             dataGridEmpleados.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
             dataGridEmpleados.ColumnHeadersHeight = 45;
@@ -819,6 +819,7 @@
             // 
             Id.HeaderText = "ID";
             Id.Name = "Id";
+            Id.Visible = false;
             // 
             // Nombre
             // 
@@ -913,7 +914,7 @@
             // cmbStock
             // 
             cmbStock.FormattingEnabled = true;
-            cmbStock.Location = new Point(674, 151);
+            cmbStock.Location = new Point(923, 149);
             cmbStock.Name = "cmbStock";
             cmbStock.Size = new Size(132, 27);
             cmbStock.TabIndex = 3;
@@ -922,7 +923,7 @@
             // cmbPrecio
             // 
             cmbPrecio.FormattingEnabled = true;
-            cmbPrecio.Location = new Point(524, 151);
+            cmbPrecio.Location = new Point(773, 149);
             cmbPrecio.Name = "cmbPrecio";
             cmbPrecio.Size = new Size(144, 27);
             cmbPrecio.TabIndex = 2;
@@ -966,12 +967,12 @@
             dataGridMP.DefaultCellStyle = dataGridViewCellStyle9;
             dataGridMP.EnableHeadersVisualStyles = false;
             dataGridMP.GridColor = Color.FromArgb(221, 221, 221);
-            dataGridMP.Location = new Point(243, 189);
+            dataGridMP.Location = new Point(225, 187);
             dataGridMP.Name = "dataGridMP";
             dataGridMP.RowHeadersVisible = false;
             dataGridMP.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
             dataGridMP.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dataGridMP.Size = new Size(847, 488);
+            dataGridMP.Size = new Size(830, 488);
             dataGridMP.TabIndex = 6;
             dataGridMP.CellDoubleClick += dataGridMP_CellDoubleClick;
             // 
@@ -979,6 +980,7 @@
             // 
             Id_MP.HeaderText = "Id";
             Id_MP.Name = "Id_MP";
+            Id_MP.Visible = false;
             // 
             // Nombre_MP
             // 
@@ -1233,6 +1235,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(221, 221, 221);
             ClientSize = new Size(1370, 696);
+            ControlBox = false;
             Controls.Add(btnClientes);
             Controls.Add(btnReporte);
             Controls.Add(btnLogout);
@@ -1348,21 +1351,9 @@
         private Label label11;
         private PictureBox pictureBox9;
         private DataGridView dataGridEmpleados;
-        private DataGridViewTextBoxColumn Id;
-        private DataGridViewTextBoxColumn Nombre;
-        private DataGridViewTextBoxColumn Apellido;
-        private DataGridViewTextBoxColumn Correo;
-        private DataGridViewTextBoxColumn Telefono;
-        private DataGridViewTextBoxColumn Rol;
         private PictureBox btnBucasrMateria;
         private PictureBox btnBuscar;
         private PictureBox pictureBox12;
-        private DataGridViewTextBoxColumn Id_MP;
-        private DataGridViewTextBoxColumn Nombre_MP;
-        private DataGridViewTextBoxColumn Precio_MP;
-        private DataGridViewTextBoxColumn Stock_MP;
-        private DataGridViewTextBoxColumn Prov_MP;
-        private DataGridViewTextBoxColumn FechaIngMP;
         private System.Windows.Forms.DataVisualization.Charting.Chart chartVentas;
         private Button btnReporte;
         private ComboBox cmbStock;
@@ -1379,5 +1370,17 @@
         private DataGridViewTextBoxColumn Correo_prov;
         private DataGridViewTextBoxColumn Direccion_prov;
         private Button btnClientes;
+        private DataGridViewTextBoxColumn Id;
+        private DataGridViewTextBoxColumn Nombre;
+        private DataGridViewTextBoxColumn Apellido;
+        private DataGridViewTextBoxColumn Correo;
+        private DataGridViewTextBoxColumn Telefono;
+        private DataGridViewTextBoxColumn Rol;
+        private DataGridViewTextBoxColumn Id_MP;
+        private DataGridViewTextBoxColumn Nombre_MP;
+        private DataGridViewTextBoxColumn Precio_MP;
+        private DataGridViewTextBoxColumn Stock_MP;
+        private DataGridViewTextBoxColumn Prov_MP;
+        private DataGridViewTextBoxColumn FechaIngMP;
     }
 }

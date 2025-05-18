@@ -54,7 +54,7 @@
             btnCancelarActEmp.BackgroundImageLayout = ImageLayout.Zoom;
             btnCancelarActEmp.FlatStyle = FlatStyle.Flat;
             btnCancelarActEmp.ForeColor = Color.FromArgb(221, 221, 221);
-            btnCancelarActEmp.Location = new Point(482, 647);
+            btnCancelarActEmp.Location = new Point(482, 618);
             btnCancelarActEmp.Name = "btnCancelarActEmp";
             btnCancelarActEmp.Size = new Size(187, 64);
             btnCancelarActEmp.TabIndex = 12;
@@ -68,7 +68,7 @@
             btnGuardarActEmp.BackgroundImageLayout = ImageLayout.Zoom;
             btnGuardarActEmp.FlatStyle = FlatStyle.Flat;
             btnGuardarActEmp.ForeColor = Color.FromArgb(221, 221, 221);
-            btnGuardarActEmp.Location = new Point(695, 647);
+            btnGuardarActEmp.Location = new Point(695, 618);
             btnGuardarActEmp.Name = "btnGuardarActEmp";
             btnGuardarActEmp.Size = new Size(194, 64);
             btnGuardarActEmp.TabIndex = 11;
@@ -81,7 +81,7 @@
             label3.BackColor = Color.FromArgb(221, 221, 221);
             label3.Font = new Font("Bahnschrift", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label3.ForeColor = SystemColors.ControlText;
-            label3.Location = new Point(485, 546);
+            label3.Location = new Point(485, 517);
             label3.Name = "label3";
             label3.Size = new Size(43, 25);
             label3.TabIndex = 9;
@@ -91,7 +91,7 @@
             // 
             cbRolEmpAct.FormattingEnabled = true;
             cbRolEmpAct.Items.AddRange(new object[] { "admin", "empleado" });
-            cbRolEmpAct.Location = new Point(489, 588);
+            cbRolEmpAct.Location = new Point(489, 559);
             cbRolEmpAct.Name = "cbRolEmpAct";
             cbRolEmpAct.Size = new Size(399, 27);
             cbRolEmpAct.TabIndex = 10;
@@ -102,7 +102,7 @@
             label2.BackColor = Color.FromArgb(221, 221, 221);
             label2.Font = new Font("Bahnschrift", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label2.ForeColor = SystemColors.ControlText;
-            label2.Location = new Point(483, 362);
+            label2.Location = new Point(483, 333);
             label2.Name = "label2";
             label2.Size = new Size(76, 25);
             label2.TabIndex = 5;
@@ -110,7 +110,7 @@
             // 
             // tbApellidoEmpAct
             // 
-            tbApellidoEmpAct.Location = new Point(489, 306);
+            tbApellidoEmpAct.Location = new Point(489, 277);
             tbApellidoEmpAct.Name = "tbApellidoEmpAct";
             tbApellidoEmpAct.Size = new Size(399, 27);
             tbApellidoEmpAct.TabIndex = 4;
@@ -122,7 +122,7 @@
             label1.BackColor = Color.FromArgb(221, 221, 221);
             label1.Font = new Font("Bahnschrift", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label1.ForeColor = SystemColors.ControlText;
-            label1.Location = new Point(485, 268);
+            label1.Location = new Point(485, 239);
             label1.Name = "label1";
             label1.Size = new Size(87, 25);
             label1.TabIndex = 3;
@@ -130,7 +130,7 @@
             // 
             // tbNombreEmpAct
             // 
-            tbNombreEmpAct.Location = new Point(489, 212);
+            tbNombreEmpAct.Location = new Point(489, 183);
             tbNombreEmpAct.Name = "tbNombreEmpAct";
             tbNombreEmpAct.Size = new Size(399, 27);
             tbNombreEmpAct.TabIndex = 2;
@@ -142,7 +142,7 @@
             label22.BackColor = Color.FromArgb(221, 221, 221);
             label22.Font = new Font("Bahnschrift", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label22.ForeColor = SystemColors.ControlText;
-            label22.Location = new Point(485, 173);
+            label22.Location = new Point(485, 144);
             label22.Name = "label22";
             label22.Size = new Size(87, 25);
             label22.TabIndex = 1;
@@ -172,7 +172,7 @@
             // 
             // tbCorreoEmpAct
             // 
-            tbCorreoEmpAct.Location = new Point(489, 403);
+            tbCorreoEmpAct.Location = new Point(489, 374);
             tbCorreoEmpAct.Name = "tbCorreoEmpAct";
             tbCorreoEmpAct.Size = new Size(399, 27);
             tbCorreoEmpAct.TabIndex = 6;
@@ -180,7 +180,7 @@
             // 
             // tbTelefonoEmpAct
             // 
-            tbTelefonoEmpAct.Location = new Point(489, 497);
+            tbTelefonoEmpAct.Location = new Point(489, 468);
             tbTelefonoEmpAct.Name = "tbTelefonoEmpAct";
             tbTelefonoEmpAct.Size = new Size(399, 27);
             tbTelefonoEmpAct.TabIndex = 8;
@@ -192,7 +192,7 @@
             label5.BackColor = Color.FromArgb(221, 221, 221);
             label5.Font = new Font("Bahnschrift", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label5.ForeColor = SystemColors.ControlText;
-            label5.Location = new Point(484, 456);
+            label5.Location = new Point(484, 427);
             label5.Name = "label5";
             label5.Size = new Size(90, 25);
             label5.TabIndex = 7;
@@ -204,7 +204,7 @@
             label4.BackColor = Color.FromArgb(221, 221, 221);
             label4.Font = new Font("Bahnschrift SemiBold", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label4.ForeColor = SystemColors.ControlText;
-            label4.Location = new Point(483, 108);
+            label4.Location = new Point(485, 91);
             label4.Name = "label4";
             label4.Size = new Size(191, 29);
             label4.TabIndex = 58;
@@ -215,7 +215,8 @@
             AutoScaleDimensions = new SizeF(9F, 19F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(221, 221, 221);
-            ClientSize = new Size(1370, 749);
+            ClientSize = new Size(1370, 696);
+            ControlBox = false;
             Controls.Add(label4);
             Controls.Add(tbTelefonoEmpAct);
             Controls.Add(label5);
@@ -235,6 +236,7 @@
             Icon = (Icon)resources.GetObject("$this.Icon");
             Margin = new Padding(4);
             Name = "EditarEmpleados";
+            ShowInTaskbar = false;
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Empleados";
             WindowState = FormWindowState.Maximized;

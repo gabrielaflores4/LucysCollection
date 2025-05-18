@@ -13,7 +13,7 @@ namespace C_Presentacion
         }
         private bool EsFormularioValido()
         {
-            BorrarErrorProvider(); 
+            BorrarErrorProvider();
 
             bool esValido = true;
 
@@ -53,7 +53,7 @@ namespace C_Presentacion
                 esValido = false;
             }
 
-            if (cbRol.SelectedIndex == -1) 
+            if (cbRol.SelectedIndex == -1)
             {
                 errorIconoUsuarios.SetError(cbRol, "Seleccionar un rol");
                 esValido = false;
@@ -77,7 +77,7 @@ namespace C_Presentacion
             // Validar el formulario completo
             if (!EsFormularioValido())
             {
-                MessageBox.Show("Por favor complete todos los campos correctamente","Validación",MessageBoxButtons.OK,MessageBoxIcon.Warning);
+                MessageBox.Show("Por favor complete todos los campos correctamente", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
@@ -87,7 +87,7 @@ namespace C_Presentacion
             if (telefono.Length != 8)
             {
                 errorIconoUsuarios.SetError(tbTelefonoUser, "Debe tener 8 dígitos exactos");
-                MessageBox.Show("El teléfono debe contener exactamente 8 dígitos numéricos", "Error en teléfono",MessageBoxButtons.OK,MessageBoxIcon.Error);
+                MessageBox.Show("El teléfono debe contener exactamente 8 dígitos numéricos", "Error en teléfono", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 tbTelefonoUser.Focus();
                 return;
             }
@@ -98,7 +98,7 @@ namespace C_Presentacion
                 int idUsuario = usuarioNegocio.CrearUsuario(
                     tbNombreUser.Text.Trim(),
                     tbApellidoUser.Text.Trim(),
-                    telefono, 
+                    telefono,
                     tbCorreoUser.Text.Trim(),
                     tbUsername.Text.Trim(),
                     tbPassword.Text,
@@ -107,7 +107,7 @@ namespace C_Presentacion
 
                 if (idUsuario > 0)
                 {
-                    MessageBox.Show($"Usuario registrado exitosamente!","Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show($"Usuario registrado exitosamente!", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     LimpiarFormulario();
                     this.Close();
                 }
@@ -130,7 +130,7 @@ namespace C_Presentacion
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error inesperado: {ex.Message}","Error",MessageBoxButtons.OK, MessageBoxIcon.Error);Console.WriteLine($"Error al registrar usuario: {ex}");
+                MessageBox.Show($"Error inesperado: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); Console.WriteLine($"Error al registrar usuario: {ex}");
             }
         }
 
@@ -176,6 +176,21 @@ namespace C_Presentacion
         private void tbPassword_KeyPress(object sender, KeyPressEventArgs e)
         {
             Validaciones.LetrasYNumeros(e);
+        }
+
+        private void btnCancelar_Click(object sender, EventArgs e)
+        {
+            DialogResult resultado = MessageBox.Show(
+                "¿Estás seguro que deseas cancelar?",
+                "Confirmar cancelación",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question
+            );      
+
+            if (resultado == DialogResult.Yes)
+            {
+                this.Close();
+            }
         }
     }
 }

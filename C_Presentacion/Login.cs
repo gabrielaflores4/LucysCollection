@@ -37,11 +37,18 @@ namespace C_Presentacion
 
             if (usuarioNegocio.VerificarLogin(usuario, password))
             {
-                Usuario usuarioLogueado = Sesion.UsuarioActivo;
+                Usuario? usuarioLogueado = Sesion.UsuarioActivo;
 
-                this.Hide();
-                Inicio inicio = new Inicio();
-                inicio.Show();
+                if (usuarioLogueado != null)
+                {
+                    Inicio inicio = new Inicio();
+                    inicio.Show();
+                    this.Hide();
+                }
+                else
+                {
+                    MessageBox.Show("Error: No se pudo obtener el usuario activo.");
+                }
             }
             else
             {

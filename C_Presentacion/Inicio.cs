@@ -304,6 +304,7 @@ namespace C_Presentacion
             }).ToList();
 
             ConfigurarDataGrid(dataGridEmpleados, datosParaMostrar, columnas);
+            dataGridEmpleados.Columns[0].Visible = false;
         }
 
         private void CargarProveedores()
@@ -336,6 +337,7 @@ namespace C_Presentacion
             };
 
             ConfigurarDataGrid(dataGridProv, proveedors, columnas);
+            dataGridProv.Columns[0].Visible = false;
         }
         public void CargarMateriasPrimas()
         {
@@ -384,6 +386,7 @@ namespace C_Presentacion
             };
 
             ConfigurarDataGrid(dataGridMP, materiasConProveedor, columnas);
+            dataGridMP.Columns[0].Visible = false;
         }
 
         private void btnInventario_Click(object sender, EventArgs e)
@@ -422,31 +425,31 @@ namespace C_Presentacion
         private void btnVentas_Click(object sender, EventArgs e)
         {
             Ventas frmVenta = new Ventas();
-            frmVenta.Show();
+            frmVenta.ShowDialog();
         }
 
         private void btnAgregarInventario_Click(object sender, EventArgs e)
         {
             RegProd frmRegProducto = new RegProd(this);
-            frmRegProducto.Show();
+            frmRegProducto.ShowDialog();
         }
 
         private void btnAgregarEmpleados_Click(object sender, EventArgs e)
         {
             RegistroUsuario frmRegUsuarios = new RegistroUsuario();
-            frmRegUsuarios.Show();
+            frmRegUsuarios.ShowDialog();
         }
-
+            
         private void btnAgregarProv_Click(object sender, EventArgs e)
         {
             RegProv frmRegProv = new RegProv();
-            frmRegProv.Show();
+            frmRegProv.ShowDialog();
         }
 
         private void btnAgregarMateriaP_Click(object sender, EventArgs e)
         {
             RegMP frmRegMP = new RegMP();
-            frmRegMP.Show();
+            frmRegMP.ShowDialog();
         }
 
         private void btnEliminarInventario_Click(object sender, EventArgs e)
@@ -649,7 +652,7 @@ namespace C_Presentacion
             {
                 this.Close();
                 Login frmLogin = new Login();
-                frmLogin.Show();
+                frmLogin.ShowDialog();
             }
             else { }
         }
@@ -807,7 +810,7 @@ namespace C_Presentacion
         private void btnReporte_Click(object sender, EventArgs e)
         {
             Reporte_de_ventas reporte_De_Ventas = new Reporte_de_ventas();
-            reporte_De_Ventas.Show();
+            reporte_De_Ventas.ShowDialog();
         }
         private void FiltrarMateriaPrima()
         {
@@ -937,15 +940,13 @@ namespace C_Presentacion
         private void btnAyuda_Click(object sender, EventArgs e)
         {
             Ayuda ayudaFrm = new Ayuda();
-            ayudaFrm.Show();
-            this.Hide();
+            ayudaFrm.ShowDialog();
         }
 
         private void btnClientes_Click(object sender, EventArgs e)
         {
             VistaClientes frmClientes = new VistaClientes();
-            frmClientes.Show();
-            this.Hide();
+            frmClientes.ShowDialog();
         }
     }
 }

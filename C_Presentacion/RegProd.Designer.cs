@@ -211,6 +211,7 @@
             btnCancelarRegProd.Size = new Size(187, 64);
             btnCancelarRegProd.TabIndex = 10;
             btnCancelarRegProd.UseVisualStyleBackColor = false;
+            btnCancelarRegProd.Click += btnCancelarRegProd_Click;
             // 
             // label3
             // 
@@ -230,6 +231,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(221, 221, 221);
             ClientSize = new Size(1370, 696);
+            ControlBox = false;
             Controls.Add(label3);
             Controls.Add(btnCancelarRegProd);
             Controls.Add(btnGuardarRegProd);
@@ -246,6 +248,7 @@
             Icon = (Icon)resources.GetObject("$this.Icon");
             Margin = new Padding(4);
             Name = "RegProd";
+            ShowInTaskbar = false;
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Productos";
             WindowState = FormWindowState.Maximized;

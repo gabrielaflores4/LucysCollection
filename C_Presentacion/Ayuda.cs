@@ -65,7 +65,17 @@ namespace C_Presentacion
         }
         private void btnCancelarAyuda_Click_1(object sender, EventArgs e)
         {
-            this.Close();
+            DialogResult resultado = MessageBox.Show(
+                "¿Estás seguro que deseas cancelar?",
+                "Confirmar cancelación",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question
+            );
+
+            if (resultado == DialogResult.Yes)
+            {
+                this.Close();
+            }
         }
 
         private void btnContacto_Click_1(object sender, EventArgs e)

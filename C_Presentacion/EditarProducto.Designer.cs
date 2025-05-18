@@ -28,9 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EditarProducto));
             btnCancelarActProd = new Button();
             btnGuardarActProd = new Button();
@@ -52,14 +52,14 @@
             stock = new DataGridViewTextBoxColumn();
             btnEditarProd = new Button();
             lblDetalleProd = new Label();
-            btnCancelarDetallePr = new PictureBox();
+            btnCancelar = new PictureBox();
             btnEliminarTalla = new Button();
             button1 = new Button();
             btnAgregarTallas = new Button();
             ((System.ComponentModel.ISupportInitialize)nbCantidad).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridProductoDet).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)btnCancelarDetallePr).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)btnCancelar).BeginInit();
             SuspendLayout();
             // 
             // btnCancelarActProd
@@ -202,11 +202,11 @@
             lblDashboard.BackColor = Color.Black;
             lblDashboard.Font = new Font("Bahnschrift", 20.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblDashboard.ForeColor = SystemColors.Control;
-            lblDashboard.Location = new Point(580, 16);
+            lblDashboard.Location = new Point(616, 16);
             lblDashboard.Name = "lblDashboard";
-            lblDashboard.Size = new Size(245, 33);
+            lblDashboard.Size = new Size(139, 33);
             lblDashboard.TabIndex = 41;
-            lblDashboard.Text = "Detalles Productos";
+            lblDashboard.Text = "Productos";
             // 
             // pictureBox1
             // 
@@ -220,33 +220,33 @@
             // 
             // dataGridProductoDet
             // 
-            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = Color.FromArgb(221, 221, 221);
-            dataGridViewCellStyle1.Font = new Font("Bahnschrift", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle1.ForeColor = Color.Black;
-            dataGridProductoDet.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle4.BackColor = Color.FromArgb(221, 221, 221);
+            dataGridViewCellStyle4.Font = new Font("Bahnschrift", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle4.ForeColor = Color.Black;
+            dataGridProductoDet.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle4;
             dataGridProductoDet.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridProductoDet.BackgroundColor = Color.FromArgb(221, 221, 221);
-            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.BackColor = Color.Black;
-            dataGridViewCellStyle2.Font = new Font("Bahnschrift", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle2.ForeColor = Color.White;
-            dataGridViewCellStyle2.Padding = new Padding(1);
-            dataGridViewCellStyle2.SelectionBackColor = SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionForeColor = SystemColors.Control;
-            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
-            dataGridProductoDet.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle5.BackColor = Color.Black;
+            dataGridViewCellStyle5.Font = new Font("Bahnschrift", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle5.ForeColor = Color.White;
+            dataGridViewCellStyle5.Padding = new Padding(1);
+            dataGridViewCellStyle5.SelectionBackColor = SystemColors.ControlText;
+            dataGridViewCellStyle5.SelectionForeColor = SystemColors.Control;
+            dataGridViewCellStyle5.WrapMode = DataGridViewTriState.True;
+            dataGridProductoDet.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
             dataGridProductoDet.ColumnHeadersHeight = 40;
             dataGridProductoDet.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             dataGridProductoDet.Columns.AddRange(new DataGridViewColumn[] { Id_Prod, talla, stock });
-            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle3.BackColor = Color.FromArgb(221, 221, 221);
-            dataGridViewCellStyle3.Font = new Font("Bahnschrift", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle3.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle3.SelectionBackColor = SystemColors.Desktop;
-            dataGridViewCellStyle3.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.False;
-            dataGridProductoDet.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle6.BackColor = Color.FromArgb(221, 221, 221);
+            dataGridViewCellStyle6.Font = new Font("Bahnschrift", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle6.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle6.SelectionBackColor = SystemColors.Desktop;
+            dataGridViewCellStyle6.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle6.WrapMode = DataGridViewTriState.False;
+            dataGridProductoDet.DefaultCellStyle = dataGridViewCellStyle6;
             dataGridProductoDet.EnableHeadersVisualStyles = false;
             dataGridProductoDet.GridColor = Color.FromArgb(221, 221, 221);
             dataGridProductoDet.Location = new Point(39, 145);
@@ -298,16 +298,16 @@
             lblDetalleProd.TabIndex = 59;
             lblDetalleProd.Text = "Producto:";
             // 
-            // btnCancelarDetallePr
+            // btnCancelar
             // 
-            btnCancelarDetallePr.Image = (Image)resources.GetObject("btnCancelarDetallePr.Image");
-            btnCancelarDetallePr.Location = new Point(12, 699);
-            btnCancelarDetallePr.Name = "btnCancelarDetallePr";
-            btnCancelarDetallePr.Size = new Size(54, 38);
-            btnCancelarDetallePr.SizeMode = PictureBoxSizeMode.Zoom;
-            btnCancelarDetallePr.TabIndex = 102;
-            btnCancelarDetallePr.TabStop = false;
-            btnCancelarDetallePr.Click += btnCancelarDetallePr_Click;
+            btnCancelar.Image = (Image)resources.GetObject("btnCancelar.Image");
+            btnCancelar.Location = new Point(1297, 651);
+            btnCancelar.Name = "btnCancelar";
+            btnCancelar.Size = new Size(54, 38);
+            btnCancelar.SizeMode = PictureBoxSizeMode.Zoom;
+            btnCancelar.TabIndex = 102;
+            btnCancelar.TabStop = false;
+            btnCancelar.Click += btnCancelarDetallePr_Click;
             // 
             // btnEliminarTalla
             // 
@@ -316,7 +316,7 @@
             btnEliminarTalla.BackgroundImageLayout = ImageLayout.Zoom;
             btnEliminarTalla.FlatStyle = FlatStyle.Flat;
             btnEliminarTalla.ForeColor = Color.FromArgb(221, 221, 221);
-            btnEliminarTalla.Location = new Point(983, 71);
+            btnEliminarTalla.Location = new Point(992, 71);
             btnEliminarTalla.Name = "btnEliminarTalla";
             btnEliminarTalla.Size = new Size(195, 74);
             btnEliminarTalla.TabIndex = 103;
@@ -354,11 +354,12 @@
             AutoScaleDimensions = new SizeF(9F, 19F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(221, 221, 221);
-            ClientSize = new Size(1370, 749);
+            ClientSize = new Size(1370, 696);
+            ControlBox = false;
             Controls.Add(btnAgregarTallas);
             Controls.Add(button1);
             Controls.Add(btnEliminarTalla);
-            Controls.Add(btnCancelarDetallePr);
+            Controls.Add(btnCancelar);
             Controls.Add(lblDetalleProd);
             Controls.Add(btnEditarProd);
             Controls.Add(dataGridProductoDet);
@@ -380,14 +381,15 @@
             Icon = (Icon)resources.GetObject("$this.Icon");
             Margin = new Padding(4);
             Name = "EditarProducto";
+            ShowInTaskbar = false;
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "Editar Producto";
+            Text = "Producto";
             WindowState = FormWindowState.Maximized;
             Load += EditarProducto_Load;
             ((System.ComponentModel.ISupportInitialize)nbCantidad).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ((System.ComponentModel.ISupportInitialize)dataGridProductoDet).EndInit();
-            ((System.ComponentModel.ISupportInitialize)btnCancelarDetallePr).EndInit();
+            ((System.ComponentModel.ISupportInitialize)btnCancelar).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -411,7 +413,7 @@
         private DataGridView dataGridProductoDet;
         private Button btnEditarProd;
         private Label lblDetalleProd;
-        private PictureBox btnCancelarDetallePr;
+        private PictureBox btnCancelar;
         private DataGridViewTextBoxColumn Id_Prod;
         private DataGridViewTextBoxColumn talla;
         private DataGridViewTextBoxColumn stock;

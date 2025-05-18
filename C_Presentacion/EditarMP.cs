@@ -126,8 +126,14 @@ namespace C_Presentacion
 
         private void btnCancelarActMP_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("¿Desea cancelar la edición?", "Cancelar", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-            if (DialogResult == DialogResult.Yes)
+            DialogResult resultado = MessageBox.Show(
+                "¿Estás seguro que deseas cancelar?",
+                "Confirmar cancelación",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question
+            );
+
+            if (resultado == DialogResult.Yes)
             {
                 this.Close();
             }

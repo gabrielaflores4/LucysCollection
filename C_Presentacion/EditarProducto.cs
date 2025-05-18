@@ -21,7 +21,7 @@ namespace C_Presentacion
         private List<Talla> tallasDisponibles;
         private ProductoNeg productoNeg = new ProductoNeg();
         private Inicio formInicio;
-        private Producto productoOriginal;
+        private Producto? productoOriginal;
         private bool esEdicion = false;
 
         public EditarProducto(Inicio inicio)
@@ -42,7 +42,7 @@ namespace C_Presentacion
 
         public void ConfigurarPermisos()
         {
-            bool esAdmin = Sesion.TieneRol("admin"); 
+            bool esAdmin = Sesion.TieneRol("admin");
 
             // Ejemplo: Ocultar botones si NO es admin
             btnAgregarTallas.Visible = esAdmin;
@@ -390,7 +390,7 @@ namespace C_Presentacion
                     mensajeExito = "Stock actualizado correctamente";
                     mensajeError = "No se pudo actualizar el stock";
                 }
-                
+
                 //Cambio de talla y stock
                 else if (!cambioNombre && !cambioPrecio && !cambioCategoria && cambioTalla && cambioStock)
                 {
@@ -445,7 +445,26 @@ namespace C_Presentacion
 
         private void btnCancelarActProd_Click(object sender, EventArgs e)
         {
-            this.Close();
+
+            DialogResult resultado = MessageBox.Show(
+                "¿Estás seguro que deseas cancelar la EDICIÓN?",
+                "Confirmar cancelación",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question
+            );
+
+            if (resultado == DialogResult.Yes)
+            {
+                dataGridProductoDet.SuspendLayout();
+                dataGridProductoDet.Dock = DockStyle.None;
+                dataGridProductoDet.Size = new Size(1312, 500);
+                dataGridProductoDet.Location = new Point(39, 145);
+                dataGridProductoDet.ResumeLayout(true);
+                
+                btnEliminarTalla.Visible = true;
+                btnAgregarTallas.Visible = true;
+                LimpiarControles();
+            }
         }
 
         private void tbNombreProdAct_KeyPress(object sender, KeyPressEventArgs e)
@@ -482,9 +501,9 @@ namespace C_Presentacion
                 dataGridProductoDet.ResumeLayout(true);
 
                 btnEliminarTalla.Visible = false;
+                btnAgregarTallas.Visible = false;
                 LimpiarControles();
             }
-            else { }
         }
 
         private void dataGridProductoDet_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
@@ -525,7 +544,17 @@ namespace C_Presentacion
 
         private void btnCancelarDetallePr_Click(object sender, EventArgs e)
         {
-            this.Close();
+            DialogResult resultado = MessageBox.Show(
+                "¿Estás seguro que deseas cancelar?",
+                "Confirmar cancelación",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question
+            );
+
+            if (resultado == DialogResult.Yes)
+            {
+                this.Close();
+            }
         }
 
         private void tbPrecioRegAct_KeyPress(object sender, KeyPressEventArgs e)

@@ -198,6 +198,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(221, 221, 221);
             ClientSize = new Size(1370, 696);
+            ControlBox = false;
             Controls.Add(btnCancelarCli);
             Controls.Add(btnRegistraCliente);
             Controls.Add(tbTelefonoCliente);
@@ -213,6 +214,7 @@
             Controls.Add(label22);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "FrmRegClientes";
+            ShowInTaskbar = false;
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Clientes";
             WindowState = FormWindowState.Maximized;

@@ -28,9 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle7 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle8 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle9 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Reporte_de_ventas));
             label1 = new Label();
             dtpDesde = new DateTimePicker();
@@ -67,7 +67,7 @@
             // dtpDesde
             // 
             dtpDesde.Font = new Font("Bahnschrift", 12F);
-            dtpDesde.Location = new Point(779, 588);
+            dtpDesde.Location = new Point(799, 588);
             dtpDesde.Margin = new Padding(4);
             dtpDesde.Name = "dtpDesde";
             dtpDesde.Size = new Size(302, 27);
@@ -76,31 +76,31 @@
             // 
             // dgvVentas
             // 
-            dataGridViewCellStyle7.BackColor = Color.FromArgb(224, 224, 224);
-            dataGridViewCellStyle7.Font = new Font("Bahnschrift", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle7.ForeColor = Color.Black;
-            dgvVentas.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle1.BackColor = Color.FromArgb(224, 224, 224);
+            dataGridViewCellStyle1.Font = new Font("Bahnschrift", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle1.ForeColor = Color.Black;
+            dgvVentas.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             dgvVentas.BackgroundColor = Color.FromArgb(224, 224, 224);
-            dataGridViewCellStyle8.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle8.BackColor = Color.Black;
-            dataGridViewCellStyle8.Font = new Font("Bahnschrift", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle8.ForeColor = Color.White;
-            dataGridViewCellStyle8.SelectionBackColor = Color.Black;
-            dataGridViewCellStyle8.SelectionForeColor = Color.White;
-            dataGridViewCellStyle8.WrapMode = DataGridViewTriState.True;
-            dgvVentas.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.BackColor = Color.Black;
+            dataGridViewCellStyle2.Font = new Font("Bahnschrift", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle2.ForeColor = Color.White;
+            dataGridViewCellStyle2.SelectionBackColor = Color.Black;
+            dataGridViewCellStyle2.SelectionForeColor = Color.White;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
+            dgvVentas.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             dgvVentas.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle9.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle9.BackColor = SystemColors.Window;
-            dataGridViewCellStyle9.Font = new Font("Bahnschrift", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle9.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle9.SelectionBackColor = SystemColors.Desktop;
-            dataGridViewCellStyle9.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle9.WrapMode = DataGridViewTriState.False;
-            dgvVentas.DefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = SystemColors.Window;
+            dataGridViewCellStyle3.Font = new Font("Bahnschrift", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle3.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle3.SelectionBackColor = SystemColors.Desktop;
+            dataGridViewCellStyle3.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.False;
+            dgvVentas.DefaultCellStyle = dataGridViewCellStyle3;
             dgvVentas.EnableHeadersVisualStyles = false;
             dgvVentas.GridColor = Color.FromArgb(224, 224, 224);
-            dgvVentas.Location = new Point(779, 214);
+            dgvVentas.Location = new Point(799, 214);
             dgvVentas.Margin = new Padding(4);
             dgvVentas.Name = "dgvVentas";
             dgvVentas.RowHeadersVisible = false;
@@ -111,7 +111,7 @@
             // 
             lblMayorVenta.AutoSize = true;
             lblMayorVenta.Font = new Font("Bahnschrift", 12F);
-            lblMayorVenta.Location = new Point(779, 133);
+            lblMayorVenta.Location = new Point(799, 133);
             lblMayorVenta.Margin = new Padding(4, 0, 4, 0);
             lblMayorVenta.Name = "lblMayorVenta";
             lblMayorVenta.Size = new Size(103, 19);
@@ -132,7 +132,7 @@
             // 
             lblTotal.AutoSize = true;
             lblTotal.Font = new Font("Bahnschrift", 12F);
-            lblTotal.Location = new Point(779, 97);
+            lblTotal.Location = new Point(799, 97);
             lblTotal.Margin = new Padding(4, 0, 4, 0);
             lblTotal.Name = "lblTotal";
             lblTotal.Size = new Size(48, 19);
@@ -153,7 +153,7 @@
             // cbFiltro
             // 
             cbFiltro.FormattingEnabled = true;
-            cbFiltro.Location = new Point(1178, 588);
+            cbFiltro.Location = new Point(1198, 588);
             cbFiltro.Name = "cbFiltro";
             cbFiltro.Size = new Size(121, 27);
             cbFiltro.TabIndex = 59;
@@ -162,7 +162,7 @@
             // 
             lblEmpleadoTop.AutoSize = true;
             lblEmpleadoTop.Font = new Font("Bahnschrift", 12F);
-            lblEmpleadoTop.Location = new Point(779, 171);
+            lblEmpleadoTop.Location = new Point(799, 171);
             lblEmpleadoTop.Margin = new Padding(4, 0, 4, 0);
             lblEmpleadoTop.Name = "lblEmpleadoTop";
             lblEmpleadoTop.Size = new Size(208, 19);
@@ -172,7 +172,7 @@
             // btnCancelarReporte
             // 
             btnCancelarReporte.Image = (Image)resources.GetObject("btnCancelarReporte.Image");
-            btnCancelarReporte.Location = new Point(1315, 657);
+            btnCancelarReporte.Location = new Point(1265, 645);
             btnCancelarReporte.Name = "btnCancelarReporte";
             btnCancelarReporte.Size = new Size(54, 38);
             btnCancelarReporte.SizeMode = PictureBoxSizeMode.Zoom;
@@ -183,7 +183,7 @@
             // btnGenerar
             // 
             btnGenerar.Image = (Image)resources.GetObject("btnGenerar.Image");
-            btnGenerar.Location = new Point(779, 631);
+            btnGenerar.Location = new Point(799, 631);
             btnGenerar.Name = "btnGenerar";
             btnGenerar.Size = new Size(164, 52);
             btnGenerar.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -194,7 +194,7 @@
             // lblInfor
             // 
             lblInfor.AutoSize = true;
-            lblInfor.Location = new Point(779, 556);
+            lblInfor.Location = new Point(799, 556);
             lblInfor.Name = "lblInfor";
             lblInfor.Size = new Size(172, 19);
             lblInfor.TabIndex = 69;
@@ -206,6 +206,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(224, 224, 224);
             ClientSize = new Size(1370, 696);
+            ControlBox = false;
             Controls.Add(lblInfor);
             Controls.Add(btnGenerar);
             Controls.Add(btnCancelarReporte);
@@ -222,6 +223,7 @@
             Icon = (Icon)resources.GetObject("$this.Icon");
             Margin = new Padding(4);
             Name = "Reporte_de_ventas";
+            ShowInTaskbar = false;
             StartPosition = FormStartPosition.CenterScreen;
             Text = " ";
             WindowState = FormWindowState.Maximized;
@@ -239,7 +241,6 @@
 
         private Label label1;
         private DateTimePicker dtpDesde;
-        private Button btnGenerarReporte;
         private DataGridView dgvVentas;
         private Label lblMayorVenta;
         private PictureBox pbGrafico;
@@ -247,7 +248,6 @@
         private PictureBox pictureBox1;
         private ComboBox cbFiltro;
         private Label lblEmpleadoTop;
-        private DateTimePicker dtpHasta;
         private PictureBox btnCancelarReporte;
         private PictureBox btnGenerar;
         private Label lblInfor;

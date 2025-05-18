@@ -45,9 +45,11 @@
             btnEditarCli = new Button();
             btnAgregarCli = new Button();
             btnEliminarCli = new Button();
+            btnCancelar = new PictureBox();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridClientes).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox9).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)btnCancelar).BeginInit();
             SuspendLayout();
             // 
             // lblDashboard
@@ -107,7 +109,7 @@
             dataGridClientes.RowHeadersVisible = false;
             dataGridClientes.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
             dataGridClientes.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dataGridClientes.Size = new Size(1294, 524);
+            dataGridClientes.Size = new Size(1294, 471);
             dataGridClientes.TabIndex = 5;
             dataGridClientes.CellDoubleClick += dataGridClientes_CellDoubleClick;
             // 
@@ -196,12 +198,25 @@
             btnEliminarCli.UseVisualStyleBackColor = false;
             btnEliminarCli.Click += btnEliminarCli_Click;
             // 
+            // btnCancelar
+            // 
+            btnCancelar.Image = (Image)resources.GetObject("btnCancelar.Image");
+            btnCancelar.Location = new Point(1276, 646);
+            btnCancelar.Name = "btnCancelar";
+            btnCancelar.Size = new Size(54, 38);
+            btnCancelar.SizeMode = PictureBoxSizeMode.Zoom;
+            btnCancelar.TabIndex = 76;
+            btnCancelar.TabStop = false;
+            btnCancelar.Click += btnCancelar_Click;
+            // 
             // VistaClientes
             // 
             AutoScaleDimensions = new SizeF(9F, 19F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(221, 221, 221);
             ClientSize = new Size(1370, 696);
+            ControlBox = false;
+            Controls.Add(btnCancelar);
             Controls.Add(btnEliminarCli);
             Controls.Add(btnAgregarCli);
             Controls.Add(btnEditarCli);
@@ -214,12 +229,14 @@
             Icon = (Icon)resources.GetObject("$this.Icon");
             Margin = new Padding(4);
             Name = "VistaClientes";
+            ShowInTaskbar = false;
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Clientes";
             WindowState = FormWindowState.Maximized;
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ((System.ComponentModel.ISupportInitialize)dataGridClientes).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox9).EndInit();
+            ((System.ComponentModel.ISupportInitialize)btnCancelar).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -239,5 +256,6 @@
         private DataGridViewTextBoxColumn Telefono;
         private Button btnAgregarCli;
         private Button btnEliminarCli;
+        private PictureBox btnCancelar;
     }
 }

@@ -146,7 +146,17 @@ namespace C_Presentacion
 
         private void btnCancelarProveedor_Click(object sender, EventArgs e)
         {
-            this.Close();
+            DialogResult resultado = MessageBox.Show(
+                 "¿Estás seguro que deseas cancelar?",
+                 "Confirmar cancelación",
+                 MessageBoxButtons.YesNo,
+                 MessageBoxIcon.Question
+            );
+
+            if (resultado == DialogResult.Yes)
+            {
+                this.Close();
+            }
         }
     }
 }

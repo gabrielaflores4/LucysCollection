@@ -157,6 +157,7 @@
             BackColor = Color.FromArgb(221, 221, 221);
             CancelButton = btnCancelar;
             ClientSize = new Size(1370, 749);
+            ControlBox = false;
             Controls.Add(btnCancelar);
             Controls.Add(btnAgregarTallas);
             Controls.Add(dataGridViewTallas);
@@ -166,6 +167,7 @@
             Icon = (Icon)resources.GetObject("$this.Icon");
             Margin = new Padding(4);
             Name = "AgregarTallas";
+            ShowInTaskbar = false;
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Tallas";
             WindowState = FormWindowState.Maximized;

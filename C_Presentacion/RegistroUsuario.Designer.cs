@@ -51,8 +51,10 @@
             cbRol = new ComboBox();
             errorIconoUsuarios = new ErrorProvider(components);
             label9 = new Label();
+            btnCancelar = new PictureBox();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)errorIconoUsuarios).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)btnCancelar).BeginInit();
             SuspendLayout();
             // 
             // lblDashboard
@@ -207,6 +209,7 @@
             tbPassword.Name = "tbPassword";
             tbPassword.Size = new Size(483, 27);
             tbPassword.TabIndex = 15;
+            tbPassword.UseSystemPasswordChar = true;
             tbPassword.KeyPress += tbPassword_KeyPress;
             // 
             // label7
@@ -272,12 +275,25 @@
             label9.TabIndex = 1;
             label9.Text = "Registro";
             // 
+            // btnCancelar
+            // 
+            btnCancelar.Image = (Image)resources.GetObject("btnCancelar.Image");
+            btnCancelar.Location = new Point(1295, 646);
+            btnCancelar.Name = "btnCancelar";
+            btnCancelar.Size = new Size(54, 38);
+            btnCancelar.SizeMode = PictureBoxSizeMode.Zoom;
+            btnCancelar.TabIndex = 102;
+            btnCancelar.TabStop = false;
+            btnCancelar.Click += btnCancelar_Click;
+            // 
             // RegistroUsuario
             // 
             AutoScaleDimensions = new SizeF(9F, 19F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(221, 221, 221);
             ClientSize = new Size(1370, 696);
+            ControlBox = false;
+            Controls.Add(btnCancelar);
             Controls.Add(label9);
             Controls.Add(cbRol);
             Controls.Add(label8);
@@ -302,11 +318,13 @@
             Icon = (Icon)resources.GetObject("$this.Icon");
             Margin = new Padding(4);
             Name = "RegistroUsuario";
+            ShowInTaskbar = false;
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Usuarios";
             WindowState = FormWindowState.Maximized;
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ((System.ComponentModel.ISupportInitialize)errorIconoUsuarios).EndInit();
+            ((System.ComponentModel.ISupportInitialize)btnCancelar).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -333,5 +351,6 @@
         private ComboBox cbRol;
         private ErrorProvider errorIconoUsuarios;
         private Label label9;
+        private PictureBox btnCancelar;
     }
 }

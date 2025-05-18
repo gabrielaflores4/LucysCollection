@@ -161,12 +161,6 @@ namespace C_Presentacion
                 MessageBox.Show("Error al cargar tallas: " + ex.Message);
             }
         }
-
-        private void Ventas_Load(object sender, EventArgs e)
-        {
-            
-        }
-
         private void rbCliNuevo_CheckedChanged(object sender, EventArgs e)
         {
             if (rbCliNuevo.Checked && !ignorarMensajeCliente)
@@ -199,8 +193,6 @@ namespace C_Presentacion
             if (rbCliAntiguo.Checked && !ignorarMensajeCliente)
             {
                 AbrirVistaClientes();
-
-                // Siempre deseleccionar después de cerrar el formulario
                 ignorarMensajeCliente = true;
                 rbCliAntiguo.Checked = false;
                 ignorarMensajeCliente = false;
@@ -220,7 +212,7 @@ namespace C_Presentacion
                 else
                 {
                     tbClientes.Text = string.Empty;
-                    clienteSeleccionado = null!; // Use null-forgiving operator to suppress CS8625
+                    clienteSeleccionado = null!;
                 }
             }
         }
@@ -228,7 +220,7 @@ namespace C_Presentacion
         private void btnReporte_Click(object sender, EventArgs e)
         {
             Reporte_de_ventas reporte_De_Ventas = new Reporte_de_ventas();
-            reporte_De_Ventas.Show();
+            reporte_De_Ventas.ShowDialog();
         }
 
         private void ActualizarDataGrid()
@@ -877,7 +869,17 @@ namespace C_Presentacion
 
         private void btnCancelarRegProd_Click(object sender, EventArgs e)
         {
-            this.Close();
+            DialogResult resultado = MessageBox.Show(
+                "¿Estás seguro que deseas cancelar esta VENTA?",
+                "Confirmar cancelación",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question
+            );
+
+            if (resultado == DialogResult.Yes)
+            {
+                this.Close();
+            }
         }
 
         private void cbTallasRegProd_SelectedIndexChanged(object? sender, EventArgs e)

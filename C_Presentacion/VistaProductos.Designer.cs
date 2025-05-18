@@ -100,14 +100,14 @@
             dataGridProductos.DefaultCellStyle = dataGridViewCellStyle3;
             dataGridProductos.EnableHeadersVisualStyles = false;
             dataGridProductos.GridColor = Color.FromArgb(221, 221, 221);
-            dataGridProductos.Location = new Point(40, 158);
+            dataGridProductos.Location = new Point(40, 157);
             dataGridProductos.MultiSelect = false;
             dataGridProductos.Name = "dataGridProductos";
             dataGridProductos.ReadOnly = true;
             dataGridProductos.RowHeadersVisible = false;
             dataGridProductos.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
             dataGridProductos.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dataGridProductos.Size = new Size(1286, 513);
+            dataGridProductos.Size = new Size(1286, 470);
             dataGridProductos.TabIndex = 2;
             dataGridProductos.CellDoubleClick += dataGridProductos_CellDoubleClick;
             // 
@@ -157,7 +157,7 @@
             // btnCancelarAyuda
             // 
             btnCancelarAyuda.Image = (Image)resources.GetObject("btnCancelarAyuda.Image");
-            btnCancelarAyuda.Location = new Point(40, 99);
+            btnCancelarAyuda.Location = new Point(1272, 646);
             btnCancelarAyuda.Name = "btnCancelarAyuda";
             btnCancelarAyuda.Size = new Size(54, 38);
             btnCancelarAyuda.SizeMode = PictureBoxSizeMode.Zoom;
@@ -171,6 +171,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(221, 221, 221);
             ClientSize = new Size(1370, 696);
+            ControlBox = false;
             Controls.Add(btnCancelarAyuda);
             Controls.Add(pictureBox9);
             Controls.Add(tbBusquedaProductos);
@@ -181,6 +182,7 @@
             Icon = (Icon)resources.GetObject("$this.Icon");
             Margin = new Padding(3, 4, 3, 4);
             Name = "VistaProductos";
+            ShowInTaskbar = false;
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Productos";
             WindowState = FormWindowState.Maximized;

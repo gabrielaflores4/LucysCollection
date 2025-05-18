@@ -184,7 +184,7 @@
             // btnCancelarProveedor
             // 
             btnCancelarProveedor.Image = (Image)resources.GetObject("btnCancelarProveedor.Image");
-            btnCancelarProveedor.Location = new Point(1304, 618);
+            btnCancelarProveedor.Location = new Point(1293, 635);
             btnCancelarProveedor.Name = "btnCancelarProveedor";
             btnCancelarProveedor.Size = new Size(54, 38);
             btnCancelarProveedor.SizeMode = PictureBoxSizeMode.Zoom;
@@ -198,6 +198,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(221, 221, 221);
             ClientSize = new Size(1370, 696);
+            ControlBox = false;
             Controls.Add(btnCancelarProveedor);
             Controls.Add(btnRegistrarProv);
             Controls.Add(tbTelefonoProv);
@@ -215,6 +216,7 @@
             Icon = (Icon)resources.GetObject("$this.Icon");
             Margin = new Padding(4);
             Name = "RegProv";
+            ShowInTaskbar = false;
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Proveedores";
             WindowState = FormWindowState.Maximized;

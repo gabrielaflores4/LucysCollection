@@ -41,7 +41,9 @@
             tbNombreCliAct = new TextBox();
             label1 = new Label();
             label22 = new Label();
+            btnCancelar = new PictureBox();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)btnCancelar).BeginInit();
             SuspendLayout();
             // 
             // lblDashboard
@@ -168,12 +170,25 @@
             label22.TabIndex = 2;
             label22.Text = "Nombre";
             // 
+            // btnCancelar
+            // 
+            btnCancelar.Image = (Image)resources.GetObject("btnCancelar.Image");
+            btnCancelar.Location = new Point(1291, 646);
+            btnCancelar.Name = "btnCancelar";
+            btnCancelar.Size = new Size(54, 38);
+            btnCancelar.SizeMode = PictureBoxSizeMode.Zoom;
+            btnCancelar.TabIndex = 77;
+            btnCancelar.TabStop = false;
+            btnCancelar.Click += btnCancelar_Click;
+            // 
             // EditarClientes
             // 
             AutoScaleDimensions = new SizeF(9F, 19F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(221, 221, 221);
             ClientSize = new Size(1370, 696);
+            ControlBox = false;
+            Controls.Add(btnCancelar);
             Controls.Add(btnActCli);
             Controls.Add(tbTelefonoCliAct);
             Controls.Add(label5);
@@ -190,10 +205,12 @@
             Icon = (Icon)resources.GetObject("$this.Icon");
             Margin = new Padding(4);
             Name = "EditarClientes";
+            ShowInTaskbar = false;
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Clientes";
             WindowState = FormWindowState.Maximized;
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)btnCancelar).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -212,5 +229,6 @@
         private TextBox tbNombreCliAct;
         private Label label1;
         private Label label22;
+        private PictureBox btnCancelar;
     }
 }

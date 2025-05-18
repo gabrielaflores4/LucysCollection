@@ -76,7 +76,7 @@ namespace C_Presentacion
 
             if (!EsFormularioValido())
             {
-                MessageBox.Show("Por favor, corrige los errores antes de continuar.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Por favor, ingrese datos válidos.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
             string nombre = tbNombreClien.Text;
@@ -165,7 +165,17 @@ namespace C_Presentacion
 
         private void btnCancelarCli_Click(object sender, EventArgs e)
         {
-            this.Close();
+            DialogResult resultado = MessageBox.Show(
+                "¿Estás seguro que deseas cancelar?",
+                "Confirmar cancelación",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question
+            );
+
+            if (resultado == DialogResult.Yes)
+            {
+                this.Close();
+            }
         }
 
         private void BorrarMensajesError()

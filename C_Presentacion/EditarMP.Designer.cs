@@ -53,7 +53,7 @@
             btnCancelarActMP.BackgroundImageLayout = ImageLayout.Zoom;
             btnCancelarActMP.FlatStyle = FlatStyle.Flat;
             btnCancelarActMP.ForeColor = Color.FromArgb(221, 221, 221);
-            btnCancelarActMP.Location = new Point(482, 632);
+            btnCancelarActMP.Location = new Point(482, 610);
             btnCancelarActMP.Name = "btnCancelarActMP";
             btnCancelarActMP.Size = new Size(187, 64);
             btnCancelarActMP.TabIndex = 11;
@@ -67,7 +67,7 @@
             btnGuardarActMP.BackgroundImageLayout = ImageLayout.Zoom;
             btnGuardarActMP.FlatStyle = FlatStyle.Flat;
             btnGuardarActMP.ForeColor = Color.FromArgb(221, 221, 221);
-            btnGuardarActMP.Location = new Point(695, 632);
+            btnGuardarActMP.Location = new Point(695, 610);
             btnGuardarActMP.Name = "btnGuardarActMP";
             btnGuardarActMP.Size = new Size(194, 64);
             btnGuardarActMP.TabIndex = 10;
@@ -195,7 +195,8 @@
             AutoScaleDimensions = new SizeF(9F, 19F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(221, 221, 221);
-            ClientSize = new Size(1370, 749);
+            ClientSize = new Size(1370, 696);
+            ControlBox = false;
             Controls.Add(label3);
             Controls.Add(btnCancelarActMP);
             Controls.Add(btnGuardarActMP);
@@ -213,6 +214,7 @@
             Icon = (Icon)resources.GetObject("$this.Icon");
             Margin = new Padding(4);
             Name = "EditarMP";
+            ShowInTaskbar = false;
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Materia Prima";
             WindowState = FormWindowState.Maximized;

@@ -69,6 +69,7 @@
             btnCancelarMP.Size = new Size(187, 64);
             btnCancelarMP.TabIndex = 14;
             btnCancelarMP.UseVisualStyleBackColor = false;
+            btnCancelarMP.Click += btnCancelarMP_Click;
             // 
             // btnGuardarMP
             // 
@@ -286,6 +287,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(221, 221, 221);
             ClientSize = new Size(1370, 696);
+            ControlBox = false;
             Controls.Add(label2);
             Controls.Add(btnCancelarMP);
             Controls.Add(btnGuardarMP);
@@ -306,6 +308,7 @@
             Icon = (Icon)resources.GetObject("$this.Icon");
             Margin = new Padding(4);
             Name = "RegMP";
+            ShowInTaskbar = false;
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Materia Prima";
             WindowState = FormWindowState.Maximized;
