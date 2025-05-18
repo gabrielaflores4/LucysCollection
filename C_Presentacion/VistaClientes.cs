@@ -132,8 +132,7 @@ namespace C_Presentacion
             }
             else
             {
-                MessageBox.Show("Por favor, seleccione un cliente", "Advertencia",
-                              MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Por favor, seleccione un cliente", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
         private void SeleccionarCliente()
@@ -154,7 +153,47 @@ namespace C_Presentacion
             frmRegClientes.ShowDialog();
         }
 
-        private void VistaClientes_Load(object sender, EventArgs e)
+        private void btnEliminarCli_Click(object sender, EventArgs e)
+        {
+            // Verificar si hay una fila seleccionada
+            if (dataGridClientes.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Por favor, seleccione un cliente","Advertencia", MessageBoxButtons.OK,MessageBoxIcon.Warning);
+                return;
+            }
+
+            // Obtener el cliente seleccionado
+            var clienteSeleccionado = (Cliente)dataGridClientes.SelectedRows[0].DataBoundItem;
+
+            // Mostrar confirmación de eliminación
+            DialogResult confirmacion = MessageBox.Show(
+                $"¿Está seguro que desea eliminar permanentemente al cliente {clienteSeleccionado.Nombre} {clienteSeleccionado.Apellido}?\n",
+                "Confirmar Eliminación",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Warning,
+                MessageBoxDefaultButton.Button2);
+
+            // Si el usuario confirma
+            if (confirmacion == DialogResult.Yes)
+            {
+                // Ejecutar eliminación
+                var (success, message) = new ClienteNeg().EliminarCliente(clienteSeleccionado.Id);
+
+                // Mostrar resultado
+                MessageBox.Show(message,
+                              success ? "Éxito" : "Error",
+                              MessageBoxButtons.OK,
+                              success ? MessageBoxIcon.Information : MessageBoxIcon.Error);
+
+                // Actualizar la lista si fue exitoso
+                if (success)
+                {
+                    CargarClientesEnDataGrid();
+                }
+            }
+        }
+
+        private void btnEditarCli_Click(object sender, EventArgs e)
         {
 
         }

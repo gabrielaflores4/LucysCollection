@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using C_Datos;
+﻿using C_Datos;
 using C_Entidades;
 
 namespace C_Negocios
@@ -55,7 +50,7 @@ namespace C_Negocios
         {
             try
             {
-                // Verificar primero si el ID existe (opcional, puedes omitir este paso si prefieres)
+                // Verificar primero si el ID existe
                 var idsExistentes = clienteDatos.ObtenerIdsClientes();
                 if (!idsExistentes.Contains(clienteId))
                 {
@@ -74,10 +69,32 @@ namespace C_Negocios
             }
             catch (Exception ex)
             {
-                // Puedes loggear el error aquí si tienes un sistema de logging
                 throw new Exception("Error al obtener cliente por ID: " + ex.Message);
             }
         }
+        public (bool success, string message) EliminarCliente(int idCliente)
+        {
+            try
+            {
+                // Validar que el cliente exista
+                var cliente = ObtenerClientePorId(idCliente);
+                if (cliente == null)
+                    return (false, "Cliente no encontrado");
 
+                // Validar ventas asociadas
+                if (clienteDatos.TieneVentasAsociadas(idCliente))
+                    return (false, "El cliente tiene ventas asociadas y no puede ser eliminado");
+
+                // Ejecutar eliminación
+                bool resultado = clienteDatos.EliminarCliente(idCliente);
+                return resultado
+                    ? (true, "Cliente eliminado correctamente")
+                    : (false, "No se pudo completar la eliminación");
+            }
+            catch (Exception ex)
+            {
+                return (false, $"Error al eliminar cliente: {ex.Message}");
+            }
+        }
     }
 }
