@@ -41,6 +41,7 @@
             label22 = new Label();
             lblDashboard = new Label();
             pictureBox1 = new PictureBox();
+            label3 = new Label();
             ((System.ComponentModel.ISupportInitialize)nbCantidad).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
@@ -52,10 +53,10 @@
             btnCancelarActMP.BackgroundImageLayout = ImageLayout.Zoom;
             btnCancelarActMP.FlatStyle = FlatStyle.Flat;
             btnCancelarActMP.ForeColor = Color.FromArgb(221, 221, 221);
-            btnCancelarActMP.Location = new Point(507, 595);
+            btnCancelarActMP.Location = new Point(482, 632);
             btnCancelarActMP.Name = "btnCancelarActMP";
             btnCancelarActMP.Size = new Size(187, 64);
-            btnCancelarActMP.TabIndex = 70;
+            btnCancelarActMP.TabIndex = 11;
             btnCancelarActMP.UseVisualStyleBackColor = false;
             btnCancelarActMP.Click += btnCancelarActMP_Click;
             // 
@@ -66,10 +67,10 @@
             btnGuardarActMP.BackgroundImageLayout = ImageLayout.Zoom;
             btnGuardarActMP.FlatStyle = FlatStyle.Flat;
             btnGuardarActMP.ForeColor = Color.FromArgb(221, 221, 221);
-            btnGuardarActMP.Location = new Point(720, 595);
+            btnGuardarActMP.Location = new Point(695, 632);
             btnGuardarActMP.Name = "btnGuardarActMP";
             btnGuardarActMP.Size = new Size(194, 64);
-            btnGuardarActMP.TabIndex = 69;
+            btnGuardarActMP.TabIndex = 10;
             btnGuardarActMP.UseVisualStyleBackColor = false;
             btnGuardarActMP.Click += btnGuardarActMP_Click;
             // 
@@ -79,18 +80,18 @@
             label4.BackColor = Color.FromArgb(221, 221, 221);
             label4.Font = new Font("Bahnschrift", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label4.ForeColor = SystemColors.ControlText;
-            label4.Location = new Point(507, 457);
+            label4.Location = new Point(482, 509);
             label4.Name = "label4";
             label4.Size = new Size(93, 25);
-            label4.TabIndex = 68;
+            label4.TabIndex = 8;
             label4.Text = "Cantidad";
             // 
             // nbCantidad
             // 
-            nbCantidad.Location = new Point(507, 495);
+            nbCantidad.Location = new Point(486, 556);
             nbCantidad.Name = "nbCantidad";
             nbCantidad.Size = new Size(399, 27);
-            nbCantidad.TabIndex = 66;
+            nbCantidad.TabIndex = 9;
             // 
             // cbProvAct
             // 
@@ -98,10 +99,10 @@
             cbProvAct.DropDownWidth = 200;
             cbProvAct.FormattingEnabled = true;
             cbProvAct.IntegralHeight = false;
-            cbProvAct.Location = new Point(507, 387);
+            cbProvAct.Location = new Point(486, 432);
             cbProvAct.Name = "cbProvAct";
             cbProvAct.Size = new Size(399, 27);
-            cbProvAct.TabIndex = 64;
+            cbProvAct.TabIndex = 7;
             // 
             // label2
             // 
@@ -109,18 +110,18 @@
             label2.BackColor = Color.FromArgb(221, 221, 221);
             label2.Font = new Font("Bahnschrift", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label2.ForeColor = SystemColors.ControlText;
-            label2.Location = new Point(507, 348);
+            label2.Location = new Point(486, 386);
             label2.Name = "label2";
             label2.Size = new Size(108, 25);
-            label2.TabIndex = 63;
+            label2.TabIndex = 6;
             label2.Text = "Proveedor";
             // 
             // tbPrecioRegAct
             // 
-            tbPrecioRegAct.Location = new Point(507, 285);
+            tbPrecioRegAct.Location = new Point(486, 314);
             tbPrecioRegAct.Name = "tbPrecioRegAct";
             tbPrecioRegAct.Size = new Size(399, 27);
-            tbPrecioRegAct.TabIndex = 62;
+            tbPrecioRegAct.TabIndex = 5;
             tbPrecioRegAct.KeyPress += tbPrecioRegAct_KeyPress;
             // 
             // label1
@@ -129,18 +130,18 @@
             label1.BackColor = Color.FromArgb(221, 221, 221);
             label1.Font = new Font("Bahnschrift", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label1.ForeColor = SystemColors.ControlText;
-            label1.Location = new Point(507, 247);
+            label1.Location = new Point(482, 266);
             label1.Name = "label1";
             label1.Size = new Size(150, 25);
-            label1.TabIndex = 61;
+            label1.TabIndex = 4;
             label1.Text = "Precio Unitario";
             // 
             // tbNombreProdAct
             // 
-            tbNombreProdAct.Location = new Point(507, 191);
+            tbNombreProdAct.Location = new Point(486, 204);
             tbNombreProdAct.Name = "tbNombreProdAct";
             tbNombreProdAct.Size = new Size(399, 27);
-            tbNombreProdAct.TabIndex = 60;
+            tbNombreProdAct.TabIndex = 3;
             tbNombreProdAct.KeyPress += tbNombreProdAct_KeyPress;
             // 
             // label22
@@ -149,10 +150,10 @@
             label22.BackColor = Color.FromArgb(221, 221, 221);
             label22.Font = new Font("Bahnschrift", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label22.ForeColor = SystemColors.ControlText;
-            label22.Location = new Point(507, 152);
+            label22.Location = new Point(482, 157);
             label22.Name = "label22";
             label22.Size = new Size(87, 25);
-            label22.TabIndex = 59;
+            label22.TabIndex = 2;
             label22.Text = "Nombre";
             // 
             // lblDashboard
@@ -161,11 +162,11 @@
             lblDashboard.BackColor = Color.Black;
             lblDashboard.Font = new Font("Bahnschrift", 20.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblDashboard.ForeColor = SystemColors.Control;
-            lblDashboard.Location = new Point(547, 18);
+            lblDashboard.Location = new Point(593, 18);
             lblDashboard.Name = "lblDashboard";
-            lblDashboard.Size = new Size(314, 33);
-            lblDashboard.TabIndex = 58;
-            lblDashboard.Text = "Actualizar Materia Prima";
+            lblDashboard.Size = new Size(185, 33);
+            lblDashboard.TabIndex = 0;
+            lblDashboard.Text = "Materia Prima";
             // 
             // pictureBox1
             // 
@@ -177,12 +178,25 @@
             pictureBox1.TabIndex = 57;
             pictureBox1.TabStop = false;
             // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.BackColor = Color.FromArgb(221, 221, 221);
+            label3.Font = new Font("Bahnschrift SemiBold", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label3.ForeColor = SystemColors.ControlText;
+            label3.Location = new Point(482, 99);
+            label3.Name = "label3";
+            label3.Size = new Size(167, 25);
+            label3.TabIndex = 1;
+            label3.Text = "Actualizar Datos";
+            // 
             // EditarMP
             // 
             AutoScaleDimensions = new SizeF(9F, 19F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(221, 221, 221);
             ClientSize = new Size(1370, 749);
+            Controls.Add(label3);
             Controls.Add(btnCancelarActMP);
             Controls.Add(btnGuardarActMP);
             Controls.Add(label4);
@@ -200,7 +214,7 @@
             Margin = new Padding(4);
             Name = "EditarMP";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "EditarMP";
+            Text = "Materia Prima";
             WindowState = FormWindowState.Maximized;
             Load += EditarMP_Load_1;
             ((System.ComponentModel.ISupportInitialize)nbCantidad).EndInit();
@@ -223,5 +237,6 @@
         private Label label22;
         private Label lblDashboard;
         private PictureBox pictureBox1;
+        private Label label3;
     }
 }

@@ -41,6 +41,7 @@
             tbCorreoProvAct = new TextBox();
             tbDirecProvAct = new TextBox();
             label3 = new Label();
+            label4 = new Label();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
@@ -51,7 +52,7 @@
             btnCancelarActProv.BackgroundImageLayout = ImageLayout.Zoom;
             btnCancelarActProv.FlatStyle = FlatStyle.Flat;
             btnCancelarActProv.ForeColor = Color.FromArgb(221, 221, 221);
-            btnCancelarActProv.Location = new Point(507, 596);
+            btnCancelarActProv.Location = new Point(486, 596);
             btnCancelarActProv.Name = "btnCancelarActProv";
             btnCancelarActProv.Size = new Size(187, 64);
             btnCancelarActProv.TabIndex = 70;
@@ -65,7 +66,7 @@
             btnGuardarActProv.BackgroundImageLayout = ImageLayout.Zoom;
             btnGuardarActProv.FlatStyle = FlatStyle.Flat;
             btnGuardarActProv.ForeColor = Color.FromArgb(221, 221, 221);
-            btnGuardarActProv.Location = new Point(720, 596);
+            btnGuardarActProv.Location = new Point(699, 596);
             btnGuardarActProv.Name = "btnGuardarActProv";
             btnGuardarActProv.Size = new Size(194, 64);
             btnGuardarActProv.TabIndex = 69;
@@ -78,7 +79,7 @@
             label2.BackColor = Color.FromArgb(221, 221, 221);
             label2.Font = new Font("Bahnschrift", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label2.ForeColor = SystemColors.ControlText;
-            label2.Location = new Point(507, 345);
+            label2.Location = new Point(486, 380);
             label2.Name = "label2";
             label2.Size = new Size(76, 25);
             label2.TabIndex = 63;
@@ -86,7 +87,7 @@
             // 
             // tbTelProvAct
             // 
-            tbTelProvAct.Location = new Point(507, 281);
+            tbTelProvAct.Location = new Point(486, 316);
             tbTelProvAct.Name = "tbTelProvAct";
             tbTelProvAct.Size = new Size(399, 27);
             tbTelProvAct.TabIndex = 62;
@@ -97,7 +98,7 @@
             label1.BackColor = Color.FromArgb(221, 221, 221);
             label1.Font = new Font("Bahnschrift", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label1.ForeColor = SystemColors.ControlText;
-            label1.Location = new Point(507, 243);
+            label1.Location = new Point(486, 278);
             label1.Name = "label1";
             label1.Size = new Size(90, 25);
             label1.TabIndex = 61;
@@ -105,7 +106,7 @@
             // 
             // tbNombreProvAct
             // 
-            tbNombreProvAct.Location = new Point(507, 181);
+            tbNombreProvAct.Location = new Point(486, 216);
             tbNombreProvAct.Name = "tbNombreProvAct";
             tbNombreProvAct.Size = new Size(399, 27);
             tbNombreProvAct.TabIndex = 60;
@@ -116,7 +117,7 @@
             label22.BackColor = Color.FromArgb(221, 221, 221);
             label22.Font = new Font("Bahnschrift", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label22.ForeColor = SystemColors.ControlText;
-            label22.Location = new Point(507, 142);
+            label22.Location = new Point(486, 177);
             label22.Name = "label22";
             label22.Size = new Size(87, 25);
             label22.TabIndex = 59;
@@ -128,11 +129,11 @@
             lblDashboard.BackColor = Color.Black;
             lblDashboard.Font = new Font("Bahnschrift", 20.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblDashboard.ForeColor = SystemColors.Control;
-            lblDashboard.Location = new Point(580, 19);
+            lblDashboard.Location = new Point(601, 19);
             lblDashboard.Name = "lblDashboard";
-            lblDashboard.Size = new Size(298, 33);
+            lblDashboard.Size = new Size(169, 33);
             lblDashboard.TabIndex = 58;
-            lblDashboard.Text = "Actualizar Proveedores";
+            lblDashboard.Text = "Proveedores";
             // 
             // pictureBox1
             // 
@@ -146,14 +147,14 @@
             // 
             // tbCorreoProvAct
             // 
-            tbCorreoProvAct.Location = new Point(507, 385);
+            tbCorreoProvAct.Location = new Point(486, 420);
             tbCorreoProvAct.Name = "tbCorreoProvAct";
             tbCorreoProvAct.Size = new Size(399, 27);
             tbCorreoProvAct.TabIndex = 71;
             // 
             // tbDirecProvAct
             // 
-            tbDirecProvAct.Location = new Point(507, 495);
+            tbDirecProvAct.Location = new Point(486, 530);
             tbDirecProvAct.Name = "tbDirecProvAct";
             tbDirecProvAct.Size = new Size(399, 27);
             tbDirecProvAct.TabIndex = 73;
@@ -164,18 +165,31 @@
             label3.BackColor = Color.FromArgb(221, 221, 221);
             label3.Font = new Font("Bahnschrift", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label3.ForeColor = SystemColors.ControlText;
-            label3.Location = new Point(507, 455);
+            label3.Location = new Point(486, 490);
             label3.Name = "label3";
             label3.Size = new Size(99, 25);
             label3.TabIndex = 72;
             label3.Text = "Dirección";
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.BackColor = Color.FromArgb(221, 221, 221);
+            label4.Font = new Font("Bahnschrift SemiBold", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label4.ForeColor = SystemColors.ControlText;
+            label4.Location = new Point(590, 116);
+            label4.Name = "label4";
+            label4.Size = new Size(191, 29);
+            label4.TabIndex = 74;
+            label4.Text = "Actualizar Datos";
             // 
             // EditarProveedores
             // 
             AutoScaleDimensions = new SizeF(9F, 19F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(221, 221, 221);
-            ClientSize = new Size(1370, 749);
+            ClientSize = new Size(1370, 696);
+            Controls.Add(label4);
             Controls.Add(tbDirecProvAct);
             Controls.Add(label3);
             Controls.Add(tbCorreoProvAct);
@@ -193,7 +207,7 @@
             Margin = new Padding(4);
             Name = "EditarProveedores";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "EditarProveedores";
+            Text = "Proveedores";
             WindowState = FormWindowState.Maximized;
             Load += EditarProveedores_Load;
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
@@ -215,5 +229,6 @@
         private TextBox tbCorreoProvAct;
         private TextBox tbDirecProvAct;
         private Label label3;
+        private Label label4;
     }
 }

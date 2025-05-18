@@ -57,7 +57,7 @@
             lblDashboard.Location = new Point(616, 16);
             lblDashboard.Name = "lblDashboard";
             lblDashboard.Size = new Size(139, 33);
-            lblDashboard.TabIndex = 45;
+            lblDashboard.TabIndex = 0;
             lblDashboard.Text = "Productos";
             // 
             // pictureBox1
@@ -108,7 +108,7 @@
             dataGridProductos.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
             dataGridProductos.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dataGridProductos.Size = new Size(1286, 513);
-            dataGridProductos.TabIndex = 46;
+            dataGridProductos.TabIndex = 2;
             dataGridProductos.CellDoubleClick += dataGridProductos_CellDoubleClick;
             // 
             // Id_Prod
@@ -151,7 +151,7 @@
             tbBusquedaProductos.Location = new Point(292, 103);
             tbBusquedaProductos.Name = "tbBusquedaProductos";
             tbBusquedaProductos.Size = new Size(984, 27);
-            tbBusquedaProductos.TabIndex = 47;
+            tbBusquedaProductos.TabIndex = 1;
             tbBusquedaProductos.TextChanged += tbBusquedaProductos_TextChanged;
             // 
             // btnCancelarAyuda

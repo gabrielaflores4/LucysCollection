@@ -56,19 +56,19 @@
             btnRegistrarProv.BackgroundImageLayout = ImageLayout.Zoom;
             btnRegistrarProv.FlatStyle = FlatStyle.Flat;
             btnRegistrarProv.ForeColor = Color.FromArgb(221, 221, 221);
-            btnRegistrarProv.Location = new Point(495, 600);
+            btnRegistrarProv.Location = new Point(496, 603);
             btnRegistrarProv.Name = "btnRegistrarProv";
             btnRegistrarProv.Size = new Size(378, 56);
-            btnRegistrarProv.TabIndex = 98;
+            btnRegistrarProv.TabIndex = 10;
             btnRegistrarProv.UseVisualStyleBackColor = false;
             btnRegistrarProv.Click += btnRegistrarProv_Click;
             // 
             // tbTelefonoProv
             // 
-            tbTelefonoProv.Location = new Point(447, 533);
+            tbTelefonoProv.Location = new Point(446, 528);
             tbTelefonoProv.Name = "tbTelefonoProv";
             tbTelefonoProv.Size = new Size(483, 27);
-            tbTelefonoProv.TabIndex = 93;
+            tbTelefonoProv.TabIndex = 9;
             tbTelefonoProv.KeyPress += tbTelefonoProv_KeyPress;
             // 
             // label5
@@ -77,18 +77,18 @@
             label5.BackColor = Color.FromArgb(221, 221, 221);
             label5.Font = new Font("Bahnschrift", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label5.ForeColor = SystemColors.ControlText;
-            label5.Location = new Point(443, 483);
+            label5.Location = new Point(442, 478);
             label5.Name = "label5";
             label5.Size = new Size(90, 25);
-            label5.TabIndex = 92;
+            label5.TabIndex = 8;
             label5.Text = "Teléfono";
             // 
             // tbCorreoProv
             // 
-            tbCorreoProv.Location = new Point(447, 431);
+            tbCorreoProv.Location = new Point(446, 426);
             tbCorreoProv.Name = "tbCorreoProv";
             tbCorreoProv.Size = new Size(483, 27);
-            tbCorreoProv.TabIndex = 91;
+            tbCorreoProv.TabIndex = 7;
             tbCorreoProv.KeyPress += tbCorreoProv_KeyPress;
             // 
             // label4
@@ -97,18 +97,18 @@
             label4.BackColor = Color.FromArgb(221, 221, 221);
             label4.Font = new Font("Bahnschrift", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label4.ForeColor = SystemColors.ControlText;
-            label4.Location = new Point(443, 381);
+            label4.Location = new Point(442, 376);
             label4.Name = "label4";
             label4.Size = new Size(76, 25);
-            label4.TabIndex = 90;
+            label4.TabIndex = 6;
             label4.Text = "Correo";
             // 
             // tbDireccionProv
             // 
-            tbDireccionProv.Location = new Point(447, 329);
+            tbDireccionProv.Location = new Point(446, 324);
             tbDireccionProv.Name = "tbDireccionProv";
             tbDireccionProv.Size = new Size(483, 27);
-            tbDireccionProv.TabIndex = 89;
+            tbDireccionProv.TabIndex = 5;
             tbDireccionProv.KeyPress += tbDireccionProv_KeyPress;
             // 
             // label3
@@ -117,31 +117,31 @@
             label3.BackColor = Color.FromArgb(221, 221, 221);
             label3.Font = new Font("Bahnschrift", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label3.ForeColor = SystemColors.ControlText;
-            label3.Location = new Point(443, 279);
+            label3.Location = new Point(442, 274);
             label3.Name = "label3";
             label3.Size = new Size(99, 25);
-            label3.TabIndex = 88;
+            label3.TabIndex = 4;
             label3.Text = "Dirección";
             // 
             // tbNombreProv
             // 
-            tbNombreProv.Location = new Point(447, 227);
+            tbNombreProv.Location = new Point(446, 222);
             tbNombreProv.Name = "tbNombreProv";
             tbNombreProv.Size = new Size(483, 27);
-            tbNombreProv.TabIndex = 87;
+            tbNombreProv.TabIndex = 3;
             tbNombreProv.KeyPress += tbNombreProv_KeyPress;
             // 
             // label1
             // 
             label1.AutoSize = true;
             label1.BackColor = Color.FromArgb(221, 221, 221);
-            label1.Font = new Font("Bahnschrift", 20.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label1.Font = new Font("Bahnschrift SemiBold", 20.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label1.ForeColor = SystemColors.ControlText;
-            label1.Location = new Point(440, 119);
+            label1.Location = new Point(626, 108);
             label1.Name = "label1";
-            label1.Size = new Size(235, 33);
-            label1.TabIndex = 85;
-            label1.Text = "Datos de Contacto";
+            label1.Size = new Size(118, 33);
+            label1.TabIndex = 1;
+            label1.Text = "Registro";
             // 
             // lblDashboard
             // 
@@ -149,11 +149,11 @@
             lblDashboard.BackColor = Color.Black;
             lblDashboard.Font = new Font("Bahnschrift", 20.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblDashboard.ForeColor = SystemColors.Control;
-            lblDashboard.Location = new Point(560, 16);
+            lblDashboard.Location = new Point(615, 16);
             lblDashboard.Name = "lblDashboard";
-            lblDashboard.Size = new Size(251, 33);
-            lblDashboard.TabIndex = 83;
-            lblDashboard.Text = "Registro Proveedor";
+            lblDashboard.Size = new Size(141, 33);
+            lblDashboard.TabIndex = 0;
+            lblDashboard.Text = "Proveedor";
             // 
             // pictureBox1
             // 
@@ -171,10 +171,10 @@
             label22.BackColor = Color.FromArgb(221, 221, 221);
             label22.Font = new Font("Bahnschrift", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label22.ForeColor = SystemColors.ControlText;
-            label22.Location = new Point(443, 177);
+            label22.Location = new Point(442, 172);
             label22.Name = "label22";
             label22.Size = new Size(87, 25);
-            label22.TabIndex = 84;
+            label22.TabIndex = 2;
             label22.Text = "Nombre";
             // 
             // errorProveedores
@@ -216,7 +216,7 @@
             Margin = new Padding(4);
             Name = "RegProv";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "RegProv";
+            Text = "Proveedores";
             WindowState = FormWindowState.Maximized;
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ((System.ComponentModel.ISupportInitialize)errorProveedores).EndInit();

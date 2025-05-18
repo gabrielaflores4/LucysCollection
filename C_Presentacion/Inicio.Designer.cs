@@ -191,7 +191,7 @@
             lblNombreUsuario.Location = new Point(30, 74);
             lblNombreUsuario.Name = "lblNombreUsuario";
             lblNombreUsuario.Size = new Size(85, 25);
-            lblNombreUsuario.TabIndex = 2;
+            lblNombreUsuario.TabIndex = 1;
             lblNombreUsuario.Text = "Usuario";
             // 
             // lblRolUser
@@ -203,7 +203,7 @@
             lblRolUser.Location = new Point(32, 104);
             lblRolUser.Name = "lblRolUser";
             lblRolUser.Size = new Size(33, 19);
-            lblRolUser.TabIndex = 3;
+            lblRolUser.TabIndex = 2;
             lblRolUser.Text = "Rol";
             // 
             // btnInventario
@@ -215,7 +215,7 @@
             btnInventario.Location = new Point(30, 200);
             btnInventario.Name = "btnInventario";
             btnInventario.Size = new Size(205, 45);
-            btnInventario.TabIndex = 2;
+            btnInventario.TabIndex = 4;
             btnInventario.UseVisualStyleBackColor = false;
             btnInventario.Click += btnInventario_Click;
             // 
@@ -228,7 +228,7 @@
             btnVentas.Location = new Point(30, 139);
             btnVentas.Name = "btnVentas";
             btnVentas.Size = new Size(205, 45);
-            btnVentas.TabIndex = 1;
+            btnVentas.TabIndex = 3;
             btnVentas.UseVisualStyleBackColor = false;
             btnVentas.Click += btnVentas_Click;
             // 
@@ -241,7 +241,7 @@
             btnEmpleados.Location = new Point(30, 444);
             btnEmpleados.Name = "btnEmpleados";
             btnEmpleados.Size = new Size(205, 45);
-            btnEmpleados.TabIndex = 5;
+            btnEmpleados.TabIndex = 8;
             btnEmpleados.UseVisualStyleBackColor = false;
             btnEmpleados.Click += btnEmpleados_Click;
             // 
@@ -254,7 +254,7 @@
             btnMateriaPrima.Location = new Point(30, 261);
             btnMateriaPrima.Name = "btnMateriaPrima";
             btnMateriaPrima.Size = new Size(205, 45);
-            btnMateriaPrima.TabIndex = 3;
+            btnMateriaPrima.TabIndex = 5;
             btnMateriaPrima.UseVisualStyleBackColor = false;
             btnMateriaPrima.Click += btnMateriaPrima_Click;
             // 
@@ -267,7 +267,7 @@
             btnProveedores.Location = new Point(30, 322);
             btnProveedores.Name = "btnProveedores";
             btnProveedores.Size = new Size(205, 45);
-            btnProveedores.TabIndex = 4;
+            btnProveedores.TabIndex = 6;
             btnProveedores.UseVisualStyleBackColor = false;
             btnProveedores.Click += btnProveedores_Click;
             // 
@@ -280,7 +280,7 @@
             btnAyuda.Location = new Point(30, 566);
             btnAyuda.Name = "btnAyuda";
             btnAyuda.Size = new Size(205, 45);
-            btnAyuda.TabIndex = 7;
+            btnAyuda.TabIndex = 10;
             btnAyuda.UseVisualStyleBackColor = false;
             btnAyuda.Click += btnAyuda_Click;
             // 
@@ -293,7 +293,7 @@
             btnLogout.Location = new Point(30, 627);
             btnLogout.Name = "btnLogout";
             btnLogout.Size = new Size(205, 45);
-            btnLogout.TabIndex = 8;
+            btnLogout.TabIndex = 11;
             btnLogout.UseVisualStyleBackColor = false;
             btnLogout.Click += btnLogout_Click;
             // 
@@ -308,7 +308,7 @@
             tabControlInicio.Name = "tabControlInicio";
             tabControlInicio.SelectedIndex = 0;
             tabControlInicio.Size = new Size(1101, 734);
-            tabControlInicio.TabIndex = 11;
+            tabControlInicio.TabIndex = 8;
             // 
             // tabInicio
             // 
@@ -350,12 +350,13 @@
             chartVentas.Legends.Add(legend1);
             chartVentas.Location = new Point(44, 319);
             chartVentas.Name = "chartVentas";
+            chartVentas.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.Berry;
             series1.ChartArea = "ChartArea1";
             series1.Legend = "Legend1";
             series1.Name = "Series1";
             chartVentas.Series.Add(series1);
             chartVentas.Size = new Size(468, 332);
-            chartVentas.TabIndex = 53;
+            chartVentas.TabIndex = 11;
             chartVentas.Text = "chart1";
             // 
             // lblProductoMasVendido
@@ -367,7 +368,7 @@
             lblProductoMasVendido.Location = new Point(585, 577);
             lblProductoMasVendido.Name = "lblProductoMasVendido";
             lblProductoMasVendido.Size = new Size(32, 39);
-            lblProductoMasVendido.TabIndex = 52;
+            lblProductoMasVendido.TabIndex = 0;
             lblProductoMasVendido.Text = "-";
             // 
             // lblVentasDiarias
@@ -379,7 +380,7 @@
             lblVentasDiarias.Location = new Point(589, 377);
             lblVentasDiarias.Name = "lblVentasDiarias";
             lblVentasDiarias.Size = new Size(40, 45);
-            lblVentasDiarias.TabIndex = 51;
+            lblVentasDiarias.TabIndex = 13;
             lblVentasDiarias.Text = "0";
             // 
             // label9
@@ -391,7 +392,7 @@
             label9.Location = new Point(585, 547);
             label9.Name = "label9";
             label9.Size = new Size(217, 25);
-            label9.TabIndex = 50;
+            label9.TabIndex = 14;
             label9.Text = "Producto Más Vendido";
             // 
             // label8
@@ -403,7 +404,7 @@
             label8.Location = new Point(585, 341);
             label8.Name = "label8";
             label8.Size = new Size(233, 25);
-            label8.TabIndex = 49;
+            label8.TabIndex = 12;
             label8.Text = "Ventas Diarias (Totales)";
             // 
             // label7
@@ -415,7 +416,7 @@
             label7.Location = new Point(44, 288);
             label7.Name = "label7";
             label7.Size = new Size(182, 25);
-            label7.TabIndex = 48;
+            label7.TabIndex = 10;
             label7.Text = "Ventas Mensuales";
             // 
             // lblSinStock
@@ -427,7 +428,7 @@
             lblSinStock.Location = new Point(854, 151);
             lblSinStock.Name = "lblSinStock";
             lblSinStock.Size = new Size(40, 45);
-            lblSinStock.TabIndex = 47;
+            lblSinStock.TabIndex = 9;
             lblSinStock.Text = "0";
             // 
             // lblStockBajo
@@ -439,7 +440,7 @@
             lblStockBajo.Location = new Point(585, 151);
             lblStockBajo.Name = "lblStockBajo";
             lblStockBajo.Size = new Size(40, 45);
-            lblStockBajo.TabIndex = 46;
+            lblStockBajo.TabIndex = 7;
             lblStockBajo.Text = "0";
             // 
             // lblStockDisponible
@@ -451,7 +452,7 @@
             lblStockDisponible.Location = new Point(319, 153);
             lblStockDisponible.Name = "lblStockDisponible";
             lblStockDisponible.Size = new Size(40, 45);
-            lblStockDisponible.TabIndex = 45;
+            lblStockDisponible.TabIndex = 5;
             lblStockDisponible.Text = "0";
             // 
             // lblTotalProductos
@@ -463,7 +464,7 @@
             lblTotalProductos.Location = new Point(44, 151);
             lblTotalProductos.Name = "lblTotalProductos";
             lblTotalProductos.Size = new Size(40, 45);
-            lblTotalProductos.TabIndex = 44;
+            lblTotalProductos.TabIndex = 3;
             lblTotalProductos.Text = "0";
             // 
             // label6
@@ -475,7 +476,7 @@
             label6.Location = new Point(854, 98);
             label6.Name = "label6";
             label6.Size = new Size(100, 25);
-            label6.TabIndex = 43;
+            label6.TabIndex = 8;
             label6.Text = "Sin Stock";
             // 
             // label5
@@ -487,7 +488,7 @@
             label5.Location = new Point(585, 98);
             label5.Name = "label5";
             label5.Size = new Size(112, 25);
-            label5.TabIndex = 42;
+            label5.TabIndex = 6;
             label5.Text = "Stock Bajo";
             // 
             // label4
@@ -499,7 +500,7 @@
             label4.Location = new Point(319, 99);
             label4.Name = "label4";
             label4.Size = new Size(167, 25);
-            label4.TabIndex = 41;
+            label4.TabIndex = 4;
             label4.Text = "Stock Disponible";
             // 
             // label3
@@ -511,7 +512,7 @@
             label3.Location = new Point(44, 100);
             label3.Name = "label3";
             label3.Size = new Size(156, 25);
-            label3.TabIndex = 33;
+            label3.TabIndex = 2;
             label3.Text = "Total Productos";
             // 
             // pictureBox8
@@ -593,7 +594,7 @@
             label2.Location = new Point(22, 25);
             label2.Name = "label2";
             label2.Size = new Size(79, 33);
-            label2.TabIndex = 32;
+            label2.TabIndex = 1;
             label2.Text = "Inicio";
             // 
             // tabInventario
@@ -620,7 +621,7 @@
             cmbPrecioUnit.Location = new Point(938, 141);
             cmbPrecioUnit.Name = "cmbPrecioUnit";
             cmbPrecioUnit.Size = new Size(134, 27);
-            cmbPrecioUnit.TabIndex = 29;
+            cmbPrecioUnit.TabIndex = 3;
             cmbPrecioUnit.Text = "Precio";
             cmbPrecioUnit.SelectedIndexChanged += comboBox4_SelectedIndexChanged;
             // 
@@ -630,7 +631,7 @@
             cmbCategoria.Location = new Point(798, 141);
             cmbCategoria.Name = "cmbCategoria";
             cmbCategoria.Size = new Size(134, 27);
-            cmbCategoria.TabIndex = 28;
+            cmbCategoria.TabIndex = 2;
             cmbCategoria.Text = "Categoria";
             cmbCategoria.SelectedIndexChanged += cmbCategoria_SelectedIndexChanged;
             // 
@@ -679,7 +680,7 @@
             dataGridInventarioProducto.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
             dataGridInventarioProducto.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dataGridInventarioProducto.Size = new Size(847, 488);
-            dataGridInventarioProducto.TabIndex = 24;
+            dataGridInventarioProducto.TabIndex = 6;
             dataGridInventarioProducto.CellDoubleClick += dataGridInventarioProducto_CellDoubleClick;
             // 
             // Id_Prod
@@ -713,7 +714,7 @@
             btnEliminarInventario.Location = new Point(17, 251);
             btnEliminarInventario.Name = "btnEliminarInventario";
             btnEliminarInventario.Size = new Size(195, 74);
-            btnEliminarInventario.TabIndex = 21;
+            btnEliminarInventario.TabIndex = 5;
             btnEliminarInventario.UseVisualStyleBackColor = false;
             btnEliminarInventario.Click += btnEliminarInventario_Click;
             // 
@@ -727,7 +728,7 @@
             btnAgregarInventario.Location = new Point(17, 189);
             btnAgregarInventario.Name = "btnAgregarInventario";
             btnAgregarInventario.Size = new Size(195, 37);
-            btnAgregarInventario.TabIndex = 18;
+            btnAgregarInventario.TabIndex = 4;
             btnAgregarInventario.UseVisualStyleBackColor = false;
             btnAgregarInventario.Click += btnAgregarInventario_Click;
             // 
@@ -736,7 +737,7 @@
             tbBusquedaInventario.Location = new Point(20, 77);
             tbBusquedaInventario.Name = "tbBusquedaInventario";
             tbBusquedaInventario.Size = new Size(984, 27);
-            tbBusquedaInventario.TabIndex = 20;
+            tbBusquedaInventario.TabIndex = 1;
             tbBusquedaInventario.TextChanged += tbBusquedaInventario_TextChanged;
             // 
             // label22
@@ -748,7 +749,7 @@
             label22.Location = new Point(14, 26);
             label22.Name = "label22";
             label22.Size = new Size(137, 33);
-            label22.TabIndex = 19;
+            label22.TabIndex = 0;
             label22.Text = "Inventario";
             // 
             // tabEmpleados
@@ -760,9 +761,9 @@
             tabEmpleados.Controls.Add(btnAgregarEmpleados);
             tabEmpleados.Controls.Add(tbBusquedaEmpleados);
             tabEmpleados.Controls.Add(label1);
-            tabEmpleados.Location = new Point(4, 24);
+            tabEmpleados.Location = new Point(4, 28);
             tabEmpleados.Name = "tabEmpleados";
-            tabEmpleados.Size = new Size(1093, 706);
+            tabEmpleados.Size = new Size(1093, 702);
             tabEmpleados.TabIndex = 2;
             tabEmpleados.Text = "tabPage1";
             // 
@@ -811,7 +812,7 @@
             dataGridEmpleados.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
             dataGridEmpleados.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dataGridEmpleados.Size = new Size(839, 536);
-            dataGridEmpleados.TabIndex = 31;
+            dataGridEmpleados.TabIndex = 4;
             dataGridEmpleados.CellDoubleClick += dataGridEmpleados_CellDoubleClick;
             // 
             // Id
@@ -854,7 +855,7 @@
             btnEliminarEmpleados.Location = new Point(20, 251);
             btnEliminarEmpleados.Name = "btnEliminarEmpleados";
             btnEliminarEmpleados.Size = new Size(195, 37);
-            btnEliminarEmpleados.TabIndex = 28;
+            btnEliminarEmpleados.TabIndex = 3;
             btnEliminarEmpleados.UseVisualStyleBackColor = false;
             btnEliminarEmpleados.Click += btnEliminarEmpleados_Click;
             // 
@@ -868,7 +869,7 @@
             btnAgregarEmpleados.Location = new Point(20, 189);
             btnAgregarEmpleados.Name = "btnAgregarEmpleados";
             btnAgregarEmpleados.Size = new Size(195, 37);
-            btnAgregarEmpleados.TabIndex = 25;
+            btnAgregarEmpleados.TabIndex = 2;
             btnAgregarEmpleados.UseVisualStyleBackColor = false;
             btnAgregarEmpleados.Click += btnAgregarEmpleados_Click;
             // 
@@ -877,7 +878,7 @@
             tbBusquedaEmpleados.Location = new Point(20, 77);
             tbBusquedaEmpleados.Name = "tbBusquedaEmpleados";
             tbBusquedaEmpleados.Size = new Size(984, 27);
-            tbBusquedaEmpleados.TabIndex = 27;
+            tbBusquedaEmpleados.TabIndex = 1;
             tbBusquedaEmpleados.TextChanged += tbBusquedaEmpleados_TextChanged;
             // 
             // label1
@@ -889,7 +890,7 @@
             label1.Location = new Point(14, 26);
             label1.Name = "label1";
             label1.Size = new Size(149, 33);
-            label1.TabIndex = 26;
+            label1.TabIndex = 0;
             label1.Text = "Empleados";
             // 
             // tabMateriaP
@@ -915,7 +916,7 @@
             cmbStock.Location = new Point(674, 151);
             cmbStock.Name = "cmbStock";
             cmbStock.Size = new Size(132, 27);
-            cmbStock.TabIndex = 34;
+            cmbStock.TabIndex = 3;
             cmbStock.SelectedIndexChanged += cmbStock_SelectedIndexChanged;
             // 
             // cmbPrecio
@@ -924,7 +925,7 @@
             cmbPrecio.Location = new Point(524, 151);
             cmbPrecio.Name = "cmbPrecio";
             cmbPrecio.Size = new Size(144, 27);
-            cmbPrecio.TabIndex = 33;
+            cmbPrecio.TabIndex = 2;
             cmbPrecio.SelectedIndexChanged += cmbPrecio_SelectedIndexChanged;
             // 
             // btnBucasrMateria
@@ -971,7 +972,7 @@
             dataGridMP.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
             dataGridMP.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dataGridMP.Size = new Size(847, 488);
-            dataGridMP.TabIndex = 31;
+            dataGridMP.TabIndex = 6;
             dataGridMP.CellDoubleClick += dataGridMP_CellDoubleClick;
             // 
             // Id_MP
@@ -1014,7 +1015,7 @@
             btnEliminarMateriaP.Location = new Point(20, 251);
             btnEliminarMateriaP.Name = "btnEliminarMateriaP";
             btnEliminarMateriaP.Size = new Size(195, 37);
-            btnEliminarMateriaP.TabIndex = 28;
+            btnEliminarMateriaP.TabIndex = 5;
             btnEliminarMateriaP.UseVisualStyleBackColor = false;
             btnEliminarMateriaP.Click += btnEliminarMateriaP_Click;
             // 
@@ -1028,7 +1029,7 @@
             btnAgregarMateriaP.Location = new Point(20, 189);
             btnAgregarMateriaP.Name = "btnAgregarMateriaP";
             btnAgregarMateriaP.Size = new Size(195, 37);
-            btnAgregarMateriaP.TabIndex = 25;
+            btnAgregarMateriaP.TabIndex = 4;
             btnAgregarMateriaP.UseVisualStyleBackColor = false;
             btnAgregarMateriaP.Click += btnAgregarMateriaP_Click;
             // 
@@ -1037,7 +1038,7 @@
             tbBusquedaMateriaPrima.Location = new Point(20, 77);
             tbBusquedaMateriaPrima.Name = "tbBusquedaMateriaPrima";
             tbBusquedaMateriaPrima.Size = new Size(984, 27);
-            tbBusquedaMateriaPrima.TabIndex = 27;
+            tbBusquedaMateriaPrima.TabIndex = 1;
             tbBusquedaMateriaPrima.TextChanged += tbBusquedaMateriaPrima_TextChanged;
             // 
             // label10
@@ -1049,7 +1050,7 @@
             label10.Location = new Point(14, 26);
             label10.Name = "label10";
             label10.Size = new Size(185, 33);
-            label10.TabIndex = 26;
+            label10.TabIndex = 0;
             label10.Text = "Materia Prima";
             // 
             // tabProveedores
@@ -1118,7 +1119,7 @@
             dataGridProv.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
             dataGridProv.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dataGridProv.Size = new Size(847, 488);
-            dataGridProv.TabIndex = 38;
+            dataGridProv.TabIndex = 4;
             dataGridProv.CellDoubleClick += dataGridProv_CellDoubleClick;
             // 
             // IdProveedor
@@ -1162,7 +1163,7 @@
             btnEliminarProv.Location = new Point(20, 251);
             btnEliminarProv.Name = "btnEliminarProv";
             btnEliminarProv.Size = new Size(195, 37);
-            btnEliminarProv.TabIndex = 35;
+            btnEliminarProv.TabIndex = 3;
             btnEliminarProv.UseVisualStyleBackColor = false;
             btnEliminarProv.Click += btnEliminarProv_Click;
             // 
@@ -1176,7 +1177,7 @@
             btnAgregarProv.Location = new Point(20, 189);
             btnAgregarProv.Name = "btnAgregarProv";
             btnAgregarProv.Size = new Size(195, 37);
-            btnAgregarProv.TabIndex = 32;
+            btnAgregarProv.TabIndex = 2;
             btnAgregarProv.UseVisualStyleBackColor = false;
             btnAgregarProv.Click += btnAgregarProv_Click;
             // 
@@ -1185,7 +1186,7 @@
             tbBusquedaProv.Location = new Point(20, 77);
             tbBusquedaProv.Name = "tbBusquedaProv";
             tbBusquedaProv.Size = new Size(984, 27);
-            tbBusquedaProv.TabIndex = 34;
+            tbBusquedaProv.TabIndex = 1;
             tbBusquedaProv.TextChanged += tbBusquedaProv_TextChanged;
             // 
             // label11
@@ -1197,7 +1198,7 @@
             label11.Location = new Point(14, 26);
             label11.Name = "label11";
             label11.Size = new Size(169, 33);
-            label11.TabIndex = 33;
+            label11.TabIndex = 0;
             label11.Text = "Proveedores";
             // 
             // btnReporte
@@ -1209,7 +1210,7 @@
             btnReporte.Location = new Point(30, 505);
             btnReporte.Name = "btnReporte";
             btnReporte.Size = new Size(205, 45);
-            btnReporte.TabIndex = 6;
+            btnReporte.TabIndex = 9;
             btnReporte.UseVisualStyleBackColor = false;
             btnReporte.Click += btnReporte_Click;
             // 
@@ -1222,7 +1223,7 @@
             btnClientes.Location = new Point(30, 383);
             btnClientes.Name = "btnClientes";
             btnClientes.Size = new Size(205, 45);
-            btnClientes.TabIndex = 12;
+            btnClientes.TabIndex = 7;
             btnClientes.UseVisualStyleBackColor = false;
             btnClientes.Click += btnClientes_Click;
             // 

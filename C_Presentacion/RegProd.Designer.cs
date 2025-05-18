@@ -45,6 +45,7 @@
             cbCategoriaReg = new ComboBox();
             btnGuardarRegProd = new Button();
             btnCancelarRegProd = new Button();
+            label3 = new Label();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridRegProducto).BeginInit();
             SuspendLayout();
@@ -65,11 +66,11 @@
             lblDashboard.BackColor = Color.Black;
             lblDashboard.Font = new Font("Bahnschrift", 20.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblDashboard.ForeColor = SystemColors.Control;
-            lblDashboard.Location = new Point(562, 17);
+            lblDashboard.Location = new Point(616, 17);
             lblDashboard.Name = "lblDashboard";
-            lblDashboard.Size = new Size(246, 33);
-            lblDashboard.TabIndex = 2;
-            lblDashboard.Text = "Registrar Producto";
+            lblDashboard.Size = new Size(139, 33);
+            lblDashboard.TabIndex = 0;
+            lblDashboard.Text = "Productos";
             // 
             // dataGridRegProducto
             // 
@@ -109,7 +110,7 @@
             dataGridRegProducto.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             dataGridRegProducto.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dataGridRegProducto.Size = new Size(853, 488);
-            dataGridRegProducto.TabIndex = 25;
+            dataGridRegProducto.TabIndex = 8;
             // 
             // talla
             // 
@@ -130,7 +131,7 @@
             label22.Location = new Point(46, 218);
             label22.Name = "label22";
             label22.Size = new Size(87, 25);
-            label22.TabIndex = 26;
+            label22.TabIndex = 2;
             label22.Text = "Nombre";
             // 
             // tbNombreProdReg
@@ -138,7 +139,7 @@
             tbNombreProdReg.Location = new Point(51, 255);
             tbNombreProdReg.Name = "tbNombreProdReg";
             tbNombreProdReg.Size = new Size(397, 27);
-            tbNombreProdReg.TabIndex = 27;
+            tbNombreProdReg.TabIndex = 3;
             tbNombreProdReg.KeyPress += tbNombreProdReg_KeyPress;
             // 
             // tbPrecioRegProd
@@ -146,7 +147,7 @@
             tbPrecioRegProd.Location = new Point(51, 349);
             tbPrecioRegProd.Name = "tbPrecioRegProd";
             tbPrecioRegProd.Size = new Size(397, 27);
-            tbPrecioRegProd.TabIndex = 29;
+            tbPrecioRegProd.TabIndex = 5;
             tbPrecioRegProd.KeyPress += tbPrecioRegProd_KeyPress;
             // 
             // label1
@@ -158,7 +159,7 @@
             label1.Location = new Point(46, 312);
             label1.Name = "label1";
             label1.Size = new Size(150, 25);
-            label1.TabIndex = 28;
+            label1.TabIndex = 4;
             label1.Text = "Precio Unitario";
             // 
             // label2
@@ -170,7 +171,7 @@
             label2.Location = new Point(46, 408);
             label2.Name = "label2";
             label2.Size = new Size(101, 25);
-            label2.TabIndex = 30;
+            label2.TabIndex = 6;
             label2.Text = "Categoria";
             // 
             // cbCategoriaReg
@@ -182,7 +183,7 @@
             cbCategoriaReg.Location = new Point(51, 451);
             cbCategoriaReg.Name = "cbCategoriaReg";
             cbCategoriaReg.Size = new Size(397, 27);
-            cbCategoriaReg.TabIndex = 31;
+            cbCategoriaReg.TabIndex = 7;
             // 
             // btnGuardarRegProd
             // 
@@ -194,7 +195,7 @@
             btnGuardarRegProd.Location = new Point(1161, 612);
             btnGuardarRegProd.Name = "btnGuardarRegProd";
             btnGuardarRegProd.Size = new Size(186, 64);
-            btnGuardarRegProd.TabIndex = 38;
+            btnGuardarRegProd.TabIndex = 9;
             btnGuardarRegProd.UseVisualStyleBackColor = false;
             btnGuardarRegProd.Click += btnGuardarRegProd_Click;
             // 
@@ -208,8 +209,20 @@
             btnCancelarRegProd.Location = new Point(948, 612);
             btnCancelarRegProd.Name = "btnCancelarRegProd";
             btnCancelarRegProd.Size = new Size(187, 64);
-            btnCancelarRegProd.TabIndex = 39;
+            btnCancelarRegProd.TabIndex = 10;
             btnCancelarRegProd.UseVisualStyleBackColor = false;
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.BackColor = Color.FromArgb(221, 221, 221);
+            label3.Font = new Font("Bahnschrift SemiBold", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label3.ForeColor = SystemColors.Desktop;
+            label3.Location = new Point(51, 150);
+            label3.Name = "label3";
+            label3.Size = new Size(104, 29);
+            label3.TabIndex = 1;
+            label3.Text = "Registro";
             // 
             // RegProd
             // 
@@ -217,6 +230,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(221, 221, 221);
             ClientSize = new Size(1370, 696);
+            Controls.Add(label3);
             Controls.Add(btnCancelarRegProd);
             Controls.Add(btnGuardarRegProd);
             Controls.Add(cbCategoriaReg);
@@ -233,7 +247,7 @@
             Margin = new Padding(4);
             Name = "RegProd";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "RegProd";
+            Text = "Productos";
             WindowState = FormWindowState.Maximized;
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ((System.ComponentModel.ISupportInitialize)dataGridRegProducto).EndInit();
@@ -256,5 +270,6 @@
         private Button btnCancelarRegProd;
         private DataGridViewTextBoxColumn talla;
         private DataGridViewTextBoxColumn stock;
+        private Label label3;
     }
 }

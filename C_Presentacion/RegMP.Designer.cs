@@ -51,6 +51,7 @@
             lblDashboard = new Label();
             pictureBox1 = new PictureBox();
             nbCantidadMP = new NumericUpDown();
+            label2 = new Label();
             ((System.ComponentModel.ISupportInitialize)dataGridRegMP).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)nbCantidadMP).BeginInit();
@@ -66,7 +67,7 @@
             btnCancelarMP.Location = new Point(948, 613);
             btnCancelarMP.Name = "btnCancelarMP";
             btnCancelarMP.Size = new Size(187, 64);
-            btnCancelarMP.TabIndex = 56;
+            btnCancelarMP.TabIndex = 14;
             btnCancelarMP.UseVisualStyleBackColor = false;
             // 
             // btnGuardarMP
@@ -79,7 +80,7 @@
             btnGuardarMP.Location = new Point(1161, 613);
             btnGuardarMP.Name = "btnGuardarMP";
             btnGuardarMP.Size = new Size(186, 64);
-            btnGuardarMP.TabIndex = 55;
+            btnGuardarMP.TabIndex = 13;
             btnGuardarMP.UseVisualStyleBackColor = false;
             // 
             // btnEliminarMP
@@ -89,10 +90,10 @@
             btnEliminarMP.BackgroundImageLayout = ImageLayout.Zoom;
             btnEliminarMP.FlatStyle = FlatStyle.Flat;
             btnEliminarMP.ForeColor = Color.FromArgb(221, 221, 221);
-            btnEliminarMP.Location = new Point(28, 508);
+            btnEliminarMP.Location = new Point(28, 538);
             btnEliminarMP.Name = "btnEliminarMP";
             btnEliminarMP.Size = new Size(161, 64);
-            btnEliminarMP.TabIndex = 54;
+            btnEliminarMP.TabIndex = 11;
             btnEliminarMP.UseVisualStyleBackColor = false;
             // 
             // btnAgregarMP
@@ -102,10 +103,10 @@
             btnAgregarMP.BackgroundImageLayout = ImageLayout.Zoom;
             btnAgregarMP.FlatStyle = FlatStyle.Flat;
             btnAgregarMP.ForeColor = Color.FromArgb(221, 221, 221);
-            btnAgregarMP.Location = new Point(217, 508);
+            btnAgregarMP.Location = new Point(217, 538);
             btnAgregarMP.Name = "btnAgregarMP";
             btnAgregarMP.Size = new Size(162, 64);
-            btnAgregarMP.TabIndex = 53;
+            btnAgregarMP.TabIndex = 10;
             btnAgregarMP.UseVisualStyleBackColor = false;
             // 
             // label4
@@ -114,10 +115,10 @@
             label4.BackColor = Color.FromArgb(221, 221, 221);
             label4.Font = new Font("Bahnschrift", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label4.ForeColor = SystemColors.ControlText;
-            label4.Location = new Point(27, 413);
+            label4.Location = new Point(27, 443);
             label4.Name = "label4";
             label4.Size = new Size(93, 25);
-            label4.TabIndex = 52;
+            label4.TabIndex = 8;
             label4.Text = "Cantidad";
             // 
             // label3
@@ -126,26 +127,26 @@
             label3.BackColor = Color.FromArgb(221, 221, 221);
             label3.Font = new Font("Bahnschrift", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label3.ForeColor = SystemColors.ControlText;
-            label3.Location = new Point(27, 307);
+            label3.Location = new Point(27, 337);
             label3.Name = "label3";
             label3.Size = new Size(108, 25);
-            label3.TabIndex = 51;
+            label3.TabIndex = 6;
             label3.Text = "Proveedor";
             // 
             // cbProvMP
             // 
             cbProvMP.FormattingEnabled = true;
-            cbProvMP.Location = new Point(32, 347);
+            cbProvMP.Location = new Point(32, 377);
             cbProvMP.Name = "cbProvMP";
             cbProvMP.Size = new Size(347, 27);
-            cbProvMP.TabIndex = 49;
+            cbProvMP.TabIndex = 7;
             // 
             // tbPrecioMP
             // 
-            tbPrecioMP.Location = new Point(32, 241);
+            tbPrecioMP.Location = new Point(32, 271);
             tbPrecioMP.Name = "tbPrecioMP";
             tbPrecioMP.Size = new Size(347, 27);
-            tbPrecioMP.TabIndex = 46;
+            tbPrecioMP.TabIndex = 5;
             tbPrecioMP.KeyPress += tbPrecioMP_KeyPress;
             // 
             // label1
@@ -154,10 +155,10 @@
             label1.BackColor = Color.FromArgb(221, 221, 221);
             label1.Font = new Font("Bahnschrift", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label1.ForeColor = SystemColors.ControlText;
-            label1.Location = new Point(27, 204);
+            label1.Location = new Point(27, 234);
             label1.Name = "label1";
             label1.Size = new Size(150, 25);
-            label1.TabIndex = 45;
+            label1.TabIndex = 4;
             label1.Text = "Precio Unitario";
             // 
             // label22
@@ -166,18 +167,18 @@
             label22.BackColor = Color.FromArgb(221, 221, 221);
             label22.Font = new Font("Bahnschrift", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label22.ForeColor = SystemColors.ControlText;
-            label22.Location = new Point(27, 110);
+            label22.Location = new Point(27, 140);
             label22.Name = "label22";
             label22.Size = new Size(87, 25);
-            label22.TabIndex = 43;
+            label22.TabIndex = 2;
             label22.Text = "Nombre";
             // 
             // tbNombreMP
             // 
-            tbNombreMP.Location = new Point(32, 147);
+            tbNombreMP.Location = new Point(32, 177);
             tbNombreMP.Name = "tbNombreMP";
             tbNombreMP.Size = new Size(347, 27);
-            tbNombreMP.TabIndex = 44;
+            tbNombreMP.TabIndex = 3;
             tbNombreMP.KeyPress += tbNombreMP_KeyPress;
             // 
             // dataGridRegMP
@@ -215,7 +216,7 @@
             dataGridRegMP.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
             dataGridRegMP.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dataGridRegMP.Size = new Size(941, 488);
-            dataGridRegMP.TabIndex = 42;
+            dataGridRegMP.TabIndex = 12;
             // 
             // nombre
             // 
@@ -243,11 +244,11 @@
             lblDashboard.BackColor = Color.Black;
             lblDashboard.Font = new Font("Bahnschrift", 20.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblDashboard.ForeColor = SystemColors.Control;
-            lblDashboard.Location = new Point(532, 18);
+            lblDashboard.Location = new Point(593, 18);
             lblDashboard.Name = "lblDashboard";
-            lblDashboard.Size = new Size(306, 33);
-            lblDashboard.TabIndex = 41;
-            lblDashboard.Text = "Registrar Materia Prima";
+            lblDashboard.Size = new Size(185, 33);
+            lblDashboard.TabIndex = 0;
+            lblDashboard.Text = "Materia Prima";
             // 
             // pictureBox1
             // 
@@ -262,10 +263,22 @@
             // nbCantidadMP
             // 
             nbCantidadMP.Font = new Font("Bahnschrift", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            nbCantidadMP.Location = new Point(32, 451);
+            nbCantidadMP.Location = new Point(32, 481);
             nbCantidadMP.Name = "nbCantidadMP";
             nbCantidadMP.Size = new Size(347, 30);
-            nbCantidadMP.TabIndex = 50;
+            nbCantidadMP.TabIndex = 9;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.BackColor = Color.FromArgb(221, 221, 221);
+            label2.Font = new Font("Bahnschrift SemiBold", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label2.ForeColor = SystemColors.ControlText;
+            label2.Location = new Point(27, 95);
+            label2.Name = "label2";
+            label2.Size = new Size(91, 25);
+            label2.TabIndex = 1;
+            label2.Text = "Registro";
             // 
             // RegMP
             // 
@@ -273,6 +286,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(221, 221, 221);
             ClientSize = new Size(1370, 696);
+            Controls.Add(label2);
             Controls.Add(btnCancelarMP);
             Controls.Add(btnGuardarMP);
             Controls.Add(btnEliminarMP);
@@ -293,7 +307,7 @@
             Margin = new Padding(4);
             Name = "RegMP";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "RegMP";
+            Text = "Materia Prima";
             WindowState = FormWindowState.Maximized;
             ((System.ComponentModel.ISupportInitialize)dataGridRegMP).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
@@ -323,5 +337,6 @@
         private DataGridViewTextBoxColumn precioUnit;
         private DataGridViewTextBoxColumn proveedor;
         private DataGridViewTextBoxColumn cantidad;
+        private Label label2;
     }
 }

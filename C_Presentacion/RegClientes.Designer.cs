@@ -56,10 +56,10 @@
             btnRegistraCliente.BackgroundImageLayout = ImageLayout.Zoom;
             btnRegistraCliente.FlatStyle = FlatStyle.Flat;
             btnRegistraCliente.ForeColor = Color.FromArgb(221, 221, 221);
-            btnRegistraCliente.Location = new Point(490, 604);
+            btnRegistraCliente.Location = new Point(496, 604);
             btnRegistraCliente.Name = "btnRegistraCliente";
             btnRegistraCliente.Size = new Size(378, 56);
-            btnRegistraCliente.TabIndex = 100;
+            btnRegistraCliente.TabIndex = 10;
             btnRegistraCliente.UseVisualStyleBackColor = false;
             btnRegistraCliente.Click += btnRegistraCliente_Click;
             // 
@@ -68,7 +68,7 @@
             tbTelefonoCliente.Location = new Point(447, 538);
             tbTelefonoCliente.Name = "tbTelefonoCliente";
             tbTelefonoCliente.Size = new Size(483, 23);
-            tbTelefonoCliente.TabIndex = 95;
+            tbTelefonoCliente.TabIndex = 9;
             tbTelefonoCliente.KeyPress += tbTelefonoCliente_KeyPress;
             // 
             // label5
@@ -80,7 +80,7 @@
             label5.Location = new Point(443, 486);
             label5.Name = "label5";
             label5.Size = new Size(90, 25);
-            label5.TabIndex = 94;
+            label5.TabIndex = 8;
             label5.Text = "Telefono";
             // 
             // tbCorreoCliente
@@ -88,7 +88,7 @@
             tbCorreoCliente.Location = new Point(447, 436);
             tbCorreoCliente.Name = "tbCorreoCliente";
             tbCorreoCliente.Size = new Size(483, 23);
-            tbCorreoCliente.TabIndex = 93;
+            tbCorreoCliente.TabIndex = 7;
             tbCorreoCliente.KeyPress += tbCorreoCliente_KeyPress;
             // 
             // label4
@@ -100,7 +100,7 @@
             label4.Location = new Point(443, 384);
             label4.Name = "label4";
             label4.Size = new Size(76, 25);
-            label4.TabIndex = 92;
+            label4.TabIndex = 6;
             label4.Text = "Correo";
             // 
             // tbApellidoCliente
@@ -108,7 +108,7 @@
             tbApellidoCliente.Location = new Point(447, 334);
             tbApellidoCliente.Name = "tbApellidoCliente";
             tbApellidoCliente.Size = new Size(483, 23);
-            tbApellidoCliente.TabIndex = 91;
+            tbApellidoCliente.TabIndex = 5;
             tbApellidoCliente.KeyPress += tbApellidoCliente_KeyPress;
             // 
             // label3
@@ -120,7 +120,7 @@
             label3.Location = new Point(443, 282);
             label3.Name = "label3";
             label3.Size = new Size(87, 25);
-            label3.TabIndex = 90;
+            label3.TabIndex = 4;
             label3.Text = "Apellido";
             // 
             // tbNombreClien
@@ -128,7 +128,7 @@
             tbNombreClien.Location = new Point(447, 232);
             tbNombreClien.Name = "tbNombreClien";
             tbNombreClien.Size = new Size(483, 23);
-            tbNombreClien.TabIndex = 89;
+            tbNombreClien.TabIndex = 3;
             tbNombreClien.KeyPress += tbNombreClien_KeyPress;
             // 
             // label1
@@ -140,7 +140,7 @@
             label1.Location = new Point(440, 120);
             label1.Name = "label1";
             label1.Size = new Size(228, 33);
-            label1.TabIndex = 87;
+            label1.TabIndex = 1;
             label1.Text = "Datos Personales";
             // 
             // lblDashboard
@@ -149,11 +149,11 @@
             lblDashboard.BackColor = Color.Black;
             lblDashboard.Font = new Font("Bahnschrift", 20.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblDashboard.ForeColor = SystemColors.Control;
-            lblDashboard.Location = new Point(574, 16);
+            lblDashboard.Location = new Point(629, 16);
             lblDashboard.Name = "lblDashboard";
-            lblDashboard.Size = new Size(223, 33);
-            lblDashboard.TabIndex = 85;
-            lblDashboard.Text = "Registro Clientes";
+            lblDashboard.Size = new Size(113, 33);
+            lblDashboard.TabIndex = 0;
+            lblDashboard.Text = "Clientes";
             // 
             // pictureBox1
             // 
@@ -174,7 +174,7 @@
             label22.Location = new Point(443, 180);
             label22.Name = "label22";
             label22.Size = new Size(87, 25);
-            label22.TabIndex = 86;
+            label22.TabIndex = 2;
             label22.Text = "Nombre";
             // 
             // errorIconoClientes

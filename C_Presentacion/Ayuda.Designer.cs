@@ -51,7 +51,7 @@
             lblDashboard.Location = new Point(641, 16);
             lblDashboard.Name = "lblDashboard";
             lblDashboard.Size = new Size(89, 33);
-            lblDashboard.TabIndex = 43;
+            lblDashboard.TabIndex = 0;
             lblDashboard.Text = "Ayuda";
             // 
             // pictureBox1
@@ -74,7 +74,7 @@
             btnContacto.Location = new Point(34, 612);
             btnContacto.Name = "btnContacto";
             btnContacto.Size = new Size(273, 57);
-            btnContacto.TabIndex = 70;
+            btnContacto.TabIndex = 3;
             btnContacto.UseVisualStyleBackColor = false;
             btnContacto.Click += btnContacto_Click_1;
             // 
@@ -85,7 +85,7 @@
             lblFAQ.Location = new Point(34, 89);
             lblFAQ.Name = "lblFAQ";
             lblFAQ.Size = new Size(381, 35);
-            lblFAQ.TabIndex = 71;
+            lblFAQ.TabIndex = 1;
             lblFAQ.Text = "Preguntas Frecuentes (FAQ)";
             // 
             // flpPreguntas
@@ -95,7 +95,7 @@
             flpPreguntas.Location = new Point(34, 139);
             flpPreguntas.Name = "flpPreguntas";
             flpPreguntas.Size = new Size(381, 467);
-            flpPreguntas.TabIndex = 72;
+            flpPreguntas.TabIndex = 2;
             // 
             // panelRespuesta
             // 

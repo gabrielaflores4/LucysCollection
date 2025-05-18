@@ -53,7 +53,7 @@
             lblDashboard.Location = new Point(629, 13);
             lblDashboard.Name = "lblDashboard";
             lblDashboard.Size = new Size(113, 33);
-            lblDashboard.TabIndex = 49;
+            lblDashboard.TabIndex = 0;
             lblDashboard.Text = "Clientes";
             // 
             // pictureBox1
@@ -76,7 +76,7 @@
             btnActCli.Location = new Point(490, 603);
             btnActCli.Name = "btnActCli";
             btnActCli.Size = new Size(378, 56);
-            btnActCli.TabIndex = 110;
+            btnActCli.TabIndex = 10;
             btnActCli.UseVisualStyleBackColor = false;
             btnActCli.Click += btnActCli_Click;
             // 
@@ -85,7 +85,7 @@
             tbTelefonoCliAct.Location = new Point(447, 530);
             tbTelefonoCliAct.Name = "tbTelefonoCliAct";
             tbTelefonoCliAct.Size = new Size(483, 27);
-            tbTelefonoCliAct.TabIndex = 109;
+            tbTelefonoCliAct.TabIndex = 9;
             // 
             // label5
             // 
@@ -96,7 +96,7 @@
             label5.Location = new Point(443, 478);
             label5.Name = "label5";
             label5.Size = new Size(90, 25);
-            label5.TabIndex = 108;
+            label5.TabIndex = 8;
             label5.Text = "Telefono";
             // 
             // tbCorreoCliAct
@@ -104,7 +104,7 @@
             tbCorreoCliAct.Location = new Point(447, 428);
             tbCorreoCliAct.Name = "tbCorreoCliAct";
             tbCorreoCliAct.Size = new Size(483, 27);
-            tbCorreoCliAct.TabIndex = 107;
+            tbCorreoCliAct.TabIndex = 7;
             // 
             // label4
             // 
@@ -115,7 +115,7 @@
             label4.Location = new Point(443, 376);
             label4.Name = "label4";
             label4.Size = new Size(76, 25);
-            label4.TabIndex = 106;
+            label4.TabIndex = 6;
             label4.Text = "Correo";
             // 
             // tbApellidoCliAct
@@ -123,7 +123,7 @@
             tbApellidoCliAct.Location = new Point(447, 326);
             tbApellidoCliAct.Name = "tbApellidoCliAct";
             tbApellidoCliAct.Size = new Size(483, 27);
-            tbApellidoCliAct.TabIndex = 105;
+            tbApellidoCliAct.TabIndex = 5;
             // 
             // label3
             // 
@@ -134,7 +134,7 @@
             label3.Location = new Point(443, 274);
             label3.Name = "label3";
             label3.Size = new Size(87, 25);
-            label3.TabIndex = 104;
+            label3.TabIndex = 4;
             label3.Text = "Apellido";
             // 
             // tbNombreCliAct
@@ -142,7 +142,7 @@
             tbNombreCliAct.Location = new Point(447, 224);
             tbNombreCliAct.Name = "tbNombreCliAct";
             tbNombreCliAct.Size = new Size(483, 27);
-            tbNombreCliAct.TabIndex = 103;
+            tbNombreCliAct.TabIndex = 3;
             // 
             // label1
             // 
@@ -153,7 +153,7 @@
             label1.Location = new Point(440, 102);
             label1.Name = "label1";
             label1.Size = new Size(214, 33);
-            label1.TabIndex = 102;
+            label1.TabIndex = 1;
             label1.Text = "Actualizar Datos";
             // 
             // label22
@@ -165,7 +165,7 @@
             label22.Location = new Point(443, 172);
             label22.Name = "label22";
             label22.Size = new Size(87, 25);
-            label22.TabIndex = 101;
+            label22.TabIndex = 2;
             label22.Text = "Nombre";
             // 
             // EditarClientes

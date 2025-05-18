@@ -131,7 +131,7 @@
             btnAgregarTallas.Location = new Point(1136, 618);
             btnAgregarTallas.Name = "btnAgregarTallas";
             btnAgregarTallas.Size = new Size(195, 74);
-            btnAgregarTallas.TabIndex = 106;
+            btnAgregarTallas.TabIndex = 2;
             btnAgregarTallas.UseVisualStyleBackColor = false;
             btnAgregarTallas.Click += btnAgregarTallas_Click;
             // 
@@ -145,7 +145,7 @@
             btnCancelar.Location = new Point(40, 634);
             btnCancelar.Name = "btnCancelar";
             btnCancelar.Size = new Size(188, 42);
-            btnCancelar.TabIndex = 107;
+            btnCancelar.TabIndex = 3;
             btnCancelar.UseVisualStyleBackColor = false;
             btnCancelar.Click += btnCancelar_Click;
             // 

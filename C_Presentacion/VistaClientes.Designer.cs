@@ -59,7 +59,7 @@
             lblDashboard.Location = new Point(629, 15);
             lblDashboard.Name = "lblDashboard";
             lblDashboard.Size = new Size(113, 33);
-            lblDashboard.TabIndex = 47;
+            lblDashboard.TabIndex = 0;
             lblDashboard.Text = "Clientes";
             // 
             // pictureBox1
@@ -108,7 +108,7 @@
             dataGridClientes.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
             dataGridClientes.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dataGridClientes.Size = new Size(1294, 524);
-            dataGridClientes.TabIndex = 48;
+            dataGridClientes.TabIndex = 5;
             dataGridClientes.CellDoubleClick += dataGridClientes_CellDoubleClick;
             // 
             // Id
@@ -151,7 +151,7 @@
             tbBusquedaClientes.Location = new Point(684, 98);
             tbBusquedaClientes.Name = "tbBusquedaClientes";
             tbBusquedaClientes.Size = new Size(594, 27);
-            tbBusquedaClientes.TabIndex = 49;
+            tbBusquedaClientes.TabIndex = 1;
             tbBusquedaClientes.TextChanged += tbBusquedaClientes_TextChanged;
             // 
             // btnEditarCli
@@ -164,7 +164,7 @@
             btnEditarCli.Location = new Point(325, 87);
             btnEditarCli.Name = "btnEditarCli";
             btnEditarCli.Size = new Size(157, 47);
-            btnEditarCli.TabIndex = 59;
+            btnEditarCli.TabIndex = 2;
             btnEditarCli.UseVisualStyleBackColor = false;
             btnEditarCli.Click += btnEditarCli_Click;
             // 
@@ -178,7 +178,7 @@
             btnAgregarCli.Location = new Point(27, 87);
             btnAgregarCli.Name = "btnAgregarCli";
             btnAgregarCli.Size = new Size(157, 47);
-            btnAgregarCli.TabIndex = 60;
+            btnAgregarCli.TabIndex = 4;
             btnAgregarCli.UseVisualStyleBackColor = false;
             btnAgregarCli.Click += btnAgregarCli_Click;
             // 
@@ -192,7 +192,7 @@
             btnEliminarCli.Location = new Point(176, 87);
             btnEliminarCli.Name = "btnEliminarCli";
             btnEliminarCli.Size = new Size(157, 47);
-            btnEliminarCli.TabIndex = 61;
+            btnEliminarCli.TabIndex = 3;
             btnEliminarCli.UseVisualStyleBackColor = false;
             btnEliminarCli.Click += btnEliminarCli_Click;
             // 
