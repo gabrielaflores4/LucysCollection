@@ -429,7 +429,6 @@
         private RadioButton rbCliNuevo;
         private RadioButton rbCliAntiguo;
         private Label lblStockDisponible;
-        private System.Drawing.Printing.PrintDocument printDocumentVenta;
         private PrintPreviewDialog printPreviewDialogo;
         private Button btnTodosProductos;
         private DataGridViewTextBoxColumn id_prod;

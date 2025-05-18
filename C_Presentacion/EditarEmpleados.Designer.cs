@@ -236,7 +236,6 @@
         private Button btnGuardarActEmp;
         private Label label3;
         private ComboBox cbRolEmpAct;
-        private ComboBox cbCategoriaAct;
         private Label label2;
         private TextBox tbApellidoEmpAct;
         private Label label1;

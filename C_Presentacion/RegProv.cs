@@ -96,26 +96,20 @@ namespace C_Presentacion
         }
         private void ValidarCampo()
         {
-            bool ok = true;
-
             if (tbNombreProv.Text == "")
             {
-                ok = false;
                 errorProveedores.SetError(tbNombreProv, "Ingresar nombre");
             }
             if (tbDireccionProv.Text == "")
             {
-                ok = false;
                 errorProveedores.SetError(tbDireccionProv, "Ingresar Apellido");
             }
             if (tbCorreoProv.Text == "")
             {
-                ok = false;
                 errorProveedores.SetError(tbCorreoProv, "Ingresar Correo");
             }
             if (tbTelefonoProv.Text == "")
             {
-                ok = false;
                 errorProveedores.SetError(tbTelefonoProv, "Ingrese Telefono");
             }
             return;

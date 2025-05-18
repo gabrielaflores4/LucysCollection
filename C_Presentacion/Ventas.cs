@@ -17,9 +17,8 @@ namespace C_Presentacion
         private List<DetalleVenta> detallesVenta;
         private ProductoNeg productoNeg = new ProductoNeg();
         private ClienteNeg clienteNeg = new ClienteNeg();
-        private List<int> idsClientes;
         private decimal montoPagado;
-        private Cliente clienteSeleccionado;
+        private Cliente? clienteSeleccionado;
 
         public Ventas(int clienteId = 0)
         {
@@ -221,7 +220,7 @@ namespace C_Presentacion
                 else
                 {
                     tbClientes.Text = string.Empty;
-                    clienteSeleccionado = null;
+                    clienteSeleccionado = null!; // Use null-forgiving operator to suppress CS8625
                 }
             }
         }
@@ -375,7 +374,7 @@ namespace C_Presentacion
         }
         private int ObtenerIdUsuario()
         {
-            if (Sesion.EstaLogueado())
+            if (Sesion.EstaLogueado() && Sesion.UsuarioActivo != null)
             {
                 return Sesion.UsuarioActivo.IdUsuario;
             }
@@ -759,7 +758,6 @@ namespace C_Presentacion
         }
         private void Imprimir(object sender, System.Drawing.Printing.PrintPageEventArgs e)
         {
-
             if (clienteSeleccionado == null)
             {
                 MessageBox.Show("No hay cliente seleccionado para imprimir el ticket.", "Error",
@@ -771,7 +769,16 @@ namespace C_Presentacion
             string nombreCliente = clienteSeleccionado.NombreCompleto;
             int idCliente = clienteSeleccionado.Id;
 
-            Graphics g = e.Graphics;
+            // Ensure e.Graphics is not null before using it
+            if (e.Graphics == null)
+            {
+                MessageBox.Show("Error al obtener el objeto Graphics para imprimir.", "Error",
+                               MessageBoxButtons.OK, MessageBoxIcon.Error);
+                e.HasMorePages = false;
+                return;
+            }
+
+            using Graphics g = e.Graphics;
             System.Drawing.Font monoFont = new System.Drawing.Font("Courier New", 12);
             int yPos = 30;
 
@@ -792,8 +799,6 @@ namespace C_Presentacion
             g.DrawString($"Nombre: {nombreCliente}", monoFont, Brushes.Black, 10, yPos); yPos += 20;
             g.DrawString($"ID Cliente: {idCliente}", monoFont, Brushes.Black, 10, yPos); yPos += 20;
             g.DrawString($"Fecha Registro: {clienteSeleccionado.FechaRegistro:dd/MM/yyyy}", monoFont, Brushes.Black, 10, yPos); yPos += 30;
-
-
 
             g.DrawString("Productos:", new System.Drawing.Font("Courier New", 12, FontStyle.Bold), Brushes.Black, 10, yPos += 20);
             yPos += 30;
@@ -835,7 +840,6 @@ namespace C_Presentacion
                 yPos += 30;
             }
             g.DrawString("¡Gracias por su compra!", new System.Drawing.Font("Arial", 14, FontStyle.Bold), Brushes.Black, 80, yPos += 30);
-
         }
         private bool ignorarMensajeCliente = false;
 
@@ -876,7 +880,7 @@ namespace C_Presentacion
             this.Close();
         }
 
-        private void cbTallasRegProd_SelectedIndexChanged(object sender, EventArgs e)
+        private void cbTallasRegProd_SelectedIndexChanged(object? sender, EventArgs e)
         {
             if (cbTallasRegProd.SelectedItem is Talla tallaSeleccionada &&
                 cbProductos.SelectedItem is Producto productoSeleccionado)

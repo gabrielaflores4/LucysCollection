@@ -96,5 +96,33 @@ namespace C_Negocios
                 return (false, $"Error al eliminar cliente: {ex.Message}");
             }
         }
+
+        public (bool success, string message) ActualizarCliente(Cliente cliente)
+        {
+            try
+            {
+                // Validaciones básicas
+                if (cliente == null)
+                    return (false, "El cliente no puede ser nulo");
+
+                if (string.IsNullOrWhiteSpace(cliente.Nombre))
+                    return (false, "El nombre es requerido");
+
+                if (string.IsNullOrWhiteSpace(cliente.Apellido))
+                    return (false, "El apellido es requerido");
+
+                // La fecha de registro no se valida porque no es editable
+                bool resultado = clienteDatos.ActualizarCliente(cliente);
+
+                return resultado
+                    ? (true, "Cliente actualizado correctamente")
+                    : (false, "No se pudo actualizar el cliente");
+            }
+            catch (Exception ex)
+            {
+                return (false, $"Error al actualizar cliente: {ex.Message}");
+            }
+        }
+
     }
 }

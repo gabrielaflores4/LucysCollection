@@ -270,5 +270,30 @@ namespace C_Datos
                 }
             }
         }
+
+        public bool ActualizarCliente(Cliente cliente)
+        {
+            using (var conexion = Conexion.ObtenerConexion())
+            {
+                using (var cmd = new NpgsqlCommand(
+                    @"UPDATE Personas SET 
+                nombre = @nombre, 
+                apellido = @apellido,
+                telefono = @telefono,
+                correo = @correo
+              WHERE id_persona = (
+                  SELECT id_persona FROM Cliente WHERE id_cliente = @id_cliente
+              )", conexion))
+                {
+                    cmd.Parameters.AddWithValue("@nombre", cliente.Nombre);
+                    cmd.Parameters.AddWithValue("@apellido", cliente.Apellido);
+                    cmd.Parameters.AddWithValue("@telefono", cliente.Telefono);
+                    cmd.Parameters.AddWithValue("@correo", cliente.Correo);
+                    cmd.Parameters.AddWithValue("@id_cliente", cliente.Id);
+
+                    return cmd.ExecuteNonQuery() > 0;
+                }
+            }
+        }
     }
 }

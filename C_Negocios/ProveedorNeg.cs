@@ -42,7 +42,7 @@ namespace C_Negocios
                 };
                 return _proveedorDatos.ActualizarProveedor(proveedor);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return false;
             }

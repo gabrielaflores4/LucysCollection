@@ -5,12 +5,13 @@ namespace C_Presentacion
 {
     public partial class VistaClientes : Form
     {
-        public Cliente ClienteSeleccionado { get; private set; }
+        public Cliente? ClienteSeleccionado { get; private set; }
         public VistaClientes()
         {
             InitializeComponent();
             CargarClientesEnDataGrid();
         }
+
         private void ConfigurarDataGrid()
         {
             // Limpieza inicial
@@ -158,7 +159,7 @@ namespace C_Presentacion
             // Verificar si hay una fila seleccionada
             if (dataGridClientes.SelectedRows.Count == 0)
             {
-                MessageBox.Show("Por favor, seleccione un cliente","Advertencia", MessageBoxButtons.OK,MessageBoxIcon.Warning);
+                MessageBox.Show("Por favor, seleccione un cliente", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
@@ -180,10 +181,7 @@ namespace C_Presentacion
                 var (success, message) = new ClienteNeg().EliminarCliente(clienteSeleccionado.Id);
 
                 // Mostrar resultado
-                MessageBox.Show(message,
-                              success ? "Éxito" : "Error",
-                              MessageBoxButtons.OK,
-                              success ? MessageBoxIcon.Information : MessageBoxIcon.Error);
+                MessageBox.Show(message, success ? "Éxito" : "Error", MessageBoxButtons.OK, success ? MessageBoxIcon.Information : MessageBoxIcon.Error);
 
                 // Actualizar la lista si fue exitoso
                 if (success)
@@ -195,7 +193,28 @@ namespace C_Presentacion
 
         private void btnEditarCli_Click(object sender, EventArgs e)
         {
+            if (dataGridClientes.SelectedRows.Count == 0) return;
 
+            var fila = dataGridClientes.SelectedRows[0];
+            var cliente = new Cliente
+            {
+                Id = Convert.ToInt32(fila.Cells["colId"].Value),
+                Nombre = fila.Cells["colNombre"].Value?.ToString() ?? string.Empty,
+                Apellido = fila.Cells["colApellido"].Value?.ToString() ?? string.Empty,
+                Telefono = fila.Cells["colTelefono"].Value?.ToString() ?? string.Empty,
+                Correo = fila.Cells["colCorreo"].Value?.ToString() ?? string.Empty,
+                FechaRegistro = fila.Cells["colFechaRegistro"].Value != null
+                    ? Convert.ToDateTime(fila.Cells["colFechaRegistro"].Value)
+                    : DateTime.MinValue
+            };
+
+            using (var frm = new EditarClientes(cliente))
+            {
+                if (frm.ShowDialog() == DialogResult.OK)
+                {
+                    CargarClientesEnDataGrid();
+                }
+            }
         }
     }
 }

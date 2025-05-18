@@ -111,26 +111,20 @@ namespace C_Presentacion
         }
         private void ValidarCampo()
         {
-            bool ok = true;
-
             if (tbNombreClien.Text == "")
             {
-                ok = false;
                 errorIconoClientes.SetError(tbNombreClien, "Ingresar nombre");
             }
             if (tbApellidoCliente.Text == "")
             {
-                ok = false;
                 errorIconoClientes.SetError(tbApellidoCliente, "Ingresar Apellido");
             }
             if (tbCorreoCliente.Text == "")
             {
-                ok = false;
                 errorIconoClientes.SetError(tbCorreoCliente, "Ingresar Correo");
             }
             if (tbTelefonoCliente.Text == "")
             {
-                ok = false;
                 errorIconoClientes.SetError(tbTelefonoCliente, "Ingrese Telefono");
             }
             return;

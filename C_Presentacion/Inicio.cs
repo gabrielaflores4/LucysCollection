@@ -14,7 +14,6 @@ namespace C_Presentacion
         private ProveedorNeg _proveedorNeg = new ProveedorNeg();
         private MateriaPrimaNeg _materiaPrimaNeg = new MateriaPrimaNeg();
         private ClienteNeg clienteNeg = new ClienteNeg();
-        private EditarProducto _formEditarProducto;
         public Inicio()
         {
             InitializeComponent();
@@ -459,7 +458,7 @@ namespace C_Presentacion
                 return;
             }
 
-            string nombreProducto = dataGridInventarioProducto.SelectedRows[0].Cells[1].Value?.ToString();
+            string? nombreProducto = dataGridInventarioProducto.SelectedRows[0].Cells[1].Value?.ToString();
 
             if (string.IsNullOrWhiteSpace(nombreProducto))
             {
@@ -513,15 +512,15 @@ namespace C_Presentacion
             // Conversión robusta a decimal
             decimal precio;
             if (!Decimal.TryParse(precioTexto,
-                                NumberStyles.Currency | NumberStyles.AllowDecimalPoint,
-                                CultureInfo.CurrentCulture,
-                                out precio))
+                                  NumberStyles.Currency | NumberStyles.AllowDecimalPoint,
+                                  CultureInfo.CurrentCulture,
+                                  out precio))
             {
                 precioTexto = precioTexto.Replace(",", "");
                 if (!Decimal.TryParse(precioTexto,
-                                    NumberStyles.Number,
-                                    CultureInfo.InvariantCulture,
-                                    out precio))
+                                      NumberStyles.Number,
+                                      CultureInfo.InvariantCulture,
+                                      out precio))
                 {
                     precio = 0;
                 }
@@ -531,7 +530,7 @@ namespace C_Presentacion
             var tallasDisponibles = productoNeg.ObtenerTallasPorProducto(idProducto);
 
             int stock = 0;
-            Talla primeraTalla = null;
+            Talla? primeraTalla = null; // Updated to nullable type
 
             if (tallasDisponibles.Any())
             {
@@ -545,7 +544,7 @@ namespace C_Presentacion
 
             using (var formEdicion = new EditarProducto(this))
             {
-                //Asignamos todos los datos
+                // Asignamos todos los datos
                 formEdicion.ProductoId = idProducto;
                 formEdicion.Nombre = nombreProducto;
                 formEdicion.Precio = precio;
