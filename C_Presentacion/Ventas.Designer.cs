@@ -366,6 +366,7 @@
             tbClientes.ReadOnly = true;
             tbClientes.Size = new Size(346, 27);
             tbClientes.TabIndex = 14;
+            tbClientes.TextChanged += tbClientes_TextChanged;
             // 
             // Ventas
             // 

@@ -23,7 +23,7 @@ namespace C_Presentacion
         public Ventas(int clienteId = 0)
         {
             InitializeComponent();
-            
+
             ignorarMensajeCliente = true;
 
             detallesVenta = new List<DetalleVenta>();
@@ -57,57 +57,69 @@ namespace C_Presentacion
             rbCliNuevo.Checked = false;
             rbCliAntiguo.Checked = false;
             tbClientes.Visible = true;
-            tbClientes.Text=string.Empty;
+            tbClientes.Text = string.Empty;
             lblStockDisponible.Text = "Stock: 0";
 
             ActualizarTotal();
         }
 
-
-        private bool ValidarControles()
+        private bool ValidarAgregarProducto()
         {
-            if (detallesVenta == null || detallesVenta.Count == 0)
-            {
-                MessageBox.Show("No hay productos en la venta", "Validación",
-                               MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return false;
-            }
-
-            // Validar ComboBox de productos
+            // Validar producto seleccionado
             if (cbProductos.SelectedItem == null)
             {
-                MessageBox.Show("Debe seleccionar un producto", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Debe seleccionar un producto", "Validación",
+                               MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 cbProductos.Focus();
                 return false;
             }
 
-            // Validar ComboBox de tallas
+            // Validar talla seleccionada
             if (cbTallasRegProd.SelectedItem == null)
             {
-                MessageBox.Show("Debe seleccionar una talla", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Debe seleccionar una talla", "Validación",
+                               MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 cbTallasRegProd.Focus();
                 return false;
             }
 
-            // Validar NumericUpDown de cantidad
+            // Validar cantidad
             if (nbCantidad.Value <= 0)
             {
-                MessageBox.Show("La cantidad debe ser mayor a cero", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("La cantidad debe ser mayor a cero", "Validación",
+                               MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 nbCantidad.Focus();
                 return false;
             }
 
-            // Validar DataGridView (productos agregados)
-            if (dataGridVentaProducto.Rows.Count == 0)
+            return true;
+        }
+
+        private bool ValidarGuardarVenta()
+        {
+            //Validar productos en la venta
+            if (detallesVenta == null || detallesVenta.Count == 0)
             {
-                MessageBox.Show("Debe agregar al menos un producto a la venta", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Debe agregar al menos un producto a la venta.",
+                               "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
 
-            // Si el textbox tiene texto pero no hay cliente seleccionado
+            //Validación del cliente (según estado del TextBox)
+            if (tbClientes.Visible && string.IsNullOrWhiteSpace(tbClientes.Text))
+            {
+                MessageBox.Show("Debe ingresar o seleccionar un cliente.",
+                               "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
+            //Si hay texto en tbClientes pero no hay cliente seleccionado
             if (!string.IsNullOrWhiteSpace(tbClientes.Text) && clienteSeleccionado == null)
             {
-                var respuesta = MessageBox.Show("El cliente no está registrado. ¿Desea registrarlo ahora?","Cliente no registrado",MessageBoxButtons.YesNo,MessageBoxIcon.Question);
+                var respuesta = MessageBox.Show("El cliente no está registrado. ¿Desea registrarlo ahora?",
+                                              "Cliente no válido",
+                                              MessageBoxButtons.YesNo,
+                                              MessageBoxIcon.Question);
 
                 if (respuesta == DialogResult.Yes)
                 {
@@ -115,21 +127,24 @@ namespace C_Presentacion
                     {
                         if (frmRegClientes.ShowDialog() == DialogResult.OK)
                         {
+                            // Asignar el nuevo cliente
                             clienteSeleccionado = clienteNeg.ObtenerClientePorId(frmRegClientes.ClienteRegistradoId);
                             tbClientes.Text = clienteSeleccionado?.NombreCompleto ?? "Nuevo cliente";
                         }
                         else
                         {
-                            tbClientes.Text = string.Empty;
+                            MessageBox.Show("No se puede guardar la venta sin un cliente válido.",
+                                           "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             return false;
                         }
                     }
                 }
                 else
                 {
-                    tbClientes.Text = string.Empty;
+                    return false; 
                 }
             }
+
             return true;
         }
 
@@ -147,7 +162,7 @@ namespace C_Presentacion
                 List<Producto> productos = ventaNeg.ObtenerProductos();
 
                 cbProductos.DataSource = productos;
-                cbProductos.DisplayMember = "Nombre";  
+                cbProductos.DisplayMember = "Nombre";
                 cbProductos.ValueMember = "Id_Prod";
 
                 cbProductos.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
@@ -256,6 +271,7 @@ namespace C_Presentacion
 
         private void btnAgregarRegProd_Click(object sender, EventArgs e)
         {
+            if (!ValidarAgregarProducto()) return;
             try
             {
                 if (!(cbProductos.SelectedItem is Producto productoSeleccionado) ||
@@ -309,7 +325,7 @@ namespace C_Presentacion
                         }
                     };
                     detallesVenta.Add(detalle);
-                   
+
                 }
 
                 ActualizarDataGrid();
@@ -321,7 +337,7 @@ namespace C_Presentacion
                 MessageBox.Show("Error al agregar producto: " + ex.Message);
             }
         }
-        
+
         private void cbProductos_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (cbProductos.SelectedItem is Producto productoSeleccionado)
@@ -339,8 +355,8 @@ namespace C_Presentacion
                     // Configurar el ComboBox de tallas
                     cbTallasRegProd.DataSource = null; // Limpiar primero
                     cbTallasRegProd.DataSource = tallasDelProducto;
-                    cbTallasRegProd.DisplayMember = "Descripcion";  
-                    cbTallasRegProd.ValueMember = "Id_Talla";       
+                    cbTallasRegProd.DisplayMember = "Descripcion";
+                    cbTallasRegProd.ValueMember = "Id_Talla";
 
                     // Seleccionar la primera talla por defecto si hay tallas disponibles
                     if (tallasDelProducto.Count > 0)
@@ -399,7 +415,8 @@ namespace C_Presentacion
         }
         private void btnGuardarRegProd_Click(object sender, EventArgs e)
         {
-            if (!ValidarControles()) return;
+            Debug.WriteLine($"Número de productos en detallesVenta: {detallesVenta.Count}");
+            if (!ValidarGuardarVenta()) return;
 
             try
             {
@@ -897,6 +914,11 @@ namespace C_Presentacion
                     MessageBox.Show($"Error al cargar tallas: {ex.Message}");
                 }
             }
+        }
+
+        private void tbClientes_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
