@@ -6,6 +6,7 @@ using C_Entidades;
 using C_Negocios;
 using iTextSharp.text.pdf;
 using iTextSharp.text;
+using System.Globalization;
 
 namespace C_Presentacion
 {
@@ -460,22 +461,9 @@ namespace C_Presentacion
                 decimal totalVenta = detallesVenta.Sum(d => d.PrecioUnitario * d.Cantidad);
 
                 // Solicitar pago
-                string input = Microsoft.VisualBasic.Interaction.InputBox(
-                    $"Total a pagar: {totalVenta:C}\n\n¿Con cuánto pagará el cliente?",
-                    "Pago", "");
-
-                if (!decimal.TryParse(input, out montoPagado))
+                if (!SolicitarPagoConCambio(totalVenta, out decimal montoPagado, out decimal cambio))
                 {
-                    MessageBox.Show("Monto inválido. Operación cancelada.", "Error",
-                        MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-
-                if (montoPagado < totalVenta)
-                {
-                    MessageBox.Show($"Monto insuficiente. Faltan {(totalVenta - montoPagado):C} para completar el pago.",
-                        "Pago insuficiente", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
+                    return; // Si el usuario cancela el pago
                 }
 
                 // Registrar la venta
@@ -489,8 +477,6 @@ namespace C_Presentacion
                 int idUsuario = ObtenerIdUsuario();
                 ventaNeg.RegistrarVentaConDetalles(venta, idUsuario);
 
-                MessageBox.Show("Venta registrada exitosamente.", "Confirmación", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
                 // Obtener ruta para guardar el comprobante
                 string carpetaDestino = ObtenerRutaGuardadoTickets();
                 DateTime fechaHoraActual = DateTime.Now;
@@ -501,7 +487,17 @@ namespace C_Presentacion
                 // Generar PDF
                 GenerarComprobantePDF(rutaCompleta, fechaHoraActual, marcaTiempo, totalVenta);
 
-                MessageBox.Show($"Comprobante guardado en: {rutaCompleta}", "Comprobante Generado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show(
+                    $"Venta registrada exitosamente.\n\n" +
+                    $"Total: {totalVenta:C}\n" +
+                    $"Monto recibido: {montoPagado:C}\n" +
+                    $"Cambio: {cambio:C}\n\n" +
+                    $"Comprobante guardado en:\n{rutaCompleta}",
+                    "Éxito",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information
+                );
+
 
                 // Mostrar vista previa y limpiar
                 ImprimirTicketConVistaPrevia();
@@ -516,10 +512,60 @@ namespace C_Presentacion
             }
         }
 
+        private bool SolicitarPagoConCambio(decimal totalVenta, out decimal montoPagado, out decimal cambio)
+        {
+            montoPagado = 0;
+            cambio = 0;
+            string input;
+
+            do
+            {
+                input = Microsoft.VisualBasic.Interaction.InputBox(
+                    $"=== DETALLE DE PAGO ===\n\n" +
+                    $"Total a pagar: {totalVenta:C}\n" +
+                    $"Ingrese el monto recibido:\n\n" +
+                    $"{(montoPagado > 0 ? $"Cambio: {cambio:C}\n" : "")}",
+                    "Registrar Pago",
+                    montoPagado > 0 ? montoPagado.ToString("0.00") : "");
+
+                if (string.IsNullOrEmpty(input))
+                {
+                    MessageBox.Show("Pago cancelado.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return false;
+                }
+
+                if (!decimal.TryParse(input, NumberStyles.Currency, CultureInfo.CurrentCulture, out montoPagado))
+                {
+                    MessageBox.Show("Formato inválido. Use solo números.\nEjemplo: 150.50", "Error",
+                                  MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    continue;
+                }
+
+                if (montoPagado <= 0)
+                {
+                    MessageBox.Show("El monto debe ser mayor a cero.", "Error",
+                                  MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    continue;
+                }
+
+                cambio = montoPagado - totalVenta;
+
+                if (cambio < 0)
+                {
+                    MessageBox.Show($"Monto insuficiente. Faltan {Math.Abs(cambio):C}", "Error",
+                                  MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    continue;
+                }
+
+                break;
+            } while (true);
+
+            return true;
+        }
+
         // Métodos auxiliares adicionales
         private string ObtenerRutaGuardadoTickets()
         {
-            // 1. Intentar en AppData común primero
             string rutaBase = Path.Combine(
                 Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData),
                 "LucyCollections", "Tickets");
@@ -534,7 +580,6 @@ namespace C_Presentacion
             }
             catch (UnauthorizedAccessException)
             {
-                // 2. Fallback a documentos del usuario si no hay permisos
                 rutaBase = Path.Combine(
                     Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
                     "LucyCollectionsTickets");
