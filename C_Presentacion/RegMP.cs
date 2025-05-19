@@ -10,7 +10,7 @@ namespace C_Presentacion
         private readonly ProveedorNeg proveedorNegocio = new ProveedorNeg();
         private readonly MateriaPrimaNeg materiaPrimaNegocio = new MateriaPrimaNeg();
         private Inicio _formularioPadre;
-        public event Action DatosGuardados;
+        public event Action? DatosGuardados;
 
         public RegMP(Inicio formularioPadre)
         {

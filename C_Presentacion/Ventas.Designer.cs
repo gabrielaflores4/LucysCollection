@@ -99,7 +99,7 @@
             btnEliminarRegProd.BackgroundImageLayout = ImageLayout.Zoom;
             btnEliminarRegProd.FlatStyle = FlatStyle.Flat;
             btnEliminarRegProd.ForeColor = Color.FromArgb(221, 221, 221);
-            btnEliminarRegProd.Location = new Point(24, 344);
+            btnEliminarRegProd.Location = new Point(24, 369);
             btnEliminarRegProd.Name = "btnEliminarRegProd";
             btnEliminarRegProd.Size = new Size(161, 64);
             btnEliminarRegProd.TabIndex = 10;
@@ -113,7 +113,7 @@
             btnAgregarRegProd.BackgroundImageLayout = ImageLayout.Zoom;
             btnAgregarRegProd.FlatStyle = FlatStyle.Flat;
             btnAgregarRegProd.ForeColor = Color.FromArgb(221, 221, 221);
-            btnAgregarRegProd.Location = new Point(213, 344);
+            btnAgregarRegProd.Location = new Point(213, 369);
             btnAgregarRegProd.Name = "btnAgregarRegProd";
             btnAgregarRegProd.Size = new Size(162, 64);
             btnAgregarRegProd.TabIndex = 9;
@@ -126,7 +126,7 @@
             label4.BackColor = Color.FromArgb(221, 221, 221);
             label4.Font = new Font("Bahnschrift", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label4.ForeColor = SystemColors.ControlText;
-            label4.Location = new Point(213, 243);
+            label4.Location = new Point(213, 268);
             label4.Name = "label4";
             label4.Size = new Size(93, 25);
             label4.TabIndex = 7;
@@ -138,7 +138,7 @@
             label3.BackColor = Color.FromArgb(221, 221, 221);
             label3.Font = new Font("Bahnschrift", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label3.ForeColor = SystemColors.ControlText;
-            label3.Location = new Point(24, 244);
+            label3.Location = new Point(24, 269);
             label3.Name = "label3";
             label3.Size = new Size(55, 25);
             label3.TabIndex = 5;
@@ -146,7 +146,7 @@
             // 
             // nbCantidad
             // 
-            nbCantidad.Location = new Point(213, 287);
+            nbCantidad.Location = new Point(213, 312);
             nbCantidad.Name = "nbCantidad";
             nbCantidad.Size = new Size(162, 27);
             nbCantidad.TabIndex = 8;
@@ -154,8 +154,7 @@
             // cbTallasRegProd
             // 
             cbTallasRegProd.FormattingEnabled = true;
-            cbTallasRegProd.Items.AddRange(new object[] { "5", "6", "7", "8", "9" });
-            cbTallasRegProd.Location = new Point(28, 286);
+            cbTallasRegProd.Location = new Point(28, 311);
             cbTallasRegProd.Name = "cbTallasRegProd";
             cbTallasRegProd.Size = new Size(162, 27);
             cbTallasRegProd.TabIndex = 6;
@@ -167,11 +166,11 @@
             label22.BackColor = Color.FromArgb(221, 221, 221);
             label22.Font = new Font("Bahnschrift", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label22.ForeColor = SystemColors.ControlText;
-            label22.Location = new Point(24, 92);
+            label22.Location = new Point(24, 99);
             label22.Name = "label22";
-            label22.Size = new Size(87, 25);
+            label22.Size = new Size(95, 25);
             label22.TabIndex = 1;
-            label22.Text = "Nombre";
+            label22.Text = "Producto";
             // 
             // dataGridVentaProducto
             // 
@@ -280,7 +279,7 @@
             // cbProductos
             // 
             cbProductos.FormattingEnabled = true;
-            cbProductos.Location = new Point(29, 187);
+            cbProductos.Location = new Point(29, 212);
             cbProductos.Name = "cbProductos";
             cbProductos.Size = new Size(347, 27);
             cbProductos.TabIndex = 4;
@@ -292,7 +291,7 @@
             label1.BackColor = Color.FromArgb(221, 221, 221);
             label1.Font = new Font("Bahnschrift", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label1.ForeColor = SystemColors.ControlText;
-            label1.Location = new Point(24, 439);
+            label1.Location = new Point(24, 464);
             label1.Name = "label1";
             label1.Size = new Size(77, 25);
             label1.TabIndex = 11;
@@ -302,7 +301,7 @@
             // 
             rbCliNuevo.AutoSize = true;
             rbCliNuevo.Font = new Font("Bahnschrift", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            rbCliNuevo.Location = new Point(29, 487);
+            rbCliNuevo.Location = new Point(29, 512);
             rbCliNuevo.Name = "rbCliNuevo";
             rbCliNuevo.Size = new Size(82, 27);
             rbCliNuevo.TabIndex = 12;
@@ -315,7 +314,7 @@
             // 
             rbCliAntiguo.AutoSize = true;
             rbCliAntiguo.Font = new Font("Bahnschrift", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            rbCliAntiguo.Location = new Point(213, 487);
+            rbCliAntiguo.Location = new Point(213, 512);
             rbCliAntiguo.Name = "rbCliAntiguo";
             rbCliAntiguo.Size = new Size(93, 27);
             rbCliAntiguo.TabIndex = 13;
@@ -330,7 +329,7 @@
             lblStockDisponible.BackColor = Color.FromArgb(221, 221, 221);
             lblStockDisponible.Font = new Font("Bahnschrift", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblStockDisponible.ForeColor = Color.Red;
-            lblStockDisponible.Location = new Point(24, 139);
+            lblStockDisponible.Location = new Point(24, 138);
             lblStockDisponible.Name = "lblStockDisponible";
             lblStockDisponible.Size = new Size(87, 25);
             lblStockDisponible.TabIndex = 2;
@@ -353,7 +352,7 @@
             btnTodosProductos.BackgroundImageLayout = ImageLayout.Zoom;
             btnTodosProductos.FlatStyle = FlatStyle.Flat;
             btnTodosProductos.ForeColor = Color.FromArgb(221, 221, 221);
-            btnTodosProductos.Location = new Point(173, 134);
+            btnTodosProductos.Location = new Point(163, 166);
             btnTodosProductos.Name = "btnTodosProductos";
             btnTodosProductos.Size = new Size(212, 40);
             btnTodosProductos.TabIndex = 3;
@@ -362,7 +361,7 @@
             // 
             // tbClientes
             // 
-            tbClientes.Location = new Point(29, 555);
+            tbClientes.Location = new Point(29, 580);
             tbClientes.Name = "tbClientes";
             tbClientes.ReadOnly = true;
             tbClientes.Size = new Size(346, 27);

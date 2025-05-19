@@ -815,5 +815,30 @@ namespace C_Datos
             }
         }
 
+        public List<int> ObtenerIdsTallasConStock(int productoId)
+        {
+            var idsTallas = new List<int>();
+
+            using (var conexion = Conexion.ObtenerConexion())
+            {
+                using (var cmd = new NpgsqlCommand(
+                    "SELECT DISTINCT id_talla FROM producto WHERE id_producto = @productoId AND stock > 0",
+                    conexion))
+                {
+                    cmd.Parameters.AddWithValue("@productoId", productoId);
+
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            idsTallas.Add(reader.GetInt32(0));
+                        }
+                    }
+                }
+            }
+
+            return idsTallas;
+        }
+
     }
 }

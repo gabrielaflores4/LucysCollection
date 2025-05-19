@@ -32,6 +32,13 @@ namespace C_Presentacion
             CargarProductos();
             CargarTallasDisponibles();
 
+            cbProductos.SelectedIndex = -1;
+            btnAgregarRegProd.Enabled = false;
+            btnGuardarRegProd.Enabled = false;
+            btnEliminarRegProd.Enabled = false;
+            cbTallasRegProd.Enabled = false;
+            nbCantidad.Enabled = false;
+
             if (clienteId > 0)
             {
                 SeleccionarClientePorId(clienteId);
@@ -51,14 +58,21 @@ namespace C_Presentacion
             rbCliAntiguo.Checked = false;
             tbClientes.Visible = true;
             tbClientes.Text=string.Empty;
-            dataGridVentaProducto.Rows.Clear();
             lblStockDisponible.Text = "Stock: 0";
+
             ActualizarTotal();
         }
 
 
         private bool ValidarControles()
         {
+            if (detallesVenta == null || detallesVenta.Count == 0)
+            {
+                MessageBox.Show("No hay productos en la venta", "Validación",
+                               MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+
             // Validar ComboBox de productos
             if (cbProductos.SelectedItem == null)
             {
@@ -295,21 +309,28 @@ namespace C_Presentacion
                         }
                     };
                     detallesVenta.Add(detalle);
+                   
                 }
 
                 ActualizarDataGrid();
-                ActualizarTotal();
+                LimpiarControles();
+
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Error al agregar producto: " + ex.Message);
             }
         }
-
+        
         private void cbProductos_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (cbProductos.SelectedItem is Producto productoSeleccionado)
             {
+                btnAgregarRegProd.Enabled = true;
+                btnEliminarRegProd.Enabled = true;
+                cbTallasRegProd.Enabled = true;
+                nbCantidad.Enabled = true;
+
                 try
                 {
                     // Obtener tallas disponibles para el producto seleccionado
@@ -325,6 +346,7 @@ namespace C_Presentacion
                     if (tallasDelProducto.Count > 0)
                     {
                         cbTallasRegProd.SelectedIndex = 0;
+                        btnGuardarRegProd.Enabled = true;
                     }
                     else
                     {
@@ -377,165 +399,6 @@ namespace C_Presentacion
         }
         private void btnGuardarRegProd_Click(object sender, EventArgs e)
         {
-            /*
-            if (!ValidarControles()) return;
-
-            try
-            {
-                int clienteId = 0;
-                if (!string.IsNullOrWhiteSpace(tbClientes.Text))
-                {
-                    if (clienteSeleccionado == null)
-                    {
-                        var respuesta = MessageBox.Show("¿Desea registrar este cliente antes de continuar?",
-                                                        "Cliente no registrado",
-                                                        MessageBoxButtons.YesNo,
-                                                        MessageBoxIcon.Question);
-
-                        if (respuesta == DialogResult.Yes)
-                        {
-                            using (var frmRegClientes = new FrmRegClientes())
-                            {
-                                if (frmRegClientes.ShowDialog() == DialogResult.OK)
-                                {
-                                    clienteSeleccionado = clienteNeg.ObtenerClientePorId(frmRegClientes.ClienteRegistradoId);
-                                    tbClientes.Text = clienteSeleccionado.NombreCompleto;
-                                    clienteId = clienteSeleccionado.Id;
-                                }
-                                else
-                                {
-                                    return;
-                                }
-                            }
-                        }
-                    }
-                    else
-                    {
-                        clienteId = clienteSeleccionado.Id;
-                    }
-                }
-
-                if (detallesVenta == null || detallesVenta.Count == 0)
-                    throw new Exception("Debe agregar al menos un producto al detalle de la venta.");
-
-                // Calcular total ANTES de registrar la venta
-                decimal totalVenta = detallesVenta.Sum(d => d.PrecioUnitario * d.Cantidad);
-
-                // Solicitar pago y validar
-                string input = Microsoft.VisualBasic.Interaction.InputBox(
-                    $"Total a pagar: {totalVenta:C}\n\n¿Con cuánto pagará el cliente?",
-                    "Pago", "");
-
-                if (!decimal.TryParse(input, out montoPagado))
-                {
-                    MessageBox.Show("Monto inválido. Operación cancelada.", "Error",
-                        MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-
-                // Validar si el monto es suficiente
-                if (montoPagado < totalVenta)
-                {
-                    MessageBox.Show($"Monto insuficiente. Faltan {(totalVenta - montoPagado):C} para completar el pago.",
-                        "Pago insuficiente", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return; // Suspender la venta
-                }
-
-                // Registrar la venta (solo si el pago fue suficiente)
-                Venta venta = new Venta
-                {
-                    ClienteId = clienteId,
-                    Detalles = detallesVenta,
-                    Fecha = DateTime.Now
-                };
-
-                int idUsuario = ObtenerIdUsuario();
-                ventaNeg.RegistrarVentaConDetalles(venta, idUsuario);
-
-                MessageBox.Show("Venta registrada exitosamente.", "Confirmación", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                // Generar comprobante PDF
-                string carpetaDestino = @"C:\Users\gabri\Desktop\Reportes de ventas Lucy´s Collections\Comprobantes de ventas";
-
-                if (!Directory.Exists(carpetaDestino))
-                {
-                    Directory.CreateDirectory(carpetaDestino);
-                }
-
-                // Generar marca de tiempo única
-                DateTime fechaHoraActual = DateTime.Now;
-                string marcaTiempo = fechaHoraActual.ToString("ddMMyyyy_HHmmss");
-                string nombreArchivo = $"Comprobante_{marcaTiempo}.pdf";
-                string rutaCompleta = Path.Combine(carpetaDestino, nombreArchivo);
-
-                using (FileStream fs = new FileStream(rutaCompleta, FileMode.Create))
-                {
-                    Document doc = new Document(PageSize.A4, 10, 10, 10, 10);
-                    PdfWriter writer = PdfWriter.GetInstance(doc, fs);
-                    doc.Open();
-
-                    // Encabezado del comprobante
-                    doc.Add(new Paragraph("Lucy´s Collections", FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 16)));
-                    doc.Add(new Paragraph($"Fecha: {fechaHoraActual:dd/MM/yyyy}    Hora: {fechaHoraActual:HH:mm:ss}"));
-                    doc.Add(new Paragraph("NIT: 0614-080322-115-2    NRC: 316440-2"));
-                    doc.Add(new Paragraph("Dirección: Avenida 5 de noviembre, Atiquizaya, Ahuachapán"));
-                    doc.Add(new Paragraph("\n"));
-
-                    if (clienteSeleccionado != null)
-                    {
-                        doc.Add(new Paragraph($"Cliente: {clienteSeleccionado.NombreCompleto}"));
-                        doc.Add(new Paragraph($"Fecha de Registro: {clienteSeleccionado.FechaRegistro:dd/MM/yyyy}"));
-                        doc.Add(new Paragraph("\n"));
-                    }
-
-                    PdfPTable tabla = new PdfPTable(4);
-                    tabla.WidthPercentage = 100;
-                    tabla.AddCell("Producto");
-                    tabla.AddCell("Precio");
-                    tabla.AddCell("Cantidad");
-                    tabla.AddCell("Subtotal");
-
-                    // Calcular el total de la venta (usando nombre distinto si es necesario)
-                    decimal totalVentaCalculado = 0;
-                    foreach (var item in detallesVenta)
-                    {
-                        tabla.AddCell(item.Producto.Nombre.Length > 15 ? item.Producto.Nombre.Substring(0, 15) : item.Producto.Nombre);
-                        tabla.AddCell(item.PrecioUnitario.ToString("C"));
-                        tabla.AddCell(item.Cantidad.ToString());
-                        decimal subtotal = item.PrecioUnitario * item.Cantidad;
-                        tabla.AddCell(subtotal.ToString("C"));
-                        totalVentaCalculado += subtotal;
-                    }
-
-                    doc.Add(tabla);
-                    doc.Add(new Paragraph("\n"));
-                    doc.Add(new Paragraph($"Total: {totalVentaCalculado:C}"));
-
-                    // Información de pago
-                    decimal cambio = montoPagado - totalVentaCalculado;
-                    doc.Add(new Paragraph($"Pagó con: {montoPagado:C}"));
-                    doc.Add(new Paragraph($"Cambio: {cambio:C}"));
-
-                    // Número único de comprobante
-                    doc.Add(new Paragraph("\n"));
-                    doc.Add(new Paragraph($"N° Comprobante: {marcaTiempo}"));
-                    doc.Add(new Paragraph("¡Gracias por su compra!", FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 12)));
-
-                    doc.Close();
-                }
-
-                MessageBox.Show($"Comprobante guardado como: {nombreArchivo}", "Comprobante Generado", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                // Mostrar vista previa y limpiar controles
-                ImprimirTicketConVistaPrevia();
-                detallesVenta.Clear();
-                ActualizarDataGrid();
-                LimpiarControles();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error al guardar la venta: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }*/
             if (!ValidarControles()) return;
 
             try
@@ -628,6 +491,7 @@ namespace C_Presentacion
                 detallesVenta.Clear();
                 ActualizarDataGrid();
                 LimpiarControles();
+                this.Close();
             }
             catch (Exception ex)
             {
@@ -666,7 +530,6 @@ namespace C_Presentacion
             }
             catch (Exception ex)
             {
-                // 3. Último fallback a directorio temporal
                 MessageBox.Show($"No se pudo acceder a las ubicaciones estándar: {ex.Message}\nSe usará directorio temporal.",
                                "Advertencia",
                                MessageBoxButtons.OK,
