@@ -225,16 +225,33 @@ namespace C_Presentacion
 
         private void tbPrecioRegProd_KeyPress(object sender, KeyPressEventArgs e)
         {
-            // Permite: números, punto decimal, backspace
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != '.')
             {
                 e.Handled = true;
+                return;
             }
 
-            // Solo permite un punto decimal
-            if (e.KeyChar == '.' && (sender as TextBox).Text.IndexOf('.') > -1)
+            if (tbPrecioRegProd.Text.Length == 0 && e.KeyChar == '0')
             {
                 e.Handled = true;
+                return;
+            }
+
+            if (e.KeyChar == '.' && tbPrecioRegProd.Text.Contains('.'))
+            {
+                e.Handled = true;
+                return;
+            }
+
+            if (tbPrecioRegProd.Text.Contains('.'))
+            {
+                int punto = tbPrecioRegProd.Text.IndexOf('.');
+                int decimales = tbPrecioRegProd.Text.Length - punto - 1;
+
+                if (tbPrecioRegProd.SelectionStart > punto && decimales >= 2 && !char.IsControl(e.KeyChar))
+                {
+                    e.Handled = true;
+                }
             }
         }
 

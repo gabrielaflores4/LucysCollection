@@ -105,6 +105,12 @@ namespace C_Presentacion
                 return;
             }
 
+            if (textBox.Text.Length == 0 && e.KeyChar == '0')
+            {
+                e.Handled = true;
+                return;
+            }
+
             // Validar que solo haya un punto decimal
             if (e.KeyChar == '.' && textBox.Text.IndexOf('.') > -1)
             {

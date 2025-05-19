@@ -10,7 +10,6 @@ namespace C_Presentacion
         {
             InitializeComponent();
             clienteNeg = new ClienteNeg();
-            ValidarCampo();
             ClienteRegistradoId = 0;
 
         }
@@ -70,7 +69,6 @@ namespace C_Presentacion
             return true;
         }
 
-
         private void btnRegistraCliente_Click(object sender, EventArgs e)
         {
 
@@ -108,36 +106,6 @@ namespace C_Presentacion
             {
                 MessageBox.Show($"Error al registrar cliente: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-        }
-        private void ValidarCampo()
-        {
-            if (tbNombreClien.Text == "")
-            {
-                errorIconoClientes.SetError(tbNombreClien, "Ingresar nombre");
-            }
-            if (tbApellidoCliente.Text == "")
-            {
-                errorIconoClientes.SetError(tbApellidoCliente, "Ingresar Apellido");
-            }
-            if (tbCorreoCliente.Text == "")
-            {
-                errorIconoClientes.SetError(tbCorreoCliente, "Ingresar Correo");
-            }
-            if (tbTelefonoCliente.Text == "")
-            {
-                errorIconoClientes.SetError(tbTelefonoCliente, "Ingrese Telefono");
-            }
-            return;
-        }
-
-        private void BorrarErrorProvider()
-        {
-            errorIconoClientes.SetError(tbNombreClien, "");
-            errorIconoClientes.SetError(tbApellidoCliente, "");
-            errorIconoClientes.SetError(tbCorreoCliente, "");
-            errorIconoClientes.SetError(tbTelefonoCliente, "");
-
-
         }
 
         private void tbNombreClien_KeyPress(object sender, KeyPressEventArgs e)

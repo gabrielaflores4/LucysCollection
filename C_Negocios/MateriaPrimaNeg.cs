@@ -1,10 +1,5 @@
 ﻿using C_Datos;
 using C_Entidades;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace C_Negocios
 {
@@ -17,10 +12,26 @@ namespace C_Negocios
             return _materiaPrimaDatos.ObtenerMateriasPrimas();
         }
 
-        public bool AgregarMateriaPrima(MateriaPrima materia)
+        public bool AgregarMateriasPrimas(List<MateriaPrima> materias)
         {
-            ValidarMateriaPrima(materia);
-            return _materiaPrimaDatos.AgregarMateriaPrima(materia);
+            // Validaciones de negocio
+            foreach (var materia in materias)
+            {
+                if (materia.IdProveedor <= 0)
+                    throw new ArgumentException("Proveedor es requerido");
+
+                if (string.IsNullOrWhiteSpace(materia.Nombre))
+                    throw new ArgumentException("Nombre de la materia prima es requerido");
+
+                if (materia.PrecioUnit <= 0)
+                    throw new ArgumentException("Precio unitario debe ser mayor a cero");
+
+                if (materia.Stock < 0)
+                    throw new ArgumentException("Stock no puede ser negativo");
+            }
+
+            // Delegar a la capa de datos
+            return _materiaPrimaDatos.AgregarMateriasPrimas(materias);
         }
 
         public bool ActualizarMateriaPrima(int id, string nombre, decimal precioUnit, int stock, int proveedorId)
@@ -45,8 +56,7 @@ namespace C_Negocios
                 return false;
             }
         }
-
-
+        
         public bool EliminarMP(int idMateriaPrima)
         {
             // Solo validación básica del ID
@@ -55,7 +65,6 @@ namespace C_Negocios
 
             return _materiaPrimaDatos.EliminarMP(idMateriaPrima);
         }
-
         private void ValidarMateriaPrima(MateriaPrima materia)
         {
             if (materia.IdProveedor <= 0)
@@ -70,13 +79,5 @@ namespace C_Negocios
             if (materia.Stock < 0)
                 throw new ArgumentException("Stock no puede ser negativo");
         }
-
-
-
-        /*
-        public List<Usuario> BuscarEmpleados(string texto)
-        {
-            return MateriaPrimaDatos.BuscarMateriaPrima(texto);
-        }*/
     }
 }

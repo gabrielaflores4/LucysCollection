@@ -45,8 +45,8 @@ namespace C_Presentacion
                 return;
             }
 
-            InicializarComboBox(cmbPrecio, new[] { "Todos", "Mayor precio", "Menor precio" });
-            InicializarComboBox(cmbStock, new[] { "Todos", "Mayor", "Menor", "Sin stock" });
+            InicializarComboBox(cmbPrecioMP, new[] { "Todos", "Mayor precio", "Menor precio" });
+            InicializarComboBox(cmbStockMP, new[] { "Todos", "Mayor", "Menor", "Sin stock" });
             InicializarComboBox(cmbCategoria, new[] { "Todos", "Botas", "Sandalias", "Zapatillas bordadas", "Zapatos casuales", "Calzado infantil" });
             InicializarComboBox(cmbPrecioUnit, new[] { "Todos", "Mayor precio", "Menor precio" });
 
@@ -440,7 +440,7 @@ namespace C_Presentacion
             RegistroUsuario frmRegUsuarios = new RegistroUsuario();
             frmRegUsuarios.ShowDialog();
         }
-            
+
         private void btnAgregarProv_Click(object sender, EventArgs e)
         {
             RegProv frmRegProv = new RegProv();
@@ -449,8 +449,18 @@ namespace C_Presentacion
 
         private void btnAgregarMateriaP_Click(object sender, EventArgs e)
         {
-            RegMP frmRegMP = new RegMP();
+            RegMP frmRegMP = new RegMP(this);
+
+            // Suscribirse al evento
+            frmRegMP.DatosGuardados += () => CargarMateriasPrimas();
+
             frmRegMP.ShowDialog();
+
+            // Opcional: Verificar si se guardó algo
+            if (frmRegMP.DialogResult == DialogResult.OK)
+            {
+                CargarMateriasPrimas();
+            }
         }
 
         private void btnEliminarInventario_Click(object sender, EventArgs e)
@@ -817,40 +827,42 @@ namespace C_Presentacion
         {
             List<MateriaPrima> materiaPrimas = _materiaPrimaNeg.ObtenerMateriasPrimas();
 
-            string filtroStock = cmbStock.SelectedItem?.ToString() ?? string.Empty;
+            string filtroStock = cmbStockMP.SelectedItem?.ToString() ?? string.Empty;
+            string filtroPrecio = cmbPrecioMP.SelectedItem?.ToString() ?? string.Empty;
 
+            // Filtrar stock "Sin stock"
             if (filtroStock == "Sin stock")
             {
                 materiaPrimas = materiaPrimas.Where(p => p.Stock == 0).ToList();
             }
 
-            IOrderedEnumerable<MateriaPrima> ordenado;
-            switch (filtroStock)
+            IEnumerable<MateriaPrima> resultado = materiaPrimas;
+
+            // Ordenamiento por stock
+            if (filtroStock == "Mayor")
             {
-                case "Mayor":
-                    ordenado = materiaPrimas.OrderByDescending(p => p.Stock);
-                    break;
-                case "Menor":
-                    ordenado = materiaPrimas.OrderBy(p => p.Stock);
-                    break;
-                default:
-                    ordenado = materiaPrimas.OrderBy(p => p.IdMateriaPrima);
-                    break;
+                resultado = resultado.OrderByDescending(p => p.Stock);
+            }
+            else if (filtroStock == "Menor")
+            {
+                resultado = resultado.OrderBy(p => p.Stock);
             }
 
-            string filtroPrecio = cmbPrecio.SelectedItem?.ToString() ?? string.Empty;
-
-            switch (filtroPrecio)
+            // Ordenamiento por precio (si ya está ordenado por stock, usamos ThenBy)
+            if (filtroPrecio == "Mayor precio")
             {
-                case "Mayor precio":
-                    ordenado = materiaPrimas.OrderByDescending(p => p.PrecioUnit);
-                    break;
-                case "Menor precio":
-                    ordenado = materiaPrimas.OrderBy(p => p.PrecioUnit);
-                    break;
+                resultado = (resultado is IOrderedEnumerable<MateriaPrima> ordered)
+                    ? ordered.ThenByDescending(p => p.PrecioUnit)
+                    : resultado.OrderByDescending(p => p.PrecioUnit);
+            }
+            else if (filtroPrecio == "Menor precio")
+            {
+                resultado = (resultado is IOrderedEnumerable<MateriaPrima> ordered)
+                    ? ordered.ThenBy(p => p.PrecioUnit)
+                    : resultado.OrderBy(p => p.PrecioUnit);
             }
 
-            dataGridMP.DataSource = ordenado.Select(mp => new
+            dataGridMP.DataSource = resultado.Select(mp => new
             {
                 mp.IdMateriaPrima,
                 mp.Nombre,
@@ -860,6 +872,7 @@ namespace C_Presentacion
             }).ToList();
         }
 
+
         private void FiltrarInventario()
         {
             // Obtener todos los productos
@@ -867,6 +880,7 @@ namespace C_Presentacion
 
             // Filtrar por categoría si se ha seleccionado una específica
             string filtroCategoria = cmbCategoria.SelectedItem?.ToString() ?? string.Empty;
+
             if (filtroCategoria != "Todos" && !string.IsNullOrEmpty(filtroCategoria))
             {
                 productos = productos.Where(p => p.Categoria.Nombre == filtroCategoria).ToList();
@@ -896,16 +910,6 @@ namespace C_Presentacion
                 p.Precio,
                 p.Stock  // Mantenido por si aún necesitas mostrar el stock
             }).ToList();
-        }
-
-        private void cmbStock_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            FiltrarMateriaPrima();
-        }
-
-        private void cmbPrecio_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            FiltrarMateriaPrima();
         }
 
         private void comboBox4_SelectedIndexChanged(object sender, EventArgs e)
@@ -948,6 +952,16 @@ namespace C_Presentacion
         {
             VistaClientes frmClientes = new VistaClientes();
             frmClientes.ShowDialog();
+        }
+
+        private void cmbPrecioMP_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            FiltrarMateriaPrima();
+        }
+
+        private void cmbStockMP_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            FiltrarMateriaPrima();
         }
     }
 }

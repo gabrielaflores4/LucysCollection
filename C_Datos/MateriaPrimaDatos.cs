@@ -1,11 +1,6 @@
 ﻿using C_Entidades;
 using Npgsql;
 using NpgsqlTypes;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace C_Datos
 {
@@ -46,21 +41,42 @@ namespace C_Datos
             return materias;
         }
 
-        public bool AgregarMateriaPrima(MateriaPrima materia)
+        public bool AgregarMateriasPrimas(List<MateriaPrima> materias)
         {
+            const string query = @"INSERT INTO materia_prima 
+                             (id_proveedor, nombre, precio_unit, stock, fecha_ingreso, fecha_act) 
+                             VALUES (@idProv, @nombre, @precio, @stock, NOW(), NOW())";
+
             using (var conexion = Conexion.ObtenerConexion())
             {
-                using (var cmd = new NpgsqlCommand(
-                    @"INSERT INTO materia_prima 
-                      (id_proveedor, nombre, precio_unit, stock, fecha_ingreso, fecha_act) 
-                      VALUES (@idProv, @nombre, @precio, @stock, NOW(), NOW())", conexion))
+                using (var transaccion = conexion.BeginTransaction())
                 {
-                    cmd.Parameters.AddWithValue("@idProv", materia.IdProveedor);
-                    cmd.Parameters.AddWithValue("@nombre", materia.Nombre);
-                    cmd.Parameters.AddWithValue("@precio", materia.PrecioUnit);
-                    cmd.Parameters.AddWithValue("@stock", materia.Stock);
+                    try
+                    {
+                        foreach (var materia in materias)
+                        {
+                            using (var cmd = new NpgsqlCommand(query, conexion, transaccion))
+                            {
+                                cmd.Parameters.AddWithValue("@idProv", materia.IdProveedor);
+                                cmd.Parameters.AddWithValue("@nombre", materia.Nombre);
+                                cmd.Parameters.AddWithValue("@precio", materia.PrecioUnit);
+                                cmd.Parameters.AddWithValue("@stock", materia.Stock);
 
-                    return cmd.ExecuteNonQuery() > 0;
+                                if (cmd.ExecuteNonQuery() <= 0)
+                                {
+                                    transaccion.Rollback();
+                                    return false;
+                                }
+                            }
+                        }
+                        transaccion.Commit();
+                        return true;
+                    }
+                    catch (Exception)
+                    {
+                        transaccion.Rollback();
+                        throw;
+                    }
                 }
             }
         }
@@ -79,9 +95,6 @@ namespace C_Datos
             {
                 using (var conexion = Conexion.ObtenerConexion())
                 {
-                    // Debug: Verificar conexión
-                    Console.WriteLine($"Estado conexión: {conexion.State}");
-
                     using (var cmd = new NpgsqlCommand(query, conexion))
                     {
                         // Configuración explícita de tipos Npgsql

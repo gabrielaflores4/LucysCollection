@@ -219,7 +219,7 @@
             label3.BackColor = Color.FromArgb(221, 221, 221);
             label3.Font = new Font("Bahnschrift SemiBold", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label3.ForeColor = SystemColors.Desktop;
-            label3.Location = new Point(51, 150);
+            label3.Location = new Point(43, 153);
             label3.Name = "label3";
             label3.Size = new Size(104, 29);
             label3.TabIndex = 1;

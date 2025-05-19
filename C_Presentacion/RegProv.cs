@@ -21,7 +21,7 @@ namespace C_Presentacion
         {
             InitializeComponent();
             proveedorNeg = new ProveedorNeg();
-            ValidarCampo();
+            
         }
         private bool EsFormularioValido()
         {

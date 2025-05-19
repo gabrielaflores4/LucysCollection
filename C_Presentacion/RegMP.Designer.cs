@@ -83,6 +83,7 @@
             btnGuardarMP.Size = new Size(186, 64);
             btnGuardarMP.TabIndex = 13;
             btnGuardarMP.UseVisualStyleBackColor = false;
+            btnGuardarMP.Click += btnGuardarMP_Click;
             // 
             // btnEliminarMP
             // 
@@ -96,6 +97,7 @@
             btnEliminarMP.Size = new Size(161, 64);
             btnEliminarMP.TabIndex = 11;
             btnEliminarMP.UseVisualStyleBackColor = false;
+            btnEliminarMP.Click += btnEliminarMP_Click;
             // 
             // btnAgregarMP
             // 
@@ -109,6 +111,7 @@
             btnAgregarMP.Size = new Size(162, 64);
             btnAgregarMP.TabIndex = 10;
             btnAgregarMP.UseVisualStyleBackColor = false;
+            btnAgregarMP.Click += btnAgregarMP_Click;
             // 
             // label4
             // 
@@ -211,13 +214,14 @@
             dataGridRegMP.DefaultCellStyle = dataGridViewCellStyle3;
             dataGridRegMP.EnableHeadersVisualStyles = false;
             dataGridRegMP.GridColor = Color.FromArgb(221, 221, 221);
-            dataGridRegMP.Location = new Point(405, 95);
+            dataGridRegMP.Location = new Point(418, 95);
             dataGridRegMP.Name = "dataGridRegMP";
             dataGridRegMP.RowHeadersVisible = false;
             dataGridRegMP.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
             dataGridRegMP.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dataGridRegMP.Size = new Size(941, 488);
+            dataGridRegMP.Size = new Size(928, 488);
             dataGridRegMP.TabIndex = 12;
+            dataGridRegMP.CellDoubleClick += dataGridRegMP_CellDoubleClick;
             // 
             // nombre
             // 
@@ -312,6 +316,7 @@
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Materia Prima";
             WindowState = FormWindowState.Maximized;
+            Load += RegMP_Load;
             ((System.ComponentModel.ISupportInitialize)dataGridRegMP).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ((System.ComponentModel.ISupportInitialize)nbCantidadMP).EndInit();
