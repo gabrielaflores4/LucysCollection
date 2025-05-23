@@ -2,9 +2,10 @@
 using C_Negocios;
 using System.Data;
 using System.Diagnostics;
+using System.DirectoryServices.ActiveDirectory;
 using System.Globalization;
 using System.Windows.Forms.DataVisualization.Charting;
-
+using Tulpep.NotificationWindow;
 
 namespace C_Presentacion
 {
@@ -15,9 +16,12 @@ namespace C_Presentacion
         private ProveedorNeg _proveedorNeg = new ProveedorNeg();
         private MateriaPrimaNeg _materiaPrimaNeg = new MateriaPrimaNeg();
         private ClienteNeg clienteNeg = new ClienteNeg();
+        private System.Windows.Forms.Timer timerNotificaciones;
+
         public Inicio()
         {
             InitializeComponent();
+            timerNotificaciones = new System.Windows.Forms.Timer();
         }
 
         private void Inicio_Load(object sender, EventArgs e)
@@ -52,6 +56,199 @@ namespace C_Presentacion
 
             ConfigurarGrafico();
             CargarEstadisticas();
+
+            timerNotificaciones.Interval = 300000; 
+            timerNotificaciones.Tick += TimerNotificacione_Tick;
+
+            VerificarStockProductos();
+            VerificarStockMateriaPrima();
+
+            timerNotificaciones.Start();
+
+
+        }
+
+        private void Notificar(string tipo, string mensaje, Action onClickAction = null)
+        {
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new Action(() => Notificar(tipo, mensaje, onClickAction)));
+                return;
+            }
+
+            var popup = new PopupNotifier()
+            {
+                TitleText = "Lucy's Collection",
+                ContentText = mensaje,
+                Delay = 5000,
+                AnimationInterval = 10,
+                AnimationDuration = 1000,
+                ShowCloseButton = true
+            };
+
+            switch (tipo.ToLower())
+            {
+                case "exito":
+                    popup.BodyColor = Color.FromArgb(76, 175, 80);
+                    popup.TitleColor = Color.White;
+                    popup.ContentColor = Color.White;
+                    popup.Image = SystemIcons.Information.ToBitmap(); 
+                    break;
+                case "error":
+                    popup.BodyColor = Color.FromArgb(244, 67, 54); 
+                    popup.TitleColor = Color.White;
+                    popup.ContentColor = Color.White;
+                    popup.Image = SystemIcons.Error.ToBitmap(); 
+                    break;
+                case "advertencia":
+                    popup.BodyColor = Color.FromArgb(255, 193, 7); 
+                    popup.TitleColor = Color.Black;
+                    popup.ContentColor = Color.Black;
+                    popup.Image = SystemIcons.Warning.ToBitmap(); 
+                    break;
+                default: // Info
+                    popup.BodyColor = Color.FromArgb(33, 150, 243); 
+                    popup.TitleColor = Color.White;
+                    popup.ContentColor = Color.White;
+                    popup.Image = SystemIcons.Information.ToBitmap();
+                    break;
+            }
+
+            if (onClickAction != null)
+            {
+                popup.Click += (s, e) => onClickAction();
+            }
+
+            popup.Popup();
+        }
+
+        private async void VerificarStockProductos()
+        {
+            try
+            {
+                // Obtener productos con stock bajo
+                var productos = productoNeg.ObtenerProductosConStock()
+                                    .Where(p => p.Stock <= 5)
+                                    .ToList();
+
+                if (productos.Any())
+                {
+                    // Mostrar notificación resumen
+                    Notificar("advertencia",
+                             $"{productos.Count} productos con stock bajo",
+                             () => {
+                                 tabControlInicio.SelectedTab = tabInventario;
+                                 // Forzar la actualización del DataGrid
+                                 CargarProductos();
+                             });
+
+                    // Esperar antes de mostrar detalles
+                    await Task.Delay(3000);
+
+                    // Mostrar notificaciones individuales sin afectar la UI
+                    foreach (var p in productos)
+                    {
+                        if (this.IsDisposed) return; // Verificar si el formulario sigue activo
+
+                        Notificar("advertencia",
+                                $"Stock bajo: {p.Nombre} ({p.Stock} unidades)",
+                                () => {
+                                    tabControlInicio.SelectedTab = tabInventario;
+                                    // Resaltar el producto en el DataGrid
+                                    ResaltarProductoEnDataGrid(p.Id_Prod);
+                                });
+
+                        await Task.Delay(1500);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Notificar("error", $"Error al verificar stock: {ex.Message}");
+            }
+        }
+
+        private void ResaltarProductoEnDataGrid(int idProducto)
+        {
+            if (dataGridInventarioProducto.InvokeRequired)
+            {
+                dataGridInventarioProducto.Invoke(new Action<int>(ResaltarProductoEnDataGrid), idProducto);
+                return;
+            }
+
+            foreach (DataGridViewRow row in dataGridInventarioProducto.Rows)
+            {
+                // Acceder a la columna por índice (la columna 0 es Id_Prod)
+                if (row.Cells[0].Value != null &&
+                    Convert.ToInt32(row.Cells[0].Value) == idProducto)
+                {
+                    row.Selected = true;
+                    dataGridInventarioProducto.FirstDisplayedScrollingRowIndex = row.Index;
+                    break;
+                }
+            }
+        }
+
+        private async void VerificarStockMateriaPrima()
+        {
+            try
+            {
+                var materiasPrimas = _materiaPrimaNeg.ObtenerMateriasPrimas()
+                                        .Where(m => m.Stock <= 5)
+                                        .ToList();
+
+                if (materiasPrimas.Any())
+                {
+                    // Notificación resumen
+                    Notificar("advertencia",
+                             $"{materiasPrimas.Count} materias primas con stock bajo",
+                             () => {
+                                 tabControlInicio.SelectedTab = tabMateriaP;
+                                 CargarMateriasPrimas();
+                             });
+
+                    await Task.Delay(3000);
+
+                    // Notificaciones individuales
+                    foreach (var m in materiasPrimas)
+                    {
+                        if (this.IsDisposed) return;
+
+                        Notificar("advertencia",
+                                $"Stock bajo MP: {m.Nombre} ({m.Stock} unidades)",
+                                () => {
+                                    tabControlInicio.SelectedTab = tabMateriaP;
+                                    ResaltarMateriaPrimaEnDataGrid(m.IdMateriaPrima);
+                                });
+
+                        await Task.Delay(1500);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Notificar("error", $"Error al verificar stock MP: {ex.Message}");
+            }
+        }
+
+        private void ResaltarMateriaPrimaEnDataGrid(int idMateriaPrima)
+        {
+            if (dataGridMP.InvokeRequired)
+            {
+                dataGridMP.Invoke(new Action<int>(ResaltarMateriaPrimaEnDataGrid), idMateriaPrima);
+                return;
+            }
+
+            foreach (DataGridViewRow row in dataGridMP.Rows)
+            {
+                if (row.Cells["IdMateriaPrima"].Value != null &&
+                    Convert.ToInt32(row.Cells["IdMateriaPrima"].Value) == idMateriaPrima)
+                {
+                    row.Selected = true;
+                    dataGridMP.FirstDisplayedScrollingRowIndex = row.Index;
+                    break;
+                }
+            }
         }
 
         private void InicializarComboBox(ComboBox comboBox, string[] items)
@@ -962,6 +1159,19 @@ namespace C_Presentacion
         private void cmbStockMP_SelectedIndexChanged(object sender, EventArgs e)
         {
             FiltrarMateriaPrima();
+        }
+
+        private void TimerNotificacione_Tick(object? sender, EventArgs e)
+        {
+            try
+            {
+                VerificarStockProductos();
+                VerificarStockMateriaPrima();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error en verificación periódica: {ex.Message}");
+            }
         }
     }
 }
