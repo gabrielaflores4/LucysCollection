@@ -6,6 +6,8 @@ using System.DirectoryServices.ActiveDirectory;
 using System.Globalization;
 using System.Windows.Forms.DataVisualization.Charting;
 using Tulpep.NotificationWindow;
+using iTextSharp.text.pdf;
+using iTextSharp.text;
 
 namespace C_Presentacion
 {
@@ -57,7 +59,7 @@ namespace C_Presentacion
             ConfigurarGrafico();
             CargarEstadisticas();
 
-            timerNotificaciones.Interval = 300000; 
+            timerNotificaciones.Interval = 300000;
             timerNotificaciones.Tick += TimerNotificacione_Tick;
 
             VerificarStockProductos();
@@ -92,22 +94,22 @@ namespace C_Presentacion
                     popup.BodyColor = Color.FromArgb(76, 175, 80);
                     popup.TitleColor = Color.White;
                     popup.ContentColor = Color.White;
-                    popup.Image = SystemIcons.Information.ToBitmap(); 
+                    popup.Image = SystemIcons.Information.ToBitmap();
                     break;
                 case "error":
-                    popup.BodyColor = Color.FromArgb(244, 67, 54); 
+                    popup.BodyColor = Color.FromArgb(244, 67, 54);
                     popup.TitleColor = Color.White;
                     popup.ContentColor = Color.White;
-                    popup.Image = SystemIcons.Error.ToBitmap(); 
+                    popup.Image = SystemIcons.Error.ToBitmap();
                     break;
                 case "advertencia":
-                    popup.BodyColor = Color.FromArgb(255, 193, 7); 
+                    popup.BodyColor = Color.FromArgb(255, 193, 7);
                     popup.TitleColor = Color.Black;
                     popup.ContentColor = Color.Black;
-                    popup.Image = SystemIcons.Warning.ToBitmap(); 
+                    popup.Image = SystemIcons.Warning.ToBitmap();
                     break;
                 default: // Info
-                    popup.BodyColor = Color.FromArgb(33, 150, 243); 
+                    popup.BodyColor = Color.FromArgb(33, 150, 243);
                     popup.TitleColor = Color.White;
                     popup.ContentColor = Color.White;
                     popup.Image = SystemIcons.Information.ToBitmap();
@@ -136,7 +138,8 @@ namespace C_Presentacion
                     // Mostrar notificación resumen
                     Notificar("advertencia",
                              $"{productos.Count} productos con stock bajo",
-                             () => {
+                             () =>
+                             {
                                  tabControlInicio.SelectedTab = tabInventario;
                                  // Forzar la actualización del DataGrid
                                  CargarProductos();
@@ -152,7 +155,8 @@ namespace C_Presentacion
 
                         Notificar("advertencia",
                                 $"Stock bajo: {p.Nombre} ({p.Stock} unidades)",
-                                () => {
+                                () =>
+                                {
                                     tabControlInicio.SelectedTab = tabInventario;
                                     // Resaltar el producto en el DataGrid
                                     ResaltarProductoEnDataGrid(p.Id_Prod);
@@ -202,7 +206,8 @@ namespace C_Presentacion
                     // Notificación resumen
                     Notificar("advertencia",
                              $"{materiasPrimas.Count} materias primas con stock bajo",
-                             () => {
+                             () =>
+                             {
                                  tabControlInicio.SelectedTab = tabMateriaP;
                                  CargarMateriasPrimas();
                              });
@@ -216,7 +221,8 @@ namespace C_Presentacion
 
                         Notificar("advertencia",
                                 $"Stock bajo MP: {m.Nombre} ({m.Stock} unidades)",
-                                () => {
+                                () =>
+                                {
                                     tabControlInicio.SelectedTab = tabMateriaP;
                                     ResaltarMateriaPrimaEnDataGrid(m.IdMateriaPrima);
                                 });
@@ -1173,5 +1179,86 @@ namespace C_Presentacion
                 Debug.WriteLine($"Error en verificación periódica: {ex.Message}");
             }
         }
+
+        private void GenerarPedidoMateriaPrimaPDF()
+        {
+            try
+            {
+                List<MateriaPrima> lista = new MateriaPrimaNeg().ObtenerMateriasPrimas();
+
+                var bajoStock = lista.Where(mp => mp.Stock <= 10 && mp.Proveedor != null).ToList();
+
+                if (!bajoStock.Any())
+                {
+                    MessageBox.Show("No hay materias primas con stock bajo.");
+                    return;
+                }
+
+                // Agrupar por proveedor
+                var gruposPorProveedor = bajoStock.GroupBy(mp => mp.Proveedor.NombreProv);
+
+                // Crear carpeta de pedidos
+                string carpetaBase = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "PedidosPorProveedor");
+                Directory.CreateDirectory(carpetaBase);
+
+                foreach (var grupo in gruposPorProveedor)
+                {
+                    string proveedorNombre = grupo.Key;
+                    string nombreArchivo = $"Pedido_{proveedorNombre}_{DateTime.Now:yyyyMMdd_HHmmss}.pdf";
+                    string ruta = Path.Combine(carpetaBase, nombreArchivo);
+
+                    Document doc = new Document(PageSize.A4, 40, 40, 40, 40);
+                    PdfWriter.GetInstance(doc, new FileStream(ruta, FileMode.Create));
+                    doc.Open();
+
+                    // Título
+                    Paragraph titulo = new Paragraph($"Lucy’s Collections\nPEDIDO A PROVEEDOR: {proveedorNombre}", FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 16));
+                    titulo.Alignment = Element.ALIGN_CENTER;
+                    doc.Add(titulo);
+                    doc.Add(new Paragraph(" "));
+                    doc.Add(new Paragraph("Fecha: " + DateTime.Now.ToString("dd/MM/yyyy")));
+                    doc.Add(new Paragraph(" "));
+
+                    // Tabla de productos
+                    PdfPTable tabla = new PdfPTable(4);
+                    tabla.WidthPercentage = 100;
+                    tabla.SetWidths(new float[] { 3, 1, 1, 2 });
+
+                    tabla.AddCell("Materia Prima");
+                    tabla.AddCell("Stock");
+                    tabla.AddCell("Unidad");
+                    tabla.AddCell("Cantidad a Pedir");
+
+                    foreach (var mp in grupo)
+                    {
+                        tabla.AddCell(mp.Nombre);
+                        tabla.AddCell(mp.Stock.ToString());
+                        tabla.AddCell("Unidad"); 
+                        tabla.AddCell("_________");
+                    }
+
+                    doc.Add(tabla);
+
+                    // Firma
+                    doc.Add(new Paragraph("\n\nFirma del Encargado: ____________________________\n\n"));
+                    doc.Add(new Paragraph($"Firma del Proveedor: ____________________________"));
+
+                    doc.Close();
+                }
+
+                MessageBox.Show("Reportes generados correctamente.");
+                System.Diagnostics.Process.Start("explorer.exe", carpetaBase);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al generar pedidos: " + ex.Message);
+            }
+        }
+
+        private void btnReporteMP_Click(object sender, EventArgs e)
+        {
+            GenerarPedidoMateriaPrimaPDF();
+        }
     }
+
 }

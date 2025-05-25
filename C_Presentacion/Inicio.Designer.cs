@@ -38,13 +38,13 @@
             DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Inicio));
             DataGridViewCellStyle dataGridViewCellStyle7 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle8 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle9 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle10 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle11 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle12 = new DataGridViewCellStyle();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Inicio));
             pictureBox1 = new PictureBox();
             lblDashboard = new Label();
             lblNombreUsuario = new Label();
@@ -107,6 +107,7 @@
             tbBusquedaEmpleados = new TextBox();
             label1 = new Label();
             tabMateriaP = new TabPage();
+            btnReporteMP = new Button();
             cmbStockMP = new ComboBox();
             cmbPrecioMP = new ComboBox();
             btnBucasrMateria = new PictureBox();
@@ -899,6 +900,7 @@
             // tabMateriaP
             // 
             tabMateriaP.BackColor = Color.FromArgb(212, 221, 221, 221);
+            tabMateriaP.Controls.Add(btnReporteMP);
             tabMateriaP.Controls.Add(cmbStockMP);
             tabMateriaP.Controls.Add(cmbPrecioMP);
             tabMateriaP.Controls.Add(btnBucasrMateria);
@@ -907,11 +909,25 @@
             tabMateriaP.Controls.Add(btnAgregarMateriaP);
             tabMateriaP.Controls.Add(tbBusquedaMateriaPrima);
             tabMateriaP.Controls.Add(label10);
-            tabMateriaP.Location = new Point(4, 24);
+            tabMateriaP.Location = new Point(4, 28);
             tabMateriaP.Name = "tabMateriaP";
-            tabMateriaP.Size = new Size(1093, 706);
+            tabMateriaP.Size = new Size(1093, 702);
             tabMateriaP.TabIndex = 3;
             tabMateriaP.Text = "tabPage1";
+            // 
+            // btnReporteMP
+            // 
+            btnReporteMP.BackColor = Color.Transparent;
+            btnReporteMP.BackgroundImage = (Image)resources.GetObject("btnReporteMP.BackgroundImage");
+            btnReporteMP.BackgroundImageLayout = ImageLayout.Stretch;
+            btnReporteMP.FlatStyle = FlatStyle.Flat;
+            btnReporteMP.ForeColor = Color.FromArgb(221, 221, 221);
+            btnReporteMP.Location = new Point(20, 627);
+            btnReporteMP.Name = "btnReporteMP";
+            btnReporteMP.Size = new Size(189, 41);
+            btnReporteMP.TabIndex = 33;
+            btnReporteMP.UseVisualStyleBackColor = false;
+            btnReporteMP.Click += btnReporteMP_Click;
             // 
             // cmbStockMP
             // 
@@ -1389,5 +1405,6 @@
         private DataGridViewTextBoxColumn Prov_MP;
         private DataGridViewTextBoxColumn FechaIngMP;
         private System.Windows.Forms.Timer TimerNotificacione;
+        private Button btnReporteMP;
     }
 }
