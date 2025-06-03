@@ -385,6 +385,7 @@
             lblVentasDiarias.Size = new Size(40, 45);
             lblVentasDiarias.TabIndex = 12;
             lblVentasDiarias.Text = "0";
+            lblVentasDiarias.Click += lblVentasDiarias_Click;
             // 
             // label9
             // 
@@ -909,9 +910,9 @@
             tabMateriaP.Controls.Add(btnAgregarMateriaP);
             tabMateriaP.Controls.Add(tbBusquedaMateriaPrima);
             tabMateriaP.Controls.Add(label10);
-            tabMateriaP.Location = new Point(4, 28);
+            tabMateriaP.Location = new Point(4, 24);
             tabMateriaP.Name = "tabMateriaP";
-            tabMateriaP.Size = new Size(1093, 702);
+            tabMateriaP.Size = new Size(1093, 706);
             tabMateriaP.TabIndex = 3;
             tabMateriaP.Text = "tabPage1";
             // 

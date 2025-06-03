@@ -319,10 +319,8 @@ namespace C_Negocios
 
             try
             {
-                // Obtener todas las tallas
                 var todasLasTallas = productoDatos.ObtenerTodasLasTallas();
 
-                // Obtener tallas ya usadas por este producto
                 var tallasRegistradas = productoDatos.ObtenerProductosConTallasPorNombre(nombreProducto)
                     .Select(p => p.Talla.Id_Talla)
                     .Distinct()
@@ -336,6 +334,21 @@ namespace C_Negocios
             catch (Exception ex)
             {
                 throw new Exception($"Error al obtener tallas no registradas: {ex.Message}", ex);
+            }
+        }
+
+        public List<Producto> ObtenerProductosConTallasYStockPorNombre(string nombreProducto)
+        {
+            if (string.IsNullOrWhiteSpace(nombreProducto))
+                throw new ArgumentException("El nombre del producto no puede estar vacío");
+
+            try
+            {
+                return productoDatos.ObtenerProductosConTallasYStockPorNombre(nombreProducto);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error al obtener productos con tallas y stock por nombre: {ex.Message}", ex);
             }
         }
 

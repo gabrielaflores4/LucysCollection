@@ -6,11 +6,15 @@ namespace C_Presentacion
     public partial class RegistroUsuario : Form
     {
         private UsuarioNeg usuarioNegocio;
-        public RegistroUsuario()
+        private Inicio _formInicio;
+
+        public RegistroUsuario(Inicio formInicio)
         {
             InitializeComponent();
             usuarioNegocio = new UsuarioNeg();
+            _formInicio = formInicio;
         }
+
         private bool EsFormularioValido()
         {
             BorrarErrorProvider();
@@ -108,7 +112,14 @@ namespace C_Presentacion
                 if (idUsuario > 0)
                 {
                     MessageBox.Show($"Usuario registrado exitosamente!", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
                     LimpiarFormulario();
+
+                    if (_formInicio != null)
+                    {
+                        _formInicio.CargarEmpleados();
+                    }
+
                     this.Close();
                 }
                 else

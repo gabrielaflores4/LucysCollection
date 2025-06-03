@@ -6,10 +6,29 @@ namespace C_Presentacion
     public partial class VistaClientes : Form
     {
         public Cliente? ClienteSeleccionado { get; private set; }
-        public VistaClientes()
+        private string _rolUsuario;
+        public VistaClientes(string rolUsuario)
         {
             InitializeComponent();
+           
+            _rolUsuario = rolUsuario;
             CargarClientesEnDataGrid();
+            ConfigurarVisibilidadBotones();
+        }
+
+        private void ConfigurarVisibilidadBotones()
+        {
+            // Mostrar/ocultar botones según el rol
+            bool esAdministrador = _rolUsuario == "Administrador";
+
+            btnAgregarCli.Visible = esAdministrador;
+            btnEditarCli.Visible = esAdministrador;
+            btnEliminarCli.Visible = esAdministrador;
+
+            if (!esAdministrador)
+            {
+                this.Width -= 150; // Reducir ancho
+            }
         }
 
         private void ConfigurarDataGrid()

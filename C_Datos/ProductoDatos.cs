@@ -840,5 +840,56 @@ namespace C_Datos
             return idsTallas;
         }
 
+        public List<Producto> ObtenerProductosConTallasYStockPorNombre(string nombreProducto)
+        {
+            var productos = new List<Producto>();
+
+            using (var conexion = Conexion.ObtenerConexion())
+            {
+                using (var cmd = new NpgsqlCommand(
+                    @"SELECT 
+                  p.id_producto,
+                  p.nombre_prod,
+                  t.id_talla,
+                  t.descripcion,
+                  p.precio_unit,
+                  p.stock
+              FROM 
+                  Producto p
+              JOIN 
+                  Tallas t ON p.id_talla = t.id_talla
+              WHERE 
+                  p.nombre_prod = @nombreProducto AND p.stock > 0",
+                    conexion))
+                {
+                    cmd.Parameters.AddWithValue("@nombreProducto", nombreProducto);
+
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            int idProducto = reader.GetInt32(0);
+                            string nombre = reader.GetString(1);
+                            int idTalla = reader.GetInt32(2);
+                            string descripcionTalla = reader.GetString(3);
+                            decimal precio = reader.GetDecimal(4);
+                            int stock = reader.GetInt32(5);
+
+                            var talla = new Talla
+                            {
+                                Id_Talla = idTalla,
+                                Descripcion = descripcionTalla
+                            };
+
+                            var producto = new Producto(idProducto, nombre, talla, precio, stock);
+                            productos.Add(producto);
+                        }
+                    }
+                }
+            }
+
+            return productos;
+        }
+
     }
 }

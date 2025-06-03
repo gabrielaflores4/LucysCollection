@@ -18,8 +18,10 @@ namespace C_Presentacion
         private List<DetalleVenta> detallesVenta;
         private ProductoNeg productoNeg = new ProductoNeg();
         private ClienteNeg clienteNeg = new ClienteNeg();
-        private decimal montoPagado;
         private Cliente? clienteSeleccionado;
+        private decimal montoPagadoGlobal;
+        private decimal totalVentaGlobal;
+        private decimal cambioGlobal;
 
         public Ventas(int clienteId = 0)
         {
@@ -231,7 +233,8 @@ namespace C_Presentacion
 
         private void AbrirVistaClientes()
         {
-            using (var frmVistaClientes = new VistaClientes())
+            string rolUsuario = Sesion.UsuarioActivo?.Rol ?? "Empleado";
+            using (var frmVistaClientes = new VistaClientes(rolUsuario))
             {
                 if (frmVistaClientes.ShowDialog() == DialogResult.OK &&
                     frmVistaClientes.ClienteSeleccionado != null)
@@ -273,6 +276,7 @@ namespace C_Presentacion
         private void btnAgregarRegProd_Click(object sender, EventArgs e)
         {
             if (!ValidarAgregarProducto()) return;
+
             try
             {
                 if (!(cbProductos.SelectedItem is Producto productoSeleccionado) ||
@@ -283,9 +287,27 @@ namespace C_Presentacion
                 }
 
                 int cantidad = (int)nbCantidad.Value;
-                int stockDisponible = productoNeg.ObtenerStockPorProductoYTalla(
-                    productoSeleccionado.Id_Prod,
-                    tallaSeleccionada.Id_Talla);
+
+                // Obtener lista de variantes del producto con stock por nombre
+                var productosConStock = productoNeg.ObtenerProductosConTallasYStockPorNombre(productoSeleccionado.Nombre.Trim());
+
+                Debug.WriteLine($"Productos con stock para '{productoSeleccionado.Nombre}': {productosConStock.Count}");
+                foreach (var p in productosConStock)
+                {
+                    Debug.WriteLine($"ProductoId: {p.Id_Prod}, Nombre: {p.Nombre}, TallaId: {p.Talla.Id_Talla}, Stock: {p.Stock}");
+                }
+
+                // Buscar el producto con ID único que coincida con la talla seleccionada
+                var productoConStock = productosConStock.FirstOrDefault(p =>
+                    p.Talla.Id_Talla == tallaSeleccionada.Id_Talla);
+
+                if (productoConStock == null)
+                {
+                    MessageBox.Show("No se encontró stock disponible para el producto y talla seleccionados.");
+                    return;
+                }
+
+                int stockDisponible = productoConStock.Stock;
 
                 if (cantidad > stockDisponible)
                 {
@@ -293,14 +315,13 @@ namespace C_Presentacion
                     return;
                 }
 
-                // Verificar si ya existe este producto con la misma talla en la venta
+                // Verificar si ya existe este producto con esa talla exacta en los detalles
                 var detalleExistente = detallesVenta.FirstOrDefault(d =>
-                    d.Producto.Id_Prod == productoSeleccionado.Id_Prod &&
-                    d.Producto.Talla.Id_Talla == tallaSeleccionada.Id_Talla);
+                    d.ProductoId == productoConStock.Id_Prod);
 
                 if (detalleExistente != null)
                 {
-                    // Si ya existe, actualizar la cantidad (si no supera el stock)
+                    // Si ya existe, sumar cantidad (si no supera el stock)
                     if (detalleExistente.Cantidad + cantidad > stockDisponible)
                     {
                         MessageBox.Show($"No hay suficiente stock para agregar más unidades. Stock disponible: {stockDisponible}");
@@ -310,32 +331,31 @@ namespace C_Presentacion
                 }
                 else
                 {
-                    // Crear nuevo detalle
+                    // Crear nuevo detalle con el ID único de ese producto+talla
                     DetalleVenta detalle = new DetalleVenta
                     {
-                        ProductoId = productoSeleccionado.Id_Prod,
+                        ProductoId = productoConStock.Id_Prod,
                         Cantidad = cantidad,
-                        PrecioUnitario = productoSeleccionado.Precio,
+                        PrecioUnitario = productoConStock.Precio,
                         Producto = new Producto
                         {
-                            Id_Prod = productoSeleccionado.Id_Prod,
-                            Nombre = productoSeleccionado.Nombre,
-                            Precio = productoSeleccionado.Precio,
-                            Talla = tallaSeleccionada,
+                            Id_Prod = productoConStock.Id_Prod,
+                            Nombre = productoConStock.Nombre,
+                            Precio = productoConStock.Precio,
+                            Talla = productoConStock.Talla,
                             Stock = stockDisponible
                         }
                     };
                     detallesVenta.Add(detalle);
-
                 }
 
                 ActualizarDataGrid();
                 LimpiarControles();
-
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Error al agregar producto: " + ex.Message);
+                Debug.WriteLine("Error en btnAgregarRegProd_Click: " + ex.ToString());
             }
         }
 
@@ -390,13 +410,16 @@ namespace C_Presentacion
             // Obtener la fila seleccionada
             DataGridViewRow filaSeleccionada = dataGridVentaProducto.SelectedRows[0];
 
+            // Obtener el ID del producto
             int idProducto = Convert.ToInt32(filaSeleccionada.Cells["id_prod"].Value);
-            int tallaProducto = Convert.ToInt32(filaSeleccionada.Cells["Talla"].Value);
+
+            // Obtener la descripción de la talla (asumiendo que es lo que se muestra)
+            string descripcionTalla = filaSeleccionada.Cells["Talla"].Value.ToString();
 
             // Eliminar el detalle de la lista
             detallesVenta.RemoveAll(d =>
                 d.Producto.Id_Prod == idProducto &&
-                d.Producto.Talla.Id_Talla == tallaProducto);
+                d.Producto.Talla.Descripcion == descripcionTalla);
 
             // Actualizar el DataGridView
             ActualizarDataGrid();
@@ -426,10 +449,11 @@ namespace C_Presentacion
                 {
                     if (clienteSeleccionado == null)
                     {
-                        var respuesta = MessageBox.Show("¿Desea registrar este cliente antes de continuar?",
-                                                        "Cliente no registrado",
-                                                        MessageBoxButtons.YesNo,
-                                                        MessageBoxIcon.Question);
+                        var respuesta = MessageBox.Show(
+                            "¿Desea registrar este cliente antes de continuar?",
+                            "Cliente no registrado",
+                            MessageBoxButtons.YesNo,
+                            MessageBoxIcon.Question);
 
                         if (respuesta == DialogResult.Yes)
                         {
@@ -466,6 +490,11 @@ namespace C_Presentacion
                     return; // Si el usuario cancela el pago
                 }
 
+                // Guardar valores globales para imprimir
+                montoPagadoGlobal = montoPagado;
+                totalVentaGlobal = totalVenta;
+                cambioGlobal = cambio;
+
                 // Registrar la venta
                 Venta venta = new Venta
                 {
@@ -484,20 +513,19 @@ namespace C_Presentacion
                 string nombreArchivo = $"Comprobante_{marcaTiempo}.pdf";
                 string rutaCompleta = Path.Combine(carpetaDestino, nombreArchivo);
 
-                // Generar PDF
-                GenerarComprobantePDF(rutaCompleta, fechaHoraActual, marcaTiempo, totalVenta);
+                // Generar PDF (usar variables globales)
+                GenerarComprobantePDF(rutaCompleta, fechaHoraActual, marcaTiempo, totalVentaGlobal, montoPagadoGlobal, cambioGlobal);
 
                 MessageBox.Show(
                     $"Venta registrada exitosamente.\n\n" +
-                    $"Total: {totalVenta:C}\n" +
-                    $"Monto recibido: {montoPagado:C}\n" +
-                    $"Cambio: {cambio:C}\n\n" +
+                    $"Total: {totalVentaGlobal:C}\n" +
+                    $"Monto recibido: {montoPagadoGlobal:C}\n" +
+                    $"Cambio: {cambioGlobal:C}\n\n" +
                     $"Comprobante guardado en:\n{rutaCompleta}",
                     "Éxito",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Information
                 );
-
 
                 // Mostrar vista previa y limpiar
                 ImprimirTicketConVistaPrevia();
@@ -517,6 +545,7 @@ namespace C_Presentacion
             montoPagado = 0;
             cambio = 0;
             string input;
+            decimal tolerancia = 0.01m;
 
             do
             {
@@ -548,9 +577,12 @@ namespace C_Presentacion
                     continue;
                 }
 
-                cambio = montoPagado - totalVenta;
+                cambio = Math.Round(montoPagado, 2) - Math.Round(totalVenta, 2);
+                Debug.WriteLine($"montoPagado: {montoPagado}");
+                Debug.WriteLine($"totalVenta: {totalVenta}");
+                Debug.WriteLine($"cambio calculado: {cambio}");
 
-                if (cambio < 0)
+                if (cambio < -tolerancia)
                 {
                     MessageBox.Show($"Monto insuficiente. Faltan {Math.Abs(cambio):C}", "Error",
                                   MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -606,8 +638,11 @@ namespace C_Presentacion
             }
         }
 
-        private void GenerarComprobantePDF(string rutaCompleta, DateTime fechaHoraActual, string marcaTiempo, decimal totalVenta)
+        private void GenerarComprobantePDF(string rutaCompleta, DateTime fechaHoraActual, string marcaTiempo, decimal totalVenta, decimal montoPagado, decimal cambio)
         {
+            BaseColor lightGray = new BaseColor(211, 211, 211);
+            BaseColor orange = new BaseColor(255, 165, 0);     
+
             using (FileStream fs = new FileStream(rutaCompleta, FileMode.Create))
             {
                 Document doc = new Document(PageSize.A4, 10, 10, 10, 10);
@@ -631,28 +666,43 @@ namespace C_Presentacion
                 // Tabla de productos
                 PdfPTable tabla = new PdfPTable(4);
                 tabla.WidthPercentage = 100;
-                tabla.AddCell("Producto");
-                tabla.AddCell("Precio");
-                tabla.AddCell("Cantidad");
-                tabla.AddCell("Subtotal");
+
+                // Agregar encabezados con fondo gris claro
+                var headerFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 12);
+                string[] headers = { "Producto", "Precio", "Cantidad", "Subtotal" };
+                foreach (var header in headers)
+                {
+                    PdfPCell cell = new PdfPCell(new Phrase(header, headerFont));
+                    cell.BackgroundColor = lightGray;
+                    cell.HorizontalAlignment = Element.ALIGN_CENTER;
+                    tabla.AddCell(cell);
+                }
 
                 foreach (var item in detallesVenta)
                 {
-                    tabla.AddCell(item.Producto.Nombre.Length > 15 ? item.Producto.Nombre.Substring(0, 15) : item.Producto.Nombre);
-                    tabla.AddCell(item.PrecioUnitario.ToString("C"));
-                    tabla.AddCell(item.Cantidad.ToString());
+                    string nombreProd = item.Producto.Nombre.Length > 15 ? item.Producto.Nombre.Substring(0, 15) : item.Producto.Nombre;
+                    tabla.AddCell(new PdfPCell(new Phrase(nombreProd)));
+                    tabla.AddCell(new PdfPCell(new Phrase(item.PrecioUnitario.ToString("C"))) { HorizontalAlignment = Element.ALIGN_RIGHT });
+                    tabla.AddCell(new PdfPCell(new Phrase(item.Cantidad.ToString())) { HorizontalAlignment = Element.ALIGN_CENTER });
                     decimal subtotal = item.PrecioUnitario * item.Cantidad;
-                    tabla.AddCell(subtotal.ToString("C"));
+                    tabla.AddCell(new PdfPCell(new Phrase(subtotal.ToString("C"))) { HorizontalAlignment = Element.ALIGN_RIGHT });
                 }
 
                 doc.Add(tabla);
                 doc.Add(new Paragraph("\n"));
-                doc.Add(new Paragraph($"Total: {totalVenta:C}"));
+                doc.Add(new Paragraph($"Total: {totalVenta:C}", FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 12)));
 
                 // Información de pago
-                decimal cambio = montoPagado - totalVenta;
-                doc.Add(new Paragraph($"Pagó con: {montoPagado:C}"));
-                doc.Add(new Paragraph($"Cambio: {cambio:C}"));
+                if (montoPagado < totalVenta)
+                {
+                    doc.Add(new Paragraph("¡Monto insuficiente!", FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 12, orange)));
+                    doc.Add(new Paragraph($"Pagó con: {montoPagado:C}"));
+                }
+                else
+                {
+                    doc.Add(new Paragraph($"Pagó con: {montoPagado:C}"));
+                    doc.Add(new Paragraph($"Cambio: {cambio:C}"));
+                }
 
                 // Pie de comprobante
                 doc.Add(new Paragraph("\n"));
@@ -661,24 +711,38 @@ namespace C_Presentacion
 
                 doc.Close();
             }
-
         }
+
+
 
         private void ImprimirTicketConVistaPrevia()
         {
             PrintDocument doc = new PrintDocument();
+
+            // Establecer tamaño personalizado tipo ticket (80mm x 300mm)
+            PaperSize ticketSize = new PaperSize("Ticket", 315, 1181); // 3.15in x 11.81in
+            doc.DefaultPageSettings.PaperSize = ticketSize;
+            doc.DefaultPageSettings.Margins = new Margins(5, 5, 5, 5); // márgenes pequeños
+
             doc.PrintPage += new PrintPageEventHandler(Imprimir);
 
-            PrintPreviewDialog vistaPrevia = new PrintPreviewDialog();
-            vistaPrevia.Document = doc;
+            PrintPreviewDialog vistaPrevia = new PrintPreviewDialog
+            {
+                Document = doc,
+                Width = 600,
+                Height = 800
+            };
+
             vistaPrevia.ShowDialog();
         }
+
+
         private void Imprimir(object sender, System.Drawing.Printing.PrintPageEventArgs e)
         {
             if (clienteSeleccionado == null)
             {
                 MessageBox.Show("No hay cliente seleccionado para imprimir el ticket.", "Error",
-                               MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                MessageBoxButtons.OK, MessageBoxIcon.Error);
                 e.HasMorePages = false;
                 return;
             }
@@ -686,78 +750,101 @@ namespace C_Presentacion
             string nombreCliente = clienteSeleccionado.NombreCompleto;
             int idCliente = clienteSeleccionado.Id;
 
-            // Ensure e.Graphics is not null before using it
             if (e.Graphics == null)
             {
                 MessageBox.Show("Error al obtener el objeto Graphics para imprimir.", "Error",
-                               MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                MessageBoxButtons.OK, MessageBoxIcon.Error);
                 e.HasMorePages = false;
                 return;
             }
 
-            using Graphics g = e.Graphics;
-            System.Drawing.Font monoFont = new System.Drawing.Font("Courier New", 12);
-            int yPos = 30;
+            Graphics g = e.Graphics;
 
-            g.DrawString("Lucy´s Collections", new System.Drawing.Font("Arial", 14, FontStyle.Bold), Brushes.Black, 100, yPos); yPos += 30;
-
-            g.DrawString($"Ticket: #{ventaNeg.ObtenerNumeroTicket().ToString("D5")}", monoFont, Brushes.Black, 10, yPos);
-            yPos += 20;
-            g.DrawString($"Fecha: {DateTime.Now:dd/MM/yyyy}", monoFont, Brushes.Black, 10, yPos);
-            yPos += 20;
-            g.DrawString($"Hora: {DateTime.Now:HH:mm:ss}", monoFont, Brushes.Black, 10, yPos);
-            yPos += 30;
-            g.DrawString("NIT: 0614-080322-115-2", monoFont, Brushes.Black, 10, yPos); yPos += 20;
-            g.DrawString("NRC: 316440-2", monoFont, Brushes.Black, 10, yPos); yPos += 20;
-            g.DrawString("Dirección: Avenida 5 de noviembre, Atiquizaya, Ahuachapán", monoFont, Brushes.Black, 10, yPos); yPos += 30;
-
-            //Datos del cliente//
-            g.DrawString("Cliente:", new System.Drawing.Font("Courier New", 12, FontStyle.Bold), Brushes.Black, 10, yPos); yPos += 30;
-            g.DrawString($"Nombre: {nombreCliente}", monoFont, Brushes.Black, 10, yPos); yPos += 20;
-            g.DrawString($"ID Cliente: {idCliente}", monoFont, Brushes.Black, 10, yPos); yPos += 20;
-            g.DrawString($"Fecha Registro: {clienteSeleccionado.FechaRegistro:dd/MM/yyyy}", monoFont, Brushes.Black, 10, yPos); yPos += 30;
-
-            g.DrawString("Productos:", new System.Drawing.Font("Courier New", 12, FontStyle.Bold), Brushes.Black, 10, yPos += 20);
-            yPos += 30;
-
-            // Cabeza de la tablita 
-            string encabezado = string.Format("{0,-15} | {1,8} | {2,8} | {3,10}", "Producto", "Precio", "Cantidad", "Sub Total");
-            g.DrawString(encabezado, monoFont, Brushes.Black, 10, yPos += 20);
-            yPos += 20;
-
-            // Información de los productos 
-            foreach (var item in detallesVenta)
+            using (var monoFont = new System.Drawing.Font("Courier New", 9))
+            using (var boldFont = new System.Drawing.Font("Courier New", 9, FontStyle.Bold))
+            using (var headerFont = new System.Drawing.Font("Arial", 12, FontStyle.Bold))
             {
-                string linea = string.Format("{0,-15} | {1,8:C} | {2,8} | {3,10:C}",
-                item.Producto.Nombre.Length > 15 ? item.Producto.Nombre.Substring(0, 15) : item.Producto.Nombre,
-                item.PrecioUnitario,
-                item.Cantidad,
-                item.Cantidad * item.PrecioUnitario);
-                g.DrawString(linea, monoFont, Brushes.Black, 10, yPos += 20);
-                yPos += 30;
-            }
+                int leftMargin = 10;
+                int yPos = 10;
 
-            // Total
-            decimal totalVenta = detallesVenta.Sum(d => d.PrecioUnitario * d.Cantidad);
-            g.DrawString($"Total: {totalVenta:C}", monoFont, Brushes.Black, 10, yPos += 25);
-            yPos += 20;
+                // Encabezado
+                g.DrawString("Lucy´s Collections", headerFont, Brushes.Black, leftMargin, yPos);
+                yPos += 25;
 
-            //Pago y cambio//
-            if (montoPagado >= totalVenta)
-            {
-                decimal cambio = montoPagado - totalVenta;
-                g.DrawString($"Pago con: {montoPagado:C}", monoFont, Brushes.Black, 10, yPos);
+                g.DrawString($"Ticket: #{ventaNeg.ObtenerNumeroTicket():D5}", monoFont, Brushes.Black, leftMargin, yPos);
+                yPos += 15;
+                g.DrawString($"Fecha: {DateTime.Now:dd/MM/yyyy}", monoFont, Brushes.Black, leftMargin, yPos);
+                yPos += 15;
+                g.DrawString($"Hora: {DateTime.Now:HH:mm:ss}", monoFont, Brushes.Black, leftMargin, yPos);
                 yPos += 20;
-                g.DrawString($"Cambio: {cambio:C}", monoFont, Brushes.Black, 10, yPos);
+
+                g.DrawString("NIT: 0614-080322-115-2", monoFont, Brushes.Black, leftMargin, yPos);
+                yPos += 15;
+                g.DrawString("NRC: 316440-2", monoFont, Brushes.Black, leftMargin, yPos);
+                yPos += 15;
+
+                g.DrawString("Dirección:", monoFont, Brushes.Black, leftMargin, yPos);
+                yPos += 15;
+                g.DrawString("Av. 5 de nov.,", monoFont, Brushes.Black, leftMargin + 10, yPos);
+                yPos += 15;
+                g.DrawString("Atiquizaya, Ahuachapán", monoFont, Brushes.Black, leftMargin + 10, yPos);
                 yPos += 20;
+
+                // Cliente
+                g.DrawString("Cliente:", boldFont, Brushes.Black, leftMargin, yPos);
+                yPos += 20;
+                g.DrawString($"Nombre: {nombreCliente}", monoFont, Brushes.Black, leftMargin, yPos);
+                yPos += 15;
+                g.DrawString($"Registro: {clienteSeleccionado.FechaRegistro:dd/MM/yyyy}", monoFont, Brushes.Black, leftMargin, yPos);
+                yPos += 20;
+
+                // Productos
+                g.DrawString("Productos:", boldFont, Brushes.Black, leftMargin, yPos);
+                yPos += 20;
+                g.DrawString("Producto       P.Unit  Cant Subtotal", monoFont, Brushes.Black, leftMargin, yPos);
+                yPos += 15;
+
+                foreach (var item in detallesVenta)
+                {
+                    string nombreProd = item.Producto.Nombre.Length > 12
+                        ? item.Producto.Nombre.Substring(0, 12)
+                        : item.Producto.Nombre;
+
+                    string linea = string.Format("{0,-12} {1,6:C} {2,5} {3,8:C}",
+                        nombreProd,
+                        item.PrecioUnitario,
+                        item.Cantidad,
+                        item.Cantidad * item.PrecioUnitario);
+
+                    g.DrawString(linea, monoFont, Brushes.Black, leftMargin, yPos);
+                    yPos += 15;
+                }
+
+                yPos += 10;
+                g.DrawString($"Total: {totalVentaGlobal:C}", boldFont, Brushes.Black, leftMargin, yPos);
+                yPos += 20;
+
+                if (montoPagadoGlobal >= totalVentaGlobal)
+                {
+                    g.DrawString($"Pago con: {montoPagadoGlobal:C}", monoFont, Brushes.Black, leftMargin, yPos);
+                    yPos += 15;
+                    g.DrawString($"Cambio: {cambioGlobal:C}", monoFont, Brushes.Black, leftMargin, yPos);
+                    yPos += 15;
+                }
+                else
+                {
+                    g.DrawString("Monto insuficiente.", monoFont, Brushes.Black, leftMargin, yPos);
+                    yPos += 20;
+                }
+
+                yPos += 10;
+                g.DrawString("¡Gracias por su compra!", boldFont, Brushes.Black, leftMargin + 30, yPos);
             }
-            else
-            {
-                g.DrawString("Monto insuficiente para completar la compra.", monoFont, Brushes.Black, 10, yPos);
-                yPos += 30;
-            }
-            g.DrawString("¡Gracias por su compra!", new System.Drawing.Font("Arial", 14, FontStyle.Bold), Brushes.Black, 80, yPos += 30);
+
+            e.HasMorePages = false;
         }
+
+
         private bool ignorarMensajeCliente = false;
 
         private void SeleccionarClientePorId(int clienteId)
@@ -810,82 +897,80 @@ namespace C_Presentacion
         private void cbTallasRegProd_SelectedIndexChanged(object? sender, EventArgs e)
         {
             if (cbTallasRegProd.SelectedItem is Talla tallaSeleccionada &&
-                cbProductos.SelectedItem is Producto productoSeleccionado)
+        cbProductos.SelectedItem is Producto productoSeleccionado)
             {
                 try
                 {
-                    // Obtener el stock disponible para la talla seleccionada
-                    int stockDisponible = productoNeg.ObtenerStockPorProductoYTalla(
-                        productoSeleccionado.Id_Prod,
-                        tallaSeleccionada.Id_Talla);
+                    // Obtener lista actualizada de productos con tallas y stock para ese nombre
+                    var productosConStock = productoNeg.ObtenerProductosConTallasYStockPorNombre(productoSeleccionado.Nombre);
 
-                    // Obtener todas las tallas disponibles para este producto
-                    List<Talla> tallasDelProducto = productoNeg.ObtenerTallasPorProducto(productoSeleccionado.Id_Prod);
-                    bool hayStockEnAlgunaTalla = false;
+                    // Buscar el stock para la talla seleccionada
+                    int stockDisponible = productosConStock
+                        .FirstOrDefault(p => p.Talla.Id_Talla == tallaSeleccionada.Id_Talla)?.Stock ?? 0;
 
-                    // Verificar si hay stock en al menos una talla
-                    foreach (var talla in tallasDelProducto)
-                    {
-                        int stockTalla = productoNeg.ObtenerStockPorProductoYTalla(productoSeleccionado.Id_Prod, talla.Id_Talla);
-                        if (stockTalla > 0)
-                        {
-                            hayStockEnAlgunaTalla = true;
-                            break;
-                        }
-                    }
+                    // Verificar si hay stock en alguna talla
+                    bool hayStockEnAlgunaTalla = productosConStock.Any();
 
-                    // Actualizar la etiqueta de stock
-                    lblStockDisponible.Text = $"Stock: {stockDisponible}";
-
-                    // Configurar el NumericUpDown
-                    nbCantidad.Minimum = 1;
-                    nbCantidad.Maximum = Math.Max(stockDisponible, 1);
-
-                    if (stockDisponible > 0)
-                    {
-                        nbCantidad.Value = Math.Min(Math.Max(1, nbCantidad.Value), nbCantidad.Maximum);
-                    }
-                    else
-                    {
-                        nbCantidad.Value = nbCantidad.Minimum;
-                    }
-
-                    bool hayStockEnEstaTalla = stockDisponible > 0;
-                    nbCantidad.Enabled = hayStockEnEstaTalla;
-                    btnAgregarRegProd.Enabled = hayStockEnEstaTalla;
-
-                    // Mostrar mensaje solo si NO hay stock en NINGUNA talla
-                    if (!hayStockEnAlgunaTalla)
-                    {
-                        MessageBox.Show("No hay stock disponible para este producto en ninguna talla",
-                                       "Stock Agotado",
-                                       MessageBoxButtons.OK,
-                                       MessageBoxIcon.Information);
-                    }
-                    else if (!hayStockEnEstaTalla)
-                    {
-                        // Mensaje opcional para talla específica (puedes eliminarlo si no lo deseas)
-                        lblStockDisponible.Text += " (Agotado)";
-                    }
+                    // Actualizar UI
+                    ActualizarControlesStock(stockDisponible, hayStockEnAlgunaTalla);
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show($"Error al actualizar stock: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    nbCantidad.Minimum = 1;
-                    nbCantidad.Maximum = 100;
-                    nbCantidad.Value = 1;
-                    lblStockDisponible.Text = "Stock: 0";
+                    ManejarErrorStock(ex);
                 }
             }
             else
             {
-                // Resetear valores
-                nbCantidad.Minimum = 1;
-                nbCantidad.Maximum = 100;
-                nbCantidad.Value = 1;
-                lblStockDisponible.Text = "Stock: 0";
+                ResetearControlesStock();
             }
         }
+
+        private void ActualizarControlesStock(int stockDisponible, bool hayStockEnAlgunaTalla)
+        {
+            // Actualizar etiqueta
+            lblStockDisponible.Text = stockDisponible > 0
+                ? $"Stock: {stockDisponible}"
+                : "Stock: 0 (Agotado)";
+
+            // Configurar NumericUpDown
+            nbCantidad.Minimum = 1;
+            nbCantidad.Maximum = Math.Max(stockDisponible, 1);
+            nbCantidad.Value = stockDisponible > 0 ? Math.Min(nbCantidad.Value, nbCantidad.Maximum) : 1;
+
+            // Habilitar/deshabilitar controles
+            bool hayStock = stockDisponible > 0;
+            nbCantidad.Enabled = hayStock;
+            btnAgregarRegProd.Enabled = hayStock;
+
+            // Mostrar mensajes
+            if (!hayStockEnAlgunaTalla)
+            {
+                MessageBox.Show("No hay stock disponible para este producto en ninguna talla",
+                              "Stock Agotado",
+                              MessageBoxButtons.OK,
+                              MessageBoxIcon.Information);
+            }
+        }
+
+        private void ManejarErrorStock(Exception ex)
+        {
+            MessageBox.Show($"Error al actualizar stock: {ex.Message}",
+                          "Error",
+                          MessageBoxButtons.OK,
+                          MessageBoxIcon.Error);
+            ResetearControlesStock();
+        }
+
+        private void ResetearControlesStock()
+        {
+            nbCantidad.Minimum = 1;
+            nbCantidad.Maximum = 100;
+            nbCantidad.Value = 1;
+            lblStockDisponible.Text = "Stock: 0";
+            nbCantidad.Enabled = false;
+            btnAgregarRegProd.Enabled = false;
+        }
+
 
         private void btnTodosProductos_Click(object sender, EventArgs e)
         {
@@ -933,31 +1018,59 @@ namespace C_Presentacion
 
         private void CargarTallasParaProductoSeleccionado(Producto producto)
         {
-            if (producto != null)
+            if (producto == null) return;
+
+            try
             {
-                try
+                cbTallasRegProd.BeginUpdate();
+                cbTallasRegProd.SelectedIndexChanged -= cbTallasRegProd_SelectedIndexChanged;
+
+                // Usar método nuevo que ya filtra por stock y tallas del producto
+                var productosConStock = productoNeg.ObtenerProductosConTallasYStockPorNombre(producto.Nombre);
+
+                // Obtener las tallas únicas de esos productos (con stock > 0)
+                var tallasConStock = productosConStock
+                    .Select(p => p.Talla)
+                    .Distinct()
+                    .OrderBy(t => t.Id_Talla)
+                    .ToList();
+
+                // Configurar ComboBox
+                cbTallasRegProd.DataSource = null;
+                cbTallasRegProd.Items.Clear();
+
+                if (tallasConStock.Any())
                 {
-                    cbTallasRegProd.SelectedIndexChanged -= cbTallasRegProd_SelectedIndexChanged;
-
-                    // Obtener tallas para el producto seleccionado
-                    List<Talla> tallasDelProducto = productoNeg.ObtenerTallasPorProducto(producto.Id_Prod);
-
-                    // Actualizar el ComboBox de tallas
-                    cbTallasRegProd.DataSource = tallasDelProducto;
+                    cbTallasRegProd.DataSource = tallasConStock;
                     cbTallasRegProd.DisplayMember = "Descripcion";
                     cbTallasRegProd.ValueMember = "Id_Talla";
+                    cbTallasRegProd.SelectedIndex = 0;
+                    btnGuardarRegProd.Enabled = true;
 
-                    if (tallasDelProducto.Count > 0)
-                    {
-                        cbTallasRegProd.SelectedIndex = 0;
-                    }
-
-                    cbTallasRegProd.SelectedIndexChanged += cbTallasRegProd_SelectedIndexChanged;
+                    // Actualizar stock disponible para la talla seleccionada
+                    var tallaSeleccionada = (Talla)cbTallasRegProd.SelectedItem;
+                    lblStockDisponible.Text = "Stock: " + productosConStock
+                        .FirstOrDefault(p => p.Talla.Id_Talla == tallaSeleccionada.Id_Talla)?.Stock.ToString() ?? "0";
                 }
-                catch (Exception ex)
+                else
                 {
-                    MessageBox.Show($"Error al cargar tallas: {ex.Message}");
+                    cbTallasRegProd.Text = "No hay tallas con stock";
+                    lblStockDisponible.Text = "Stock: 0";
+                    btnGuardarRegProd.Enabled = false;
+                    ResetearControlesStock();
                 }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al cargar tallas: {ex.Message}", "Error",
+                              MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Debug.WriteLine(ex.ToString());
+                ResetearControlesStock();
+            }
+            finally
+            {
+                cbTallasRegProd.EndUpdate();
+                cbTallasRegProd.SelectedIndexChanged += cbTallasRegProd_SelectedIndexChanged;
             }
         }
 

@@ -42,12 +42,6 @@
             cbTallasRegProd = new ComboBox();
             label22 = new Label();
             dataGridVentaProducto = new DataGridView();
-            id_prod = new DataGridViewTextBoxColumn();
-            producto = new DataGridViewTextBoxColumn();
-            talla = new DataGridViewTextBoxColumn();
-            cantidad = new DataGridViewTextBoxColumn();
-            precioUnit = new DataGridViewTextBoxColumn();
-            subtotal = new DataGridViewTextBoxColumn();
             lblDashboard = new Label();
             pictureBox1 = new PictureBox();
             lblTotalVenta = new Label();
@@ -59,6 +53,12 @@
             printPreviewDialogo = new PrintPreviewDialog();
             btnTodosProductos = new Button();
             tbClientes = new TextBox();
+            id_prod = new DataGridViewTextBoxColumn();
+            producto = new DataGridViewTextBoxColumn();
+            talla = new DataGridViewTextBoxColumn();
+            cantidad = new DataGridViewTextBoxColumn();
+            precioUnit = new DataGridViewTextBoxColumn();
+            subtotal = new DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)nbCantidad).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridVentaProducto).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
@@ -211,37 +211,6 @@
             dataGridVentaProducto.Size = new Size(941, 422);
             dataGridVentaProducto.TabIndex = 15;
             // 
-            // id_prod
-            // 
-            id_prod.HeaderText = "ID";
-            id_prod.Name = "id_prod";
-            id_prod.Visible = false;
-            // 
-            // producto
-            // 
-            producto.HeaderText = "Producto";
-            producto.Name = "producto";
-            // 
-            // talla
-            // 
-            talla.HeaderText = "Talla";
-            talla.Name = "talla";
-            // 
-            // cantidad
-            // 
-            cantidad.HeaderText = "Cantidad";
-            cantidad.Name = "cantidad";
-            // 
-            // precioUnit
-            // 
-            precioUnit.HeaderText = "Precio Unit";
-            precioUnit.Name = "precioUnit";
-            // 
-            // subtotal
-            // 
-            subtotal.HeaderText = "SubTotal";
-            subtotal.Name = "subtotal";
-            // 
             // lblDashboard
             // 
             lblDashboard.AutoSize = true;
@@ -368,6 +337,37 @@
             tbClientes.TabIndex = 14;
             tbClientes.TextChanged += tbClientes_TextChanged;
             // 
+            // id_prod
+            // 
+            id_prod.HeaderText = "ID";
+            id_prod.Name = "id_prod";
+            id_prod.Visible = false;
+            // 
+            // producto
+            // 
+            producto.HeaderText = "Producto";
+            producto.Name = "producto";
+            // 
+            // talla
+            // 
+            talla.HeaderText = "Talla";
+            talla.Name = "talla";
+            // 
+            // cantidad
+            // 
+            cantidad.HeaderText = "Cantidad";
+            cantidad.Name = "cantidad";
+            // 
+            // precioUnit
+            // 
+            precioUnit.HeaderText = "Precio Unit";
+            precioUnit.Name = "precioUnit";
+            // 
+            // subtotal
+            // 
+            subtotal.HeaderText = "SubTotal";
+            subtotal.Name = "subtotal";
+            // 
             // Ventas
             // 
             AcceptButton = btnGuardarRegProd;
@@ -434,12 +434,12 @@
         private Label lblStockDisponible;
         private PrintPreviewDialog printPreviewDialogo;
         private Button btnTodosProductos;
+        private TextBox tbClientes;
         private DataGridViewTextBoxColumn id_prod;
         private DataGridViewTextBoxColumn producto;
         private DataGridViewTextBoxColumn talla;
         private DataGridViewTextBoxColumn cantidad;
         private DataGridViewTextBoxColumn precioUnit;
         private DataGridViewTextBoxColumn subtotal;
-        private TextBox tbClientes;
     }
 }

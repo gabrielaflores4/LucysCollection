@@ -338,6 +338,9 @@ namespace C_Presentacion
                 tabInventario.Visible = true;
                 tabProveedores.Visible = true;
                 AjustarDataGridViews();
+                dataGridEmpleados.CellDoubleClick += dataGridEmpleados_CellDoubleClick;
+                dataGridMP.CellDoubleClick += dataGridMP_CellDoubleClick;
+                dataGridProv.CellDoubleClick += dataGridProv_CellDoubleClick;
             }
             else if (Sesion.TieneRol("empleado"))
             {
@@ -355,6 +358,9 @@ namespace C_Presentacion
                 btnEmpleados.Visible = false;
                 btnReporte.Visible = false;
                 AjustarDataGridViews();
+                dataGridEmpleados.CellDoubleClick -= dataGridEmpleados_CellDoubleClick; 
+                dataGridMP.CellDoubleClick -= dataGridMP_CellDoubleClick;
+                dataGridProv.CellDoubleClick -= dataGridProv_CellDoubleClick; 
             }
         }
         private void AjustarDataGridViews()
@@ -464,7 +470,7 @@ namespace C_Presentacion
             dataGridInventarioProducto.Columns[0].Visible = false;
         }
 
-        private void CargarEmpleados()
+        public void CargarEmpleados()
         {
             string filtro = tbBusquedaEmpleados.Text.Trim();
 
@@ -624,6 +630,7 @@ namespace C_Presentacion
         private void lblDashboard_Click(object sender, EventArgs e)
         {
             tabControlInicio.SelectedTab = tabInicio;
+            CargarEstadisticas();
         }
 
         private void btnVentas_Click(object sender, EventArgs e)
@@ -640,8 +647,8 @@ namespace C_Presentacion
 
         private void btnAgregarEmpleados_Click(object sender, EventArgs e)
         {
-            RegistroUsuario frmRegUsuarios = new RegistroUsuario();
-            frmRegUsuarios.ShowDialog();
+            RegistroUsuario registroForm = new RegistroUsuario(this);
+            registroForm.Show();
         }
 
         private void btnAgregarProv_Click(object sender, EventArgs e)
@@ -1153,7 +1160,9 @@ namespace C_Presentacion
 
         private void btnClientes_Click(object sender, EventArgs e)
         {
-            VistaClientes frmClientes = new VistaClientes();
+            string rolUsuario = Sesion.UsuarioActivo?.Rol ?? "Empleado"; // Valor por defecto si es null
+
+            VistaClientes frmClientes = new VistaClientes(rolUsuario);
             frmClientes.ShowDialog();
         }
 
@@ -1233,7 +1242,7 @@ namespace C_Presentacion
                     {
                         tabla.AddCell(mp.Nombre);
                         tabla.AddCell(mp.Stock.ToString());
-                        tabla.AddCell("Unidad"); 
+                        tabla.AddCell("Unidad");
                         tabla.AddCell("_________");
                     }
 
@@ -1258,6 +1267,11 @@ namespace C_Presentacion
         private void btnReporteMP_Click(object sender, EventArgs e)
         {
             GenerarPedidoMateriaPrimaPDF();
+        }
+
+        private void lblVentasDiarias_Click(object sender, EventArgs e)
+        {
+
         }
     }
 
